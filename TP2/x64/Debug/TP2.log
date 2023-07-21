@@ -1,0 +1,11 @@
+﻿  Agent.cpp
+  Game.cpp
+C:\Users\minig\OneDrive\Documents\Programmation2\TP2\TP2\TP2\Game.cpp(70,36): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\minig\OneDrive\Documents\Programmation2\TP2\TP2\TP2\Game.cpp(70,25): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\minig\OneDrive\Documents\Programmation2\TP2\TP2\TP2\Game.cpp(74,39): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\minig\OneDrive\Documents\Programmation2\TP2\TP2\TP2\Game.cpp(74,28): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  MainCharacter.cpp
+  Projectile.cpp
+  Weapon.cpp
+  Generating Code...
+  TP2.vcxproj -> C:\Users\minig\OneDrive\Documents\Programmation2\TP2\TP2\x64\Debug\TP2.exe
