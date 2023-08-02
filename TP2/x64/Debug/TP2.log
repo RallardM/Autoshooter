@@ -1,11 +1,8 @@
-﻿  Agent.cpp
-  Game.cpp
-C:\Users\minig\OneDrive\Documents\Programmation2\TP2\TP2\TP2\Game.cpp(70,36): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\minig\OneDrive\Documents\Programmation2\TP2\TP2\TP2\Game.cpp(70,25): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\minig\OneDrive\Documents\Programmation2\TP2\TP2\TP2\Game.cpp(74,39): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\minig\OneDrive\Documents\Programmation2\TP2\TP2\TP2\Game.cpp(74,28): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  MainCharacter.cpp
-  Projectile.cpp
-  Weapon.cpp
+﻿  Game.cpp
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(12,26): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(13,27): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  main.cpp
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(12,26): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(13,27): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
   Generating Code...
-  TP2.vcxproj -> C:\Users\minig\OneDrive\Documents\Programmation2\TP2\TP2\x64\Debug\TP2.exe
+  TP2.vcxproj -> D:\DevRoadMap\Cpp_programming\TP\Autoshooter\x64\Debug\TP2.exe

@@ -1,99 +1,156 @@
 #include <iostream>
 
 #include "Game.h"
-#include "MainCharacter.h"
-#include "Agent.h"
-#include "Projectile.h"
+
+//#include "Projectile.h"
 
 using namespace std;
 
-Game* Game::_Instance = 0;
+// Initializing instance ptr with NULL value 
+Game* Game::s_instance = NULL;
+bool Game::s_gameRunning = true;
 
-int main(void)
+
+/*
+* GetInstance is a static method that returns an instance of Game class when it is invoked.
+* It returns the same instance if it is inovked more than once as an instance 
+* of Game class is already created. 
+* @return s_instance: - pointer to an instance of the Game class
+*/
+Game* Game::GetInstance()
 {
-    Game* game = new Game();
-    game->StartGame();
-
-    return 0;
-}
-
-void Game::StartGame()
-{
-    _Instance = this;
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "raylib [core] example - basic window");
-    SetTargetFPS(60);
-
-    m_mainCharacter = new MainCharacter();
-    m_mainCharacter->OnStart();
-    MainLoop();
-}
-
-void Game::MainLoop()
-{
-    // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
+    if (s_instance == nullptr || NULL)
     {
-        BeginDrawing();
+        s_instance = new Game();
+    }
+    return s_instance;
+}
+// Default constuctor
+Game::Game() 
+{
+   m_player = new Player();
+};
 
-        ClearBackground(RAYWHITE);
-        DrawRectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 20, 20, m_mainCharacter->m_color);
+/*
+* Destructor of game class that destroy the ptr to the unique instance of Game class and free 
+* occupied memory by the ptr
+*/
+Game::~Game()
+{
+    delete s_instance;
+}
 
-        UpdateAgents();
-        EndDrawing();
+void Game::Initialize()
+{
+    InitWindow(WIDTH, HEIGHT, "Auto Shooter - V.0.01");
+   
+    RegisterGameObjects(m_player);
+}
+
+
+void Game::HandleInput()
+{
+    int keypressed = GetKeyPressed();
+
+    if (IsKeyDown(KEY_W))
+    {
+        //Direction up
+    }
+    if (IsKeyDown(KEY_S))
+    {
+        //Direction down
+    }
+    if (IsKeyDown(KEY_A))
+    {
+        //Direction left
+    }
+    if (IsKeyDown(KEY_D))
+    {
+        //Direction right
     }
 
+    if (WindowShouldClose())
+    {
+        Game::s_gameRunning = false;
+    }
+
+   
+
+}
+
+void Game::Update(float deltatime)
+{
+    /*
+    if (!m_gameObjects.empty())
+    {
+        std::list<GameObject*>::iterator it;
+        for (it = m_gameObjects.begin(); it != m_gameObjects.end(); ++it)
+        {
+            (*it)->Update(deltatime);
+        }
+    }
+    */
+}
+
+
+void Game::RenderScene()
+{
+    if (!m_gameObjects.empty())
+    {
+        std::list<GameObject*>::iterator it;
+        for (it = m_gameObjects.begin(); it != m_gameObjects.end(); ++it)
+        {
+            (*it)->Render();
+        }
+    }
+}
+
+void Game::Release()
+{
     CloseWindow();
 }
 
-void Game::RegisterAgent(Agent* agent)
+
+
+
+void Game::Run()
 {
-    m_agents.push_back(agent);
-    std::cout << "Agent added to agents list. Agents amount: " << m_agents.size() << std::endl;
-}
-
-void Game::UnregisterAgent(Agent* agent)
-{
-    m_agentsToRemove.push_back(agent);
-    cout << "Agent marked for removal" << endl;
-}
-
-void Game::UpdateAgents()
-{
-    for (auto const& i : m_agents) {
-        if (i == NULL) {continue;}
-
-        //Issue now is that I remove elements in the Update during the for loop
-        i->Update();
-
-        //Cast to projectile
-        Projectile* projectile = dynamic_cast<Projectile*>(i);
-        if (projectile != 0)
-        {
-            DrawCircle(i->m_posX, i->m_posY, projectile->m_radius, projectile->m_color);
-        }
-        else
-        {
-            //If the agent is not a projectile (you should differentiate them even more).
-            //In fact, each agent could even implement it's own method Draw(),
-            //Which would be even better.
-            //This method would then only do i->Update(), and let agents draw themselves
-            DrawRectangle(i->m_posX, i->m_posY, 5, 5, {255, 255, 0, 255});
-        }
+    Initialize();
+    while (Game::s_gameRunning)
+    {
+        HandleInput();
+        Update(GetFrameTime());
+        RenderScene();
     }
-    
-    RemoveAgentsMarkedForRemoval();
+    Release();
 }
-
 //Complicated way of removing agents, only to be sure that we do it AFTER
     //updating every agent in a frame
-void Game::RemoveAgentsMarkedForRemoval()
+
+void Game::RemoveGameObjectsMarkedForRemoval()
 {
-    for (int i = 0; i < m_agentsToRemove.size(); i++)
+    
+    for (int i = 0; i < m_gameObjectsToRemove.size(); i++)
     {
-        m_agents.remove(m_agentsToRemove[i]);
-        delete(m_agentsToRemove[i]);
-        std::cout << "Agent removed from agents list. Agents amount: " << m_agents.size() << std::endl;
+        m_gameObjects.remove(m_gameObjectsToRemove[i]);
+        delete(m_gameObjectsToRemove[i]);
+        std::cout << "Agent removed from agents list. Agents amount: " << m_gameObjects.size() << std::endl;
     }
-    m_agentsToRemove.clear();
-    m_agentsToRemove.resize(0);
+    m_gameObjectsToRemove.clear();
+    m_gameObjectsToRemove.resize(0);
+    
+}
+
+
+
+void Game::RegisterGameObjects(GameObject* gameObject)
+{
+    m_gameObjects.push_back(gameObject);
+    std::cout << "Agent added to agents list. Agents amount: " << m_gameObjects.size() << std::endl;
+}
+
+void Game::UnregisterGameObjects(GameObject* gameObject)
+{
+    m_gameObjectsToRemove.push_back(gameObject);
+    cout << "Agent marked for removal" << endl;
 }

@@ -127,18 +127,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Agent.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="MainCharacter.h" />
-    <ClInclude Include="Projectile.h" />
-    <ClInclude Include="Weapon.h" />
+    <ClInclude Include="Globals.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Agent.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="MainCharacter.cpp" />
-    <ClCompile Include="Projectile.cpp" />
-    <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

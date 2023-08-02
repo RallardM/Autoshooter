@@ -1,35 +1,45 @@
 #pragma once
 #include <list>
 #include <vector>
+#include "Player.h"
 
-#include "raylib.h"
-
-class Agent;
-class MainCharacter;
 
 class Game
 {
-	static Game* _Instance;
+private: 
+	// Private member
+	static Game* s_instance;
+	// Private constructor make sure it can't be called to create an instance
+	Game();
+public:
+	static Game* GetInstance();
+
+	// Destruction of the default copy constructor to not allow copy of this object
+	Game(const Game& obj) = delete;
+
+	~Game();
+
 
 public:
-	static Game* GetInstance() { return _Instance; } //Not a real singleton written like this
-	//This should be adressed
+	static bool s_gameRunning;
 
 public:
-	static const int SCREEN_WIDTH = 800;
-	static const int SCREEN_HEIGHT = 450;
+	Player* m_player;
+	std::list<GameObject*> m_gameObjects;
+	std::vector<GameObject*> m_gameObjectsToRemove;
 
-private:
-	MainCharacter* m_mainCharacter;
-	std::list<Agent*> m_agents;
-	std::vector<Agent*> m_agentsToRemove;
+private: 
+	void Initialize();
+	void HandleInput();
+	void Update(float deltatime);
+	void RenderScene();
+	void Release();
+	void RemoveGameObjectsMarkedForRemoval();
+
 
 public:
-	void StartGame();
-	void MainLoop();
-	void RegisterAgent(Agent* agent);
-	void UnregisterAgent(Agent* agent);
-private:
-	void UpdateAgents();
-	void RemoveAgentsMarkedForRemoval();
+	void Run();
+	void RegisterGameObjects(GameObject* gameObject);
+	void UnregisterGameObjects(GameObject* gameObject);
+
 };
