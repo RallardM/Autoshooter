@@ -29,6 +29,7 @@ Game* Game::GetInstance()
 Game::Game() 
 {
    m_player = new Player();
+   m_deltatime = GetFrameTime();
 };
 
 /*
@@ -43,44 +44,25 @@ Game::~Game()
 void Game::Initialize()
 {
     InitWindow(WIDTH, HEIGHT, "Auto Shooter - V.0.01");
-   
     RegisterGameObjects(m_player);
 }
 
 
 void Game::HandleInput()
 {
-    int keypressed = GetKeyPressed();
-
-    if (IsKeyDown(KEY_W))
-    {
-        //Direction up
-    }
-    if (IsKeyDown(KEY_S))
-    {
-        //Direction down
-    }
-    if (IsKeyDown(KEY_A))
-    {
-        //Direction left
-    }
-    if (IsKeyDown(KEY_D))
-    {
-        //Direction right
-    }
 
     if (WindowShouldClose())
     {
         Game::s_gameRunning = false;
     }
 
-   
+    m_player->HandleInput();
 
 }
 
 void Game::Update(float deltatime)
 {
-    /*
+   
     if (!m_gameObjects.empty())
     {
         std::list<GameObject*>::iterator it;
@@ -89,12 +71,15 @@ void Game::Update(float deltatime)
             (*it)->Update(deltatime);
         }
     }
-    */
 }
 
 
 void Game::RenderScene()
 {
+    BeginDrawing();
+   
+    ClearBackground(DARKGRAY);
+
     if (!m_gameObjects.empty())
     {
         std::list<GameObject*>::iterator it;
@@ -103,6 +88,8 @@ void Game::RenderScene()
             (*it)->Render();
         }
     }
+
+    EndDrawing();
 }
 
 void Game::Release()
@@ -118,8 +105,9 @@ void Game::Run()
     Initialize();
     while (Game::s_gameRunning)
     {
+        m_deltatime = GetFrameTime();
         HandleInput();
-        Update(GetFrameTime());
+        Update(m_deltatime);
         RenderScene();
     }
     Release();

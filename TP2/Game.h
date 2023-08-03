@@ -9,6 +9,7 @@ class Game
 private: 
 	// Private member
 	static Game* s_instance;
+	float m_deltatime;
 	// Private constructor make sure it can't be called to create an instance
 	Game();
 public:
@@ -26,8 +27,8 @@ public:
 public:
 	Player* m_player;
 	std::list<GameObject*> m_gameObjects;
+	std::list<GameObject*> m_gameObjectObstacles;
 	std::vector<GameObject*> m_gameObjectsToRemove;
-
 private: 
 	void Initialize();
 	void HandleInput();

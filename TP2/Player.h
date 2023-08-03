@@ -23,6 +23,7 @@ public:
 
 	// Inherited via Agent
 	void OnStart() override;
+	void HandleInput() override;
 	void Update(float deltatime) override;
 	void Render() override;
 	bool Collide(GameObject& gameObject);
