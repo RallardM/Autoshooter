@@ -1,6 +1,11 @@
 ﻿  Game.cpp
 D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(12,26): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(13,27): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  Player.cpp
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(12,26): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(13,27): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Player.cpp(165,24): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Player.cpp(165,16): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
   main.cpp
 D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(12,26): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(13,27): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
