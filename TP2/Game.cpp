@@ -38,7 +38,7 @@ Game::Game()
 */
 Game::~Game()
 {
-    delete s_instance;
+    delete m_player;
 }
 
 void Game::Initialize()

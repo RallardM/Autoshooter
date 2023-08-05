@@ -14,18 +14,15 @@ Player::Player()
 
 
 	// BoxCollider
-	m_left = m_position.x - (m_width * 0.5f);
-	m_top = m_position.y - (m_height * 0.5f);
-	m_right = m_left + m_width;
-	m_bottom = m_top + m_height;
+	m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
+	
 
 	// OldBoxCollider
-	m_oldLeft = m_left;
-	m_oldTop = m_top;
-	m_oldRight = m_right;
-	m_oldBottom = m_bottom;
+	m_oldBoxCollider = m_boxCollider;
 
 	m_isCollide = false;
+
+	m_weapons.emplace_back(new Weapon(m_position.x, m_position.y));
 }
 
 Player::Player(float& x, float& y, int& width, int& height)
@@ -40,36 +37,32 @@ Player::Player(float& x, float& y, int& width, int& height)
 	m_height = height;
 
 	// BoxCollider
-	m_left = m_position.x - (m_width * 0.5f);
-	m_top = m_position.y - (m_height * 0.5f);
-	m_right = m_left + m_width;
-	m_bottom = m_top + m_height;
+	m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
+
 
 	// OldBoxCollider
-	m_oldLeft = m_left;
-	m_oldTop = m_top;
-	m_oldRight = m_right;
-	m_oldBottom = m_bottom;
+	m_oldBoxCollider = m_boxCollider;
 
 	m_isCollide = false;
 
+	m_weapons.emplace_back(new Weapon(m_position.x, m_position.y));
+}
+
+Player::~Player()
+{
+	if (!m_weapons.empty())
+	{
+		std::list<Weapon*>::iterator it;
+		for (it = m_weapons.begin(); it != m_weapons.end(); ++it)
+		{
+			delete (*it);
+		}
+	}
 }
 
 bool Player::Collide(GameObject& gameObject)
 {
-	if (
-		m_left <= gameObject.m_right &&
-		m_right >= gameObject.m_left &&
-		m_top <= gameObject.m_bottom &&
-		m_bottom >= gameObject.m_top
-		)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return false; 
 }
 
 void Player::OnStart()
@@ -114,7 +107,14 @@ void Player::HandleInput()
 
 	if (IsKeyDown(KEY_SPACE))
 	{
-		std::cout << "Fire" << "\n";
+		if (!m_weapons.empty())
+		{
+			std::list<Weapon*>::iterator it;
+			for (it = m_weapons.begin(); it != m_weapons.end(); ++it)
+			{
+				(*it)->Fire();
+			}
+		}
 	}
 
 	if (m_direction.x != 0.0f || m_direction.y != 0.0f)
@@ -132,19 +132,14 @@ void Player::HandleInput()
 void Player::Update(float deltatime)
 {
 	// Update OldBoxCollider
-	m_oldLeft = m_left;
-	m_oldTop = m_top;
-	m_oldRight = m_right;
-	m_oldBottom = m_bottom;
+	m_oldBoxCollider = m_boxCollider;
 
 	// Update player position
 	m_position.x += m_direction.x * m_speed * deltatime;
 
-	// Update rect
-	m_left = floorf(m_position.x - (m_width * 0.5f));
-	m_top = floorf(m_position.y - (m_height * 0.5f));
-	m_right = m_left + m_width;
-	m_bottom = m_top + m_height;
+	// Update body
+	m_boxCollider.Update(m_position.x, m_position.y);
+	
 
 	// Collision Horizontal
 
@@ -152,15 +147,31 @@ void Player::Update(float deltatime)
 	m_position.y += m_direction.y * m_speed * deltatime;
 
 	// Update rect
-	m_left = floorf(m_position.x - (m_width * 0.5f));
-	m_top = floorf(m_position.y - (m_height * 0.5f));
-	m_right = m_left + m_width;
-	m_bottom = m_top + m_height;
+	m_boxCollider.Update(m_position.x, m_position.y);
 
 	// Collision Vertical
+
+	//Set weapon position to follow player position
+	if (!m_weapons.empty())
+	{
+		std::list<Weapon*>::iterator it;
+		for (it = m_weapons.begin(); it != m_weapons.end(); ++it)
+		{
+			(*it)->UpdatePosition(m_position.x, m_position.y);
+			(*it)->Update(deltatime);
+		}
+	}
 }
 
 void Player::Render()
 {
-	DrawRectangle(m_left, m_top, m_width, m_height, m_color);
+	if (!m_weapons.empty())
+	{
+		std::list<Weapon*>::iterator it;
+		for (it = m_weapons.begin(); it != m_weapons.end(); ++it)
+		{
+			(*it)->Render();
+		}
+	}
+	DrawRectangle(m_boxCollider.m_left, m_boxCollider.m_top, m_width, m_height, m_color);
 }

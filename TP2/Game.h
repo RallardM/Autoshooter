@@ -1,6 +1,4 @@
 #pragma once
-#include <list>
-#include <vector>
 #include "Player.h"
 
 
