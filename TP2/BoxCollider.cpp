@@ -1,5 +1,5 @@
-#include "BoxCollider.h"
 #include <iostream>
+#include "BoxCollider.h"
 
 BoxCollider::BoxCollider(float& x, float& y, int& width, int& height)
 {
@@ -26,8 +26,8 @@ BoxCollider::BoxCollider(const BoxCollider& otherBoxCollider)
 
 void BoxCollider::Update(float& x, float& y)
 {
-	m_left = floorf(x - (m_width * 0.5f));
-	m_top = floorf(y - (m_height * 0.5f));
+	m_left = std::floorf(x - (m_width * 0.5f));
+	m_top = std::floorf(y - (m_height * 0.5f));
 	m_right = m_left + m_width;
 	m_bottom = m_top + m_height;
 }

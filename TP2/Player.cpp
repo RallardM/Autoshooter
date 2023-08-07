@@ -1,5 +1,5 @@
 #include "Player.h"
-
+#include "Weapon.h"
 
 Player::Player()
 {
@@ -15,12 +15,12 @@ Player::Player()
 
 	// BoxCollider
 	m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
-	
 
 	// OldBoxCollider
 	m_oldBoxCollider = m_boxCollider;
 
 	m_isCollide = false;
+	m_isDie = false;
 
 	m_weapons.emplace_back(new Weapon(m_position.x, m_position.y));
 }
@@ -44,6 +44,7 @@ Player::Player(float& x, float& y, int& width, int& height)
 	m_oldBoxCollider = m_boxCollider;
 
 	m_isCollide = false;
+	m_isDie = false;
 
 	m_weapons.emplace_back(new Weapon(m_position.x, m_position.y));
 }
@@ -67,9 +68,16 @@ bool Player::Collide(GameObject& gameObject)
 
 void Player::OnStart()
 {
-	
-	//m_weapons.push_back(weapon);
-	//weapon->OnStart();
+	Game::GetInstance()->RegisterGameObjects(this);
+	if (!m_weapons.empty())
+	{
+		std::list<Weapon*>::iterator it;
+		for (it = m_weapons.begin(); it != m_weapons.end(); it++)
+		{
+			(*it)->OnStart();
+		}
+
+	}
 }
 
 void Player::HandleInput()
@@ -158,13 +166,14 @@ void Player::Update(float deltatime)
 		for (it = m_weapons.begin(); it != m_weapons.end(); ++it)
 		{
 			(*it)->UpdatePosition(m_position.x, m_position.y);
-			(*it)->Update(deltatime);
+			//(*it)->Update(deltatime);
 		}
 	}
 }
 
 void Player::Render()
 {
+	/*
 	if (!m_weapons.empty())
 	{
 		std::list<Weapon*>::iterator it;
@@ -173,5 +182,6 @@ void Player::Render()
 			(*it)->Render();
 		}
 	}
+	*/
 	DrawRectangle(m_boxCollider.m_left, m_boxCollider.m_top, m_width, m_height, m_color);
 }

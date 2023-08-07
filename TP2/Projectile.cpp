@@ -4,11 +4,11 @@ Projectile::Projectile(float& x, float& y, float& dx, float& dy)
 {
 	// Position
 	m_position = { x, y };
-	m_initPosition = { x, y };
 	m_originPosition = {dx, dy};
 	m_initDirection = { dx, dy };
 	m_direction = {0.0f, 0.0f};
 
+	// Normalize the direction of the projectile
 	float magnitude = sqrtf(
 		(m_initDirection.x * m_initDirection.x) +
 		(m_initDirection.y * m_initDirection.y)
@@ -16,14 +16,13 @@ Projectile::Projectile(float& x, float& y, float& dx, float& dy)
 	m_initDirection.x /= magnitude;
 	m_initDirection.y /= magnitude;
 
+
 	m_speed = PROJECTILE_SPEED;
 	m_lifeTime = 0.0f;
 
 
 	// BoxCollider
 	m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
-
-
 	// OldBoxCollider
 	m_oldBoxCollider = m_boxCollider;
 
@@ -33,27 +32,25 @@ Projectile::Projectile(float& x, float& y, float& dx, float& dy)
 
 void Projectile::OnStart()
 {
-
+	Game::GetInstance()->RegisterGameObjects(this);
 }
 
 void Projectile::Reset(float& x, float& y)
 {
 	// Position
 	m_position = { (m_originPosition.x + x), (m_originPosition.y + y) };
-	m_direction = { 0.0f, 0.0f };
+	m_direction = {0.0f, 0.0f};
 	m_speed = PROJECTILE_SPEED;
 	m_lifeTime = 0.0f;
 
 
 	// BoxCollider
 	m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
-
-
 	// OldBoxCollider
 	m_oldBoxCollider = m_boxCollider;
 
 	m_isCollide = false;
-	m_isDie = true;
+	m_isDie = false;
 
 }
 

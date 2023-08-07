@@ -1,6 +1,6 @@
 #pragma once
 #include "Globals.h"
-
+#include "Game.h"
 /*
 Toutes les classes de votre jeu ayant une représentation physique
 devraient hériter de la classe Agent.
@@ -20,8 +20,7 @@ public:
 
 	// Position
 	Vector2 m_position = { SCREEN_CENTER_POINT.x, SCREEN_CENTER_POINT.y };
-	
-
+	bool m_isDie = false;
 	
 public:
 	virtual void OnStart() = 0; 
