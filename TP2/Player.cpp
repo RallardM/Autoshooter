@@ -51,6 +51,7 @@ Player::Player(float& x, float& y, int& width, int& height)
 
 Player::~Player()
 {
+	/*
 	if (!m_weapons.empty())
 	{
 		std::list<Weapon*>::iterator it;
@@ -59,6 +60,7 @@ Player::~Player()
 			delete (*it);
 		}
 	}
+	*/
 }
 
 bool Player::Collide(GameObject& gameObject)

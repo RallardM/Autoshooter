@@ -36,7 +36,15 @@ Game::Game()
 */
 Game::~Game()
 {
-    delete m_player;
+    //delete m_player;
+    if (!m_gameObjects.empty())
+    {
+        std::list<GameObject*>::iterator it;
+        for (it = m_gameObjects.begin(); it != m_gameObjects.end(); ++it)
+        {
+            delete (*it);
+        }
+    }
 }
 
 void Game::Initialize()

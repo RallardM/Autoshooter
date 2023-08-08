@@ -58,6 +58,7 @@ Enemy::Enemy(float& x, float& y, int& width, int& height)
 
 Enemy::~Enemy()
 {
+	/*
 	if (!m_weapons.empty())
 	{
 		std::list<Weapon*>::iterator it;
@@ -66,6 +67,7 @@ Enemy::~Enemy()
 			delete (*it);
 		}
 	}
+	*/
 }
 
 bool Enemy::Collide(GameObject& gameObject)
