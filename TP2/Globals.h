@@ -6,6 +6,13 @@
 #include <raylib.h>
 #include "BoxCollider.h"
 
+enum FireMode
+{
+	Manual,
+	SemiAuto,
+	Auto
+};
+
 //const char* WINDOW_TITLE = "Auto Shooter - V.0.01";
 const int WIDTH = 1280;
 const int HEIGHT = 720; // default value pick by Maxime would be 800 pixel

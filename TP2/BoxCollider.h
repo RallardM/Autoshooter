@@ -4,8 +4,10 @@ class BoxCollider
 {
 
 public:
-	BoxCollider(float& x, float& y, int& width, int& height);
+	BoxCollider();
+	BoxCollider(const float& x, const float& y, const int& width, const int& height);
 	BoxCollider(const BoxCollider& otherBoxCollider);
+	~BoxCollider();
 
 public:
 	// Dimension

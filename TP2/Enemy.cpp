@@ -70,11 +70,6 @@ Enemy::~Enemy()
 	*/
 }
 
-bool Enemy::Collide(GameObject& gameObject)
-{
-	return false;
-}
-
 void Enemy::OnStart()
 {
 	Game::GetInstance()->RegisterGameObjects(this);

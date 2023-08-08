@@ -5,20 +5,21 @@ class Projectile;
 class Weapon : public GameObject
 {
 public:
-
 	std::vector<Projectile*> m_projectiles;
+	FireMode m_fireMode = FireMode::Auto;
 	
 
 public: 
-	Weapon(float& x, float& y);
+	Weapon();
+	Weapon(const float&, const float&, const FireMode&, const bool&);
 	~Weapon();
 
 	void OnStart();
 	void Fire();
 	void CreateProjectiles();
-	void LaunchProjectiles();
+	void FireProjectiles();
 	void ResetProjectile(Projectile* projectile);
-	void LaunchProjectile(Projectile* projectile);
+	void FireProjectile(Projectile* projectile);
 	void UpdatePosition(float& x, float& y);
 	void Update(float deltatime);
 	void Render();

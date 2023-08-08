@@ -14,8 +14,11 @@ C'est de cette façon qu'on enregistre nos éléments de jeu.
 
 class GameObject
 {
-	friend class Game;
-
+	//friend class Game;
+public:
+	GameObject();
+	GameObject(const float&, const float&, const bool&);
+	virtual ~GameObject();
 public:
 
 	// Position

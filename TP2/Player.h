@@ -24,7 +24,7 @@ public:
 	BoxCollider m_oldBoxCollider = m_boxCollider;
 	
 
-	Color m_color = { 0, 255, 0, 255 };
+	Color m_color = GREEN;
 	bool m_isCollide = false;
 	
 	std::list<Weapon*> m_weapons;
@@ -33,8 +33,8 @@ public:
 	// Inherited via Agent
 	void OnStart() override;
 	void HandleInput();
+	void Collision(const std::string& direction = "None");
 	void Update(float deltatime) override;
 	void Render() override;
-	bool Collide(GameObject& gameObject);
 
 };

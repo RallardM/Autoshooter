@@ -1,9 +1,33 @@
 #include "Projectile.h"
 
-Projectile::Projectile(float& x, float& y, float& dx, float& dy)
+Projectile::Projectile()
+	: GameObject()
+{
+	Vector2 m_originPosition = { 0.0f, 0.0f };// Use to memorise the intial position of the projectile when is generate before being translate to the center use to reset position of projectile to player position
+	Vector2 m_initDirection = { 0.0f, 0.0f };// Use to set the initial direction when the projectile is generate
+	Vector2 m_direction = { 0.0f, 0.0f };// Use to set the direction of the projectile 
+	float m_speed = PROJECTILE_SPEED;// Projectile speed
+	float m_lifeTime = 0.0f;// Life time before projectile is destroy if is not touch any obstacle
+
+	// Dimension
+	int m_width = PROJECTILE_WIDTH;
+	int m_height = PROJECTILE_HEIGHT;
+
+
+	// BoxCollider
+	BoxCollider m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
+	// OldBoxCollider
+	BoxCollider m_oldBoxCollider = m_boxCollider;
+
+
+	Color m_color = RED;
+	bool m_isCollide = false;
+}
+
+Projectile::Projectile( float& x,  float& y,  float& dx,  float& dy, const int& width = PROJECTILE_WIDTH, const int& height = PROJECTILE_HEIGHT, const float& speed = PROJECTILE_SPEED, const float& lifeTime = 0.0f, const Color& color = RED, const bool& collide = false, const bool& isDie = false)
+	: GameObject(x, y, isDie)
 {
 	// Position
-	m_position = { x, y };
 	m_originPosition = {dx, dy};
 	m_initDirection = { dx, dy };
 	m_direction = {0.0f, 0.0f};
@@ -16,9 +40,11 @@ Projectile::Projectile(float& x, float& y, float& dx, float& dy)
 	m_initDirection.x /= magnitude;
 	m_initDirection.y /= magnitude;
 
+	m_width = width;
+	m_height = height;
 
-	m_speed = PROJECTILE_SPEED;
-	m_lifeTime = 0.0f;
+	m_speed = speed;
+	m_lifeTime = lifeTime;
 
 
 	// BoxCollider
@@ -26,9 +52,11 @@ Projectile::Projectile(float& x, float& y, float& dx, float& dy)
 	// OldBoxCollider
 	m_oldBoxCollider = m_boxCollider;
 
-	m_isCollide = false;
-	m_isDie = false;
+	m_isCollide = collide;
 }
+
+Projectile::~Projectile()
+{}
 
 void Projectile::OnStart()
 {
@@ -54,7 +82,7 @@ void Projectile::Reset(float& x, float& y)
 
 }
 
-void Projectile::Launch()
+void Projectile::Fire()
 {
 	
 	m_direction.x = m_initDirection.x;

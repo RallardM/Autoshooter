@@ -55,7 +55,7 @@ void Game::Initialize()
     //-- Creation of Enemies between 10 and 20
     int enemyAmount = std::rand() % DEFAULT_ENEMY_AMOUNT + DEFAULT_ENEMY_AMOUNT;
 
-    for (int i = 0; i < enemyAmount; i++)
+    for (int i = 0; i < enemyAmount; i++)// just for test 
     {
         m_gameObjectsEnemies.emplace_back(new Enemy());
     }
@@ -103,7 +103,7 @@ void Game::Update(float deltatime)
         }
     }
 
-    // Make enemies track player
+    /* Make enemies track player
     if (!m_gameObjectsEnemies.empty())
     {
         std::list<Enemy*>::iterator it;
@@ -115,6 +115,7 @@ void Game::Update(float deltatime)
             }
         }
     }
+    */
 }
 
 

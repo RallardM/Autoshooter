@@ -1,17 +1,24 @@
 #include "Weapon.h"
 #include "Projectile.h"
 
-Weapon::Weapon(float& x, float& y)
+Weapon::Weapon()
+	:GameObject()
 {
-	m_position.x = x;
-	m_position.y = y;
-	m_isDie = false;
+	m_fireMode = FireMode::Auto;
+}
+
+
+Weapon::Weapon(const float& x, const float& y, const FireMode& fireMode = FireMode::Auto, const bool& isDie = false)
+	:GameObject(x, y, isDie)
+{
+	m_fireMode = fireMode;
 	
 }
 
 
 Weapon::~Weapon()
 {
+	/*
 	if (!m_projectiles.empty())
 	{
 		for (int i = 0; i < m_projectiles.size(); ++i)
@@ -19,6 +26,7 @@ Weapon::~Weapon()
 			delete m_projectiles[i];
 		}
 	}
+	*/
 }
 
 
@@ -34,7 +42,7 @@ void Weapon::Fire()
 	if (m_projectiles.empty())
 	{
 		CreateProjectiles();
-		LaunchProjectiles();
+		FireProjectiles();
 	}
 }
 
@@ -61,7 +69,7 @@ void Weapon::CreateProjectiles()
 			projectilePosition.x += m_position.x;
 			projectilePosition.y += m_position.y;
 
-			m_projectiles.emplace_back(new Projectile(projectilePosition.x, projectilePosition.y, projectileDirection.x, projectileDirection.y));
+			//m_projectiles.emplace_back(new Projectile(projectilePosition.x, projectilePosition.y, projectileDirection.x, projectileDirection.y));
 
 			angle += teta;
 		}
@@ -69,14 +77,14 @@ void Weapon::CreateProjectiles()
 	}
 }
 
-void Weapon::LaunchProjectiles()
+void Weapon::FireProjectiles()
 {
 	if (!m_projectiles.empty())
 	{
 		// Launch projectile
 		for (int i = 0; i < m_projectiles.size(); ++i)
 		{
-			m_projectiles[i]->Launch();
+			m_projectiles[i]->Fire();
 		}
 
 	}
@@ -87,9 +95,9 @@ void Weapon::ResetProjectile(Projectile* projectile)
 	projectile->Reset(m_position.x, m_position.y);
 }
 
-void Weapon::LaunchProjectile(Projectile* projectile)
+void Weapon::FireProjectile(Projectile* projectile)
 {
-	projectile->Launch();
+	projectile->Fire();
 }
 
 
@@ -114,7 +122,7 @@ void Weapon::Update(float deltatime)
 			else if (m_projectiles[i]->m_isDie)
 			{
 				m_projectiles[i]->Reset(m_position.x, m_position.y);
-				m_projectiles[i]->Launch();
+				m_projectiles[i]->Fire();
 			}
 		}
 	}

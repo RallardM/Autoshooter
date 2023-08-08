@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Weapon.h"
+#include "Enemy.h"
 
 Player::Player()
 {
@@ -63,11 +64,6 @@ Player::~Player()
 	*/
 }
 
-bool Player::Collide(GameObject& gameObject)
-{
-	return false; 
-}
-
 void Player::OnStart()
 {
 	Game::GetInstance()->RegisterGameObjects(this);
@@ -79,6 +75,29 @@ void Player::OnStart()
 			(*it)->OnStart();
 		}
 
+	}
+}
+
+void Player::Collision(const std::string& direction)
+{
+	//std::vector<Enemy*> collision_Enemies;
+	if (!Game::GetInstance()->m_gameObjectsEnemies.empty())
+	{
+		std::list<Enemy*>::iterator it;
+		for (it = Game::GetInstance()->m_gameObjectsEnemies.begin(); it != Game::GetInstance()->m_gameObjectsEnemies.end(); ++it)
+		{
+			(*it)->m_isCollide = (*it)->m_boxCollider.Collide(this->m_boxCollider);
+			if ((*it)->m_isCollide)
+			{
+				(*it)->m_color = ORANGE;
+				(*it)->m_isDie = true;
+			}
+			else
+			{
+				(*it)->m_color = BLUE;
+				                
+			}
+		}
 	}
 }
 
@@ -150,8 +169,8 @@ void Player::Update(float deltatime)
 	// Update body
 	m_boxCollider.Update(m_position.x, m_position.y);
 	
-
 	// Collision Horizontal
+	Collision();
 
 	// Update player position
 	m_position.y += m_direction.y * m_speed * deltatime;
@@ -160,6 +179,7 @@ void Player::Update(float deltatime)
 	m_boxCollider.Update(m_position.x, m_position.y);
 
 	// Collision Vertical
+	Collision();
 
 	//Set weapon position to follow player position
 	if (!m_weapons.empty())

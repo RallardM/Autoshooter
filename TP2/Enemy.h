@@ -23,7 +23,7 @@ public:
 	BoxCollider m_oldBoxCollider = m_boxCollider;
 
 
-	Color m_color = { 0, 0, 255, 255 };
+	Color m_color = BLUE;
 	bool m_isCollide = false;
 
 	std::list<Weapon*> m_weapons;
@@ -35,5 +35,4 @@ public:
 	void Track(float& x, float& y);
 	void Update(float deltatime) override;
 	void Render() override;
-	bool Collide(GameObject& gameObject);
 };
