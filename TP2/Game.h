@@ -1,8 +1,11 @@
 #pragma once
+#include <cstdlib>
 #include <list>
 #include <vector>
-#include "Player.h"
 
+class GameObject;
+class Player;
+class Enemy;
 
 class Game
 {
@@ -26,8 +29,10 @@ public:
 
 public:
 	Player* m_player;
+	// List that contain all the game object instanciate
 	std::list<GameObject*> m_gameObjects;
-	std::list<GameObject*> m_gameObjectObstacles;
+	// List that contain all the game object Enemies - help for collision detection
+	std::list<Enemy*> m_gameObjectsEnemies;
 	std::vector<GameObject*> m_gameObjectsToRemove;
 private: 
 	void Initialize();

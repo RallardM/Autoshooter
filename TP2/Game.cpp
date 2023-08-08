@@ -1,8 +1,6 @@
-#include <iostream>
-
 #include "Game.h"
-
-//#include "Projectile.h"
+#include "Player.h"
+#include "Enemy.h"
 
 using namespace std;
 
@@ -38,13 +36,35 @@ Game::Game()
 */
 Game::~Game()
 {
-    delete s_instance;
+    delete m_player;
 }
 
 void Game::Initialize()
 {
+    // Setting the seed for random number generation
+    std::srand(std::time(NULL));
+    
+    //-- Creation of Enemies between 10 and 20
+    int enemyAmount = std::rand() % DEFAULT_ENEMY_AMOUNT + DEFAULT_ENEMY_AMOUNT;
+
+    for (int i = 0; i < enemyAmount; i++)
+    {
+        m_gameObjectsEnemies.emplace_back(new Enemy());
+    }
+    //--
+    // 
+    //-- Updating the game object list with enemies and player
+    std::list<Enemy*>::iterator it;
+    for (it = m_gameObjectsEnemies.begin(); it != m_gameObjectsEnemies.end(); ++it)
+    {
+        (*it)->OnStart();
+    }
+  
+    m_player->OnStart();
+    //--
+    
+    //-- Initialise game window throw raylib library
     InitWindow(WIDTH, HEIGHT, "Auto Shooter - V.0.01");
-    RegisterGameObjects(m_player);
 }
 
 
@@ -62,13 +82,29 @@ void Game::HandleInput()
 
 void Game::Update(float deltatime)
 {
-   
+    // Update every game object
     if (!m_gameObjects.empty())
     {
         std::list<GameObject*>::iterator it;
         for (it = m_gameObjects.begin(); it != m_gameObjects.end(); ++it)
         {
-            (*it)->Update(deltatime);
+            if (!(*it)->m_isDie)
+            {
+                (*it)->Update(deltatime);
+            }
+        }
+    }
+
+    // Make enemies track player
+    if (!m_gameObjectsEnemies.empty())
+    {
+        std::list<Enemy*>::iterator it;
+        for (it = m_gameObjectsEnemies.begin(); it != m_gameObjectsEnemies.end(); ++it)
+        {
+            if (!(*it)->m_isDie)
+            {
+                (*it)->Track(m_player->m_position.x, m_player->m_position.y);
+            }
         }
     }
 }
@@ -80,12 +116,16 @@ void Game::RenderScene()
    
     ClearBackground(DARKGRAY);
 
+    // Render every game object
     if (!m_gameObjects.empty())
     {
         std::list<GameObject*>::iterator it;
         for (it = m_gameObjects.begin(); it != m_gameObjects.end(); ++it)
         {
-            (*it)->Render();
+            if (!(*it)->m_isDie)
+            {
+                (*it)->Render();
+            }
         }
     }
 
