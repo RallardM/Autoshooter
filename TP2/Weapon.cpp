@@ -4,7 +4,7 @@
 
 void Weapon::OnStart()
 {
-	Agent::OnStart();
+	GameObject::OnStart();
 	m_weaponInfos.m_projectileInfos = SProjectileData();
 }
 
@@ -17,6 +17,11 @@ void Weapon::Update()
 		m_currentAttackTimer -= m_weaponInfos.m_attackRate;
 		Fire();
 	}
+}
+
+void Weapon::Render()
+{
+	// TODO
 }
 
 void Weapon::Fire()

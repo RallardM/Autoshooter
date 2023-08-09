@@ -9,7 +9,7 @@ public:
 	SProjectileData m_projectileInfos;
 };
 
-class Weapon: public Agent
+class Weapon: public GameObject
 {
 private:
 	float m_currentAttackTimer = 0.0f;
@@ -18,8 +18,9 @@ private:
 private:
 	void Fire();
 public:
-	// Inherited via Agent
+	// Inherited via GameObject
 	virtual void OnStart() override;
 	virtual void Update() override;
+	virtual void Render() override;
 };
 

@@ -1,26 +1,29 @@
 #pragma once
+#include "raylib.h"
 
 /*
 Toutes les classes de votre jeu ayant une représentation physique
-devraient hériter de la classe Agent.
+devraient hériter de la classe GameObject.
 
 En ayant cette classe comme parent, vous vous assurez d'appeller
 Update() sur tous vos objets présents dans la scène,
-Agent::OnStart() doit ABSOLUMENT être appelé également.
+GameObject::OnStart() doit ABSOLUMENT être appelé également.
 
 C'est de cette façon qu'on enregistre nos éléments de jeu.
 */
 
-class Agent
+class GameObject
 {
 	friend class Game;
 
 protected:
-	float m_posX = 0.0f;
-	float m_posY = 0.0f;
+	//float m_posX = 0.0f;
+	//float m_posY = 0.0f;
+	Vector2 m_position = { 0.0f, 0.0f };
 	
 public:
-	virtual void OnStart();
+	virtual void OnStart() = 0;
 	virtual void Update() = 0;
+	virtual void Render() = 0;
 };
 

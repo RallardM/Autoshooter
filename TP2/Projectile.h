@@ -1,9 +1,9 @@
 #pragma once
 #include <raylib.h>
 
-#include "Agent.h"
+#include "GameObject.h"
 
-class Projectile : public Agent
+class Projectile : public GameObject
 {
 	friend class Game;
 private:
@@ -16,9 +16,10 @@ private:
 public:
 	Projectile(float xSpeed, float ySpeed, float size, float lifetime);
 
-	// Inherited via Agent
+	// Inherited via GameObject
 	virtual void OnStart() override;
 	virtual void Update() override;
+	virtual void Render() override;
 };
 
 struct SProjectileData

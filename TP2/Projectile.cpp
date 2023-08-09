@@ -14,18 +14,23 @@ Projectile::Projectile(float xSpeed, float ySpeed, float size, float lifetime)
 
 void Projectile::OnStart()
 {
-	Agent::OnStart();
-	m_posX = Game::SCREEN_WIDTH / 2.0f;
-	m_posY = Game::SCREEN_HEIGHT / 2.0f;
+	GameObject::OnStart();
+	m_position.x = (float)GetScreenWidth() / 2.0f;
+	m_position.y = (float)GetScreenHeight() / 2.0f;
 }
 
 void Projectile::Update()
 {
-	m_posX += m_xSpeed;
-	m_posY += m_ySpeed;
+	m_position.x += m_xSpeed;
+	m_position.y += m_ySpeed;
 	m_currentLifetime -= GetFrameTime();
 	if (m_currentLifetime < 0)
 	{
 		Game::GetInstance()->UnregisterAgent(this);
 	}
+}
+
+void Projectile::Render()
+{
+	// TODO
 }

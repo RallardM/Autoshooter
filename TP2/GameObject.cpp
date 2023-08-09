@@ -1,7 +1,7 @@
-#include "Agent.h"
+#include "GameObject.h"
 #include "Game.h"
 
-void Agent::OnStart()
+void GameObject::OnStart()
 {
 	Game::GetInstance()->RegisterAgent(this);
 }

@@ -4,8 +4,8 @@
 
 #include "raylib.h"
 
-class Agent;
-class MainCharacter;
+class GameObject;
+class Player;
 
 class Game
 {
@@ -16,20 +16,30 @@ public:
 	//This should be adressed
 
 public:
-	static const int SCREEN_WIDTH = 800;
-	static const int SCREEN_HEIGHT = 450;
+
 
 private:
-	MainCharacter* m_mainCharacter;
-	std::list<Agent*> m_agents;
-	std::vector<Agent*> m_agentsToRemove;
+	static const int SCREEN_WIDTH = 1200;
+	static const int SCREEN_HEIGHT = 800;
+	const float CELL_SIZE = 30.f;
+	const float COLUMN_COUNT = SCREEN_WIDTH / CELL_SIZE;
+	const float ROW_COUNT = SCREEN_HEIGHT / CELL_SIZE;
+
+	Player* m_player;
+	std::list<GameObject*> m_agents;
+	std::vector<GameObject*> m_agentsToRemove;
 
 public:
 	void StartGame();
 	void MainLoop();
-	void RegisterAgent(Agent* agent);
-	void UnregisterAgent(Agent* agent);
+	void RegisterAgent(GameObject* agent);
+	void UnregisterAgent(GameObject* agent);
+	static const int GetScreenWidth() { return SCREEN_WIDTH; }
+	static const int GetScreenHeight() { return SCREEN_HEIGHT; }
+
 private:
-	void UpdateAgents();
+	void RenderBackground();
+	void UpdateGameObjects();
+	void RenderGameObjects();
 	void RemoveAgentsMarkedForRemoval();
 };
