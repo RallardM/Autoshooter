@@ -1,10 +1,11 @@
 #include "Player.h"
-#include "Weapon.h"
+#include "ExplosiveGun.h"
+#include "Enemy.h"
 
 Player::Player()
+	: GameObject()
 {
 	// Position
-	m_position = { SCREEN_CENTER_POINT.x, SCREEN_CENTER_POINT.y };
 	m_direction = { 0.0f, 0.0f };	
 	m_speed = PLAYER_SPEED;
 
@@ -15,20 +16,40 @@ Player::Player()
 
 	// BoxCollider
 	m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
-
 	// OldBoxCollider
 	m_oldBoxCollider = m_boxCollider;
 
 	m_isCollide = false;
-	m_isDie = false;
 
-	m_weapons.emplace_back(new Weapon(m_position.x, m_position.y));
+	m_weapons.emplace_back(new ExplosiveGun(m_position.x, m_position.y));
 }
 
-Player::Player(float& x, float& y, int& width, int& height)
+Player::Player(const float& x, const float& y, const bool& isDie)
+	: GameObject(x, y, isDie)
 {
 	// Position
-	m_position = { x, y };
+	m_direction = { 0.0f, 0.0f };
+	m_speed = PLAYER_SPEED;
+
+	// Dimension
+	m_width = PLAYER_WIDTH;
+	m_height = PLAYER_HEIGHT;
+
+	// BoxCollider
+	m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
+	// OldBoxCollider
+	m_oldBoxCollider = m_boxCollider;
+
+	m_isCollide = false;
+
+	m_weapons.emplace_back(new ExplosiveGun(m_position.x, m_position.y));
+}
+
+
+Player::Player(const float& x, const float& y, const int& width, const int& height, const bool& isDie)
+	: GameObject(x, y, isDie)
+{
+	// Position
 	m_direction = { 0.0f, 0.0f };
 	m_speed = PLAYER_SPEED;
 
@@ -38,52 +59,56 @@ Player::Player(float& x, float& y, int& width, int& height)
 
 	// BoxCollider
 	m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
-
-
 	// OldBoxCollider
 	m_oldBoxCollider = m_boxCollider;
 
 	m_isCollide = false;
-	m_isDie = false;
 
-	m_weapons.emplace_back(new Weapon(m_position.x, m_position.y));
+	m_weapons.emplace_back(new ExplosiveGun(m_position.x, m_position.y));
 }
 
 Player::~Player()
-{
-	/*
-	if (!m_weapons.empty())
-	{
-		std::list<Weapon*>::iterator it;
-		for (it = m_weapons.begin(); it != m_weapons.end(); ++it)
-		{
-			delete (*it);
-		}
-	}
-	*/
-}
-
-bool Player::Collide(GameObject& gameObject)
-{
-	return false; 
-}
+{}
 
 void Player::OnStart()
 {
 	Game::GetInstance()->RegisterGameObjects(this);
 	if (!m_weapons.empty())
 	{
-		std::list<Weapon*>::iterator it;
-		for (it = m_weapons.begin(); it != m_weapons.end(); it++)
+		for (int i = 0; i < m_weapons.size(); ++i)
 		{
-			(*it)->OnStart();
+			m_weapons[i]->OnStart();
 		}
-
 	}
+}
+
+void Player::Collision(const std::string& direction)
+{
+	//std::vector<Enemy*> collision_Enemies;
+	
+	if (!Game::GetInstance()->m_gameObjectsEnemies.empty())
+    {
+        for (int i = 0; i != Game::GetInstance()->m_gameObjectsEnemies.size(); ++i)
+        {
+			Game::GetInstance()->m_gameObjectsEnemies[i]->m_isCollide = Game::GetInstance()->m_gameObjectsEnemies[i]->m_boxCollider.Collide(m_boxCollider);
+			if (Game::GetInstance()->m_gameObjectsEnemies[i]->m_isCollide && !Game::GetInstance()->m_gameObjectsEnemies[i]->m_isDie)
+			{
+				Game::GetInstance()->m_gameObjectsEnemies[i]->m_isDie = true;
+				Game::GetInstance()->m_gameObjectsEnemies[i]->Spawn();
+			}
+			else if (Game::GetInstance()->m_gameObjectsEnemies[i]->m_isDie)
+			{
+				Game::GetInstance()->m_gameObjectsEnemies[i]->m_isDie = false;
+			}
+        }
+    }
+	
+	
 }
 
 void Player::HandleInput()
 {
+
 	if (IsKeyDown(KEY_W))
 	{
 		//Direction up
@@ -119,10 +144,9 @@ void Player::HandleInput()
 	{
 		if (!m_weapons.empty())
 		{
-			std::list<Weapon*>::iterator it;
-			for (it = m_weapons.begin(); it != m_weapons.end(); ++it)
+			for (int i = 0; i < m_weapons.size(); ++i)
 			{
-				(*it)->Fire();
+				m_weapons[i]->Fire();
 			}
 		}
 	}
@@ -150,8 +174,8 @@ void Player::Update(float deltatime)
 	// Update body
 	m_boxCollider.Update(m_position.x, m_position.y);
 	
-
 	// Collision Horizontal
+	Collision();
 
 	// Update player position
 	m_position.y += m_direction.y * m_speed * deltatime;
@@ -160,17 +184,18 @@ void Player::Update(float deltatime)
 	m_boxCollider.Update(m_position.x, m_position.y);
 
 	// Collision Vertical
+	Collision();
 
 	//Set weapon position to follow player position
 	if (!m_weapons.empty())
 	{
-		std::list<Weapon*>::iterator it;
-		for (it = m_weapons.begin(); it != m_weapons.end(); ++it)
+		for (int i = 0; i < m_weapons.size(); ++i)
 		{
-			(*it)->UpdatePosition(m_position.x, m_position.y);
-			//(*it)->Update(deltatime);
+			m_weapons[i]->UpdatePosition(m_position.x, m_position.y);
+			//m_weapons[i]->Update(deltatime);
 		}
 	}
+	
 }
 
 void Player::Render()

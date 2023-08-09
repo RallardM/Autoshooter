@@ -1,7 +1,21 @@
 #include <iostream>
 #include "BoxCollider.h"
 
-BoxCollider::BoxCollider(float& x, float& y, int& width, int& height)
+BoxCollider::BoxCollider()
+{
+	// Dimension
+	int m_width = 0;
+	int m_height = 0;
+
+
+	// BoxCollider
+	float m_left = 0.0f;
+	float m_top = 0.0f;
+	float m_right = 0.0f;
+	float m_bottom = 0.0f;
+}
+
+BoxCollider::BoxCollider(const float& x, const float& y, const int& width, const int& height)
 {
 	// Dimension
 	m_width = width;
@@ -23,6 +37,9 @@ BoxCollider::BoxCollider(const BoxCollider& otherBoxCollider)
 {
 
 }
+
+BoxCollider::~BoxCollider()
+{}
 
 void BoxCollider::Update(float& x, float& y)
 {

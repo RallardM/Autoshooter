@@ -32,7 +32,7 @@ public:
 	// List that contain all the game object instanciate
 	std::list<GameObject*> m_gameObjects;
 	// List that contain all the game object Enemies - help for collision detection
-	std::list<Enemy*> m_gameObjectsEnemies;
+	std::vector<Enemy*> m_gameObjectsEnemies;
 	std::vector<GameObject*> m_gameObjectsToRemove;
 private: 
 	void Initialize();

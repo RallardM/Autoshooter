@@ -14,12 +14,16 @@ C'est de cette façon qu'on enregistre nos éléments de jeu.
 
 class GameObject
 {
-	friend class Game;
-
+	//friend class Game;
+public:
+	GameObject();
+	GameObject(const float&, const float&);
+	GameObject(const float&, const float&, const bool&);
+	virtual ~GameObject();
 public:
 
 	// Position
-	Vector2 m_position = { SCREEN_CENTER_POINT.x, SCREEN_CENTER_POINT.y };
+	Vector2 m_position = { 0.0f, 0.0f};
 	bool m_isDie = false;
 	
 public:

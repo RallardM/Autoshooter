@@ -2,16 +2,13 @@
 #include "Weapon.h"
 
 Enemy::Enemy()
+	: GameObject()
 {
-	
 	// Position
-	m_position = { 0.0f, 0.0f};
-
 	Spawn();
-
-
 	m_direction = { 0.0f, 0.0f };
-	m_speed = (std::rand() % (int)MIN_ENEMY_SPEED) + MAX_ENEMY_SPEED;
+	m_speed = MIN_ENEMY_SPEED;
+
 
 	// Dimension
 	m_width = ENEMY_WIDTH;
@@ -20,72 +17,71 @@ Enemy::Enemy()
 
 	// BoxCollider
 	m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
-
-
 	// OldBoxCollider
 	m_oldBoxCollider = m_boxCollider;
 
 	m_isCollide = false;
-	m_isDie = false;
 
-	m_weapons.emplace_back(new Weapon(m_position.x, m_position.y));
+	//m_weapons.emplace_back(new ExplosiveGun(m_position.x, m_position.y));
 }
 
-Enemy::Enemy(float& x, float& y, int& width, int& height)
+Enemy::Enemy(const float& x, const float& y, const bool& isDie)
+	: GameObject(x, y, isDie)
 {
-	
 	// Position
-	m_position = { x, y };
+	Spawn();
 	m_direction = { 0.0f, 0.0f };
-	m_speed = (std::rand() % (int)MIN_ENEMY_SPEED) + MAX_ENEMY_SPEED;
+	m_speed = MIN_ENEMY_SPEED;
 
 	// Dimension
-	m_width = width;
-	m_height = height;
+	m_width = ENEMY_WIDTH;
+	m_height = ENEMY_HEIGHT;
 
 	// BoxCollider
 	m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
-
-
 	// OldBoxCollider
 	m_oldBoxCollider = m_boxCollider;
 
 	m_isCollide = false;
-	m_isDie = false;
 
-	m_weapons.emplace_back(new Weapon(m_position.x, m_position.y));
+	//m_weapons.emplace_back(new ExplosiveGun(m_position.x, m_position.y));
 }
+
+Enemy::Enemy(const float& x, const float& y, const int& width, const int& height, const bool& isDie)
+	: GameObject(x, y, isDie)
+{
+	// Position
+	Spawn();
+	m_direction = { 0.0f, 0.0f };
+	m_speed = MIN_ENEMY_SPEED;
+
+	// Dimension
+	m_width = ENEMY_WIDTH;
+	m_height = ENEMY_HEIGHT;
+
+	// BoxCollider
+	m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
+	// OldBoxCollider
+	m_oldBoxCollider = m_boxCollider;
+
+	m_isCollide = false;
+
+	//m_weapons.emplace_back(new ExplosiveGun(m_position.x, m_position.y));
+}
+
 
 Enemy::~Enemy()
-{
-	/*
-	if (!m_weapons.empty())
-	{
-		std::list<Weapon*>::iterator it;
-		for (it = m_weapons.begin(); it != m_weapons.end(); ++it)
-		{
-			delete (*it);
-		}
-	}
-	*/
-}
-
-bool Enemy::Collide(GameObject& gameObject)
-{
-	return false;
-}
+{}
 
 void Enemy::OnStart()
 {
 	Game::GetInstance()->RegisterGameObjects(this);
 	if (!m_weapons.empty())
 	{
-		std::list<Weapon*>::iterator it;
-		for (it = m_weapons.begin(); it != m_weapons.end(); it++)
+		for (int i = 0; i < m_weapons.size(); ++i)
 		{
-			(*it)->OnStart();
+			m_weapons[i]->OnStart();
 		}
-
 	}
 }
 
@@ -93,6 +89,7 @@ void Enemy::OnStart()
 void Enemy::Spawn()
 {
 	int randCorner = std::rand() % 4;
+	m_speed = std::rand() % (int)(MAX_ENEMY_SPEED - MIN_ENEMY_SPEED) + MAX_ENEMY_SPEED;
 	Vector2 randPosition = { 0.0f, 0.0f };
 	
 	switch (randCorner)
@@ -163,11 +160,10 @@ void Enemy::Update(float deltatime)
 	//Set weapon position to follow player position
 	if (!m_weapons.empty())
 	{
-		std::list<Weapon*>::iterator it;
-		for (it = m_weapons.begin(); it != m_weapons.end(); ++it)
+		for (int i = 0; i < m_weapons.size(); ++i)
 		{
-			(*it)->UpdatePosition(m_position.x, m_position.y);
-			//(*it)->Update(deltatime);
+			m_weapons[i]->UpdatePosition(m_position.x, m_position.y);
+			//m_weapons[i]->Update(deltatime);
 		}
 	}
 }

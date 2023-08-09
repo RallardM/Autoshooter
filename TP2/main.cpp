@@ -6,7 +6,7 @@ int main()
 
 	game->Run();
 
-	//delete game;
+	delete game;
 
 	return 0;
 }
