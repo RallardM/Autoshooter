@@ -1,49 +1,20 @@
-﻿  Enemy.cpp
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(18,26): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(19,27): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(23,30): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(24,31): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(28,25): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(29,26): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Enemy.cpp(97,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Enemy.cpp(103,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Enemy.cpp(107,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Enemy.cpp(113,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Enemy.cpp(182,51): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Enemy.cpp(182,29): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+﻿  ExplosiveGun.cpp
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(26,26): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(27,27): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(31,30): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(32,31): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(36,25): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(37,26): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\ExplosiveGun.cpp(153,37): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\ExplosiveGun.cpp(153,23): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
   Game.cpp
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(18,26): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(19,27): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(23,30): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(24,31): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(28,25): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(29,26): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Game.cpp(53,25): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  GameObject.cpp
-  Player.cpp
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(18,26): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(19,27): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(23,30): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(24,31): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(28,25): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(29,26): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Player.cpp(208,51): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Player.cpp(208,29): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  Projectile.cpp
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(18,26): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(19,27): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(23,30): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(24,31): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(28,25): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(29,26): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Projectile.cpp(95,51): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Projectile.cpp(95,29): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  Weapon.cpp
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(18,26): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(19,27): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(23,30): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(24,31): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(28,25): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(29,26): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(26,26): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(27,27): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(31,30): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(32,31): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(36,25): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Globals.h(37,26): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\Game.cpp(58,25): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Generating Code...
+  LINK : D:\DevRoadMap\Cpp_programming\TP\Autoshooter\x64\Debug\TP2.exe not found or not built by the last incremental link; performing full link
   TP2.vcxproj -> D:\DevRoadMap\Cpp_programming\TP\Autoshooter\x64\Debug\TP2.exe

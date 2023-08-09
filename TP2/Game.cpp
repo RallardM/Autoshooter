@@ -37,6 +37,11 @@ Game::Game()
 Game::~Game()
 {
     //delete m_player;
+    if (!m_gameObjectsEnemies.empty())
+    {
+        m_gameObjectsEnemies.clear();
+    }
+
     if (!m_gameObjects.empty())
     {
         std::list<GameObject*>::iterator it;
@@ -52,8 +57,8 @@ void Game::Initialize()
     // Setting the seed for random number generation
     std::srand(std::time(NULL));
     
-    //-- Creation of Enemies between 10 and 20
-    int enemyAmount = std::rand() % DEFAULT_ENEMY_AMOUNT + DEFAULT_ENEMY_AMOUNT;
+    //-- Creation of Enemies between min and max
+    int enemyAmount = std::rand() % (MAX_ENEMY_AMOUNT - MIN_ENEMY_AMOUNT)+ MIN_ENEMY_AMOUNT;
 
     for (int i = 0; i < enemyAmount; i++)// just for test 
     {
@@ -62,10 +67,13 @@ void Game::Initialize()
     //--
     // 
     //-- Updating the game object list with enemies and player
-    std::list<Enemy*>::iterator it;
-    for (it = m_gameObjectsEnemies.begin(); it != m_gameObjectsEnemies.end(); ++it)
+   
+    if (!m_gameObjectsEnemies.empty())
     {
-        (*it)->OnStart();
+        for (int i = 0; i != m_gameObjectsEnemies.size(); ++i)
+        {
+            m_gameObjectsEnemies[i]->OnStart();
+        }
     }
   
     m_player->OnStart();
@@ -98,24 +106,21 @@ void Game::Update(float deltatime)
         {
             if (!(*it)->m_isDie)
             {
-                (*it)->Update(deltatime);
+                Enemy* enemy = dynamic_cast<Enemy*>((*it));
+                if (enemy != NULL)
+                {
+                    enemy->Update(deltatime);
+                    enemy->Track(m_player->m_position.x, m_player->m_position.y);
+                }
+                else
+                {
+                    (*it)->Update(deltatime);
+                }
+                
             }
         }
     }
 
-    /* Make enemies track player
-    if (!m_gameObjectsEnemies.empty())
-    {
-        std::list<Enemy*>::iterator it;
-        for (it = m_gameObjectsEnemies.begin(); it != m_gameObjectsEnemies.end(); ++it)
-        {
-            if (!(*it)->m_isDie)
-            {
-                (*it)->Track(m_player->m_position.x, m_player->m_position.y);
-            }
-        }
-    }
-    */
 }
 
 

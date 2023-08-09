@@ -6,27 +6,28 @@ class Enemy : public GameObject
 {
 public:
 	Enemy();
-	Enemy(float& x, float& y, int& width, int& height);
+	Enemy(const float&, const float&, const bool&);
+	Enemy(const float&, const float&, const int&, const int&, const bool&);
 	~Enemy();
 
 public:
 	Vector2 m_direction = { 0.0f, 0.0f };
-	float m_speed = MIN_ENEMY_SPEED;
+	float m_speed = 0.0f;
 
 	// Dimension
-	int m_width = ENEMY_WIDTH;
-	int m_height = ENEMY_HEIGHT;
+	int m_width = 0;
+	int m_height = 0;
 
 
 	// BoxCollider
-	BoxCollider m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
-	BoxCollider m_oldBoxCollider = m_boxCollider;
+	BoxCollider m_boxCollider;
+	BoxCollider m_oldBoxCollider;
 
 
 	Color m_color = BLUE;
 	bool m_isCollide = false;
 
-	std::list<Weapon*> m_weapons;
+	std::vector<Weapon*> m_weapons;
 public:
 
 	// Inherited via Agent

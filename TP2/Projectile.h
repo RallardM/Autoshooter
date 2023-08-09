@@ -5,7 +5,8 @@ class Projectile : public GameObject
 {
 public:
 	Projectile();
-	Projectile( float&,  float&,  float&,  float&, const int&, const int&, const float&, const float&, const Color&, const bool&, const bool&);
+	Projectile(const float&, const float&, const float&, const float&);
+	Projectile( const float&, const float&, const float&, const float&, const int&, const int&, const bool&);
 	~Projectile();
 
 	Vector2 m_originPosition = { 0.0f, 0.0f };// Use to memorise the intial position of the projectile when is generate before being translate to the center use to reset position of projectile to player position
@@ -29,7 +30,7 @@ public:
 
 public:
 	void OnStart();
-	void Reset(float& x, float& y);
+	void Reload(float& x, float& y);
 	void Fire();
 	void Update(float deltatime);
 	void Render();

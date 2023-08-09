@@ -7,27 +7,28 @@ class Player : public GameObject
 	
 public:
 	Player();
-	Player(float& x, float& y, int& width, int& height);
+	Player(const float&, const float&, const bool&);
+	Player(const float&, const float&, const int&, const int&, const bool&);
 	~Player();
 
 public:
 	Vector2 m_direction = { 0.0f, 0.0f };
-	float m_speed = PLAYER_SPEED;
+	float m_speed = 0.0f;
 
 	// Dimension
-	int m_width = PLAYER_WIDTH;
-	int m_height = PLAYER_HEIGHT;
+	int m_width = 0;
+	int m_height = 0;
 
 
 	// BoxCollider
-	BoxCollider m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
-	BoxCollider m_oldBoxCollider = m_boxCollider;
+	BoxCollider m_boxCollider;
+	BoxCollider m_oldBoxCollider;
 	
 
 	Color m_color = GREEN;
 	bool m_isCollide = false;
 	
-	std::list<Weapon*> m_weapons;
+	std::vector<Weapon*> m_weapons;
 public:
 
 	// Inherited via Agent
