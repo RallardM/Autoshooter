@@ -84,8 +84,10 @@ void Player::HandleInput()
 void Player::OnStart()
 {
 	GameObject::OnStart();
-	m_position.x = (float)GetScreenWidth() / 2;
-	m_position.y = (float)GetScreenHeight() / 2;
+	//m_position.x = (float)GetScreenWidth() / 2;
+	//m_position.y = (float)GetScreenHeight() / 2;
+	m_position.x = (float)Game::GetMapWidth() / 2;
+	m_position.y = (float)Game::GetMapHeight() / 2;	
 	Weapon* weapon = new Weapon();
 	m_weapons.push_back(weapon);
 	weapon->OnStart();
@@ -123,9 +125,12 @@ void Player::Update()
 	//		//m_weapons[i]->Update(deltatime);
 	//	}
 	//}
+
+	// Update camera position to player position
+	Game::UpdateCameraPosition(m_position);
 }
 
 void Player::Render()
 {
-	DrawRectangle((int)m_position.x, (int)m_position.y, PLAYER_WIDTH, PLAYER_HEIGHT, m_color);
+	DrawRectangleV(m_position, m_playerSize, m_color);
 }

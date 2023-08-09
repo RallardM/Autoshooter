@@ -15,8 +15,8 @@ Projectile::Projectile(float xSpeed, float ySpeed, float size, float lifetime)
 void Projectile::OnStart()
 {
 	GameObject::OnStart();
-	m_position.x = (float)GetScreenWidth() / 2.0f;
-	m_position.y = (float)GetScreenHeight() / 2.0f;
+	m_position.x = (float)GetScreenWidth() / 2.0f; // TODO
+	m_position.y = (float)GetScreenHeight() / 2.0f;// TODO
 }
 
 void Projectile::Update()

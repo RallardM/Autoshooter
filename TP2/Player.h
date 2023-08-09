@@ -12,12 +12,12 @@ public:
 	
 private:
 	// Player default parameter
-	const int PLAYER_WIDTH = 32;
-	const int PLAYER_HEIGHT = 32;
-	const float PLAYER_SPEED = 25.0f;
-
 	Color m_color = { 40, 40, 40, 255 };
+	Vector2 m_playerSize = { 32.0f, 32.0f };
 	Vector2 m_direction = { 0.0f, 0.0f };
+
+	const float PLAYER_SPEED = 10.0f;
+
 
 	std::list<Weapon*> m_weapons;
 
