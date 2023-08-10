@@ -19,17 +19,20 @@ public:
 
 
 private:
-	const int S_CAMERA_WIDTH = 1200;
-	const int S_CAMERA_HEIGHT = 800;
+	static const int S_CAMERA_WIDTH = 1200;
+	static const int S_CAMERA_HEIGHT = 800;
 
-	const float S_MAP_WIDTH;
-	const float S_MAP_HEIGHT;
+	// Static GetMapWidth() and GetMapHeight() permits player to access map size without having a reference to Game
+	static const float S_MAP_WIDTH;
+	static const float S_MAP_HEIGHT;
 	const float CELL_SIZE = 16.0f;
 	const float COLUMN_COUNT = S_MAP_WIDTH / CELL_SIZE;
 	const float ROW_COUNT = S_MAP_HEIGHT / CELL_SIZE;
 
 	Player* m_player;
-	Camera2D* s_camera;
+
+	// Static Camera permits target to have have class/struct/union/generic type
+	static Camera2D* s_camera;
 
 	std::list<GameObject*> m_gameObjects;
 	std::vector<GameObject*> m_gameObjectsToRemove;
@@ -39,9 +42,9 @@ public:
 	void StartGame();
 	void RegisterAgent(GameObject* agent);
 	void UnregisterAgent(GameObject* agent);
-	void UpdateCameraPosition(Vector2 playerPosition);
-	const float GetMapWidth() { return S_MAP_WIDTH; }
-	const float GetMapHeight() { return S_MAP_HEIGHT; }
+	static void UpdateCameraPosition(Vector2 playerPosition);
+	static const float GetMapWidth() { return S_MAP_WIDTH; }
+	static const float GetMapHeight() { return S_MAP_HEIGHT; }
 
 private:
 	void MainLoop();

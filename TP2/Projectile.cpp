@@ -22,7 +22,6 @@ Projectile::~Projectile()
 	delete m_boxCollider;
 }
 
-
 void Projectile::OnStart()
 {
 	GameObject::OnStart();

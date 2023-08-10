@@ -28,3 +28,4 @@ void HandGun::FollowPosition(Vector2 newPosition)
 void HandGun::Render()
 {
 	// TODO Remi : 
+}

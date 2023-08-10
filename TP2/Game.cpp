@@ -8,9 +8,9 @@
 using namespace std;
 
 Game* Game::_Instance = 0;
-//Camera2D* Game::s_camera = nullptr;
-//const float Game::S_MAP_WIDTH = 1601.0f;
-//const float Game::S_MAP_HEIGHT = 1601.0f;
+Camera2D* Game::s_camera = nullptr;
+const float Game::S_MAP_WIDTH = 1601.0f;
+const float Game::S_MAP_HEIGHT = 1601.0f;
 
 int main(void)
 {
