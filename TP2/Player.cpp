@@ -1,5 +1,7 @@
 #include "Player.h"
 #include "Game.h"
+#include "HandGun.h"
+
 #include <iostream>
 
 
@@ -84,23 +86,29 @@ void Player::HandleInput()
 void Player::OnStart()
 {
 	GameObject::OnStart();
+	// TODO Remi : Vérifier centre de la map au lei de centre de l'ecran
 	//m_position.x = (float)GetScreenWidth() / 2;
 	//m_position.y = (float)GetScreenHeight() / 2;
-	m_position.x = (float)Game::GetMapWidth() / 2;
-	m_position.y = (float)Game::GetMapHeight() / 2;	
-	Weapon* weapon = new Weapon();
+	//m_position.x = (float)Game::GetMapWidth() / 2;
+	//m_position.y = (float)Game::GetMapHeight() / 2;	
+
+	m_position.x = (float)GetMapWidth() / 2;
+	m_position.y = (float)GetMapHeight() / 2;
+	HandGun* weapon = new HandGun();
 	m_weapons.push_back(weapon);
 	weapon->OnStart();
 }
 
 void Player::Update()
 {
+	// TODO Remi : Vérifier code ajouté par Maurice:
 	//// Update OldBoxCollider
 	//m_oldBoxCollider = m_boxCollider;
 
 	// Update player position
 	m_position.x += m_direction.x * PLAYER_SPEED; // *deltatime;
 
+	// TODO Remi : Vérifier code ajouté par Maurice:
 	//// Update body
 	//m_boxCollider.Update(m_position.x, m_position.y);
 
@@ -110,21 +118,33 @@ void Player::Update()
 	// Update player position
 	m_position.y += m_direction.y * PLAYER_SPEED; // *deltatime;
 
+	// TODO Remi : Vérifier code ajouté par Maurice:
 	//// Update rect
 	//m_boxCollider.Update(m_position.x, m_position.y);
 
 	// Collision Vertical
 	//Collision();
 
-	////Set weapon position to follow player position
-	//if (!m_weapons.empty())
+	//Set weapon position to follow player position
+
+	// TODO Remi : demander a Maurice pourquoi un vecteur au lieu de la liste initiale
+	//if (!m_weapons.empty()) 
 	//{
 	//	for (int i = 0; i < m_weapons.size(); ++i)
 	//	{
-	//		m_weapons[i]->UpdatePosition(m_position.x, m_position.y);
+	//		m_weapons[i]->FollowPosition(m_position);
 	//		//m_weapons[i]->Update(deltatime);
 	//	}
 	//}
+
+	if (!m_weapons.empty())
+	{
+		for (int i = 0; i < m_weapons.size(); ++i)
+		{
+			m_weapons[i]->FollowPosition(m_position);
+			//m_weapons[i]->Update(deltatime);
+		}
+	}
 
 	// Update camera position to player position
 	Game::UpdateCameraPosition(m_position);

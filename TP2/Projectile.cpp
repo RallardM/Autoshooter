@@ -10,7 +10,18 @@ Projectile::Projectile(float xSpeed, float ySpeed, float size, float lifetime)
 	m_ySpeed = ySpeed * 2 * rand() / RAND_MAX - ySpeed; //TODO: Change so that the speed is constant
 	m_radius = size;
 	m_color = { 90, 90, 90, 255 };
+
+	float diameter = m_radius * 2;
+	// BoxCollider
+	//m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
+	m_boxCollider = new BoxCollider(m_position.x + m_radius, m_position.y + m_radius, diameter, diameter);
 }
+
+Projectile::~Projectile() 
+{
+	delete m_boxCollider;
+}
+
 
 void Projectile::OnStart()
 {
@@ -32,5 +43,7 @@ void Projectile::Update()
 
 void Projectile::Render()
 {
-	// TODO
+	DrawCircleV(m_position, m_radius, m_color);
+	// TODO Remi : Vérifier code ajouté par Maurice:
+	//DrawRectangle(m_boxCollider->m_left, m_boxCollider->m_top, m_width, m_height, m_color);
 }

@@ -1,6 +1,5 @@
 #pragma once
 #include <list>
-
 #include "Weapon.h"
 
 class Player : public GameObject

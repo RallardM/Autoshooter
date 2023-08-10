@@ -17,6 +17,7 @@ class GameObject
 	friend class Game;
 
 protected:
+	// TODO Remi : Vérifier avec Maurice vector au lieu de 2 float:
 	//float m_posX = 0.0f;
 	//float m_posY = 0.0f;
 	Vector2 m_position = { 0.0f, 0.0f };

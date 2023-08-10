@@ -8,9 +8,9 @@
 using namespace std;
 
 Game* Game::_Instance = 0;
-Camera2D* Game::s_camera = nullptr;
-const float Game::S_MAP_WIDTH = 1601.0f;
-const float Game::S_MAP_HEIGHT = 1601.0f;
+//Camera2D* Game::s_camera = nullptr;
+//const float Game::S_MAP_WIDTH = 1601.0f;
+//const float Game::S_MAP_HEIGHT = 1601.0f;
 
 int main(void)
 {
@@ -119,26 +119,12 @@ void Game::RenderBackground()
 
 void Game::UpdateGameObjects()
 {
-    for (auto const& i : m_gameObjects) {
+    for (auto const& i : m_gameObjects) 
+    {
         if (i == NULL) {continue;}
 
         //Issue now is that I remove elements in the Update during the for loop
         i->Update();
-
-        ////Cast to projectile
-        //Projectile* projectile = dynamic_cast<Projectile*>(i);
-        //if (projectile != 0)
-        //{
-        //    DrawCircle((int)i->m_position.x, (int)i->m_position.y, projectile->m_radius, projectile->m_color);
-        //}
-        //else
-        //{
-        //    //If the agent is not a projectile (you should differentiate them even more).
-        //    //In fact, each agent could even implement it's own method Draw(),
-        //    //Which would be even better.
-        //    //This method would then only do i->Update(), and let agents draw themselves
-        //    DrawRectangle((int)i->m_position.x, (int)i->m_position.y, 5, 5, {255, 255, 0, 255});
-        //}
     }
     
     RemoveAgentsMarkedForRemoval();
@@ -146,25 +132,11 @@ void Game::UpdateGameObjects()
 
 void Game::RenderGameObjects()
 {
-    for (auto const& i : m_gameObjects) {
+    for (auto const& i : m_gameObjects) 
+    {
         if (i == NULL) { continue; }
 
         i->Render();
-
-        //Cast to projectile
-        Projectile* projectile = dynamic_cast<Projectile*>(i);
-        if (projectile != 0)
-        {
-            DrawCircle((int)i->m_position.x, (int)i->m_position.y, projectile->m_radius, projectile->m_color);
-        }
-        else
-        {
-            //If the agent is not a projectile (you should differentiate them even more).
-            //In fact, each agent could even implement it's own method Draw(),
-            //Which would be even better.
-            //This method would then only do i->Update(), and let agents draw themselves
-            DrawRectangle((int)i->m_position.x, (int)i->m_position.y, 5, 5, {255, 255, 0, 255});
-        }
     }
 }
 

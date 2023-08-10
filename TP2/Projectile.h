@@ -2,10 +2,12 @@
 #include <raylib.h>
 
 #include "GameObject.h"
+#include "BoxCollider.h"
 
 class Projectile : public GameObject
 {
 	friend class Game;
+
 private:
 	float m_currentLifetime;
 	float m_xSpeed;
@@ -13,8 +15,14 @@ private:
 	float m_radius;
 	Color m_color;
 
+	// BoxCollider
+	BoxCollider* m_boxCollider;
+	// TODO Remi : Vérifier code ajouté par Maurice:
+	//BoxCollider m_previousBoxCollider;
+
 public:
 	Projectile(float xSpeed, float ySpeed, float size, float lifetime);
+	~Projectile();
 
 	// Inherited via GameObject
 	virtual void OnStart() override;
