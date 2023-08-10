@@ -1,2 +1,0 @@
-C:\Users\minig\OneDrive\Documents\Programmation2\TP2\TP2\TP2\x64\Debug\TP2.vcxproj.CopyComplete
-D:\DevRoadMap\Cpp_programming\TP\Autoshooter\TP2\x64\Debug\TP2.vcxproj.CopyComplete

@@ -396,3 +396,8 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/.vs/TP2/v17/Browse.VC.db
+/.vs/TP2/v17/Browse.VC.db
+/.vs/TP2/v17/.suo
+/x64/Debug/TP2.exe
+/x64/Debug/TP2.pdb
