@@ -43,6 +43,7 @@ public:
 	void Update() override;
 	void Render() override;
 	virtual const Vector2& GetPosition() const override { return m_position; }
+	const Rectangle GetRect() const  { return { m_position.x, m_position.y, ENEMY_WIDTH, ENEMY_HEIGHT }; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::ENEMY; }
 
 private:

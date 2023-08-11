@@ -29,5 +29,6 @@ private:
 	virtual void OnStart() override;
 	virtual void Update() override;
 	virtual void Render() override;
+	void Collision();
 	
 };

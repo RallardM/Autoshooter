@@ -159,9 +159,22 @@ void Player::Update()
 
 	// Update camera position to player position
 	Game::UpdateCameraPosition(m_position);
+
+	Collision();
 }
 
 void Player::Render()
 {
 	DrawRectangleV(m_position, m_playerSize, m_color);
+}
+
+void Player::Collision()
+{
+	Rectangle playerRect = { m_position.x, m_position.y, m_playerSize.x, m_playerSize.y };
+	bool isEnemyHitByProjctile = Game::ArePlayerEnemyColliding(playerRect);
+
+	if (isEnemyHitByProjctile)
+	{
+		std::cout << "Player Hit by Enemy" << std::endl;
+	}
 }

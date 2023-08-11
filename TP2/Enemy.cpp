@@ -241,6 +241,6 @@ void Enemy::Collision()
 
 	if (isEnemyHitByProjctile)
 	{
-		std::cout << "Enemy Hit by Projectile" << std::endl;
+		//std::cout << "Enemy Hit by Projectile" << std::endl;
 	}
 }

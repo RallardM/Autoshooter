@@ -127,6 +127,26 @@ bool Game::AreEnemyProjectileColliding(Rectangle enemy)
     return false;
 }
 
+bool Game::ArePlayerEnemyColliding(Rectangle player)
+{
+    for (GameObject* gameObject : _Instance->m_gameObjects)
+    {
+        if (gameObject->GetGameObjectType() == EGameObjectType::ENEMY)
+        {
+            Enemy* enemy = dynamic_cast<Enemy*>(gameObject);
+            Vector2 enemyPosition = enemy->GetPosition();
+            Rectangle enemyRect = enemy->GetRect();
+
+            bool IsEnemyHitByProjectile = CheckCollisionRecs(player, enemyRect);
+            if (IsEnemyHitByProjectile)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void Game::CleanUpGame()
 {
     CleanupGameObjects();
@@ -252,10 +272,10 @@ void Game::CleanupGameObjects()
     //m_gameObjectsEnemies.clear();
 
     // Delete and remove projectiles from m_gameObjectsProjectiles
-    //for (Projectile* projectile : m_gameObjectsProjectiles)
+    //for (Projectile* enemy : m_gameObjectsProjectiles)
     //{
-    //    m_gameObjects.remove(projectile); // Make sure you remove from this list as well
-    //    delete projectile;
+    //    m_gameObjects.remove(enemy); // Make sure you remove from this list as well
+    //    delete enemy;
     //}
     //m_gameObjectsProjectiles.clear();
 
