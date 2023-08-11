@@ -2,7 +2,13 @@
 
 void HandGun::Fire()
 {
-	// TODO Remi : 
+	//Projectile* projectile = new Projectile(m_position, 10.0f, 10.0f, 5.0f, m_weaponInfos.m_projectileInfos.Lifetime);
+	Projectile* projectile = new Projectile(
+		m_position,
+		m_weaponInfos.m_projectileInfos.RADIUS,
+		m_weaponInfos.m_projectileInfos.SPEED,
+		m_weaponInfos.m_projectileInfos.LIFETIME);
+	projectile->OnStart();
 }
 
 HandGun::HandGun()
@@ -12,20 +18,22 @@ HandGun::HandGun()
 
 void HandGun::OnStart()
 {
-	// TODO Remi : 
+	GameObject::OnStart();
+	m_weaponInfos.m_projectileInfos = SHandGunProjectileData();
 }
 
 void HandGun::Update()
 {
-	// TODO Remi : 
-}
-
-void HandGun::FollowPosition(Vector2 newPosition)
-{
-	// TODO Remi : 
+	float frameTime = GetFrameTime();
+	m_currentAttackTimer += frameTime;
+	if (m_currentAttackTimer >= m_weaponInfos.m_attackRate)
+	{
+		m_currentAttackTimer -= m_weaponInfos.m_attackRate;
+		Fire();
+	}
 }
 
 void HandGun::Render()
 {
-	// TODO Remi : 
+	DrawRectangleV(m_position, m_size, { 255, 255, 0, 255 });
 }

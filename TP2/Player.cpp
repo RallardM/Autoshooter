@@ -86,7 +86,7 @@ void Player::HandleInput()
 void Player::OnStart()
 {
 	GameObject::OnStart();
-	// TODO Remi : Vérifier centre de la map au lei de centre de l'ecran
+	// TODO Remi : Vérifier centre de la map au lieu de centre de l'ecran
 	//m_position.x = (float)GetScreenWidth() / 2;
 	//m_position.y = (float)GetScreenHeight() / 2;
 	m_position.x = (float)Game::GetMapWidth() / 2;
@@ -148,6 +148,11 @@ void Player::Update()
 
 	for (Weapon* weapon : m_weapons)
 	{
+		if (weapon == nullptr)
+		{
+			continue;
+		}
+
 		weapon->FollowPosition(m_position);
 	}
 

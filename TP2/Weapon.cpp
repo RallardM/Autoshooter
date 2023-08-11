@@ -1,12 +1,13 @@
 #include <raylib.h>
 
 #include "Weapon.h"
+#include <iostream>
 
 // TODO Remi : Code initial, vérifier à retirer une fois terminee
 //void Weapon::OnStart()
 //{
 //	GameObject::OnStart();
-//	m_weaponInfos.m_projectileInfos = SProjectileData();
+//	m_weaponInfos.m_projectileInfos = SHandGunProjectileData();
 //}
 //
 //void Weapon::Update()
@@ -31,3 +32,9 @@
 //		m_weaponInfos.m_projectileInfos.Lifetime);
 //	projectile->OnStart();
 //}
+
+void Weapon::FollowPosition(Vector2 newPosition)
+{
+	//std::cout << "Weapon new position : " << newPosition.x << ", " << newPosition.y << std::endl;
+	m_position = newPosition;
+}

@@ -7,7 +7,7 @@
 //{
 //public:
 //	float m_attackRate = 1.0f;
-//	SProjectileData m_projectileInfos;
+//	SHandGunProjectileData m_projectileInfos;
 //};
 //
 //class Weapon: public GameObject
@@ -52,6 +52,13 @@ private:
 	//virtual void FireProjectile(Projectile*) = 0;
 	virtual void OnStart() = 0;
 	virtual void Update() = 0;
-	virtual void FollowPosition(Vector2 newPosition) = 0;
+	void FollowPosition(Vector2 newPosition);
 	virtual void Render() = 0;
+};
+
+enum class EWeaponType : unsigned short int
+{
+	HAND_GUN,
+	EXPLOSIVE_GUN,
+	LAZER_GUN,
 };

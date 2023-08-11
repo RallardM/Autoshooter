@@ -3,6 +3,7 @@
 
 #include "GameObject.h"
 #include "BoxCollider.h"
+#include "Weapon.h"
 
 class Projectile : public GameObject
 {
@@ -21,19 +22,23 @@ private:
 	//BoxCollider m_previousBoxCollider;
 
 public:
-	Projectile(float xSpeed, float ySpeed, float size, float lifetime);
+	//Projectile(Vector2 origin, float xSpeed, float ySpeed, float size, float lifetime);
+	Projectile(Vector2 origin, float size, float speed, float lifetime);
 	~Projectile();
 
 	// Inherited via GameObject
 	virtual void OnStart() override;
 	virtual void Update() override;
 	virtual void Render() override;
+
 };
 
-struct SProjectileData
+struct SHandGunProjectileData
 {
 public:
-	float Radius = 5.0f;
-	float Lifetime = 2.0f;
-	float Damage = 10.0f;
+	const float RADIUS = 5.0f;
+	const float LIFETIME = 2.0f;
+	const float DAMAGE = 10.0f;
+	const float SPEED = 200.0f;
+	const EWeaponType WEAPON_TYPE = EWeaponType::HAND_GUN;
 };
