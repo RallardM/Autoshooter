@@ -3,5 +3,5 @@
 
 void GameObject::OnStart()
 {
-	Game::GetInstance()->RegisterAgent(this);
+	Game::GetInstance()->RegisterGameObject(this);
 }

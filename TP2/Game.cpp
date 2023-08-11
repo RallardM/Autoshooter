@@ -12,6 +12,13 @@ Camera2D* Game::s_camera = nullptr;
 const float Game::S_MAP_WIDTH = 1601.0f;
 const float Game::S_MAP_HEIGHT = 1601.0f;
 
+//Game::~Game()
+//{
+//
+//
+//    //TODO: delete other pointer ojbects
+//}
+
 int main(void)
 {
     Game* game = new Game();
@@ -26,24 +33,41 @@ void Game::StartGame()
     InitWindow(S_CAMERA_WIDTH, S_CAMERA_HEIGHT, "raylib [core] example - basic window");
     SetTargetFPS(60);
 
+    // Initialize player
     m_player = new Player();
     m_player->OnStart();
 
+    // Initialize camera
     s_camera = new Camera2D();
     s_camera->offset = { (float)S_CAMERA_WIDTH / 2, (float)S_CAMERA_HEIGHT / 2 };
     s_camera->rotation = 0.0f;
     s_camera->zoom = 0.8f;
 
+    // Initialize enemies
+    int enemyAmount = std::rand() % (MAX_ENEMY_AMOUNT - MIN_ENEMY_AMOUNT) + MIN_ENEMY_AMOUNT;
+    for (int i = 0; i < enemyAmount; i++)// just for test 
+    {
+        m_gameObjectsEnemies.emplace_back(new Enemy());
+    }
+
+    if (!m_gameObjectsEnemies.empty())
+    {
+        for (int i = 0; i != m_gameObjectsEnemies.size(); ++i)
+        {
+            m_gameObjectsEnemies[i]->OnStart();
+        }
+    }
+
     MainLoop();
 }
 
-void Game::RegisterAgent(GameObject* agent)
+void Game::RegisterGameObject(GameObject* agent)
 {
     m_gameObjects.push_back(agent);
     std::cout << "Agent added to agents list. Agents amount: " << m_gameObjects.size() << std::endl;
 }
 
-void Game::UnregisterAgent(GameObject* agent)
+void Game::UnregisterGameObject(GameObject* agent)
 {
     m_gameObjectsToRemove.push_back(agent);
     cout << "Agent marked for removal" << endl;

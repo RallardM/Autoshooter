@@ -11,6 +11,8 @@ public:
 	//~BoxCollider();
 
 public:
+	float m_left = 0.0f;
+	float m_top = 0.0f;
 
 private:
 	// Dimension
@@ -19,13 +21,13 @@ private:
 
 
 	// BoxCollider
-	float m_left = 0.0f;
-	float m_top = 0.0f;
+	//float m_left = 0.0f;
+	//float m_top = 0.0f;
 	float m_right = 0.0f;
 	float m_bottom = 0.0f;
 
 public:
 	// TODO Remi : Vérifier code ajouté par Maurice:
-	//void Update(float& x, float& y);
+	void Update(float& x, float& y);
 	//bool Collide(BoxCollider& boxCollider);
 };

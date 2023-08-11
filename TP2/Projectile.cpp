@@ -10,8 +10,8 @@ Projectile::Projectile(Vector2 origin, float size, float speed, float lifetime)
 	m_position = origin;
 	m_currentLifetime = lifetime;
 
-	// Calculate the magnitude of the speed vector
-	float speedMagnitude = sqrt(speed * speed + speed * speed);
+	// Calculate the magnitude of the speed vector : squareroot of (x*x + y*y)
+	float speedMagnitude = sqrt((speed * speed) + (speed * speed));
 
 	// Generate a random angle
 	float randomRadianAngle = static_cast<float>(rand()) / RAND_MAX;
@@ -56,7 +56,7 @@ void Projectile::Update()
 	m_currentLifetime -= GetFrameTime();
 	if (m_currentLifetime < 0)
 	{
-		Game::GetInstance()->UnregisterAgent(this);
+		Game::GetInstance()->UnregisterGameObject(this);
 	}
 }
 

@@ -40,15 +40,15 @@ BoxCollider::BoxCollider(const float& x, const float& y, const float& width, con
 //
 //BoxCollider::~BoxCollider()
 //{}
-//
-//void BoxCollider::Update(float& x, float& y)
-//{
-//	m_left = std::floorf(x - (m_width * 0.5f));
-//	m_top = std::floorf(y - (m_height * 0.5f));
-//	m_right = m_left + m_width;
-//	m_bottom = m_top + m_height;
-//}
-//
+
+void BoxCollider::Update(float& x, float& y)
+{
+	m_left = std::floorf(x - (m_width * 0.5f));
+	m_top = std::floorf(y - (m_height * 0.5f));
+	m_right = m_left + m_width;
+	m_bottom = m_top + m_height;
+}
+
 //bool BoxCollider::Collide(BoxCollider& boxCollider)
 //{
 //	if (
