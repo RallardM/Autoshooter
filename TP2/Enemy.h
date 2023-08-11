@@ -33,6 +33,7 @@ public:
 
 	std::vector<Weapon*> m_weapons;
 public:
+	const Vector2& GetPosition() const { return m_position; }
 
 	// Inherited via Agent
 	void OnStart() override;

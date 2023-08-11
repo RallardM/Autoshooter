@@ -2,7 +2,7 @@
 #include <list>
 #include <vector>
 
-#include "raylib.h"
+
 #include "Enemy.h"
 #include "Player.h"
 
@@ -21,12 +21,12 @@ public:
 
 
 private:
-	static const int S_CAMERA_WIDTH = 1200;
-	static const int S_CAMERA_HEIGHT = 800;
+	const int CAMERA_WIDTH = 1200;
+	const int CAMERA_HEIGHT = 800;
 
 	// Static GetMapWidth() and GetMapHeight() permits player to access map size without having a reference to Game
-	static const float S_MAP_WIDTH;
-	static const float S_MAP_HEIGHT;
+	const float S_MAP_WIDTH = 1601.0f;
+	const float S_MAP_HEIGHT = 1601.0f;
 	const float CELL_SIZE = 16.0f;
 	const float COLUMN_COUNT = S_MAP_WIDTH / CELL_SIZE;
 	const float ROW_COUNT = S_MAP_HEIGHT / CELL_SIZE;
@@ -35,11 +35,9 @@ private:
 	const int MIN_ENEMY_AMOUNT = 8;
 	const int MAX_ENEMY_AMOUNT = 10;
 
-	static Player* m_player;
+	Player* m_player;
 	std::vector<Enemy*> m_gameObjectsEnemies;
-
-	// Static Camera permits target to have have class/struct/union/generic type
-	static Camera2D* s_camera;
+	Camera2D* m_camera;
 
 	std::list<GameObject*> m_gameObjects;
 	std::vector<GameObject*> m_gameObjectsToRemove;
@@ -52,18 +50,22 @@ public:
 	static void UpdateCameraPosition(Vector2 playerPosition);
 
 	// Map getters
-	static const float GetMapWidth() { return S_MAP_WIDTH; }
-	static const float GetMapHeight() { return S_MAP_HEIGHT; }
+	static const float GetMapWidth() { return _Instance->S_MAP_WIDTH; }
+	static const float GetMapHeight() { return _Instance->S_MAP_HEIGHT; }
 
 	// Camera getters
-	static float GetCameraLeftLimit() { return s_camera->target.x - (S_CAMERA_WIDTH / 2) / s_camera->zoom; }
-	static float GetCameraRightLimit() { return s_camera->target.x + (S_CAMERA_WIDTH / 2) / s_camera->zoom; }
-	static float GetCameraTopLimit() { return s_camera->target.y - (S_CAMERA_HEIGHT / 2) / s_camera->zoom; }
-	static float GetCameraBottomLimit() { return s_camera->target.y + (S_CAMERA_HEIGHT / 2) / s_camera->zoom; }
-	static Vector2 GetCameraPosition() { return s_camera->target; }
+	static float GetCameraLeftLimit() { return _Instance->m_camera->target.x - (_Instance->CAMERA_WIDTH / 2) / _Instance->m_camera->zoom; }
+	static float GetCameraRightLimit() { return _Instance->m_camera->target.x + (_Instance->CAMERA_WIDTH / 2) / _Instance->m_camera->zoom; }
+	static float GetCameraTopLimit() { return _Instance->m_camera->target.y - (_Instance->CAMERA_HEIGHT / 2) / _Instance->m_camera->zoom; }
+	static float GetCameraBottomLimit() { return _Instance->m_camera->target.y + (_Instance->CAMERA_HEIGHT / 2) / _Instance->m_camera->zoom; }
+	static Vector2 GetCameraPosition() { return _Instance->m_camera->target; }
+	static bool IsWithinCameraBounds(Vector2 position) { return position.x >= GetCameraLeftLimit() && position.x <= GetCameraRightLimit() && position.y >= GetCameraTopLimit() && position.y <= GetCameraBottomLimit(); }
 
 	// Player getters
-	static Vector2 GetPlayerPosition() { return { m_player->m_position.x, m_player->m_position.y }; }
+	static Vector2 GetPlayerPosition() { return { _Instance->m_player->m_position.x, _Instance->m_player->m_position.y }; }
+
+	// Ennemies getters
+	static std::vector<Enemy*> GetEnemies() { return _Instance->m_gameObjectsEnemies; }
 
 private:
 	void MainLoop();

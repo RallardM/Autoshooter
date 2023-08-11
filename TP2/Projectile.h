@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "BoxCollider.h"
 #include "Enumerations.h"
+#include "Enemy.h"
 
 class Projectile : public GameObject
 {
@@ -30,6 +31,9 @@ public:
 	virtual void OnStart() override;
 	virtual void Update() override;
 	virtual void Render() override;
+
+private:
+	Enemy* FindClosestEnemyToPlayer();
 
 };
 

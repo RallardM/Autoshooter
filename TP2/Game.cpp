@@ -8,10 +8,6 @@
 using namespace std;
 
 Game* Game::_Instance = 0;
-Camera2D* Game::s_camera = nullptr;
-Player* Game::m_player = nullptr;
-const float Game::S_MAP_WIDTH = 1601.0f;
-const float Game::S_MAP_HEIGHT = 1601.0f;
 
 //Game::~Game()
 //{
@@ -31,7 +27,7 @@ int main(void)
 void Game::StartGame()
 {
     _Instance = this;
-    InitWindow(S_CAMERA_WIDTH, S_CAMERA_HEIGHT, "raylib [core] example - basic window");
+    InitWindow(CAMERA_WIDTH, CAMERA_HEIGHT, "raylib [core] example - basic window");
     SetTargetFPS(60);
 
     // Initialize player
@@ -39,10 +35,10 @@ void Game::StartGame()
     m_player->OnStart();
 
     // Initialize camera
-    s_camera = new Camera2D();
-    s_camera->offset = { (float)S_CAMERA_WIDTH / 2, (float)S_CAMERA_HEIGHT / 2 };
-    s_camera->rotation = 0.0f;
-    s_camera->zoom = 0.8f;
+    m_camera = new Camera2D();
+    m_camera->offset = { (float)CAMERA_WIDTH / 2, (float)CAMERA_HEIGHT / 2 };
+    m_camera->rotation = 0.0f;
+    m_camera->zoom = 0.8f;
 
     // Initialize enemies
     int enemyAmount = std::rand() % (MAX_ENEMY_AMOUNT - MIN_ENEMY_AMOUNT) + MIN_ENEMY_AMOUNT;
@@ -76,7 +72,7 @@ void Game::UnregisterGameObject(GameObject* agent)
 
 void Game::UpdateCameraPosition(Vector2 playerPosition)
 {
-    s_camera->target = { playerPosition.x, playerPosition.y };
+    _Instance->m_camera->target = { playerPosition.x, playerPosition.y };
 }
 
 void Game::MainLoop()
@@ -90,7 +86,7 @@ void Game::MainLoop()
 
         // Render
         BeginDrawing();
-        BeginMode2D(*s_camera);
+        BeginMode2D(*m_camera);
         RenderBackground();
         RenderGameObjects();
         EndMode2D();
