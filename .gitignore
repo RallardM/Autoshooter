@@ -401,3 +401,6 @@ FodyWeavers.xsd
 /.vs/TP2/v17/.suo
 /x64/Debug/TP2.exe
 /x64/Debug/TP2.pdb
+/TP2/x64/Debug/Agent.obj
+/x64/Debug/raylib.dll
+/TP2/x64/Debug/MainCharacter.obj
