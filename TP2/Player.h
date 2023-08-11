@@ -22,7 +22,9 @@ private:
 
 
 	std::list<Weapon*> m_weapons;
+	short int m_health = 100;
 
+private:
 	void HandleInput();
 
 	// Inherited via GameObject
@@ -30,5 +32,6 @@ private:
 	virtual void Update() override;
 	virtual void Render() override;
 	void Collision();
+	void VerifyHealth();
 	
 };

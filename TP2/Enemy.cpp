@@ -203,6 +203,7 @@ void Enemy::Update()
 
 	TrackPlayer();
 	Collision();
+	VerifyHealth();
 }
 
 void Enemy::Render()
@@ -241,6 +242,14 @@ void Enemy::Collision()
 
 	if (isEnemyHitByProjctile)
 	{
-		//std::cout << "Enemy Hit by Projectile" << std::endl;
+		m_health -= 10;
+	}
+}
+
+void Enemy::VerifyHealth()
+{
+	if (m_health <= 0)
+	{
+		Game::GetInstance()->UnregisterGameObject(this);
 	}
 }

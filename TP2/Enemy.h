@@ -54,7 +54,10 @@ private:
 	const float MAX_ENEMY_SPEED = 15.0f;
 	const float MIN_ENEMY_SPEED = 5.0f;
 
+	short int m_health = 100;
+
 private:
 	void TrackPlayer();
 	void Collision();
+	void VerifyHealth();
 };

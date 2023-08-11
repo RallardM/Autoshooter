@@ -161,6 +161,7 @@ void Player::Update()
 	Game::UpdateCameraPosition(m_position);
 
 	Collision();
+	VerifyHealth();
 }
 
 void Player::Render()
@@ -175,6 +176,14 @@ void Player::Collision()
 
 	if (isEnemyHitByProjctile)
 	{
-		std::cout << "Player Hit by Enemy" << std::endl;
+		m_health -= 10;
+	}
+}
+
+void Player::VerifyHealth()
+{
+	if (m_health <= 0)
+	{
+		//m_isAlive = false;
 	}
 }
