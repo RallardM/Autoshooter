@@ -10,6 +10,7 @@ public:
 	Player();
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::PLAYER; }
+	const Rectangle GetRect() const { return { m_position.x, m_position.y, m_playerSize.x, m_playerSize.y }; }
 	
 private:
 	// Player default parameter

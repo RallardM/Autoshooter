@@ -75,6 +75,7 @@ public:
 
 	static GameObject* GetClosestGameObject(Vector2 position, EGameObjectType type);
 	static bool AreEnemyProjectileColliding(Rectangle enemy);
+	static bool AreOrbPlayerColliding(Vector2 orbPosition, float orbradius);
 	static bool ArePlayerEnemyColliding(Rectangle player);
 
 	void CleanUpGame();

@@ -127,6 +127,16 @@ bool Game::AreEnemyProjectileColliding(Rectangle enemy)
     return false;
 }
 
+bool Game::AreOrbPlayerColliding(Vector2 orbPosition, float orbradius)
+{
+    bool IsEnemyHitByProjectile = CheckCollisionCircleRec(orbPosition, orbradius, _Instance->m_player->GetRect());
+    if (IsEnemyHitByProjectile)
+    {
+		return true;
+	}
+    return false;
+}
+
 bool Game::ArePlayerEnemyColliding(Rectangle player)
 {
     for (GameObject* gameObject : _Instance->m_gameObjects)

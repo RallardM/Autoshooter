@@ -1,4 +1,5 @@
 #include "ExperienceOrb.h"
+#include "Game.h"
 
 ExperienceOrb::ExperienceOrb(Vector2 origin)
 {
@@ -12,9 +13,21 @@ void ExperienceOrb::OnStart()
 
 void ExperienceOrb::Update()
 {
+	Collision();
 }
 
 void ExperienceOrb::Render()
 {
-	DrawCircleGradient(m_position.x, m_position.y, m_radius, GREEN, LIGHTGRAY);
+	DrawCircleGradient((int)m_position.x, (int)m_position.y, m_radius, GREEN, LIGHTGRAY);
+}
+
+void ExperienceOrb::Collision()
+{
+	bool isPlayerCollidingOrb = Game::AreOrbPlayerColliding(m_position, m_radius);
+
+	if (isPlayerCollidingOrb)
+	{
+		Game::GetInstance()->UnregisterGameObject(this);
+		// TODO : Add experience to player
+	}
 }
