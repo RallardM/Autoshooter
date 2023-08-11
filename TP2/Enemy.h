@@ -60,4 +60,5 @@ private:
 	void TrackPlayer();
 	void Collision();
 	void VerifyHealth();
+	void GenerateXPOrb();
 };

@@ -14,5 +14,6 @@ enum class EGameObjectType : unsigned short int
 	ENEMY,
 	PROJECTILE,
 	WEAPON,
+	ORB,
 	COUNT
 };

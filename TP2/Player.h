@@ -18,7 +18,7 @@ private:
 	Vector2 m_direction = { 0.0f, 0.0f };
 	//EGameObjectType m_gameObjectType;
 
-	const float PLAYER_SPEED = 10.0f;
+	const float PLAYER_SPEED = 5.0f;
 
 
 	std::list<Weapon*> m_weapons;

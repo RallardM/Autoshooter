@@ -130,6 +130,7 @@
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Enumerations.h" />
+    <ClInclude Include="ExperienceOrb.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HandGun.h" />
@@ -141,6 +142,7 @@
   <ItemGroup>
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="ExperienceOrb.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HandGun.cpp" />

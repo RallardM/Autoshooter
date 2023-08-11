@@ -3,6 +3,7 @@
 #include "Weapon.h"
 #include "Game.h"
 #include <iostream>
+#include "ExperienceOrb.h"
 
 Enemy::Enemy()
 //: GameObject()
@@ -242,7 +243,7 @@ void Enemy::Collision()
 
 	if (isEnemyHitByProjctile)
 	{
-		m_health -= 10;
+		m_health -= 50;
 	}
 }
 
@@ -250,6 +251,13 @@ void Enemy::VerifyHealth()
 {
 	if (m_health <= 0)
 	{
+		GenerateXPOrb();
 		Game::GetInstance()->UnregisterGameObject(this);
 	}
+}
+
+void Enemy::GenerateXPOrb()
+{
+	ExperienceOrb* xpOrb = new ExperienceOrb(m_position);
+	xpOrb->OnStart();
 }
