@@ -27,11 +27,6 @@ Game* Game::GetInstance()
 Game::Game()
 {
 	m_player = new Player();
-	s_camera = new Camera2D();
-	s_camera->offset = { (float)WIDTH / 2, (float)HEIGHT / 2 };
-	s_camera->rotation = 0.0f;
-	s_camera->zoom = 0.8f;
-	m_deltatime = GetFrameTime();
 };
 
 /*
@@ -63,6 +58,13 @@ void Game::Initialize()
 {
 	// Setting the seed for random number generation
 	std::srand(std::time(NULL));
+
+	// Initializing the camera
+	s_camera = new Camera2D();
+	s_camera->offset = { (float)WIDTH / 2, (float)HEIGHT / 2 };
+	s_camera->rotation = 0.0f;
+	s_camera->zoom = 0.8f;
+	m_deltatime = GetFrameTime();
 
 	//-- Creation of Enemies between min and max
 	int enemyAmount = std::rand() % (MAX_ENEMY_AMOUNT - MIN_ENEMY_AMOUNT) + MIN_ENEMY_AMOUNT;
