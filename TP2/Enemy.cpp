@@ -3,7 +3,7 @@
 #include "Game.h"
 
 Enemy::Enemy()
-	//: GameObject()
+//: GameObject()
 {
 	// Position
 	Spawn();
@@ -27,7 +27,7 @@ Enemy::Enemy()
 }
 
 Enemy::Enemy(const float& x, const float& y, const bool& isDie)
-	//: GameObject(x, y, isDie)
+//: GameObject(x, y, isDie)
 {
 	// Position
 	Spawn();
@@ -49,7 +49,7 @@ Enemy::Enemy(const float& x, const float& y, const bool& isDie)
 }
 
 Enemy::Enemy(const float& x, const float& y, const int& width, const int& height, const bool& isDie)
-	//: GameObject(x, y, isDie)
+//: GameObject(x, y, isDie)
 {
 	// Position
 	Spawn();
@@ -101,23 +101,23 @@ void Enemy::Spawn()
 	{
 	case 0:
 		// Spawn left
-		randPosition.x = Game::GetCameraLeftLimit() - ENEMY_WIDTH; 
-		randPosition.y = cameraPosition.y; 
+		randPosition.x = Game::GetCameraLeftLimit() - ENEMY_WIDTH;
+		randPosition.y = cameraPosition.y;
 		break;
 	case 1:
 		// Spawn top
 		randPosition.x = cameraPosition.x;
-		randPosition.y = Game::GetCameraTopLimit() - ENEMY_HEIGHT; 
+		randPosition.y = Game::GetCameraTopLimit() - ENEMY_HEIGHT;
 		break;
 	case 2:
 		// Spawn right
-		randPosition.x = Game::GetCameraRightLimit() + ENEMY_WIDTH; 
-		randPosition.y = cameraPosition.y; 
+		randPosition.x = Game::GetCameraRightLimit() + ENEMY_WIDTH;
+		randPosition.y = cameraPosition.y;
 		break;
 	case 3:
 		// Spawn bottom
-		randPosition.x = cameraPosition.x; 
-		randPosition.y = Game::GetCameraBottomLimit() + ENEMY_HEIGHT; 
+		randPosition.x = cameraPosition.x;
+		randPosition.y = Game::GetCameraBottomLimit() + ENEMY_HEIGHT;
 		break;
 	default:
 		break;
@@ -153,18 +153,18 @@ void Enemy::Spawn()
 	m_position.y = randPosition.y;
 }
 
-void Enemy::Track(float& x, float& y)
-{
-	m_direction.x = x - m_position.x;
-	m_direction.y = y - m_position.y;
-
-	float magnitude = sqrtf(
-		(m_direction.x * m_direction.x) +
-		(m_direction.y * m_direction.y)
-	);
-	m_direction.x /= magnitude;
-	m_direction.y /= magnitude;
-}
+//void Enemy::TrackPlayer(float& x, float& y)
+//{
+//	m_direction.x = x - m_position.x;
+//	m_direction.y = y - m_position.y;
+//
+//	float magnitude = sqrtf(
+//		(m_direction.x * m_direction.x) +
+//		(m_direction.y * m_direction.y)
+//	);
+//	m_direction.x /= magnitude;
+//	m_direction.y /= magnitude;
+//}
 
 void Enemy::Update()
 {
@@ -197,6 +197,8 @@ void Enemy::Update()
 	//		//m_weapons[i]->Update(deltatime);
 	//	}
 	//}
+
+	TrackPlayer();
 }
 
 void Enemy::Render()
@@ -212,4 +214,18 @@ void Enemy::Render()
 	}
 	*/
 	DrawRectangle((int)m_boxCollider.m_left, (int)m_boxCollider.m_top, (int)m_width, (int)m_height, m_color);
+}
+
+void Enemy::TrackPlayer()
+{
+	Vector2 playerPosition = Game::GetPlayerPosition();
+	m_direction.x = playerPosition.x - m_position.x;
+	m_direction.y = playerPosition.y - m_position.y;
+
+	float magnitude = sqrtf(
+		(m_direction.x * m_direction.x) +
+		(m_direction.y * m_direction.y)
+	);
+	m_direction.x /= magnitude;
+	m_direction.y /= magnitude;
 }

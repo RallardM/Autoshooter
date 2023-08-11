@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "Game.h"
-#include "Player.h"
+
 #include "GameObject.h"
 #include "Projectile.h"
 
@@ -9,6 +9,7 @@ using namespace std;
 
 Game* Game::_Instance = 0;
 Camera2D* Game::s_camera = nullptr;
+Player* Game::m_player = nullptr;
 const float Game::S_MAP_WIDTH = 1601.0f;
 const float Game::S_MAP_HEIGHT = 1601.0f;
 

@@ -37,7 +37,7 @@ public:
 	// Inherited via Agent
 	void OnStart() override;
 	void Spawn();
-	void Track(float& x, float& y);
+	
 	void Update() override;
 	void Render() override;
 
@@ -47,5 +47,8 @@ private:
 	const float ENEMY_HEIGHT = 32.0f;
 	const float MAX_ENEMY_SPEED = 15.0f;
 	const float MIN_ENEMY_SPEED = 5.0f;
+
+private:
+	void TrackPlayer();
 
 };

@@ -4,6 +4,7 @@
 
 #include "raylib.h"
 #include "Enemy.h"
+#include "Player.h"
 
 class GameObject;
 class Player;
@@ -34,7 +35,7 @@ private:
 	const int MIN_ENEMY_AMOUNT = 8;
 	const int MAX_ENEMY_AMOUNT = 10;
 
-	Player* m_player;
+	static Player* m_player;
 	std::vector<Enemy*> m_gameObjectsEnemies;
 
 	// Static Camera permits target to have have class/struct/union/generic type
@@ -49,15 +50,20 @@ public:
 	void RegisterGameObject(GameObject* agent);
 	void UnregisterGameObject(GameObject* agent);
 	static void UpdateCameraPosition(Vector2 playerPosition);
+
+	// Map getters
 	static const float GetMapWidth() { return S_MAP_WIDTH; }
 	static const float GetMapHeight() { return S_MAP_HEIGHT; }
-	static float GetCameraHeight() { return S_CAMERA_HEIGHT / s_camera->zoom; }
-	static float GetCameraWidth() { return S_CAMERA_WIDTH / s_camera->zoom; }
+
+	// Camera getters
 	static float GetCameraLeftLimit() { return s_camera->target.x - (S_CAMERA_WIDTH / 2) / s_camera->zoom; }
 	static float GetCameraRightLimit() { return s_camera->target.x + (S_CAMERA_WIDTH / 2) / s_camera->zoom; }
 	static float GetCameraTopLimit() { return s_camera->target.y - (S_CAMERA_HEIGHT / 2) / s_camera->zoom; }
 	static float GetCameraBottomLimit() { return s_camera->target.y + (S_CAMERA_HEIGHT / 2) / s_camera->zoom; }
 	static Vector2 GetCameraPosition() { return s_camera->target; }
+
+	// Player getters
+	static Vector2 GetPlayerPosition() { return { m_player->m_position.x, m_player->m_position.y }; }
 
 private:
 	void MainLoop();
