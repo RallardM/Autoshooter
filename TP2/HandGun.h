@@ -10,6 +10,7 @@ public:
 
 class HandGun : public Weapon
 {
+	friend class Game;
 private:
 
 	float m_currentAttackTimer = 0.0f;
@@ -18,6 +19,7 @@ private:
 
 private:
 	virtual void Fire() override;
+
 public:
 	HandGun();
 

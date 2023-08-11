@@ -18,10 +18,20 @@ Game* Game::_Instance = 0;
 
 int main(void)
 {
-    Game* game = new Game();
+    Game* game = Game::GetInstance();
     game->StartGame();
-
+    game->CleanUpGame(); // TODO verify if it is propelry cleaning
+    delete game;
     return 0;
+}
+
+Game* Game::GetInstance()
+{
+    if (_Instance == nullptr || NULL)
+    {
+        _Instance = new Game();
+    }
+    return _Instance;
 }
 
 void Game::StartGame()
@@ -42,17 +52,14 @@ void Game::StartGame()
 
     // Initialize enemies
     int enemyAmount = std::rand() % (MAX_ENEMY_AMOUNT - MIN_ENEMY_AMOUNT) + MIN_ENEMY_AMOUNT;
-    for (int i = 0; i < enemyAmount; i++)// just for test 
+    for (int i = 0; i < enemyAmount; i++)
     {
         m_gameObjectsEnemies.emplace_back(new Enemy());
     }
 
-    if (!m_gameObjectsEnemies.empty())
+    for (Enemy* enemy : m_gameObjectsEnemies)
     {
-        for (int i = 0; i != m_gameObjectsEnemies.size(); ++i)
-        {
-            m_gameObjectsEnemies[i]->OnStart();
-        }
+        enemy->OnStart();
     }
 
     MainLoop();
@@ -73,6 +80,12 @@ void Game::UnregisterGameObject(GameObject* agent)
 void Game::UpdateCameraPosition(Vector2 playerPosition)
 {
     _Instance->m_camera->target = { playerPosition.x, playerPosition.y };
+}
+
+void Game::CleanUpGame()
+{
+    CleanupGameObjects();
+    // TODO : Clean up other resources
 }
 
 void Game::MainLoop()
@@ -173,4 +186,38 @@ void Game::RemoveAgentsMarkedForRemoval()
     }
     m_gameObjectsToRemove.clear();
     m_gameObjectsToRemove.resize(0);
+}
+
+void Game::CleanupGameObjects()
+{
+    // Delete and remove objects from m_gameObjects
+    for (GameObject* obj : m_gameObjectsToRemove)
+    {
+        m_gameObjects.remove(obj);
+        delete obj;
+    }
+    m_gameObjectsToRemove.clear();
+
+    // Delete and remove enemies from m_gameObjectsEnemies
+    for (Enemy* enemy : m_gameObjectsEnemies)
+    {
+        m_gameObjects.remove(enemy); // Make sure you remove from this list as well
+        delete enemy;
+    }
+    m_gameObjectsEnemies.clear();
+
+    // Delete and remove projectiles from m_gameObjectsProjectiles
+    for (Projectile* projectile : m_gameObjectsProjectiles)
+    {
+        m_gameObjects.remove(projectile); // Make sure you remove from this list as well
+        delete projectile;
+    }
+    m_gameObjectsProjectiles.clear();
+
+    for (GameObject* obj : m_gameObjects)
+    {
+		delete obj;
+	}
+
+    // TODO : verify and add any new list of objects to clean up here (Player, Weapons)
 }

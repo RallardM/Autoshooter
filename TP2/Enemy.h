@@ -10,8 +10,8 @@ class Enemy : public GameObject
 	friend class Game;
 public:
 	Enemy();
-	Enemy(const float&, const float&, const bool&);
-	Enemy(const float&, const float&, const int&, const int&, const bool&);
+	//Enemy(const float&, const float&, const bool&);
+	//Enemy(const float&, const float&, const int&, const int&, const bool&);
 	~Enemy();
 
 public:
@@ -51,5 +51,6 @@ private:
 
 private:
 	void TrackPlayer();
+	void Collision();
 
 };

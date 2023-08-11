@@ -1,5 +1,6 @@
 #pragma once
 #include "raylib.h"
+#include "Enumerations.h"
 
 /*
 Toutes les classes de votre jeu ayant une représentation physique
@@ -22,6 +23,7 @@ protected:
 	//float m_posY = 0.0f;
 	
 	Vector2 m_position = { 0.0f, 0.0f };
+	//EGameObjectType m_gameObjectType = EGameObjectType::COUNT;
 	
 public:
 	virtual void OnStart() = 0;

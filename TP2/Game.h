@@ -14,10 +14,8 @@ class Game
 	static Game* _Instance;
 
 public:
-	static Game* GetInstance() { return _Instance; } //Not a real singleton written like this
-	//This should be adressed
-
-public:
+	//Game(const Game& obj) = delete; // Constructor for singleton pattern
+	static Game* GetInstance();
 
 
 private:
@@ -36,7 +34,8 @@ private:
 	const int MAX_ENEMY_AMOUNT = 10;
 
 	Player* m_player;
-	std::vector<Enemy*> m_gameObjectsEnemies;
+	std::list<Enemy*> m_gameObjectsEnemies;
+	std::list<Projectile*> m_gameObjectsProjectiles;
 	Camera2D* m_camera;
 
 	std::list<GameObject*> m_gameObjects;
@@ -65,12 +64,18 @@ public:
 	static Vector2 GetPlayerPosition() { return { _Instance->m_player->m_position.x, _Instance->m_player->m_position.y }; }
 
 	// Ennemies getters
-	static std::vector<Enemy*> GetEnemies() { return _Instance->m_gameObjectsEnemies; }
+	static std::list<Enemy*> GetEnemies() { return _Instance->m_gameObjectsEnemies; }
+
+	static void AddProjectileToList(Projectile* projectile) { _Instance->m_gameObjectsProjectiles.emplace_back(projectile); };
+
+	void CleanUpGame();
 
 private:
+	Game() {} // Private constructor for singleton pattern
 	void MainLoop();
 	void RenderBackground();
 	void UpdateGameObjects();
 	void RenderGameObjects();
 	void RemoveAgentsMarkedForRemoval();
+	void CleanupGameObjects();
 };

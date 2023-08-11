@@ -9,6 +9,7 @@
 //Projectile::Projectile(Vector2 origin, float xSpeed, float ySpeed, float size, float lifetime)
 Projectile::Projectile(Vector2 origin, float size, float speed, float lifetime)
 {
+	//m_gameObjectType = EGameObjectType::PROJECTILE;
 	m_position = origin;
 	m_currentLifetime = lifetime;
 	m_radius = size;

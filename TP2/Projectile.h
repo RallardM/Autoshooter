@@ -3,7 +3,6 @@
 
 #include "GameObject.h"
 #include "BoxCollider.h"
-#include "Enumerations.h"
 #include "Enemy.h"
 
 class Projectile : public GameObject

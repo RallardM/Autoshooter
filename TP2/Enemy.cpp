@@ -5,6 +5,7 @@
 Enemy::Enemy()
 //: GameObject()
 {
+	//m_gameObjectType = EGameObjectType::ENEMY;
 	// Position
 	Spawn();
 	m_direction = { 0.0f, 0.0f };
@@ -26,49 +27,49 @@ Enemy::Enemy()
 	//m_weapons.emplace_back(new ExplosiveGun(m_position.x, m_position.y));
 }
 
-Enemy::Enemy(const float& x, const float& y, const bool& isDie)
-//: GameObject(x, y, isDie)
-{
-	// Position
-	Spawn();
-	m_direction = { 0.0f, 0.0f };
-	m_speed = MIN_ENEMY_SPEED;
-
-	// Dimension
-	m_width = ENEMY_WIDTH;
-	m_height = ENEMY_HEIGHT;
-
-	// BoxCollider
-	m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
-	// OldBoxCollider
-	m_oldBoxCollider = m_boxCollider;
-
-	m_isCollide = false;
-
-	//m_weapons.emplace_back(new ExplosiveGun(m_position.x, m_position.y));
-}
-
-Enemy::Enemy(const float& x, const float& y, const int& width, const int& height, const bool& isDie)
-//: GameObject(x, y, isDie)
-{
-	// Position
-	Spawn();
-	m_direction = { 0.0f, 0.0f };
-	m_speed = MIN_ENEMY_SPEED;
-
-	// Dimension
-	m_width = ENEMY_WIDTH;
-	m_height = ENEMY_HEIGHT;
-
-	// BoxCollider
-	m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
-	// OldBoxCollider
-	m_oldBoxCollider = m_boxCollider;
-
-	m_isCollide = false;
-
-	//m_weapons.emplace_back(new ExplosiveGun(m_position.x, m_position.y));
-}
+//Enemy::Enemy(const float& x, const float& y, const bool& isDie)
+////: GameObject(x, y, isDie)
+//{
+//	// Position
+//	Spawn();
+//	m_direction = { 0.0f, 0.0f };
+//	m_speed = MIN_ENEMY_SPEED;
+//
+//	// Dimension
+//	m_width = ENEMY_WIDTH;
+//	m_height = ENEMY_HEIGHT;
+//
+//	// BoxCollider
+//	m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
+//	// OldBoxCollider
+//	m_oldBoxCollider = m_boxCollider;
+//
+//	m_isCollide = false;
+//
+//	//m_weapons.emplace_back(new ExplosiveGun(m_position.x, m_position.y));
+//}
+//
+//Enemy::Enemy(const float& x, const float& y, const int& width, const int& height, const bool& isDie)
+////: GameObject(x, y, isDie)
+//{
+//	// Position
+//	Spawn();
+//	m_direction = { 0.0f, 0.0f };
+//	m_speed = MIN_ENEMY_SPEED;
+//
+//	// Dimension
+//	m_width = ENEMY_WIDTH;
+//	m_height = ENEMY_HEIGHT;
+//
+//	// BoxCollider
+//	m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
+//	// OldBoxCollider
+//	m_oldBoxCollider = m_boxCollider;
+//
+//	m_isCollide = false;
+//
+//	//m_weapons.emplace_back(new ExplosiveGun(m_position.x, m_position.y));
+//}
 
 
 Enemy::~Enemy()
@@ -228,4 +229,20 @@ void Enemy::TrackPlayer()
 	);
 	m_direction.x /= magnitude;
 	m_direction.y /= magnitude;
+}
+
+void Enemy::Collision()
+{
+	//// Check for collision with projectiles
+	//std::list<Projectile*>::iterator it;
+	//for (it = Game::m_projectiles.begin(); it != Game::m_projectiles.end(); ++it)
+	//{
+	//	if (m_boxCollider.IsColliding((*it)->m_boxCollider))
+	//	{
+	//		//m_isCollide = true;
+	//		//(*it)->m_isCollide = true;
+	//		//(*it)->m_isActive = false;
+	//		//(*it)->m_boxCollider.m_isActive
+	//	}
+	//}
 }

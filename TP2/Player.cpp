@@ -9,6 +9,7 @@ Player::Player()
 {
 	// Position
 	m_direction = { 0.0f, 0.0f };
+	//m_gameObjectType = EGameObjectType::PLAYER;
 	//m_speed = PLAYER_SPEED;
 
 	//// Dimension
