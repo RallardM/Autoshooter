@@ -3,7 +3,7 @@
 
 #include "GameObject.h"
 #include "BoxCollider.h"
-#include "Weapon.h"
+#include "Enumerations.h"
 
 class Projectile : public GameObject
 {
@@ -22,7 +22,7 @@ private:
 	//BoxCollider m_previousBoxCollider;
 
 public:
-	//Projectile(Vector2 origin, float xSpeed, float ySpeed, float size, float lifetime);
+	
 	Projectile(Vector2 origin, float size, float speed, float lifetime);
 	~Projectile();
 
@@ -36,9 +36,9 @@ public:
 struct SHandGunProjectileData
 {
 public:
-	const float RADIUS = 5.0f;
-	const float LIFETIME = 2.0f;
-	const float DAMAGE = 10.0f;
-	const float SPEED = 200.0f;
-	const EWeaponType WEAPON_TYPE = EWeaponType::HAND_GUN;
+	float RADIUS = 5.0f;
+	float LIFETIME = 2.0f;
+	float DAMAGE = 10.0f;
+	float SPEED = 20.0f;
+	EWeaponType WEAPON_TYPE = EWeaponType::HAND_GUN;
 };

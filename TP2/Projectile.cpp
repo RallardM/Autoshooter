@@ -5,17 +5,27 @@
 #include <iostream>
 
 //Projectile::Projectile(Vector2 origin, float xSpeed, float ySpeed, float size, float lifetime)
-Projectile::Projectile(Vector2 origin, float speed, float size, float lifetime)
+Projectile::Projectile(Vector2 origin, float size, float speed, float lifetime)
 {
 	m_position = origin;
 	m_currentLifetime = lifetime;
 
-	// Normalize the direction of the projectile
-	m_xSpeed = xSpeed * 2 * rand() / RAND_MAX - xSpeed; //This is not the correct formula
-	m_ySpeed = ySpeed * 2 * rand() / RAND_MAX - ySpeed; //TODO: Change so that the speed is constant
-	float magnitude = sqrtf((xSpeed * xSpeed) + (ySpeed * ySpeed));
-	m_xSpeed /= magnitude;
-	m_ySpeed /= magnitude;
+	// Calculate the magnitude of the speed vector
+	float speedMagnitude = sqrt(speed * speed + speed * speed);
+
+	// Generate a random angle
+	float randomRadianAngle = static_cast<float>(rand()) / RAND_MAX;
+	const float FULL_CIRCLE = 2.0f * PI;
+	float randomAngle = FULL_CIRCLE * randomRadianAngle;
+
+	// Calculate new normalized speed values with the same magnitude
+	m_xSpeed = speedMagnitude * cos(randomAngle);
+	m_ySpeed = speedMagnitude * sin(randomAngle);
+
+	//// Normalize the direction of the projectile
+	//m_xSpeed = xSpeed * 2 * rand() / RAND_MAX - xSpeed; //This is not the correct formula
+	//m_ySpeed = ySpeed * 2 * rand() / RAND_MAX - ySpeed; //TODO: Change so that the speed is constant
+
 
 	m_radius = size;
 	m_color = WHITE;

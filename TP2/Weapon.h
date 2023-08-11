@@ -27,6 +27,9 @@
 //};
 //
 
+
+
+
 class Weapon : public GameObject
 {
 	friend class Player;
@@ -54,11 +57,4 @@ private:
 	virtual void Update() = 0;
 	void FollowPosition(Vector2 newPosition);
 	virtual void Render() = 0;
-};
-
-enum class EWeaponType : unsigned short int
-{
-	HAND_GUN,
-	EXPLOSIVE_GUN,
-	LAZER_GUN,
 };
