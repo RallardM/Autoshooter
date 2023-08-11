@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <list>
 #include <vector>
-
+#include "raylib.h"
 class GameObject;
 class Player;
 class Enemy;
@@ -12,7 +12,9 @@ class Game
 private: 
 	// Private member
 	static Game* s_instance;
+	static Camera2D* s_camera;
 	float m_deltatime;
+
 	// Private constructor make sure it can't be called to create an instance
 	Game();
 public:
@@ -23,11 +25,9 @@ public:
 
 	~Game();
 
-
 public:
 	static bool s_gameRunning;
 
-public:
 	Player* m_player;
 	// List that contain all the game object instanciate
 	std::list<GameObject*> m_gameObjects;
@@ -47,5 +47,5 @@ public:
 	void Run();
 	void RegisterGameObjects(GameObject* gameObject);
 	void UnregisterGameObjects(GameObject* gameObject);
-
+	static void UpdateCameraPosition(Vector2 playerPosition);
 };

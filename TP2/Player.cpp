@@ -6,6 +6,9 @@ Player::Player()
 	: GameObject()
 {
 	// Position
+	m_position.x = (float)MAP_WIDTH / 2;
+	m_position.y = (float)MAP_HEIGHT / 2;
+
 	m_direction = { 0.0f, 0.0f };	
 	m_speed = PLAYER_SPEED;
 
@@ -165,6 +168,9 @@ void Player::HandleInput()
 
 void Player::Update(float deltatime)
 {
+	// Update camera position to player position
+	Game::UpdateCameraPosition(m_position);
+
 	// Update OldBoxCollider
 	m_oldBoxCollider = m_boxCollider;
 

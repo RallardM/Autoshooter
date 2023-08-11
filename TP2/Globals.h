@@ -19,6 +19,15 @@ const int HEIGHT = 720; // default value pick by Maxime would be 800 pixel
 const Vector2 SCREEN_CENTER_POINT = { WIDTH * 0.5f , HEIGHT * 0.5f};
 const int UPS = 60;
 
+// Map dimensions
+const float MAP_WIDTH = 1601.0f;
+const float MAP_HEIGHT = 1601.0f;
+
+// Background grid dimensions
+const float CELL_SIZE = 16.0f;
+const float COLUMN_COUNT = MAP_WIDTH / CELL_SIZE;
+const float ROW_COUNT = MAP_HEIGHT / CELL_SIZE;
+
 const int MIN_ENEMY_AMOUNT = 8;
 const int MAX_ENEMY_AMOUNT = 10;
 
