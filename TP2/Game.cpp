@@ -1,9 +1,12 @@
 #include <iostream>
-
+#include <raylib.h>
 #include "Game.h"
 
 #include "GameObject.h"
 #include "Projectile.h"
+#include "MathUtils.h"
+
+
 
 using namespace std;
 
@@ -54,13 +57,14 @@ void Game::StartGame()
     int enemyAmount = std::rand() % (MAX_ENEMY_AMOUNT - MIN_ENEMY_AMOUNT) + MIN_ENEMY_AMOUNT;
     for (int i = 0; i < enemyAmount; i++)
     {
-        m_gameObjectsEnemies.emplace_back(new Enemy());
+        RegisterGameObject(new Enemy());
+        //m_gameObjectsEnemies.emplace_back(new Enemy());
     }
 
-    for (Enemy* enemy : m_gameObjectsEnemies)
-    {
-        enemy->OnStart();
-    }
+    //for (Enemy* enemy : m_gameObjectsEnemies)
+    //{
+    //    enemy->OnStart();
+    //}
 
     MainLoop();
 }
@@ -80,6 +84,47 @@ void Game::UnregisterGameObject(GameObject* agent)
 void Game::UpdateCameraPosition(Vector2 playerPosition)
 {
     _Instance->m_camera->target = { playerPosition.x, playerPosition.y };
+}
+
+GameObject* Game::GetClosestGameObject(Vector2 position, EGameObjectType type)
+{
+    GameObject* closest = nullptr;
+	float closestDistance = 0.f;
+
+    for (GameObject* agent : _Instance->m_gameObjects)
+    {
+        if (agent->GetGameObjectType() == type)
+        {
+			float distance = Vector2Distance(position, agent->GetPosition());
+            if (closest == nullptr || distance < closestDistance)
+            {
+				closest = agent;
+				closestDistance = distance;
+			}
+		}
+	}
+
+	return closest;
+}
+
+bool Game::AreEnemyProjectileColliding(Rectangle enemy)
+{
+    for (GameObject* gameObject : _Instance->m_gameObjects)
+    {
+        if (gameObject->GetGameObjectType() == EGameObjectType::PROJECTILE)
+        {
+            Projectile* projectile = dynamic_cast<Projectile*>(gameObject);
+            Vector2 projectilePosition = projectile->GetPosition();
+            float projectileRadius = projectile->GetRadius();
+
+            bool IsEnemyHitByProjectile = CheckCollisionCircleRec(projectilePosition, projectileRadius, enemy);
+            if (IsEnemyHitByProjectile)
+            {
+				return true;
+			}
+		}
+	}
+    return false;
 }
 
 void Game::CleanUpGame()
@@ -161,7 +206,7 @@ void Game::UpdateGameObjects()
         i->Update();
     }
     
-    RemoveAgentsMarkedForRemoval();
+    RemoveGameObjectsMarkedForRemoval();
 }
 
 void Game::RenderGameObjects()
@@ -175,8 +220,8 @@ void Game::RenderGameObjects()
 }
 
 //Complicated way of removing agents, only to be sure that we do it AFTER
-    //updating every agent in a frame
-void Game::RemoveAgentsMarkedForRemoval()
+    //updating every gameObject in a frame
+void Game::RemoveGameObjectsMarkedForRemoval()
 {
     for (int i = 0; i < m_gameObjectsToRemove.size(); i++)
     {
@@ -198,21 +243,21 @@ void Game::CleanupGameObjects()
     }
     m_gameObjectsToRemove.clear();
 
-    // Delete and remove enemies from m_gameObjectsEnemies
-    for (Enemy* enemy : m_gameObjectsEnemies)
-    {
-        m_gameObjects.remove(enemy); // Make sure you remove from this list as well
-        delete enemy;
-    }
-    m_gameObjectsEnemies.clear();
+    //// Delete and remove enemies from m_gameObjectsEnemies
+    //for (Enemy* enemy : m_gameObjectsEnemies)
+    //{
+    //    m_gameObjects.remove(enemy); // Make sure you remove from this list as well
+    //    delete enemy;
+    //}
+    //m_gameObjectsEnemies.clear();
 
     // Delete and remove projectiles from m_gameObjectsProjectiles
-    for (Projectile* projectile : m_gameObjectsProjectiles)
-    {
-        m_gameObjects.remove(projectile); // Make sure you remove from this list as well
-        delete projectile;
-    }
-    m_gameObjectsProjectiles.clear();
+    //for (Projectile* projectile : m_gameObjectsProjectiles)
+    //{
+    //    m_gameObjects.remove(projectile); // Make sure you remove from this list as well
+    //    delete projectile;
+    //}
+    //m_gameObjectsProjectiles.clear();
 
     for (GameObject* obj : m_gameObjects)
     {

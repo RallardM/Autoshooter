@@ -56,5 +56,10 @@ private:
 	virtual void OnStart() = 0;
 	virtual void Update() = 0;
 	void FollowPosition(Vector2 newPosition);
+	
 	virtual void Render() = 0;
+
+protected:
+	virtual const Vector2& GetPosition() const = 0;
+	virtual const EGameObjectType GetGameObjectType() const = 0;
 };

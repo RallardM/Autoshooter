@@ -34,8 +34,8 @@ private:
 	const int MAX_ENEMY_AMOUNT = 10;
 
 	Player* m_player;
-	std::list<Enemy*> m_gameObjectsEnemies;
-	std::list<Projectile*> m_gameObjectsProjectiles;
+	//std::list<Enemy*> m_gameObjectsEnemies;
+	//std::list<Projectile*> m_gameObjectsProjectiles;
 	Camera2D* m_camera;
 
 	std::list<GameObject*> m_gameObjects;
@@ -53,29 +53,37 @@ public:
 	static const float GetMapHeight() { return _Instance->S_MAP_HEIGHT; }
 
 	// Camera getters
-	static float GetCameraLeftLimit() { return _Instance->m_camera->target.x - (_Instance->CAMERA_WIDTH / 2) / _Instance->m_camera->zoom; }
-	static float GetCameraRightLimit() { return _Instance->m_camera->target.x + (_Instance->CAMERA_WIDTH / 2) / _Instance->m_camera->zoom; }
-	static float GetCameraTopLimit() { return _Instance->m_camera->target.y - (_Instance->CAMERA_HEIGHT / 2) / _Instance->m_camera->zoom; }
-	static float GetCameraBottomLimit() { return _Instance->m_camera->target.y + (_Instance->CAMERA_HEIGHT / 2) / _Instance->m_camera->zoom; }
+	static const float GetCameraLeftLimit() { return _Instance->m_camera->target.x - (_Instance->CAMERA_WIDTH / 2) / _Instance->m_camera->zoom; }
+	static const float GetCameraRightLimit() { return _Instance->m_camera->target.x + (_Instance->CAMERA_WIDTH / 2) / _Instance->m_camera->zoom; }
+	static const float GetCameraTopLimit() { return _Instance->m_camera->target.y - (_Instance->CAMERA_HEIGHT / 2) / _Instance->m_camera->zoom; }
+	static const float GetCameraBottomLimit() { return _Instance->m_camera->target.y + (_Instance->CAMERA_HEIGHT / 2) / _Instance->m_camera->zoom; }
 	static Vector2 GetCameraPosition() { return _Instance->m_camera->target; }
 	static bool IsWithinCameraBounds(Vector2 position) { return position.x >= GetCameraLeftLimit() && position.x <= GetCameraRightLimit() && position.y >= GetCameraTopLimit() && position.y <= GetCameraBottomLimit(); }
 
 	// Player getters
 	static Vector2 GetPlayerPosition() { return { _Instance->m_player->m_position.x, _Instance->m_player->m_position.y }; }
 
-	// Ennemies getters
-	static std::list<Enemy*> GetEnemies() { return _Instance->m_gameObjectsEnemies; }
+	// Game objects getter
+	static std::list<GameObject*> GetGameObjects() { return _Instance->m_gameObjects; }
 
-	static void AddProjectileToList(Projectile* projectile) { _Instance->m_gameObjectsProjectiles.emplace_back(projectile); };
+	// Ennemies getters
+	//static std::list<Enemy*> GetEnemies() { return _Instance->m_gameObjectsEnemies; }
+
+	// Projectiles getters setters
+	//static void AddProjectileToList(Projectile* projectile) { _Instance->m_gameObjectsProjectiles.emplace_back(projectile); };
+	//static std::list<Projectile*> GetProjectiles() { return _Instance->m_gameObjectsProjectiles; }
+
+	static GameObject* GetClosestGameObject(Vector2 position, EGameObjectType type);
+	static bool AreEnemyProjectileColliding(Rectangle enemy);
 
 	void CleanUpGame();
 
 private:
-	Game() {} // Private constructor for singleton pattern
+	Game() : m_camera(nullptr), m_player(nullptr) {} // Private constructor for singleton pattern
 	void MainLoop();
 	void RenderBackground();
 	void UpdateGameObjects();
 	void RenderGameObjects();
-	void RemoveAgentsMarkedForRemoval();
+	void RemoveGameObjectsMarkedForRemoval();
 	void CleanupGameObjects();
 };

@@ -1,6 +1,8 @@
+
 #include "Enemy.h"
 #include "Weapon.h"
 #include "Game.h"
+#include <iostream>
 
 Enemy::Enemy()
 //: GameObject()
@@ -13,12 +15,12 @@ Enemy::Enemy()
 
 
 	// Dimension
-	m_width = ENEMY_WIDTH;
-	m_height = ENEMY_HEIGHT;
+	//m_width = ENEMY_WIDTH;
+	//m_height = ENEMY_HEIGHT;
 
 
 	// BoxCollider
-	m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
+	m_boxCollider = BoxCollider(m_position.x, m_position.y, ENEMY_WIDTH, ENEMY_HEIGHT);
 	// OldBoxCollider
 	m_oldBoxCollider = m_boxCollider;
 
@@ -200,6 +202,7 @@ void Enemy::Update()
 	//}
 
 	TrackPlayer();
+	Collision();
 }
 
 void Enemy::Render()
@@ -214,7 +217,7 @@ void Enemy::Render()
 		}
 	}
 	*/
-	DrawRectangle((int)m_boxCollider.m_left, (int)m_boxCollider.m_top, (int)m_width, (int)m_height, m_color);
+	DrawRectangle((int)m_boxCollider.m_left, (int)m_boxCollider.m_top, (int)ENEMY_WIDTH, (int)ENEMY_HEIGHT, m_color);
 }
 
 void Enemy::TrackPlayer()
@@ -233,16 +236,11 @@ void Enemy::TrackPlayer()
 
 void Enemy::Collision()
 {
-	//// Check for collision with projectiles
-	//std::list<Projectile*>::iterator it;
-	//for (it = Game::m_projectiles.begin(); it != Game::m_projectiles.end(); ++it)
-	//{
-	//	if (m_boxCollider.IsColliding((*it)->m_boxCollider))
-	//	{
-	//		//m_isCollide = true;
-	//		//(*it)->m_isCollide = true;
-	//		//(*it)->m_isActive = false;
-	//		//(*it)->m_boxCollider.m_isActive
-	//	}
-	//}
+	Rectangle enemyRect = { m_position.x, m_position.y, ENEMY_WIDTH, ENEMY_HEIGHT };
+	bool isEnemyHitByProjctile = Game::AreEnemyProjectileColliding(enemyRect);
+
+	if (isEnemyHitByProjctile)
+	{
+		std::cout << "Enemy Hit by Projectile" << std::endl;
+	}
 }

@@ -8,11 +8,11 @@ enum class EWeaponType : unsigned short int
 	COUNT
 };
 
-//enum class EGameObjectType : unsigned short int
-//{
-//	PLAYER,
-//	ENEMY,
-//	PROJECTILE,
-//	WEAPON,
-//	COUNT
-//};
+enum class EGameObjectType : unsigned short int
+{
+	PLAYER,
+	ENEMY,
+	PROJECTILE,
+	WEAPON,
+	COUNT
+};

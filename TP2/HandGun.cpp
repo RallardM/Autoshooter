@@ -9,8 +9,9 @@ void HandGun::Fire()
 		m_weaponInfos.m_projectileInfos.RADIUS,
 		m_weaponInfos.m_projectileInfos.SPEED,
 		m_weaponInfos.m_projectileInfos.LIFETIME);
-	Game::AddProjectileToList(projectile);
+	
 	projectile->OnStart();
+	//Game::AddProjectileToList(projectile);
 }
 
 HandGun::HandGun()

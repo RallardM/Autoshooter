@@ -19,8 +19,9 @@ public:
 	float m_speed = 0.0f;
 
 	// Dimension
-	float m_width = 0;
-	float m_height = 0;
+	//float m_width = 0;
+	//float m_height = 0;
+	
 
 
 	// BoxCollider
@@ -32,8 +33,8 @@ public:
 	bool m_isCollide = false;
 
 	std::vector<Weapon*> m_weapons;
+	//EGameObjectType m_gameObjectType;
 public:
-	const Vector2& GetPosition() const { return m_position; }
 
 	// Inherited via Agent
 	void OnStart() override;
@@ -41,16 +42,18 @@ public:
 	
 	void Update() override;
 	void Render() override;
+	virtual const Vector2& GetPosition() const override { return m_position; }
+	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::ENEMY; }
 
 private:
 	// Enemy default parameter
 	const float ENEMY_WIDTH = 32.0f;
 	const float ENEMY_HEIGHT = 32.0f;
+	
 	const float MAX_ENEMY_SPEED = 15.0f;
 	const float MIN_ENEMY_SPEED = 5.0f;
 
 private:
 	void TrackPlayer();
 	void Collision();
-
 };
