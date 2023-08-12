@@ -63,6 +63,9 @@ Projectile::~Projectile()
 void Projectile::OnStart()
 {
 	GameObject::OnStart();
+
+	// Add attributes before m_isActive = true;
+	m_isActive = true;
 }
 
 void Projectile::Update()
@@ -72,6 +75,7 @@ void Projectile::Update()
 	m_currentLifetime -= GetFrameTime();
 	if (m_currentLifetime < 0)
 	{
+		Reset();
 		Game::GetInstance()->UnregisterGameObject(this);
 	}
 }
@@ -79,4 +83,11 @@ void Projectile::Update()
 void Projectile::Render()
 {
 	DrawCircleV(m_position, m_radius, m_color);
+}
+
+void Projectile::Reset()
+{
+
+	// Reset everything before m_isActive = false; in GameObject::Reset();
+	GameObject::Reset();
 }

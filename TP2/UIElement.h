@@ -9,11 +9,14 @@ public:
 	UIElement(GameObject* targetEntity, EUIElementType uitype, Color color, Vector2 size, Vector2 offset, float value);
 	virtual void OnStart() override;
 	void FollowPosition(Vector2 newPosition);
+	virtual void Reset() override; // TODO check how to make it private, less spaghetti
 
 private:
 	// Inherited via GameObject
 	virtual void Update() override;
 	virtual void Render() override;
+	
+
 	void RenderProgressBar();
 	void UpdateProgressBar();
 	void UpdateRegressBar();

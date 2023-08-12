@@ -20,6 +20,7 @@ private:
 
 private:
 	virtual void Fire() override;
+	virtual void Reset() override;
 	
 public:
 	HandGun();

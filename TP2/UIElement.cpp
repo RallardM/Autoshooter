@@ -15,11 +15,21 @@ UIElement::UIElement(GameObject* targetEntity, EUIElementType uitype, Color colo
 void UIElement::OnStart()
 {
 	GameObject::OnStart();
+
+	// Add attributes before m_isActive = true;
+	m_isActive = true;
 }
 
 void UIElement::FollowPosition(Vector2 newPosition)
 {
 	m_position = { newPosition.x + m_offset.x, newPosition.y + m_offset.y };
+}
+
+void UIElement::Reset()
+{
+
+	// Reset everything before m_isActive = false; in GameObject::Reset();
+	GameObject::Reset();
 }
 
 void UIElement::Update()
@@ -61,6 +71,8 @@ void UIElement::Render()
 		break;
 	}
 }
+
+
 
 void UIElement::RenderProgressBar()
 {

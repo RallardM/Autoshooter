@@ -12,6 +12,13 @@ void HandGun::Fire()
 	projectile->OnStart();
 }
 
+void HandGun::Reset()
+{
+
+	// Reset everything before m_isActive = false; in GameObject::Reset();
+	GameObject::Reset();
+}
+
 HandGun::HandGun()
 {
 	// TODO Remi : 
@@ -21,6 +28,9 @@ void HandGun::OnStart()
 {
 	GameObject::OnStart();
 	m_weaponInfos.m_projectileInfos = SHandGunProjectileData();
+	
+	// Add attributes before m_isActive = true;
+	m_isActive = true;
 }
 
 void HandGun::Update()

@@ -12,7 +12,7 @@ class Player;
 class Game
 {
 public:
-	//Game(const Game& obj) = delete; // Constructor for singleton pattern
+	~Game();
 	static Game* GetInstance();
 
 private:
@@ -31,9 +31,10 @@ private:
 	const int MIN_ENEMY_AMOUNT = 5;
 	const int MAX_ENEMY_AMOUNT = 10;
 
-	Player* m_player;
-	Camera2D* m_camera;
+	Player* m_player = nullptr;
+	Camera2D* m_camera = nullptr;
 
+	std::list <Enemy*> m_enemyPool;
 	std::list<GameObject*> m_gameObjects;
 	std::vector<GameObject*> m_gameObjectsToRemove;
 
@@ -62,6 +63,7 @@ public:
 
 	// Entities getters
 	const unsigned short int GetEntityHealth(GameObject* entity) const;
+	void ReturnEnemyToPool(Enemy* enemy);
 
 	// Game objects getter
 	std::list<GameObject*> GetGameObjects() { return m_gameObjects; }
@@ -74,7 +76,7 @@ public:
 	void CleanUpGame();
 
 private:
-	Game() : m_camera(nullptr), m_player(nullptr) {} // Private constructor for singleton pattern
+	Game() {} // Private constructor for singleton pattern
 	void MainLoop();
 	void RenderBackground();
 	void UpdateGameObjects();

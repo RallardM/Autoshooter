@@ -19,6 +19,33 @@ int main(void)
     return 0;
 }
 
+Game::~Game()
+{
+    delete m_player;
+	delete m_camera;
+    
+    for (Enemy* enemy : m_enemyPool)
+    {
+		delete enemy;
+	}
+
+    m_enemyPool.clear();
+
+    for (GameObject* agent : m_gameObjects)
+    {
+		delete agent;
+	}
+
+	m_gameObjects.clear();
+
+    for (GameObject* agent : m_gameObjectsToRemove)
+    {
+		delete agent;
+	}
+
+	m_gameObjectsToRemove.clear();
+}
+
 Game* Game::GetInstance()
 {
     if (_Instance == nullptr || NULL)
@@ -43,6 +70,12 @@ void Game::StartGame()
     m_camera->offset = { (float)CAMERA_WIDTH / 2, (float)CAMERA_HEIGHT / 2 };
     m_camera->rotation = 0.0f;
     m_camera->zoom = 0.8f;
+
+    // Initialize enemies pool
+    for (int i = 0; i < MAX_ENEMY_AMOUNT; i++)
+    {
+        m_enemyPool.push_back(new Enemy());
+	}
 
     MainLoop();
 }
@@ -82,6 +115,12 @@ const unsigned short int Game::GetEntityHealth(GameObject* entity) const
 			return 0;
 			break;
     }
+}
+
+void Game::ReturnEnemyToPool(Enemy* enemy)
+{
+    enemy->Reset();
+	m_enemyPool.push_back(enemy);
 }
 
 GameObject* Game::GetClosestGameObject(Vector2 position, EGameObjectType type)
@@ -230,12 +269,32 @@ void Game::UpdateGameObjects()
 
     if (enemiesCount < MAX_ENEMY_AMOUNT)
     {
-		RegisterGameObject(new Enemy());
-	}
+        // Find an available enemy from the pool
+        Enemy* enemy = nullptr;
+        for (Enemy* poolEnemy : m_enemyPool)
+        {
+            if (!poolEnemy->IsActive())
+            {
+                enemy = poolEnemy;
+                break;
+            }
+        }
+
+        if (enemy)
+        {
+            RegisterGameObject(enemy);
+            enemy->OnStart();
+        }
+    }
 
     for (auto const& i : m_gameObjects) 
     {
         if (i == NULL) {continue;}
+
+        if (i->IsActive() == false)
+        {
+            continue;
+        }
 
         //Issue now is that I remove elements in the Update during the for loop
         i->Update();
@@ -251,7 +310,7 @@ unsigned short int Game::GetObjectOfTypeCountFromList(EGameObjectType type)
     {
 		if (i == NULL) { continue; }
 
-        if (i->GetGameObjectType() == type)
+        if (i->GetGameObjectType() == type && i->IsActive())
         {
 			count++;
 		}
@@ -266,6 +325,11 @@ void Game::RenderGameObjects()
     {
         if (i == NULL) { continue; }
 
+        if (i->IsActive() == false)
+        {
+            continue;
+        }
+
         i->Render();
     }
 }
@@ -276,6 +340,8 @@ void Game::RemoveGameObjectsMarkedForRemoval()
 {
     for (int i = 0; i < m_gameObjectsToRemove.size(); i++)
     {
+        EGameObjectType type = m_gameObjectsToRemove[i]->GetGameObjectType(); // TODO delete after debug
+        bool isActive = m_gameObjectsToRemove[i]->IsActive(); // TODO delete after debug
         m_gameObjects.remove(m_gameObjectsToRemove[i]);
         delete(m_gameObjectsToRemove[i]);
         std::cout << "Agent removed from agents list. Agents amount: " << m_gameObjects.size() << std::endl;

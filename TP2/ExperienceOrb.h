@@ -11,7 +11,10 @@ private:
 	// Inherited via GameObject
 	virtual void Update() override;
 	virtual void Render() override;
+	void Reset() override;
 	virtual const Vector2& GetPosition() const override { return m_position; }
+	
+	
 	const float& GetRadius() const { return m_radius; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::ORB; }
 	void Collision();

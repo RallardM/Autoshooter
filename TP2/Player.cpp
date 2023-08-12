@@ -90,6 +90,9 @@ void Player::OnStart()
 	HandGun* handGun = new HandGun();
 	m_weapons.push_back(handGun);
 	handGun->OnStart();
+
+	// Add attributes before m_isActive = true;
+	m_isActive = true;
 }
 
 void Player::Update()
@@ -98,8 +101,8 @@ void Player::Update()
 	VerifyExperience();
 
 	// Update player position
-	m_position.x += m_direction.x * PLAYER_SPEED; // *deltatime;
-	m_position.y += m_direction.y * PLAYER_SPEED; // *deltatime;
+	m_position.x += m_direction.x * PLAYER_SPEED; 
+	m_position.y += m_direction.y * PLAYER_SPEED;
 
 	// Update health bar position
 	if (m_healthBar != nullptr)
@@ -135,6 +138,13 @@ void Player::Render()
 	DrawRectangleV(m_position, m_playerSize, m_color);
 }
 
+void Player::Reset()
+{
+
+	// Reset everything before m_isActive = false; in GameObject::Reset();
+	GameObject::Reset();
+}
+
 void Player::Collision()
 {
 	Rectangle playerRect = { m_position.x, m_position.y, m_playerSize.x, m_playerSize.y };
@@ -150,7 +160,7 @@ void Player::VerifyHealth()
 {
 	if (m_health <= 0)
 	{
-		//m_isAlive = false;
+		//TODO: Game Over screen or info
 	}
 }
 
