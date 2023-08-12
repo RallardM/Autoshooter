@@ -1,23 +1,14 @@
 #include <iostream>
 #include <raylib.h>
-#include "Game.h"
 
+#include "Game.h"
 #include "GameObject.h"
 #include "Projectile.h"
 #include "MathUtils.h"
 
-
-
 using namespace std;
 
 Game* Game::_Instance = 0;
-
-//Game::~Game()
-//{
-//
-//
-//    //TODO: delete other pointer ojbects
-//}
 
 int main(void)
 {
@@ -53,19 +44,6 @@ void Game::StartGame()
     m_camera->rotation = 0.0f;
     m_camera->zoom = 0.8f;
 
-    //// Initialize enemies
-    //int enemyAmount = std::rand() % (MAX_ENEMY_AMOUNT - MIN_ENEMY_AMOUNT) + MIN_ENEMY_AMOUNT;
-    //for (int i = 0; i < enemyAmount; i++)
-    //{
-    //    RegisterGameObject(new Enemy());
-    //    //m_gameObjectsEnemies.emplace_back(new Enemy());
-    //}
-
-    //for (Enemy* enemy : m_gameObjectsEnemies)
-    //{
-    //    enemy->OnStart();
-    //}
-
     MainLoop();
 }
 
@@ -84,6 +62,26 @@ void Game::UnregisterGameObject(GameObject* agent)
 void Game::UpdateCameraPosition(Vector2 playerPosition)
 {
     _Instance->m_camera->target = { playerPosition.x, playerPosition.y };
+}
+
+const unsigned short int Game::GetEntityHealth(GameObject* entity) const
+{
+    switch (entity->GetGameObjectType())
+    {
+        case EGameObjectType::PLAYER:
+			return m_player->GetHealth();
+			break;
+
+        case EGameObjectType::ENEMY:
+            return dynamic_cast<Enemy*>(entity)->GetHealth();
+            break;
+
+        case EGameObjectType::COUNT:
+            default:
+			std::cout << "Game::GetEntityHealth() : wrong entity type" << std::endl;
+			return 0;
+			break;
+    }
 }
 
 GameObject* Game::GetClosestGameObject(Vector2 position, EGameObjectType type)
@@ -296,21 +294,6 @@ void Game::CleanupGameObjects()
     }
     m_gameObjectsToRemove.clear();
 
-    //// Delete and remove enemies from m_gameObjectsEnemies
-    //for (Enemy* enemy : m_gameObjectsEnemies)
-    //{
-    //    m_gameObjects.remove(enemy); // Make sure you remove from this list as well
-    //    delete enemy;
-    //}
-    //m_gameObjectsEnemies.clear();
-
-    // Delete and remove projectiles from m_gameObjectsProjectiles
-    //for (Projectile* enemy : m_gameObjectsProjectiles)
-    //{
-    //    m_gameObjects.remove(enemy); // Make sure you remove from this list as well
-    //    delete enemy;
-    //}
-    //m_gameObjectsProjectiles.clear();
 
     for (GameObject* obj : m_gameObjects)
     {

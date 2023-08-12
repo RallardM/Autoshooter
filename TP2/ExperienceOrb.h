@@ -6,9 +6,9 @@ class ExperienceOrb :
 public:
 	ExperienceOrb(Vector2 origin);
 	virtual void OnStart() override;
+
 private:
 	// Inherited via GameObject
-
 	virtual void Update() override;
 	virtual void Render() override;
 	virtual const Vector2& GetPosition() const override { return m_position; }

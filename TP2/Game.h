@@ -11,12 +11,9 @@ class Player;
 
 class Game
 {
-	
-
 public:
 	//Game(const Game& obj) = delete; // Constructor for singleton pattern
 	static Game* GetInstance();
-
 
 private:
 	static Game* _Instance;
@@ -35,13 +32,10 @@ private:
 	const int MAX_ENEMY_AMOUNT = 10;
 
 	Player* m_player;
-	//std::list<Enemy*> m_gameObjectsEnemies;
-	//std::list<Projectile*> m_gameObjectsProjectiles;
 	Camera2D* m_camera;
 
 	std::list<GameObject*> m_gameObjects;
 	std::vector<GameObject*> m_gameObjectsToRemove;
-
 
 public:
 	void StartGame();
@@ -66,15 +60,11 @@ public:
 	const unsigned short int GetPlayerExperience() { return m_player->m_experience; }
 	void AddPlayerExperience(unsigned short int experience) { m_player->m_experience += experience; }
 
+	// Entities getters
+	const unsigned short int GetEntityHealth(GameObject* entity) const;
+
 	// Game objects getter
 	std::list<GameObject*> GetGameObjects() { return m_gameObjects; }
-
-	// Ennemies getters
-	//std::list<Enemy*> GetEnemies() { return m_gameObjectsEnemies; }
-
-	// Projectiles getters setters
-	//void AddProjectileToList(Projectile* projectile) { m_gameObjectsProjectiles.emplace_back(projectile); };
-	//std::list<Projectile*> GetProjectiles() { return m_gameObjectsProjectiles; }
 
 	GameObject* GetClosestGameObject(Vector2 position, EGameObjectType type);
 	bool AreEnemyProjectileColliding(Rectangle enemy);

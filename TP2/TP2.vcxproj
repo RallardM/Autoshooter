@@ -127,7 +127,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Enumerations.h" />
     <ClInclude Include="ExperienceOrb.h" />
@@ -141,7 +140,6 @@
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="ExperienceOrb.cpp" />
     <ClCompile Include="GameObject.cpp" />

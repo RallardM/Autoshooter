@@ -3,7 +3,6 @@
 
 void HandGun::Fire()
 {
-	//Projectile* projectile = new Projectile(m_position, 10.0f, 10.0f, 5.0f, m_weaponInfos.m_projectileInfos.Lifetime);
 	Projectile* projectile = new Projectile(
 		m_position,
 		m_weaponInfos.m_projectileInfos.RADIUS,
@@ -11,7 +10,6 @@ void HandGun::Fire()
 		m_weaponInfos.m_projectileInfos.LIFETIME);
 	
 	projectile->OnStart();
-	//Game::AddProjectileToList(projectile);
 }
 
 HandGun::HandGun()

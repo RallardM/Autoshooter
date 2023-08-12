@@ -8,7 +8,6 @@
 
 unsigned short int Projectile::s_id = 0;
 
-//Projectile::Projectile(Vector2 origin, float xSpeed, float ySpeed, float size, float lifetime)
 Projectile::Projectile(Vector2 origin, float size, float speed, float lifetime)
 {
 	m_id = s_id++;
@@ -19,9 +18,6 @@ Projectile::Projectile(Vector2 origin, float size, float speed, float lifetime)
 	m_color = WHITE;
 
 	float diameter = m_radius * 2;
-	// BoxCollider
-	//m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
-	m_boxCollider = new BoxCollider(m_position.x + m_radius, m_position.y + m_radius, diameter, diameter);
 
 	GameObject* closestGameObject = Game::GetInstance()->GetClosestGameObject(m_position, EGameObjectType::ENEMY);
 	if (closestGameObject != nullptr)
@@ -61,14 +57,12 @@ Projectile::Projectile(Vector2 origin, float size, float speed, float lifetime)
 
 Projectile::~Projectile()
 {
-	delete m_boxCollider;
+	// TODO
 }
 
 void Projectile::OnStart()
 {
 	GameObject::OnStart();
-	//m_position.x = (float)GetScreenWidth() / 2.0f; // TODO
-	//m_position.y = (float)GetScreenHeight() / 2.0f;// TODO
 }
 
 void Projectile::Update()
@@ -85,37 +79,4 @@ void Projectile::Update()
 void Projectile::Render()
 {
 	DrawCircleV(m_position, m_radius, m_color);
-	// TODO Remi : Vérifier code ajouté par Maurice:
-	//DrawRectangle(m_boxCollider->m_left, m_boxCollider->m_top, m_width, m_height, m_color);
 }
-
-//Enemy* Projectile::FindClosestEnemyToPlayer()
-//{
-//	Enemy* closestEnemy = nullptr;
-//	float minDistance = std::numeric_limits<float>::max(); // Start with a large distance
-//
-//	//for (Enemy* enemy : Game::GetEnemies())
-//	for (GameObject* gameObject : Game::GetGameObjects())
-//	{
-//		if (gameObject->GetGameObjectType() != EGameObjectType::ENEMY)
-//		{
-//			continue;
-//		}
-//
-//		// Calculate the distance between player and enemy
-//		float distance = Vector2Distance(gameObject->GetPosition(), Game::GetPlayerPosition());
-//
-//		// Check if the enemy is within camera bounds
-//		if (Game::IsWithinCameraBounds(gameObject->GetPosition()))
-//		{
-//			// Update the closest enemy if the current enemy is closer
-//			if (distance < minDistance)
-//			{
-//				minDistance = distance;
-//				closestEnemy = gameObject;
-//			}
-//		}
-//	}
-//
-//	return closestEnemy;
-//}

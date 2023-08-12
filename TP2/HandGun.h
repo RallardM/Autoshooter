@@ -21,7 +21,6 @@ private:
 private:
 	virtual void Fire() override;
 	
-
 public:
 	HandGun();
 

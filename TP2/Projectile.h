@@ -2,7 +2,6 @@
 #include <raylib.h>
 
 #include "GameObject.h"
-#include "BoxCollider.h"
 #include "Enemy.h"
 
 class Projectile : public GameObject
@@ -20,11 +19,6 @@ private:
 	Color m_color;
 	EGameObjectType m_gameObjectType;
 
-	// BoxCollider
-	BoxCollider* m_boxCollider;
-	// TODO Remi : Vérifier code ajouté par Maurice:
-	//BoxCollider m_previousBoxCollider;
-
 	static unsigned short int s_id;
 
 public:
@@ -40,8 +34,6 @@ public:
 	const float& GetRadius() const { return m_radius; }
 	virtual const EGameObjectType GetGameObjectType() const override { return m_gameObjectType; }
 
-//private:
-//	Enemy* FindClosestEnemyToPlayer();
 };
 
 struct SHandGunProjectileData

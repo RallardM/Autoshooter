@@ -1,31 +1,26 @@
 #include "Player.h"
 #include "Game.h"
 #include "HandGun.h"
-
 #include <iostream>
 
-
-
-Player::Player()
+Player::~Player()
 {
-	// Position
-	m_direction = { 0.0f, 0.0f };
-	//m_gameObjectType = EGameObjectType::PLAYER;
-	//m_speed = PLAYER_SPEED;
+	// Empty weapon list
+	for (auto it = m_weapons.begin(); it != m_weapons.end(); ++it)
+	{
+		delete* it;
+		*it = nullptr;
+	}
 
-	//// Dimension
-	//m_width = PLAYER_WIDTH;
-	//m_height = PLAYER_HEIGHT;
+	m_weapons.clear();
 
+	// Delete health bar
+	delete m_healthBar;
+	m_healthBar = nullptr;
 
-	//// BoxCollider
-	//m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
-	//// OldBoxCollider
-	//m_oldBoxCollider = m_boxCollider;
-
-	//m_isCollide = false;
-
-	//m_weapons.emplace_back(new ExplosiveGun(m_position.x, m_position.y));
+	// Delete experience bar
+	delete m_experienceBar;
+	m_experienceBar = nullptr;
 }
 
 void Player::HandleInput()
@@ -62,17 +57,6 @@ void Player::HandleInput()
 		m_direction.x = 0.0f;
 	}
 
-	//if (IsKeyDown(KEY_SPACE))
-	//{
-	//	if (!m_weapons.empty())
-	//	{
-	//		for (int i = 0; i < m_weapons.size(); ++i)
-	//		{
-	//			m_weapons[i]->Fire();
-	//		}
-	//	}
-	//}
-
 	if (m_direction.x != 0.0f || m_direction.y != 0.0f)
 	{
 		float magnitude = sqrtf(
@@ -81,24 +65,26 @@ void Player::HandleInput()
 		);
 		m_direction.x /= magnitude;
 		m_direction.y /= magnitude;
-
 	}
 }
 
 void Player::OnStart()
 {
 	GameObject::OnStart();
-	// TODO Remi : Vérifier centre de la map au lieu de centre de l'ecran
-	//m_position.x = (float)GetScreenWidth() / 2;
-	//m_position.y = (float)GetScreenHeight() / 2;
+
 	m_position.x = (float)Game::GetInstance()->GetMapWidth() / 2;
 	m_position.y = (float)Game::GetInstance()->GetMapHeight() / 2;
 
-	//m_position.x = (float)GetMapWidth() / 2;
-	//m_position.y = (float)GetMapHeight() / 2;
-	Vector2 experienBarSize = { 32.0f, 3.0f };
+	// Initialize health bar
+	Vector2 barSize = { 32.0f, 3.0f };
 	Vector2 offsetFromPlayer = { 0.0f, 33.0f };
-	m_experienceBar = new UIElement(EUIElementType::PROGRESS_BAR, GREEN, experienBarSize, offsetFromPlayer, m_experience);
+	m_healthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromPlayer, m_health);
+	m_healthBar->OnStart();
+
+	// Initialize experience bar
+	barSize = { 32.0f, 3.0f };
+	offsetFromPlayer = { 0.0f, 36.0f };
+	m_experienceBar = new UIElement(this, EUIElementType::PROGRESS_BAR, GREEN, barSize, offsetFromPlayer, m_experience);
 	m_experienceBar->OnStart();
 
 	HandGun* handGun = new HandGun();
@@ -110,53 +96,22 @@ void Player::Update()
 {
 	VerifyHealth();
 	VerifyExperience();
-	// TODO Remi : Vérifier code ajouté par Maurice:
-	//// Update OldBoxCollider
-	//m_oldBoxCollider = m_boxCollider;
 
 	// Update player position
 	m_position.x += m_direction.x * PLAYER_SPEED; // *deltatime;
-
-	// TODO Remi : Vérifier code ajouté par Maurice:
-	//// Update body
-	//m_boxCollider.Update(m_position.x, m_position.y);
-
-	//// Collision Horizontal
-	//Collision();
-
-	// Update player position
 	m_position.y += m_direction.y * PLAYER_SPEED; // *deltatime;
 
-	// TODO Remi : Vérifier code ajouté par Maurice:
-	//// Update rect
-	//m_boxCollider.Update(m_position.x, m_position.y);
-
-	// Collision Vertical
-	//Collision();
-
-	//Set handGun position to follow player position
-
-	// TODO Remi : demander a Maurice pourquoi un vecteur au lieu de la liste initiale
-	//if (!m_weapons.empty()) 
-	//{
-	//	for (int i = 0; i < m_weapons.size(); ++i)
-	//	{
-	//		m_weapons[i]->FollowPosition(m_position);
-	//		//m_weapons[i]->Update(deltatime);
-	//	}
-	//}
-
-	//if (!m_weapons.empty())
-	//{
-	//	for (int i = 0; i < m_weapons.size(); ++i)
-	//	{
-	//		m_weapons[i]->FollowPosition(m_position);
-	//		//m_weapons[i]->Update(deltatime);
-	//	}
-	//}
-
-	// Update UI position
-	m_experienceBar->FollowPosition(m_position); // TODO Make pure virtual
+	// Update health bar position
+	if (m_healthBar != nullptr)
+	{
+		m_healthBar->FollowPosition(m_position); // TODO Make pure virtual
+	}
+	
+	// Update experrience bar position
+	if (m_experienceBar != nullptr)
+	{
+		m_experienceBar->FollowPosition(m_position); // TODO Make pure virtual
+	}
 
 	// Update weapon position
 	for (Weapon* weapon : m_weapons)
@@ -173,7 +128,6 @@ void Player::Update()
 	Game::GetInstance()->UpdateCameraPosition(m_position);
 
 	Collision();
-
 }
 
 void Player::Render()

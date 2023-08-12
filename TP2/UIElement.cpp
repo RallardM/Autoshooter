@@ -2,8 +2,9 @@
 #include <iostream>
 #include "Game.h"
 
-UIElement::UIElement(EUIElementType uitype, Color color, Vector2 size, Vector2 offset, float value)
+UIElement::UIElement(GameObject* targetEntity, EUIElementType uitype, Color color, Vector2 size, Vector2 offset, float value)
 {
+	m_targetEntity = targetEntity;
 	m_UIType = uitype;
 	m_color = color;
 	m_size = size;
@@ -20,7 +21,6 @@ void UIElement::FollowPosition(Vector2 newPosition)
 {
 	m_position = { newPosition.x + m_offset.x, newPosition.y + m_offset.y };
 }
-
 
 void UIElement::Update()
 {
@@ -76,6 +76,14 @@ void UIElement::UpdateProgressBar()
 {
 	m_value = Game::GetInstance()->GetPlayerExperience();
 	
+	// 32.0f  = 100% of the bar
+	m_size.x = (m_value * 32.0f) / 100;
+}
+
+void UIElement::UpdateRegressBar()
+{
+	m_value = Game::GetInstance()->GetEntityHealth(m_targetEntity);
+
 	// 32.0f  = 100% of the bar
 	m_size.x = (m_value * 32.0f) / 100;
 }
