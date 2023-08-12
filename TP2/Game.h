@@ -59,7 +59,8 @@ public:
 	// Player getters
 	Vector2 GetPlayerPosition() { return { m_player->m_position.x, m_player->m_position.y }; }
 	const unsigned short int GetPlayerExperience() { return m_player->m_experience; }
-	void AddPlayerExperience(unsigned short int experience) { m_player->m_experience += experience; }
+	const unsigned short int GetPlayerTotalExperience() { return m_player->m_totalExperience; }
+	void AddPlayerExperience(unsigned short int experience) { m_player->m_experience += experience; m_player->m_totalExperience += experience; }
 
 	// Entities getters
 	const unsigned short int GetEntityHealth(GameObject* entity) const;

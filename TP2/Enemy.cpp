@@ -7,7 +7,6 @@
 
 unsigned short int Enemy::s_id = 0;
 
-
 Enemy::Enemy()
 {
 	m_id = s_id++;

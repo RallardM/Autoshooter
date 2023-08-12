@@ -81,6 +81,12 @@ void Player::OnStart()
 	m_healthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromPlayer, m_health);
 	m_healthBar->OnStart();
 
+	// Initialize experience text
+	int fontSize = 15;
+	offsetFromPlayer = { 3.0f, 8.0f };
+	m_experienceText = new UIElement(this, EUIElementType::TEXT, GREEN, fontSize, offsetFromPlayer, m_totalExperience);
+	m_experienceText->OnStart();
+
 	// Initialize experience bar
 	barSize = { 32.0f, 3.0f };
 	offsetFromPlayer = { 0.0f, 36.0f };
@@ -109,8 +115,14 @@ void Player::Update(float deltatime)
 	{
 		m_healthBar->FollowPosition(m_position); // TODO Make pure virtual
 	}
+
+	// Update experience text position
+	if (m_experienceText != nullptr)
+	{
+		m_experienceText->FollowPosition(m_position); // TODO Make pure virtual
+	}
 	
-	// Update experrience bar position
+	// Update experience bar position
 	if (m_experienceBar != nullptr)
 	{
 		m_experienceBar->FollowPosition(m_position); // TODO Make pure virtual
@@ -160,7 +172,7 @@ void Player::VerifyHealth()
 {
 	if (m_health <= 0)
 	{
-		//TODO: Game Over screen or info
+		//TODO: Game Over screen or info delete ui pointers 
 	}
 }
 

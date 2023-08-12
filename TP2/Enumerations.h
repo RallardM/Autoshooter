@@ -23,5 +23,6 @@ enum class EUIElementType : unsigned short int
 {
 	PROGRESS_BAR,
 	REGRESS_BAR,
+	TEXT,
 	COUNT
 };

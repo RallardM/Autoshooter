@@ -16,6 +16,7 @@ public:
 	
 private:
 	UIElement* m_healthBar = nullptr;
+	UIElement* m_experienceText = nullptr;
 	UIElement* m_experienceBar = nullptr;
 
 	// Player default parameter
@@ -25,6 +26,7 @@ private:
 	const float PLAYER_SPEED = 200.0f;
 	short int m_health = 100;
 	unsigned short int m_experience = 0;
+	unsigned short int m_totalExperience = 0;
 	unsigned short int m_level = 1;
 
 	std::list<Weapon*> m_weapons;
