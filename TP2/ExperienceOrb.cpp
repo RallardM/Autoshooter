@@ -23,11 +23,11 @@ void ExperienceOrb::Render()
 
 void ExperienceOrb::Collision()
 {
-	bool isPlayerCollidingOrb = Game::AreOrbPlayerColliding(m_position, m_radius);
+	bool isPlayerCollidingOrb = Game::GetInstance()->AreOrbPlayerColliding(m_position, m_radius);
 
 	if (isPlayerCollidingOrb)
 	{
 		Game::GetInstance()->UnregisterGameObject(this);
-		// TODO : Add experience to player
+		Game::GetInstance()->AddPlayerExperience(10);
 	}
 }

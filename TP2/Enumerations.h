@@ -18,3 +18,10 @@ enum class EGameObjectType : unsigned short int
 	UI,
 	COUNT
 };
+
+enum class EUIElementType : unsigned short int
+{
+	PROGRESS_BAR,
+	REGRESS_BAR,
+	COUNT
+};

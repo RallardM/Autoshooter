@@ -6,13 +6,13 @@
 class Player : public GameObject
 {
 	friend class Game;
-	friend class UIElement;
 
 public:
 	Player();
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::PLAYER; }
 	const Rectangle GetRect() const { return { m_position.x, m_position.y, m_playerSize.x, m_playerSize.y }; }
+	
 	
 private:
 	UIElement* m_experienceBar;
@@ -27,6 +27,7 @@ private:
 
 	std::list<Weapon*> m_weapons;
 	short int m_health = 100;
+	unsigned short int m_experience = 0;
 
 private:
 	void HandleInput();

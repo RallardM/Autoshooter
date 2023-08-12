@@ -47,37 +47,39 @@ public:
 	void StartGame();
 	void RegisterGameObject(GameObject* agent);
 	void UnregisterGameObject(GameObject* agent);
-	static void UpdateCameraPosition(Vector2 playerPosition);
+	void UpdateCameraPosition(Vector2 playerPosition);
 
 	// Map getters
-	static const float GetMapWidth() { return _Instance->S_MAP_WIDTH; }
-	static const float GetMapHeight() { return _Instance->S_MAP_HEIGHT; }
+	const float GetMapWidth() { return S_MAP_WIDTH; }
+	const float GetMapHeight() { return S_MAP_HEIGHT; }
 
 	// Camera getters
-	static const float GetCameraLeftLimit() { return _Instance->m_camera->target.x - (_Instance->CAMERA_WIDTH / 2) / _Instance->m_camera->zoom; }
-	static const float GetCameraRightLimit() { return _Instance->m_camera->target.x + (_Instance->CAMERA_WIDTH / 2) / _Instance->m_camera->zoom; }
-	static const float GetCameraTopLimit() { return _Instance->m_camera->target.y - (_Instance->CAMERA_HEIGHT / 2) / _Instance->m_camera->zoom; }
-	static const float GetCameraBottomLimit() { return _Instance->m_camera->target.y + (_Instance->CAMERA_HEIGHT / 2) / _Instance->m_camera->zoom; }
-	static Vector2 GetCameraPosition() { return _Instance->m_camera->target; }
-	static bool IsWithinCameraBounds(Vector2 position) { return position.x >= GetCameraLeftLimit() && position.x <= GetCameraRightLimit() && position.y >= GetCameraTopLimit() && position.y <= GetCameraBottomLimit(); }
+	const float GetCameraLeftLimit() { return m_camera->target.x - (CAMERA_WIDTH / 2) / m_camera->zoom; }
+	const float GetCameraRightLimit() { return m_camera->target.x + (CAMERA_WIDTH / 2) / m_camera->zoom; }
+	const float GetCameraTopLimit() { return m_camera->target.y - (CAMERA_HEIGHT / 2) / m_camera->zoom; }
+	const float GetCameraBottomLimit() { return m_camera->target.y + (CAMERA_HEIGHT / 2) / m_camera->zoom; }
+	Vector2 GetCameraPosition() { return m_camera->target; }
+	bool IsWithinCameraBounds(Vector2 position) { return position.x >= GetCameraLeftLimit() && position.x <= GetCameraRightLimit() && position.y >= GetCameraTopLimit() && position.y <= GetCameraBottomLimit(); }
 
 	// Player getters
-	static Vector2 GetPlayerPosition() { return { _Instance->m_player->m_position.x, _Instance->m_player->m_position.y }; }
+	Vector2 GetPlayerPosition() { return { m_player->m_position.x, m_player->m_position.y }; }
+	const unsigned short int GetPlayerExperience() { return m_player->m_experience; }
+	void AddPlayerExperience(unsigned short int experience) { m_player->m_experience += experience; }
 
 	// Game objects getter
-	static std::list<GameObject*> GetGameObjects() { return _Instance->m_gameObjects; }
+	std::list<GameObject*> GetGameObjects() { return m_gameObjects; }
 
 	// Ennemies getters
-	//static std::list<Enemy*> GetEnemies() { return _Instance->m_gameObjectsEnemies; }
+	//std::list<Enemy*> GetEnemies() { return m_gameObjectsEnemies; }
 
 	// Projectiles getters setters
-	//static void AddProjectileToList(Projectile* projectile) { _Instance->m_gameObjectsProjectiles.emplace_back(projectile); };
-	//static std::list<Projectile*> GetProjectiles() { return _Instance->m_gameObjectsProjectiles; }
+	//void AddProjectileToList(Projectile* projectile) { m_gameObjectsProjectiles.emplace_back(projectile); };
+	//std::list<Projectile*> GetProjectiles() { return m_gameObjectsProjectiles; }
 
-	static GameObject* GetClosestGameObject(Vector2 position, EGameObjectType type);
-	static bool AreEnemyProjectileColliding(Rectangle enemy);
-	static bool AreOrbPlayerColliding(Vector2 orbPosition, float orbradius);
-	static bool ArePlayerEnemyColliding(Rectangle player);
+	GameObject* GetClosestGameObject(Vector2 position, EGameObjectType type);
+	bool AreEnemyProjectileColliding(Rectangle enemy);
+	bool AreOrbPlayerColliding(Vector2 orbPosition, float orbradius);
+	bool ArePlayerEnemyColliding(Rectangle player);
 
 	void CleanUpGame();
 

@@ -99,29 +99,29 @@ void Enemy::Spawn()
 	Vector2 randPosition = { 0.0f, 0.0f };
 
 	// Get a reference to the camera's position
-	Vector2 cameraPosition = Game::GetCameraPosition();
+	Vector2 cameraPosition = Game::GetInstance()->GetCameraPosition();
 
 	switch (randCorner)
 	{
 	case 0:
 		// Spawn left
-		randPosition.x = Game::GetCameraLeftLimit() - ENEMY_WIDTH;
+		randPosition.x = Game::GetInstance()->GetCameraLeftLimit() - ENEMY_WIDTH;
 		randPosition.y = cameraPosition.y;
 		break;
 	case 1:
 		// Spawn top
 		randPosition.x = cameraPosition.x;
-		randPosition.y = Game::GetCameraTopLimit() - ENEMY_HEIGHT;
+		randPosition.y = Game::GetInstance()->GetCameraTopLimit() - ENEMY_HEIGHT;
 		break;
 	case 2:
 		// Spawn right
-		randPosition.x = Game::GetCameraRightLimit() + ENEMY_WIDTH;
+		randPosition.x = Game::GetInstance()->GetCameraRightLimit() + ENEMY_WIDTH;
 		randPosition.y = cameraPosition.y;
 		break;
 	case 3:
 		// Spawn bottom
 		randPosition.x = cameraPosition.x;
-		randPosition.y = Game::GetCameraBottomLimit() + ENEMY_HEIGHT;
+		randPosition.y = Game::GetInstance()->GetCameraBottomLimit() + ENEMY_HEIGHT;
 		break;
 	default:
 		break;
@@ -224,7 +224,7 @@ void Enemy::Render()
 
 void Enemy::TrackPlayer()
 {
-	Vector2 playerPosition = Game::GetPlayerPosition();
+	Vector2 playerPosition = Game::GetInstance()->GetPlayerPosition();
 	m_direction.x = playerPosition.x - m_position.x;
 	m_direction.y = playerPosition.y - m_position.y;
 
@@ -239,7 +239,7 @@ void Enemy::TrackPlayer()
 void Enemy::Collision()
 {
 	Rectangle enemyRect = { m_position.x, m_position.y, ENEMY_WIDTH, ENEMY_HEIGHT };
-	bool isEnemyHitByProjctile = Game::AreEnemyProjectileColliding(enemyRect);
+	bool isEnemyHitByProjctile = Game::GetInstance()->AreEnemyProjectileColliding(enemyRect);
 
 	if (isEnemyHitByProjctile)
 	{

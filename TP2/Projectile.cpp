@@ -23,7 +23,7 @@ Projectile::Projectile(Vector2 origin, float size, float speed, float lifetime)
 	//m_boxCollider = BoxCollider(m_position.x, m_position.y, m_width, m_height);
 	m_boxCollider = new BoxCollider(m_position.x + m_radius, m_position.y + m_radius, diameter, diameter);
 
-	GameObject* closestGameObject = Game::GetClosestGameObject(m_position, EGameObjectType::ENEMY);
+	GameObject* closestGameObject = Game::GetInstance()->GetClosestGameObject(m_position, EGameObjectType::ENEMY);
 	if (closestGameObject != nullptr)
 	{
 		Enemy* closestEnemy = dynamic_cast<Enemy*>(closestGameObject);

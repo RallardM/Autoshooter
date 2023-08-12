@@ -91,14 +91,14 @@ void Player::OnStart()
 	// TODO Remi : Vérifier centre de la map au lieu de centre de l'ecran
 	//m_position.x = (float)GetScreenWidth() / 2;
 	//m_position.y = (float)GetScreenHeight() / 2;
-	m_position.x = (float)Game::GetMapWidth() / 2;
-	m_position.y = (float)Game::GetMapHeight() / 2;	
+	m_position.x = (float)Game::GetInstance()->GetMapWidth() / 2;
+	m_position.y = (float)Game::GetInstance()->GetMapHeight() / 2;
 
 	//m_position.x = (float)GetMapWidth() / 2;
 	//m_position.y = (float)GetMapHeight() / 2;
 	Vector2 experienBarSize = { 32.0f, 3.0f };
 	Vector2 offsetFromPlayer = { 0.0f, 33.0f };
-	m_experienceBar = new UIElement(GREEN, experienBarSize, offsetFromPlayer);
+	m_experienceBar = new UIElement(EUIElementType::PROGRESS_BAR, GREEN, experienBarSize, offsetFromPlayer, m_experience);
 	m_experienceBar->OnStart();
 
 	HandGun* handGun = new HandGun();
@@ -168,7 +168,7 @@ void Player::Update()
 	}
 
 	// Update camera position to player position
-	Game::UpdateCameraPosition(m_position); 
+	Game::GetInstance()->UpdateCameraPosition(m_position);
 
 	Collision();
 	VerifyHealth();
@@ -182,7 +182,7 @@ void Player::Render()
 void Player::Collision()
 {
 	Rectangle playerRect = { m_position.x, m_position.y, m_playerSize.x, m_playerSize.y };
-	bool isEnemyHitByProjctile = Game::ArePlayerEnemyColliding(playerRect);
+	bool isEnemyHitByProjctile = Game::GetInstance()->ArePlayerEnemyColliding(playerRect);
 
 	if (isEnemyHitByProjctile)
 	{
