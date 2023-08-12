@@ -224,7 +224,7 @@ void Game::MainLoop()
 void Game::RenderBackground()
 {
     ClearBackground(DARKBLUE);
-    Color gridColor = GOLD;
+    Color gridColor = DARKGRAY;
 
     // Render grid
     // Source : Cours Algebre Vectoriel
@@ -237,7 +237,7 @@ void Game::RenderBackground()
         }
         else
         {
-            gridColor = GOLD;
+            gridColor = DARKGRAY;
         }
 
         Vector2 start = { CELL_SIZE * i, 0.f };
@@ -254,7 +254,7 @@ void Game::RenderBackground()
         }
         else
         {
-			gridColor = GOLD;
+			gridColor = DARKGRAY;
 		}
 
         Vector2 start = { 0.f, CELL_SIZE * i };
