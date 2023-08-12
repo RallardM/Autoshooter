@@ -141,16 +141,16 @@ void Player::Render()
 void Player::Reset()
 {
 
-	// Reset everything before m_isActive = false; in GameObject::Reset();
-	GameObject::Reset();
+	// Reset everything before m_isActive = false;
+	m_isActive = false;
 }
 
 void Player::Collision()
 {
 	Rectangle playerRect = { m_position.x, m_position.y, m_playerSize.x, m_playerSize.y };
-	bool isEnemyHitByProjctile = Game::GetInstance()->ArePlayerEnemyColliding(playerRect);
+	bool isEnemyHitPlayer = Game::GetInstance()->ArePlayerEnemyColliding(playerRect);
 
-	if (isEnemyHitByProjctile)
+	if (isEnemyHitPlayer)
 	{
 		m_health -= 10;
 	}

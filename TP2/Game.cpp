@@ -24,23 +24,23 @@ Game::~Game()
     delete m_player;
 	delete m_camera;
     
-    for (Enemy* enemy : m_enemyPool)
-    {
-		delete enemy;
-	}
+ //   for (Enemy* enemy : m_enemyPool)
+ //   {
+	//	delete enemy;
+	//}
 
-    m_enemyPool.clear();
+ //   m_enemyPool.clear();
 
-    for (GameObject* agent : m_gameObjects)
+    for (GameObject* gameObject : m_gameObjects)
     {
-		delete agent;
+		delete gameObject;
 	}
 
 	m_gameObjects.clear();
 
-    for (GameObject* agent : m_gameObjectsToRemove)
+    for (GameObject* gameObject : m_gameObjectsToRemove)
     {
-		delete agent;
+		delete gameObject;
 	}
 
 	m_gameObjectsToRemove.clear();
@@ -71,25 +71,27 @@ void Game::StartGame()
     m_camera->rotation = 0.0f;
     m_camera->zoom = 0.8f;
 
-    // Initialize enemies pool
-    for (int i = 0; i < MAX_ENEMY_AMOUNT; i++)
-    {
-        m_enemyPool.push_back(new Enemy());
-	}
+ //   // Initialize enemies pool
+ //   for (int i = 0; i < MAX_ENEMY_AMOUNT; i++)
+ //   {
+ //       Enemy* enemy = new Enemy();
+ //       m_enemyPool.push_back(enemy);
+ //       RegisterGameObject(enemy);
+	//}
 
     MainLoop();
 }
 
-void Game::RegisterGameObject(GameObject* agent)
+void Game::RegisterGameObject(GameObject* gameObject)
 {
-    m_gameObjects.push_back(agent);
-    std::cout << "Agent added to agents list. Agents amount: " << m_gameObjects.size() << std::endl;
+    m_gameObjects.push_back(gameObject);
+    //std::cout << "GameObject added to gameObjects list. GameObjects amount: " << m_gameObjects.size() << std::endl;
 }
 
-void Game::UnregisterGameObject(GameObject* agent)
+void Game::UnregisterGameObject(GameObject* gameObject)
 {
-    m_gameObjectsToRemove.push_back(agent);
-    cout << "Agent marked for removal" << endl;
+    m_gameObjectsToRemove.push_back(gameObject);
+    //cout << "GameObject marked for removal" << endl;
 }
 
 void Game::UpdateCameraPosition(Vector2 playerPosition)
@@ -117,25 +119,24 @@ const unsigned short int Game::GetEntityHealth(GameObject* entity) const
     }
 }
 
-void Game::ReturnEnemyToPool(Enemy* enemy)
-{
-    enemy->Reset();
-	m_enemyPool.push_back(enemy);
-}
+//void Game::ReturnEnemyToPool(Enemy* enemy)
+//{
+//	m_enemyPool.push_back(enemy);
+//}
 
 GameObject* Game::GetClosestGameObject(Vector2 position, EGameObjectType type)
 {
     GameObject* closest = nullptr;
 	float closestDistance = 0.f;
 
-    for (GameObject* agent : _Instance->m_gameObjects)
+    for (GameObject* gameObject : _Instance->m_gameObjects)
     {
-        if (agent->GetGameObjectType() == type)
+        if (gameObject->GetGameObjectType() == type)
         {
-			float distance = Vector2Distance(position, agent->GetPosition());
+			float distance = Vector2Distance(position, gameObject->GetPosition());
             if (closest == nullptr || distance < closestDistance)
             {
-				closest = agent;
+				closest = gameObject;
 				closestDistance = distance;
 			}
 		}
@@ -265,27 +266,27 @@ void Game::RenderBackground()
 
 void Game::UpdateGameObjects(float deltatime)
 {
-    unsigned short int enemiesCount = GetObjectOfTypeCountFromList(EGameObjectType::ENEMY);
+    //unsigned short int enemiesCount = GetActiveObjectCountFromList(EGameObjectType::ENEMY);
+    //
+    //if (enemiesCount < MAX_ENEMY_AMOUNT)
+    //{
+    //    // Find an available enemy from the pool
+    //    Enemy* enemy = nullptr;
+    //    for (Enemy* poolEnemy : m_enemyPool)
+    //    {
+    //        if (!poolEnemy->IsActive())
+    //        {
+    //            enemy = poolEnemy;
+    //            break;
+    //        }
+    //    }
 
-    if (enemiesCount < MAX_ENEMY_AMOUNT)
-    {
-        // Find an available enemy from the pool
-        Enemy* enemy = nullptr;
-        for (Enemy* poolEnemy : m_enemyPool)
-        {
-            if (!poolEnemy->IsActive())
-            {
-                enemy = poolEnemy;
-                break;
-            }
-        }
-
-        if (enemy)
-        {
-            RegisterGameObject(enemy);
-            enemy->OnStart();
-        }
-    }
+    //    if (enemy)
+    //    {
+    //        RegisterGameObject(enemy);
+    //        enemy->OnStart();
+    //    }
+    //}
 
     for (auto const& i : m_gameObjects) 
     {
@@ -299,11 +300,12 @@ void Game::UpdateGameObjects(float deltatime)
         //Issue now is that I remove elements in the Update during the for loop
         i->Update(deltatime);
     }
-    
+
+    UpdateEnemySpawner();
     RemoveGameObjectsMarkedForRemoval();
 }
 
-unsigned short int Game::GetObjectOfTypeCountFromList(EGameObjectType type)
+unsigned short int Game::GetActiveObjectCountFromList(EGameObjectType type)
 {
     unsigned short int count = 0;
     for (auto const& i : m_gameObjects)
@@ -334,7 +336,19 @@ void Game::RenderGameObjects()
     }
 }
 
-//Complicated way of removing agents, only to be sure that we do it AFTER
+void Game::UpdateEnemySpawner()
+{
+    unsigned short int enemiesCount = GetActiveObjectCountFromList(EGameObjectType::ENEMY);
+
+    if (enemiesCount < MAX_ENEMY_AMOUNT)
+    {
+        Enemy* enemy = new Enemy();
+
+        enemy->OnStart();
+    }
+}
+
+//Complicated way of removing GameObjects, only to be sure that we do it AFTER
     //updating every gameObject in a frame
 void Game::RemoveGameObjectsMarkedForRemoval()
 {
@@ -342,9 +356,16 @@ void Game::RemoveGameObjectsMarkedForRemoval()
     {
         EGameObjectType type = m_gameObjectsToRemove[i]->GetGameObjectType(); // TODO delete after debug
         bool isActive = m_gameObjectsToRemove[i]->IsActive(); // TODO delete after debug
+        if (type == EGameObjectType::ENEMY)
+        {
+            std::cout << "GameObject is an enemy" << std::endl;
+        }
+
         m_gameObjects.remove(m_gameObjectsToRemove[i]);
         delete(m_gameObjectsToRemove[i]);
-        std::cout << "Agent removed from agents list. Agents amount: " << m_gameObjects.size() << std::endl;
+       // std::cout << "GameObject removed from gameObjects list. GameObjects amount: " << m_gameObjects.size() << std::endl;
+    
+
     }
     m_gameObjectsToRemove.clear();
     m_gameObjectsToRemove.resize(0);
@@ -368,3 +389,4 @@ void Game::CleanupGameObjects()
 
     // TODO : verify and add any new list of objects to clean up here (Player, Weapons)
 }
+

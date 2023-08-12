@@ -16,7 +16,7 @@ public:
 	virtual void OnStart() = 0;
 	virtual void Update(float deltatime) = 0;
 	virtual void Render() = 0;
-	virtual bool IsActive() { return m_isActive; };
+	virtual bool IsActive() = 0;
 	virtual void Reset() = 0;
 
 };

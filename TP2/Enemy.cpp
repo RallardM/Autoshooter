@@ -5,6 +5,14 @@
 #include <iostream>
 #include "ExperienceOrb.h"
 
+unsigned short int Enemy::s_id = 0;
+
+
+Enemy::Enemy()
+{
+	m_id = s_id++;
+}
+
 Enemy::~Enemy()
 {
 	// Delete health bar
@@ -15,7 +23,7 @@ Enemy::~Enemy()
 void Enemy::OnStart()
 {
 	GameObject::OnStart();
-	
+
 	// Initialize health bar
 	Vector2 barSize = { 32.0f, 3.0f };
 	Vector2 offsetFromEnemy = { 0.0f, 33.0f };
@@ -34,17 +42,19 @@ void Enemy::Update(float deltatime)
 	Collision();
 	VerifyHealth();
 
+	TrackPlayer();
+
 	// Update Enemy position
 	m_position.x += m_direction.x * SPEED * deltatime;
 	m_position.y += m_direction.y * SPEED * deltatime;
+	Vector2 distance = { m_position.x - m_previousPosition.x, m_position.y - m_previousPosition.y };
+	m_previousPosition = m_position;
 
 	// Update health bar position
 	if (m_healthBar != nullptr)
 	{
 		m_healthBar->FollowPosition(m_position); // TODO Make pure virtual
 	}
-
-	TrackPlayer();
 }
 
 void Enemy::Render()
@@ -59,8 +69,8 @@ void Enemy::Reset()
 	Color m_color = BLUE;
 	m_health = 100;
 
-	// Reset everything before m_isActive = false; in GameObject::Reset();
-	GameObject::Reset();
+	// Reset everything before m_isActive = false;
+	m_isActive = false;
 }
 
 void Enemy::Spawn()
@@ -70,7 +80,7 @@ void Enemy::Spawn()
 
 	// Get a reference to the camera's position
 	Vector2 cameraPosition = Game::GetInstance()->GetCameraPosition();
-
+	std::cout << "Camera position: " << cameraPosition.x << ", " << cameraPosition.y << "\n";
 	const float OUTSIDE_THRESHOLD = 10.0f;
 
 	switch (randCorner)
@@ -109,12 +119,17 @@ void Enemy::TrackPlayer()
 	m_direction.x = playerPosition.x - m_position.x;
 	m_direction.y = playerPosition.y - m_position.y;
 
-	float magnitude = sqrtf(
+	float magnitude = sqrtf
+	(
 		(m_direction.x * m_direction.x) +
 		(m_direction.y * m_direction.y)
 	);
-	m_direction.x /= magnitude;
-	m_direction.y /= magnitude;
+
+	if (magnitude > 0.0f) 
+	{ 
+		m_direction.x /= magnitude;
+		m_direction.y /= magnitude;
+	}
 }
 
 void Enemy::Collision()
@@ -139,8 +154,7 @@ void Enemy::VerifyHealth()
 		Game::GetInstance()->UnregisterGameObject(m_healthBar);
 
 		Reset();
-		Game::GetInstance()->ReturnEnemyToPool(this);
-		return;
+		Game::GetInstance()->UnregisterGameObject(this);
 	}
 }
 

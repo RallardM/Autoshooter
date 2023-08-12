@@ -32,8 +32,8 @@ void ExperienceOrb::Render()
 void ExperienceOrb::Reset()
 {
 
-	// Reset everything before m_isActive = false; in GameObject::Reset();
-	GameObject::Reset();
+	// Reset everything before m_isActive = false;
+	m_isActive = false;
 }
 
 void ExperienceOrb::Collision()

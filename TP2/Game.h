@@ -2,7 +2,7 @@
 #include <list>
 #include <vector>
 
-
+#include "Enumerations.h"
 #include "Enemy.h"
 #include "Player.h"
 
@@ -34,7 +34,7 @@ private:
 	Player* m_player = nullptr;
 	Camera2D* m_camera = nullptr;
 
-	std::list <Enemy*> m_enemyPool;
+	//std::list <Enemy*> m_enemyPool;
 	std::list<GameObject*> m_gameObjects;
 	std::vector<GameObject*> m_gameObjectsToRemove;
 
@@ -63,7 +63,7 @@ public:
 
 	// Entities getters
 	const unsigned short int GetEntityHealth(GameObject* entity) const;
-	void ReturnEnemyToPool(Enemy* enemy);
+	//void ReturnEnemyToPool(Enemy* enemy);
 
 	// Game objects getter
 	std::list<GameObject*> GetGameObjects() { return m_gameObjects; }
@@ -80,8 +80,11 @@ private:
 	void MainLoop();
 	void RenderBackground();
 	void UpdateGameObjects(float deltatime);
-	unsigned short int GetObjectOfTypeCountFromList(EGameObjectType type);
+	unsigned short int GetActiveObjectCountFromList(EGameObjectType type);
+	//string GameObjectTypeToString(EGameObjectType type);
 	void RenderGameObjects();
+	void UpdateEnemySpawner();
 	void RemoveGameObjectsMarkedForRemoval();
 	void CleanupGameObjects();
+	
 };

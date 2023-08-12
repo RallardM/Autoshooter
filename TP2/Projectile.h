@@ -30,6 +30,7 @@ public:
 	virtual void OnStart() override;
 	virtual void Update(float deltatime) override;
 	virtual void Render() override;
+	virtual bool IsActive() override { return m_isActive; }
 	virtual void Reset() override;
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	const float& GetRadius() const { return m_radius; }

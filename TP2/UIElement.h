@@ -9,6 +9,7 @@ public:
 	UIElement(GameObject* targetEntity, EUIElementType uitype, Color color, Vector2 size, Vector2 offset, float value);
 	virtual void OnStart() override;
 	void FollowPosition(Vector2 newPosition);
+	virtual bool IsActive() override { return m_isActive; }
 	virtual void Reset() override; // TODO check how to make it private, less spaghetti
 
 private:

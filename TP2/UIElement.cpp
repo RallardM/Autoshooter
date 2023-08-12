@@ -28,8 +28,8 @@ void UIElement::FollowPosition(Vector2 newPosition)
 void UIElement::Reset()
 {
 
-	// Reset everything before m_isActive = false; in GameObject::Reset();
-	GameObject::Reset();
+	// Reset everything before m_isActive = false;
+	m_isActive = false;
 }
 
 void UIElement::Update(float _deltatime)

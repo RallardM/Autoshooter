@@ -15,8 +15,8 @@ void HandGun::Fire()
 void HandGun::Reset()
 {
 
-	// Reset everything before m_isActive = false; in GameObject::Reset();
-	GameObject::Reset();
+	// Reset everything before m_isActive = false;
+	m_isActive = false;
 }
 
 HandGun::HandGun()
@@ -33,10 +33,11 @@ void HandGun::OnStart()
 	m_isActive = true;
 }
 
-void HandGun::Update(float _deltatime)
+void HandGun::Update(float deltatime)
 {
-	float frameTime = GetFrameTime();
-	m_currentAttackTimer += frameTime;
+	//float frameTime = GetFrameTime();
+	//m_currentAttackTimer += frameTime;
+	m_currentAttackTimer += deltatime;
 	if (m_currentAttackTimer >= m_weaponInfos.m_attackRate)
 	{
 		m_currentAttackTimer -= m_weaponInfos.m_attackRate;

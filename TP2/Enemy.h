@@ -10,6 +10,7 @@ class Enemy : public GameObject
 {
 	friend class Game;
 public:
+	Enemy();
 	~Enemy();
 
 public:
@@ -18,6 +19,7 @@ public:
 	virtual void OnStart() override;
 	virtual void Update(float deltatime) override;
 	virtual void Render() override;
+	virtual bool IsActive() override { return m_isActive; }
 	virtual void Reset() override;
 
 	void Spawn();
@@ -33,9 +35,14 @@ private:
 	// Enemy default parameter
 	Vector2 m_enemySize = { 32.0f, 32.0f };
 	Vector2 m_direction = { 0.0f, 0.0f };
+	Vector2 m_previousPosition = { 0.0f, 0.0f };
 	const float SPEED = 100.0f;
 	Color m_color = BLUE;
 	short int m_health = 100;
+	static unsigned short int s_id;
+
+public:
+	unsigned short int m_id;
 
 private:
 	void TrackPlayer();
