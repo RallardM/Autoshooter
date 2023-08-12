@@ -207,7 +207,7 @@ void Game::MainLoop()
     {
         // Update Data
         m_player->HandleInput();
-        UpdateGameObjects();
+        UpdateGameObjects(GetFrameTime());
 
         // Render
         BeginDrawing();
@@ -263,7 +263,7 @@ void Game::RenderBackground()
     }
 }
 
-void Game::UpdateGameObjects()
+void Game::UpdateGameObjects(float deltatime)
 {
     unsigned short int enemiesCount = GetObjectOfTypeCountFromList(EGameObjectType::ENEMY);
 
@@ -297,7 +297,7 @@ void Game::UpdateGameObjects()
         }
 
         //Issue now is that I remove elements in the Update during the for loop
-        i->Update();
+        i->Update(deltatime);
     }
     
     RemoveGameObjectsMarkedForRemoval();

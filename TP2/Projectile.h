@@ -28,7 +28,7 @@ public:
 
 	// Inherited via GameObject
 	virtual void OnStart() override;
-	virtual void Update() override;
+	virtual void Update(float deltatime) override;
 	virtual void Render() override;
 	virtual void Reset() override;
 	virtual const Vector2& GetPosition() const override { return m_position; }
@@ -43,6 +43,6 @@ public:
 	float RADIUS = 5.0f;
 	float LIFETIME = 2.0f;
 	float DAMAGE = 10.0f;
-	float SPEED = 20.0f;
+	float SPEED = 300.0f;
 	EWeaponType WEAPON_TYPE = EWeaponType::HAND_GUN;
 };

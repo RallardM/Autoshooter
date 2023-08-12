@@ -13,7 +13,7 @@ public:
 
 private:
 	// Inherited via GameObject
-	virtual void Update() override;
+	virtual void Update(float deltatime) override;
 	virtual void Render() override;
 	
 

@@ -14,7 +14,7 @@ void ExperienceOrb::OnStart()
 	m_isActive = true;
 }
 
-void ExperienceOrb::Update()
+void ExperienceOrb::Update(float _deltatime)
 {
 	if (!m_isActive)
 	{

@@ -95,14 +95,14 @@ void Player::OnStart()
 	m_isActive = true;
 }
 
-void Player::Update()
+void Player::Update(float deltatime)
 {
 	VerifyHealth();
 	VerifyExperience();
 
 	// Update player position
-	m_position.x += m_direction.x * PLAYER_SPEED; 
-	m_position.y += m_direction.y * PLAYER_SPEED;
+	m_position.x += m_direction.x * PLAYER_SPEED * deltatime;
+	m_position.y += m_direction.y * PLAYER_SPEED * deltatime;
 
 	// Update health bar position
 	if (m_healthBar != nullptr)

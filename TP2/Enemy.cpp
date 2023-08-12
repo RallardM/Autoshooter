@@ -28,15 +28,15 @@ void Enemy::OnStart()
 	Spawn();
 }
 
-void Enemy::Update()
+void Enemy::Update(float deltatime)
 {
 	// Keep VerifyHealth() at top in case the enemy dies and needs to be deactivated
 	Collision();
 	VerifyHealth();
 
 	// Update Enemy position
-	m_position.x += m_direction.x * m_speed;
-	m_position.y += m_direction.y * m_speed;
+	m_position.x += m_direction.x * SPEED * deltatime;
+	m_position.y += m_direction.y * SPEED * deltatime;
 
 	// Update health bar position
 	if (m_healthBar != nullptr)
@@ -56,7 +56,6 @@ void Enemy::Reset()
 {
 	m_enemySize = { 32.0f, 32.0f };
 	m_direction = { 0.0f, 0.0f };
-	m_speed = 2.0f;
 	Color m_color = BLUE;
 	m_health = 100;
 

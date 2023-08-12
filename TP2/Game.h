@@ -79,7 +79,7 @@ private:
 	Game() {} // Private constructor for singleton pattern
 	void MainLoop();
 	void RenderBackground();
-	void UpdateGameObjects();
+	void UpdateGameObjects(float deltatime);
 	unsigned short int GetObjectOfTypeCountFromList(EGameObjectType type);
 	void RenderGameObjects();
 	void RemoveGameObjectsMarkedForRemoval();

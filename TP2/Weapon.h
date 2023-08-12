@@ -11,7 +11,7 @@ public:
 private:
 	virtual void Fire() = 0;
 	virtual void OnStart() = 0;
-	virtual void Update() = 0;
+	virtual void Update(float deltatime) = 0;
 	void FollowPosition(Vector2 newPosition); // TODO make pure virtual
 	
 	virtual void Render() = 0;

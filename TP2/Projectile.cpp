@@ -68,10 +68,10 @@ void Projectile::OnStart()
 	m_isActive = true;
 }
 
-void Projectile::Update()
+void Projectile::Update(float deltatime)
 {
-	m_position.x += m_xSpeed;
-	m_position.y += m_ySpeed;
+	m_position.x += m_xSpeed * deltatime;
+	m_position.y += m_ySpeed * deltatime;
 	m_currentLifetime -= GetFrameTime();
 	if (m_currentLifetime < 0)
 	{

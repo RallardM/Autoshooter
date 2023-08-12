@@ -22,7 +22,7 @@ private:
 	Color m_color = { 40, 40, 40, 255 };
 	Vector2 m_playerSize = { 32.0f, 32.0f };
 	Vector2 m_direction = { 0.0f, 0.0f };
-	const float PLAYER_SPEED = 5.0f;
+	const float PLAYER_SPEED = 200.0f;
 	short int m_health = 100;
 	unsigned short int m_experience = 0;
 	unsigned short int m_level = 1;
@@ -34,7 +34,7 @@ private:
 
 	// Inherited via GameObject
 	virtual void OnStart() override;
-	virtual void Update() override;
+	virtual void Update(float deltatime) override;
 	virtual void Render() override;
 	virtual void Reset() override;
 	void Collision();

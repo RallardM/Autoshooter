@@ -27,7 +27,7 @@ public:
 
 	// Inherited via GameObject
 	virtual void OnStart() override;
-	virtual void Update() override;
+	virtual void Update(float deltatime) override;
 	virtual void Render() override;
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	virtual const EGameObjectType GetGameObjectType() const override { return m_gameObjectType; }

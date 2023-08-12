@@ -9,7 +9,7 @@ public:
 
 private:
 	// Inherited via GameObject
-	virtual void Update() override;
+	virtual void Update(float deltatime) override;
 	virtual void Render() override;
 	void Reset() override;
 	virtual const Vector2& GetPosition() const override { return m_position; }

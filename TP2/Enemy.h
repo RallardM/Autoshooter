@@ -16,7 +16,7 @@ public:
 
 	// Inherited via GameObject
 	virtual void OnStart() override;
-	virtual void Update() override;
+	virtual void Update(float deltatime) override;
 	virtual void Render() override;
 	virtual void Reset() override;
 
@@ -33,7 +33,7 @@ private:
 	// Enemy default parameter
 	Vector2 m_enemySize = { 32.0f, 32.0f };
 	Vector2 m_direction = { 0.0f, 0.0f };
-	float m_speed = 2.0f;
+	const float SPEED = 100.0f;
 	Color m_color = BLUE;
 	short int m_health = 100;
 

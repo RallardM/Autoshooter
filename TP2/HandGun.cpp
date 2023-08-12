@@ -33,7 +33,7 @@ void HandGun::OnStart()
 	m_isActive = true;
 }
 
-void HandGun::Update()
+void HandGun::Update(float _deltatime)
 {
 	float frameTime = GetFrameTime();
 	m_currentAttackTimer += frameTime;

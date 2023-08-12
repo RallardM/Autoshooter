@@ -32,7 +32,7 @@ void UIElement::Reset()
 	GameObject::Reset();
 }
 
-void UIElement::Update()
+void UIElement::Update(float _deltatime)
 {
 	switch (m_UIType)
 	{
