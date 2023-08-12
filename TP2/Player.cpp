@@ -5,6 +5,7 @@
 #include <iostream>
 
 
+
 Player::Player()
 {
 	// Position
@@ -95,9 +96,14 @@ void Player::OnStart()
 
 	//m_position.x = (float)GetMapWidth() / 2;
 	//m_position.y = (float)GetMapHeight() / 2;
-	HandGun* weapon = new HandGun();
-	m_weapons.push_back(weapon);
-	weapon->OnStart();
+	Vector2 experienBarSize = { 100.0f, 10.0f };
+	Vector2 offsetFromPlayer = { 0.0f, 50.0f };
+	m_experienceBar = new UIElement(GREEN, experienBarSize, offsetFromPlayer);
+	m_experienceBar->OnStart();
+
+	HandGun* handGun = new HandGun();
+	m_weapons.push_back(handGun);
+	handGun->OnStart();
 }
 
 void Player::Update()
@@ -126,7 +132,7 @@ void Player::Update()
 	// Collision Vertical
 	//Collision();
 
-	//Set weapon position to follow player position
+	//Set handGun position to follow player position
 
 	// TODO Remi : demander a Maurice pourquoi un vecteur au lieu de la liste initiale
 	//if (!m_weapons.empty()) 
@@ -147,6 +153,10 @@ void Player::Update()
 	//	}
 	//}
 
+	// Update UI position
+	m_experienceBar->FollowPosition(m_position); // TODO Make pure virtual
+
+	// Update weapon position
 	for (Weapon* weapon : m_weapons)
 	{
 		if (weapon == nullptr)
@@ -154,11 +164,11 @@ void Player::Update()
 			continue;
 		}
 
-		weapon->FollowPosition(m_position);
+		weapon->FollowPosition(m_position);// TODO Make pure virtual
 	}
 
 	// Update camera position to player position
-	Game::UpdateCameraPosition(m_position);
+	Game::UpdateCameraPosition(m_position); 
 
 	Collision();
 	VerifyHealth();

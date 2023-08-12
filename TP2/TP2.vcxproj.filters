@@ -48,6 +48,9 @@
     <ClInclude Include="ExperienceOrb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UIElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -78,6 +81,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ExperienceOrb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

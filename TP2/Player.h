@@ -1,6 +1,7 @@
 #pragma once
 #include <list>
 #include "Weapon.h"
+#include "UIElement.h"
 
 class Player : public GameObject
 {
@@ -13,6 +14,7 @@ public:
 	const Rectangle GetRect() const { return { m_position.x, m_position.y, m_playerSize.x, m_playerSize.y }; }
 	
 private:
+	UIElement* m_experienceBar;
 	// Player default parameter
 	Color m_color = { 40, 40, 40, 255 };
 	Vector2 m_playerSize = { 32.0f, 32.0f };

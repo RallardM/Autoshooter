@@ -11,7 +11,7 @@ class Player;
 
 class Game
 {
-	static Game* _Instance;
+	
 
 public:
 	//Game(const Game& obj) = delete; // Constructor for singleton pattern
@@ -19,6 +19,7 @@ public:
 
 
 private:
+	static Game* _Instance;
 	const int CAMERA_WIDTH = 1200;
 	const int CAMERA_HEIGHT = 800;
 

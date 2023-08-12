@@ -244,6 +244,7 @@ void Enemy::Collision()
 	if (isEnemyHitByProjctile)
 	{
 		m_health -= 50;
+		//TODO: Destroy projectile too
 	}
 }
 
