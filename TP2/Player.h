@@ -6,6 +6,7 @@
 class Player : public GameObject
 {
 	friend class Game;
+	friend class UIElement;
 
 public:
 	Player();

@@ -96,8 +96,8 @@ void Player::OnStart()
 
 	//m_position.x = (float)GetMapWidth() / 2;
 	//m_position.y = (float)GetMapHeight() / 2;
-	Vector2 experienBarSize = { 100.0f, 10.0f };
-	Vector2 offsetFromPlayer = { 0.0f, 50.0f };
+	Vector2 experienBarSize = { 32.0f, 3.0f };
+	Vector2 offsetFromPlayer = { 0.0f, 33.0f };
 	m_experienceBar = new UIElement(GREEN, experienBarSize, offsetFromPlayer);
 	m_experienceBar->OnStart();
 
