@@ -83,6 +83,7 @@ void Enemy::Spawn()
 	std::cout << "Camera position: " << cameraPosition.x << ", " << cameraPosition.y << "\n";
 	const float OUTSIDE_THRESHOLD = 10.0f;
 
+	// TODO : BUG the enemies spawn within the map area so sometimes they spawn inside the camera view when the player is too close to the map borders
 	switch (randCorner)
 	{
 	case 0:
