@@ -108,6 +108,8 @@ void Player::OnStart()
 
 void Player::Update()
 {
+	VerifyHealth();
+	VerifyExperience();
 	// TODO Remi : Vérifier code ajouté par Maurice:
 	//// Update OldBoxCollider
 	//m_oldBoxCollider = m_boxCollider;
@@ -171,7 +173,7 @@ void Player::Update()
 	Game::GetInstance()->UpdateCameraPosition(m_position);
 
 	Collision();
-	VerifyHealth();
+
 }
 
 void Player::Render()
@@ -195,5 +197,14 @@ void Player::VerifyHealth()
 	if (m_health <= 0)
 	{
 		//m_isAlive = false;
+	}
+}
+
+void Player::VerifyExperience()
+{
+	if (m_experience >= 100)
+	{
+		m_experience = 0;
+		m_level++;
 	}
 }

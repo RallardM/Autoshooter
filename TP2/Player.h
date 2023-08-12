@@ -28,6 +28,7 @@ private:
 	std::list<Weapon*> m_weapons;
 	short int m_health = 100;
 	unsigned short int m_experience = 0;
+	unsigned short int m_level = 1;
 
 private:
 	void HandleInput();
@@ -38,5 +39,5 @@ private:
 	virtual void Render() override;
 	void Collision();
 	void VerifyHealth();
-	
+	void VerifyExperience();
 };

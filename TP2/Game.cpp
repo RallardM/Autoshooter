@@ -53,13 +53,13 @@ void Game::StartGame()
     m_camera->rotation = 0.0f;
     m_camera->zoom = 0.8f;
 
-    // Initialize enemies
-    int enemyAmount = std::rand() % (MAX_ENEMY_AMOUNT - MIN_ENEMY_AMOUNT) + MIN_ENEMY_AMOUNT;
-    for (int i = 0; i < enemyAmount; i++)
-    {
-        RegisterGameObject(new Enemy());
-        //m_gameObjectsEnemies.emplace_back(new Enemy());
-    }
+    //// Initialize enemies
+    //int enemyAmount = std::rand() % (MAX_ENEMY_AMOUNT - MIN_ENEMY_AMOUNT) + MIN_ENEMY_AMOUNT;
+    //for (int i = 0; i < enemyAmount; i++)
+    //{
+    //    RegisterGameObject(new Enemy());
+    //    //m_gameObjectsEnemies.emplace_back(new Enemy());
+    //}
 
     //for (Enemy* enemy : m_gameObjectsEnemies)
     //{
@@ -228,6 +228,13 @@ void Game::RenderBackground()
 
 void Game::UpdateGameObjects()
 {
+    unsigned short int enemiesCount = GetObjectOfTypeCountFromList(EGameObjectType::ENEMY);
+
+    if (enemiesCount < MAX_ENEMY_AMOUNT)
+    {
+		RegisterGameObject(new Enemy());
+	}
+
     for (auto const& i : m_gameObjects) 
     {
         if (i == NULL) {continue;}
@@ -237,6 +244,22 @@ void Game::UpdateGameObjects()
     }
     
     RemoveGameObjectsMarkedForRemoval();
+}
+
+unsigned short int Game::GetObjectOfTypeCountFromList(EGameObjectType type)
+{
+    unsigned short int count = 0;
+    for (auto const& i : m_gameObjects)
+    {
+		if (i == NULL) { continue; }
+
+        if (i->GetGameObjectType() == type)
+        {
+			count++;
+		}
+	}
+
+    return count;
 }
 
 void Game::RenderGameObjects()
