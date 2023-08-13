@@ -79,10 +79,8 @@ void Enemy::Spawn()
 
 	// Add a random threshold to the spawn position outside the camera view
 	int randMultiple = std::rand() % 10 + 1;
-	//const float OUTSIDE_THRESHOLD = 0.0f;// TODO delete fter debug
 	const float OUTSIDE_THRESHOLD = randMultiple* m_enemySize.x; // Enemy can spawn outside the camera view by a random threshold of its own size
 
-	// TODO : BUG the enemies spawn within the map area so sometimes they spawn inside the camera view when the player is too close to the map borders
 	switch (randCorner)
 	{
 	case 0:
