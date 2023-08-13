@@ -15,13 +15,10 @@ public:
 private:
 	// Inherited via Weapon
 	virtual void Fire() override;
-	//virtual void IncreaseRate() override;
-	//virtual void IncreaseProjectileDamage() override;
-	//virtual void IncreaseProjectileSize() override;
 
 	// Inherited via GameObject
 	virtual void Reset() override;
-	
+
 public:
 	// Inherited via GameObject
 	virtual void OnStart() override;
