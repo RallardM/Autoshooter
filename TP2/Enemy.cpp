@@ -42,12 +42,7 @@ void Enemy::Update(float deltatime)
 	VerifyHealth();
 
 	TrackPlayer();
-
-	// Update Enemy position
-	m_position.x += m_direction.x * SPEED * deltatime;
-	m_position.y += m_direction.y * SPEED * deltatime;
-	Vector2 distance = { m_position.x - m_previousPosition.x, m_position.y - m_previousPosition.y };
-	m_previousPosition = m_position;
+	UpdatePosition(deltatime);
 
 	// Update health bar position
 	if (m_healthBar != nullptr)
@@ -79,31 +74,48 @@ void Enemy::Spawn()
 
 	// Get a reference to the camera's position
 	Vector2 cameraPosition = Game::GetInstance()->GetCameraPosition();
-	std::cout << "Camera position: " << cameraPosition.x << ", " << cameraPosition.y << "\n";
-	const float OUTSIDE_THRESHOLD = 10.0f;
+	Vector2 cameraOffset = Game::GetInstance()->GetCameraOffset();
+	float cameraZoom = Game::GetInstance()->GetCameraZoom();
+
+	// Add a random threshold to the spawn position outside the camera view
+	int randMultiple = std::rand() % 10 + 1;
+	//const float OUTSIDE_THRESHOLD = 0.0f;// TODO delete fter debug
+	const float OUTSIDE_THRESHOLD = randMultiple* m_enemySize.x; // Enemy can spawn outside the camera view by a random threshold of its own size
 
 	// TODO : BUG the enemies spawn within the map area so sometimes they spawn inside the camera view when the player is too close to the map borders
 	switch (randCorner)
 	{
 	case 0:
 		// Spawn left
-		randPosition.x = (float)(std::rand() % static_cast<int>(Game::GetInstance()->GetCameraLeftLimit() - m_enemySize.x * OUTSIDE_THRESHOLD));
+		//randPosition.x = ((cameraPosition.x + cameraOffset.x) / cameraZoom) + m_enemySize.x + OUTSIDE_THRESHOLD;
+		randPosition.x = Game::GetInstance()->GetCameraLeftLimit() - OUTSIDE_THRESHOLD;
+		std::cout << "Case 0 : Camera position x : " << cameraPosition.x << " Random x position : " << randPosition.x << std::endl;
 		randPosition.y = cameraPosition.y; // TODO randomize y position using camera width
+		m_color = RED;
 		break;
 	case 1:
 		// Spawn top
 		randPosition.x = cameraPosition.x;// TODO randomize y position using camera height
-		randPosition.y = (float)(std::rand() % static_cast<int>(Game::GetInstance()->GetCameraTopLimit() - m_enemySize.y * OUTSIDE_THRESHOLD));
+		//randPosition.y = ((cameraPosition.y + cameraOffset.y) / cameraZoom) + m_enemySize.y + OUTSIDE_THRESHOLD;
+		randPosition.y = Game::GetInstance()->GetCameraTopLimit() - OUTSIDE_THRESHOLD;
+		std::cout << "Case 1 : Camera position y : " << cameraPosition.y << " Random y position : " << randPosition.y << std::endl;
+		m_color = GREEN;
 		break;
 	case 2:
 		// Spawn right
-		randPosition.x = (float)(std::rand() % static_cast<int>(Game::GetInstance()->GetCameraRightLimit() + m_enemySize.x * OUTSIDE_THRESHOLD));
+		//randPosition.x = ((cameraPosition.x - cameraOffset.x) / cameraZoom) + Game::GetInstance()->GetTransformedCameraWidth() + OUTSIDE_THRESHOLD;
+		randPosition.x = Game::GetInstance()->GetCameraRightLimit() + OUTSIDE_THRESHOLD;
+		std::cout << "Case 2 : Camera position x : " << cameraPosition.x << " Random x position : " << randPosition.x << std::endl;
 		randPosition.y = cameraPosition.y; // TODO randomize y position using camera width
+		m_color = YELLOW;
 		break;
 	case 3:
 		// Spawn bottom
 		randPosition.x = cameraPosition.x; // TODO randomize y position using camera height
-		randPosition.y = (float)(std::rand() % static_cast<int>(Game::GetInstance()->GetCameraBottomLimit() + m_enemySize.y * OUTSIDE_THRESHOLD));
+		//randPosition.y = ((cameraPosition.y - cameraOffset.y) / cameraZoom) + Game::GetInstance()->GetTransformedCameraHeight() + OUTSIDE_THRESHOLD;
+		randPosition.y = Game::GetInstance()->GetCameraBottomLimit() + OUTSIDE_THRESHOLD;
+		std::cout << "Case 3 : Camera position y : " << cameraPosition.y << " Random y position : " << randPosition.y << std::endl;
+		m_color = PURPLE;
 		break;
 	default:
 		break;
@@ -111,6 +123,13 @@ void Enemy::Spawn()
 
 	m_position.x = randPosition.x;
 	m_position.y = randPosition.y;
+}
+
+void Enemy::UpdatePosition(float deltatime)
+{
+	// Update Enemy position
+	m_position.x += m_direction.x * SPEED * deltatime;
+	m_position.y += m_direction.y * SPEED * deltatime;
 }
 
 void Enemy::TrackPlayer()

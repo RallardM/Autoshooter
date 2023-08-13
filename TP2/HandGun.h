@@ -18,7 +18,7 @@ private:
 
 	// Inherited via GameObject
 	virtual void Reset() override;
-	
+
 public:
 	// Inherited via GameObject
 	virtual void OnStart() override;

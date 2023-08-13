@@ -56,13 +56,35 @@ public:
 	// Camera getters // TODO Extract camera to its own class
 	const float GetCameraWidth() { return (float)CAMERA_WIDTH; }
 	const float GetCameraHeight() { return (float)CAMERA_HEIGHT; }
-	const float GetCameraLeftLimit() { return m_camera->target.x - (CAMERA_WIDTH * HALF) / m_camera->zoom; }
-	const float GetCameraRightLimit() { return m_camera->target.x + (CAMERA_WIDTH * HALF) / m_camera->zoom; }
-	const float GetCameraTopLimit() { return m_camera->target.y - (CAMERA_HEIGHT * HALF) / m_camera->zoom; }
-	const float GetCameraBottomLimit() { return m_camera->target.y + (CAMERA_HEIGHT * HALF) / m_camera->zoom; }
-	Vector2 GetCameraPosition() { return m_camera->target; }
-	Vector2 GetCameraTopLeftCorner() { return { GetCameraLeftLimit(), GetCameraTopLimit() }; }
-	bool IsWithinCameraBounds(Vector2 position) { return position.x >= GetCameraLeftLimit() && position.x <= GetCameraRightLimit() && position.y >= GetCameraTopLimit() && position.y <= GetCameraBottomLimit(); }
+	const float GetTransformedCameraWidth() { return (float)CAMERA_WIDTH * m_camera->zoom; }
+	const float GetTransformedCameraHeight() { return (float)CAMERA_HEIGHT * m_camera->zoom; }
+
+	// Camera limits 
+	const float GetCameraLeftLimit() 
+	{
+		Vector2 screenLeftBorderPosition = { 0.0f, ((float)GetScreenHeight()) / 2.0f };
+		return GetScreenToWorld2D(screenLeftBorderPosition, * m_camera).x;
+	}
+	const float GetCameraTopLimit() 
+	{ 
+		Vector2 screenTopBorderPosition = { ((float)GetScreenWidth()) / 2.0f, 0.0f };
+		return GetScreenToWorld2D(screenTopBorderPosition, * m_camera).y;
+	}
+	const float GetCameraRightLimit() 
+	{ 
+		Vector2 screenRightBorderPosition = { (float)GetScreenWidth(), ((float)GetScreenHeight()) / 2.0f };
+		return GetScreenToWorld2D(screenRightBorderPosition, * m_camera).x;
+	}
+	const float GetCameraBottomLimit() 
+	{ 
+		Vector2 screenBottomBorderPosition = { ((float)GetScreenWidth()) / 2.0f, (float)GetScreenHeight() };
+		return GetScreenToWorld2D(screenBottomBorderPosition, * m_camera).y;
+	}
+
+	const Vector2 GetCameraPosition() { return m_camera->target; }
+	const Vector2 GetCameraOffset() { return m_camera->offset; }
+	const Vector2 GetCameraTopLeftCorner() { return { GetCameraLeftLimit(), GetCameraTopLimit() }; }
+	const float GetCameraZoom() { return m_camera->zoom; }
 
 	// Player getters // TODO Extract experience to its own class
 	Vector2 GetPlayerPosition() { return { m_player->m_position.x, m_player->m_position.y }; }
