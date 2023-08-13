@@ -21,7 +21,6 @@ private:
 	virtual void Reset() override;
 	
 public:
-	HandGun();
 
 	// Inherited via GameObject
 	virtual void OnStart() override;

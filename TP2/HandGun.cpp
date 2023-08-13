@@ -19,11 +19,6 @@ void HandGun::Reset()
 	m_isActive = false;
 }
 
-HandGun::HandGun()
-{
-	// TODO Remi : 
-}
-
 void HandGun::OnStart()
 {
 	GameObject::OnStart();
