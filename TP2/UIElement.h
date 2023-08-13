@@ -7,7 +7,7 @@ class UIElement : public GameObject
 
 public:
 	UIElement(GameObject* targetEntity, EUIElementType uitype, Color color, Vector2 size, Vector2 offset, float value);
-	UIElement(GameObject* targetEntity, EUIElementType uitype, Color color, int size, Vector2 offset, float value);
+	UIElement(GameObject* targetEntity, EUIElementType uitype, Color color, int size, Vector2 offset, unsigned short int value);
 	virtual void OnStart() override;
 	void FollowPosition(Vector2 newPosition);
 	virtual bool IsActive() override { return m_isActive; }
@@ -17,7 +17,6 @@ private:
 	// Inherited via GameObject
 	virtual void Update(float deltatime) override;
 	virtual void Render() override;
-	
 
 	void RenderProgressBar();
 	void UpdateProgressBar();

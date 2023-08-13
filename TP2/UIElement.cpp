@@ -14,7 +14,7 @@ UIElement::UIElement(GameObject* targetEntity, EUIElementType uitype, Color colo
 	m_floatValue = value;
 }
 
-UIElement::UIElement(GameObject* targetEntity, EUIElementType uitype, Color color, int size, Vector2 offset, float value)
+UIElement::UIElement(GameObject* targetEntity, EUIElementType uitype, Color color, int size, Vector2 offset, unsigned short int value)
 {
 	m_targetEntity = targetEntity;
 	m_UIType = uitype;
@@ -82,7 +82,7 @@ void UIElement::Render()
 		break;
 
 	case EUIElementType::TEXT:
-		DrawText(std::to_string(m_intValue).c_str(), m_position.x, m_position.y, m_fontSize, m_color);
+		DrawText(std::to_string(m_intValue).c_str(), (int)m_position.x, (int)m_position.y, m_fontSize, m_color);
 		break;
 
 	case EUIElementType::COUNT:
@@ -92,8 +92,6 @@ void UIElement::Render()
 		break;
 	}
 }
-
-
 
 void UIElement::RenderProgressBar()
 {

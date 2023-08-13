@@ -1,10 +1,13 @@
 #include "Player.h"
 #include "Game.h"
 #include "HandGun.h"
+#include "MathUtils.h"
 #include <iostream>
 
 Player::~Player()
 {
+	// TODO debug crashes when esc
+	// 
 	// Empty weapon list
 	for (auto it = m_weapons.begin(); it != m_weapons.end(); ++it)
 	{
@@ -25,6 +28,14 @@ Player::~Player()
 
 void Player::HandleInput()
 {
+	// Debug keys
+
+	if (IsKeyPressed(KEY_F1))
+	{
+		Game::GetInstance()->PauseGame();
+	}
+
+	// Movement keys
 
 	if (IsKeyDown(KEY_W))
 	{
@@ -72,8 +83,8 @@ void Player::OnStart()
 {
 	GameObject::OnStart();
 
-	m_position.x = (float)Game::GetInstance()->GetMapWidth() / 2;
-	m_position.y = (float)Game::GetInstance()->GetMapHeight() / 2;
+	m_position.x = (float)Game::GetInstance()->GetMapWidth() * HALF;
+	m_position.y = (float)Game::GetInstance()->GetMapHeight() * HALF;
 
 	// Initialize health bar
 	Vector2 barSize = { 32.0f, 3.0f };
