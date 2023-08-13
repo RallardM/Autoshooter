@@ -1,8 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "UIElement.h"
-
-#include <vector>
+#include "Projectile.h"
 
 class Weapon;
 
@@ -28,7 +27,6 @@ public:
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::ENEMY; }
 	const short int GetHealth() const { return m_health; }
 
-
 private:
 	UIElement* m_healthBar = nullptr;
 
@@ -39,6 +37,7 @@ private:
 	const float SPEED = 100.0f;
 	Color m_color = BLUE;
 	short int m_health = 100;
+	unsigned short int m_previousProjectileId = 0;
 	static unsigned short int s_id;
 
 public:

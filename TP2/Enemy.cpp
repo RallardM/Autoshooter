@@ -159,6 +159,11 @@ void Enemy::Collision()
 	if (isEnemyHitByProjctile)
 	{
 		Projectile* projectile = Game::GetInstance()->GetCollidingProjectile(enemyRect);
+
+		if (projectile == nullptr) { return; }
+		if (projectile->m_id == m_previousProjectileId) { return; }
+		m_previousProjectileId = projectile->m_id;
+
 		short int projectileDamage = (short)projectile->GetDamage();
 		m_health -= projectileDamage;
 	}
