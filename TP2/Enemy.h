@@ -25,7 +25,8 @@ public:
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	const Rectangle GetRect() const  { return { m_position.x, m_position.y, m_enemySize.x, m_enemySize.y }; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::ENEMY; }
-	//const short int GetHealth() const { return m_health; }
+	virtual const short int GetHealth() const override { return m_health; }
+	virtual const short int GetMaxHealth() const override { return MAX_HEALTH; }
 
 private:
 	UIElement* m_healthBar = nullptr;

@@ -22,6 +22,10 @@ Player::~Player()
 	delete m_healthBar;
 	m_healthBar = nullptr;
 
+	// Delete second health bar
+	delete m_secondHealthBar;
+	m_secondHealthBar = nullptr;
+
 	// Delete experience bar
 	delete m_experienceBar;
 	m_experienceBar = nullptr;
@@ -126,13 +130,13 @@ void Player::OnStart()
 
 	// Initialize experience text
 	int fontSize = 15;
-	offsetFromPlayer = { 3.0f, 8.0f };
+	offsetFromPlayer = { 3.0f, 8.0f }; // { 0.0f, 33.0f };
 	m_experienceText = new UIElement(this, EUIElementType::TEXT, GREEN, fontSize, offsetFromPlayer, m_totalExperience);
 	m_experienceText->OnStart();
 
 	// Initialize experience bar
 	barSize = { 32.0f, 3.0f };
-	offsetFromPlayer = { 0.0f, 36.0f };
+	offsetFromPlayer = { 0.0f, -3.0f };
 	m_experienceBar = new UIElement(this, EUIElementType::PROGRESS_BAR, GREEN, barSize, offsetFromPlayer, m_experience);
 	m_experienceBar->OnStart();
 
@@ -157,6 +161,12 @@ void Player::Update(float deltatime)
 	if (m_healthBar != nullptr)
 	{
 		m_healthBar->FollowPosition(m_position); // TODO Make pure virtual
+	}
+
+	// Update second health bar position
+	if (m_secondHealthBar != nullptr)
+	{
+		m_secondHealthBar->FollowPosition(m_position); // TODO Make pure virtual
 	}
 
 	// Update experience text position
@@ -207,7 +217,7 @@ void Player::Collision()
 
 	if (isEnemyHitPlayer)
 	{
-		m_health -= 10;
+		//m_health -= 10;
 	}
 }
 
@@ -216,6 +226,26 @@ void Player::VerifyHealth()
 	if (m_health <= 0)
 	{
 		//TODO: Game Over screen or info delete ui pointers 
+	}
+
+	if (m_health > MAX_HEALTH && m_secondHealthBar == nullptr)
+	{
+		// Initialize one additional health bar
+		float extraHealth = (float)m_health - (float)MAX_HEALTH;
+		// 32.0f  = 100% of the bar
+		extraHealth = (extraHealth * 32.0f) / 100;
+		Vector2 barSize = { extraHealth, 3.0f };
+		Vector2 offsetFromPlayer = { 0.0f, 37.0f };
+		m_secondHealthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromPlayer, m_health);
+		m_secondHealthBar->OnStart();
+		m_healthBar->SetHasSecondBarToRegressBefore(true);
+	}
+	else if (m_health <= MAX_HEALTH && m_secondHealthBar != nullptr)
+	{
+		// Delete additional health bar
+		delete m_secondHealthBar;
+		m_secondHealthBar = nullptr;
+		m_healthBar->SetHasSecondBarToRegressBefore(false);
 	}
 }
 

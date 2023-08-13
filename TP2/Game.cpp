@@ -114,6 +114,8 @@ bool Game::AreEnemyProjectileColliding(Rectangle enemy)
 {
     for (GameObject* gameObject : _Instance->m_gameObjects)
     {
+        if (gameObject == nullptr) { continue;}
+
         if (gameObject->GetGameObjectType() == EGameObjectType::PROJECTILE)
         {
             Projectile* projectile = dynamic_cast<Projectile*>(gameObject);

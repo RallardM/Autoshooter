@@ -91,7 +91,7 @@ void Enemy::Spawn()
 		randPosition.x = Game::GetInstance()->GetCameraLeftLimit() - OUTSIDE_THRESHOLD;
 		//std::cout << "Case 0 : Camera position x : " << cameraPosition.x << " Random x position : " << randPosition.x << std::endl;
 		randPosition.y = cameraPosition.y; // TODO randomize y position using camera width
-		m_color = RED;
+		m_color = ORANGE;
 		break;
 	case 1:
 		// Spawn top

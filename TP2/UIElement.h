@@ -13,7 +13,7 @@ public:
 	void FollowPosition(Vector2 newPosition);
 	virtual bool IsActive() override { return m_isActive; }
 	virtual void Reset() override; // TODO check how to make it private, less spaghetti
-
+	void SetHasSecondBarToRegressBefore(bool value) { m_hasASecondBarToRegressBefore = value; }
 private:
 	// Inherited via GameObject
 	virtual void Update(float deltatime) override;
@@ -37,6 +37,7 @@ private:
 	float m_floatValue = 0.0f;
 	unsigned short int m_intValue = 0;
 	int m_fontSize = 0;
+	bool m_hasASecondBarToRegressBefore = false;
 
 };
 

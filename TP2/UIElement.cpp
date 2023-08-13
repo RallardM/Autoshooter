@@ -122,8 +122,27 @@ void UIElement::UpdateProgressBar()
 
 void UIElement::UpdateRegressBar()
 {
-	//m_floatValue = Game::GetInstance()->GetEntityHealth(m_targetEntity);
-	m_floatValue = m_targetEntity->GetHealth();
+	// Dynamic cast to player
+	//Player* player = dynamic_cast<Player*>(m_targetEntity);
+	if (m_targetEntity->GetGameObjectType() == EGameObjectType::PLAYER)
+	{
+		int a = 0;
+	}
+
+	if (m_hasASecondBarToRegressBefore)
+	{
+		m_size.x = 32.0f;
+		return;
+	}
+
+	if (m_targetEntity->GetHealth() > m_targetEntity->GetMaxHealth())
+	{
+		m_floatValue = (float)(m_targetEntity->GetHealth() - m_targetEntity->GetMaxHealth());
+	}
+	else
+	{
+		m_floatValue = m_targetEntity->GetHealth();
+	}
 
 	// 32.0f  = 100% of the bar
 	m_size.x = (m_floatValue * 32.0f) / 100;
