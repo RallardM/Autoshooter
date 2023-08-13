@@ -12,6 +12,7 @@ void Weapon::IncreaseRate()
 void Weapon::IncreaseProjectileDamage()
 {
 	m_weaponInfos.m_projectileInfos.DAMAGE *= 2.0f;
+	std::cout << "Projectile damage doubled : " << m_weaponInfos.m_projectileInfos.DAMAGE << std::endl;
 }
 
 void Weapon::IncreaseProjectileSize()

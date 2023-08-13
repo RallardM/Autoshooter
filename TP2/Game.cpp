@@ -69,7 +69,6 @@ void Game::StartGame()
 
 void Game::PauseGame()
 {
-    std::cout << "Game paused : "<< m_isPaused << std::endl;
     m_isPaused = !m_isPaused;
 }
 
@@ -421,12 +420,13 @@ void Game::RemoveGameObjectsMarkedForRemoval()
 {
     for (int i = 0; i < m_gameObjectsToRemove.size(); i++)
     {
-        EGameObjectType type = m_gameObjectsToRemove[i]->GetGameObjectType(); // TODO delete after debug
-        bool isActive = m_gameObjectsToRemove[i]->IsActive(); // TODO delete after debug
-        if (type == EGameObjectType::ENEMY)
-        {
-            std::cout << "GameObject is an enemy" << std::endl;
-        }
+        // TODO delete after debug end of production
+        //EGameObjectType type = m_gameObjectsToRemove[i]->GetGameObjectType(); 
+        //bool isActive = m_gameObjectsToRemove[i]->IsActive();
+        //if (type == EGameObjectType::ENEMY)
+        //{
+        //    std::cout << "GameObject is an enemy" << std::endl;
+        //}
 
         m_gameObjects.remove(m_gameObjectsToRemove[i]);
         delete(m_gameObjectsToRemove[i]);

@@ -22,6 +22,7 @@ public:
 	unsigned short int m_id;
 
 private:
+
 	float m_currentLifetime;
 	float m_xSpeed;
 	float m_ySpeed;

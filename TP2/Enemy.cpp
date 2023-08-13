@@ -89,7 +89,7 @@ void Enemy::Spawn()
 		// Spawn left
 		//randPosition.x = ((cameraPosition.x + cameraOffset.x) / cameraZoom) + m_enemySize.x + OUTSIDE_THRESHOLD;
 		randPosition.x = Game::GetInstance()->GetCameraLeftLimit() - OUTSIDE_THRESHOLD;
-		std::cout << "Case 0 : Camera position x : " << cameraPosition.x << " Random x position : " << randPosition.x << std::endl;
+		//std::cout << "Case 0 : Camera position x : " << cameraPosition.x << " Random x position : " << randPosition.x << std::endl;
 		randPosition.y = cameraPosition.y; // TODO randomize y position using camera width
 		m_color = RED;
 		break;
@@ -98,14 +98,14 @@ void Enemy::Spawn()
 		randPosition.x = cameraPosition.x;// TODO randomize y position using camera height
 		//randPosition.y = ((cameraPosition.y + cameraOffset.y) / cameraZoom) + m_enemySize.y + OUTSIDE_THRESHOLD;
 		randPosition.y = Game::GetInstance()->GetCameraTopLimit() - OUTSIDE_THRESHOLD;
-		std::cout << "Case 1 : Camera position y : " << cameraPosition.y << " Random y position : " << randPosition.y << std::endl;
+		//std::cout << "Case 1 : Camera position y : " << cameraPosition.y << " Random y position : " << randPosition.y << std::endl;
 		m_color = GREEN;
 		break;
 	case 2:
 		// Spawn right
 		//randPosition.x = ((cameraPosition.x - cameraOffset.x) / cameraZoom) + Game::GetInstance()->GetTransformedCameraWidth() + OUTSIDE_THRESHOLD;
 		randPosition.x = Game::GetInstance()->GetCameraRightLimit() + OUTSIDE_THRESHOLD;
-		std::cout << "Case 2 : Camera position x : " << cameraPosition.x << " Random x position : " << randPosition.x << std::endl;
+		//std::cout << "Case 2 : Camera position x : " << cameraPosition.x << " Random x position : " << randPosition.x << std::endl;
 		randPosition.y = cameraPosition.y; // TODO randomize y position using camera width
 		m_color = YELLOW;
 		break;
@@ -114,7 +114,7 @@ void Enemy::Spawn()
 		randPosition.x = cameraPosition.x; // TODO randomize y position using camera height
 		//randPosition.y = ((cameraPosition.y - cameraOffset.y) / cameraZoom) + Game::GetInstance()->GetTransformedCameraHeight() + OUTSIDE_THRESHOLD;
 		randPosition.y = Game::GetInstance()->GetCameraBottomLimit() + OUTSIDE_THRESHOLD;
-		std::cout << "Case 3 : Camera position y : " << cameraPosition.y << " Random y position : " << randPosition.y << std::endl;
+		//std::cout << "Case 3 : Camera position y : " << cameraPosition.y << " Random y position : " << randPosition.y << std::endl;
 		m_color = PURPLE;
 		break;
 	default:
@@ -164,8 +164,11 @@ void Enemy::Collision()
 		if (projectile->m_id == m_previousProjectileId) { return; }
 		m_previousProjectileId = projectile->m_id;
 
+		//projectile->GetWeaponInfo();
 		short int projectileDamage = (short)projectile->GetDamage();
+		std::cout << "Enemy hit by projectile : " << projectileDamage << std::endl;
 		m_health -= projectileDamage;
+		std::cout << "Enemy health : " << m_health << std::endl;
 	}
 }
 

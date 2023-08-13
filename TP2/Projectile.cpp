@@ -10,6 +10,7 @@ unsigned short int Projectile::s_id = 0;
 
 Projectile::Projectile(Vector2 origin, float size, float speed, float lifetime)
 {
+	//m_weaponData = weaponData;
 	m_id = s_id++;
 	m_gameObjectType = EGameObjectType::PROJECTILE;
 	m_position = origin;
@@ -57,7 +58,9 @@ Projectile::Projectile(Vector2 origin, float size, float speed, float lifetime)
 
 Projectile::~Projectile()
 {
-	// TODO
+	// Delete WeaponData
+	//delete m_weaponData;
+	//m_weaponData = nullptr;
 }
 
 void Projectile::OnStart()
