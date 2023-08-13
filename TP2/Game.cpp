@@ -67,11 +67,6 @@ void Game::StartGame()
     MainLoop();
 }
 
-void Game::PauseGame()
-{
-    m_isPaused = !m_isPaused;
-}
-
 void Game::RegisterGameObject(GameObject* gameObject)
 {
     m_gameObjects.push_back(gameObject);
@@ -166,6 +161,8 @@ bool Game::ArePlayerEnemyColliding(Rectangle player)
 {
     for (GameObject* gameObject : _Instance->m_gameObjects)
     {
+        if (gameObject == nullptr) { continue; }
+
         if (gameObject->GetGameObjectType() == EGameObjectType::ENEMY)
         {
             Enemy* enemy = dynamic_cast<Enemy*>(gameObject);
@@ -182,25 +179,25 @@ bool Game::ArePlayerEnemyColliding(Rectangle player)
     return false;
 }
 
-//const unsigned short int Game::GetEntityHealth(GameObject* entity) const
-//{
-//    switch (entity->GetGameObjectType())
-//    {
-//    case EGameObjectType::PLAYER:
-//        return m_player->GetHealth();
-//        break;
-//
-//    case EGameObjectType::ENEMY:
-//        return dynamic_cast<Enemy*>(entity)->GetHealth();
-//        break;
-//
-//    case EGameObjectType::COUNT:
-//    default:
-//        std::cout << "Game::GetEntityHealth() : wrong entity type" << std::endl;
-//        return 0;
-//        break;
-//    }
-//}
+Enemy* Game::GetCollidingEnemy(Rectangle player)
+{
+    for (GameObject* gameObject : _Instance->m_gameObjects)
+    {
+        if (gameObject->GetGameObjectType() == EGameObjectType::ENEMY)
+        {
+			Enemy* enemy = dynamic_cast<Enemy*>(gameObject);
+			Vector2 enemyPosition = enemy->GetPosition();
+			Rectangle enemyRect = enemy->GetRect();
+
+			bool IsEnemyHitByProjectile = CheckCollisionRecs(player, enemyRect);
+            if (IsEnemyHitByProjectile)
+            {
+				return enemy;
+			}
+		}
+	}
+	return nullptr;
+}
 
 void Game::MainLoop()
 {
@@ -296,8 +293,21 @@ void Game::UpdateGameObjects(float deltatime)
 
 void Game::RenderPause()
 {
+    if (m_isPlayerDeadMenuOn)
+    {
+		RenderGameOver();
+        return;
+	}
 
-    float zoom = m_camera->zoom; 
+    if (m_isLevelUpMenuOn)
+    {
+        RenderLevelUp();
+    }
+}
+
+void Game::RenderLevelUp()
+{
+    float zoom = m_camera->zoom;
 
     // Get the top-left corner, width, and height of the camera
     Vector2 topLeftCorner = GetCameraTopLeftCorner();
@@ -323,7 +333,7 @@ void Game::RenderPause()
     DrawRectangleRounded(menuBox, 0.1f, 12, LIGHTGRAY);
 
     // Draw text
-    
+
     // Level Up
     string levelUpText = "Level Up!";
     int menuFontSize = 40;
@@ -371,6 +381,45 @@ void Game::RenderPause()
     uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
     uiPositionY += offsetDown;
     DrawText(healthCapText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
+}
+
+void Game::RenderGameOver()
+{
+    float zoom = m_camera->zoom;
+
+    // Get the top-left corner, width, and height of the camera
+    Vector2 topLeftCorner = GetCameraTopLeftCorner();
+    float cameraWidth = GetCameraWidth();
+    float cameraHeight = GetCameraHeight();
+
+    // Adjust the width and height of the rectangle based on the zoom value
+    float adjustedWidth = cameraWidth / zoom;
+    float adjustedHeight = cameraHeight / zoom;
+
+    float halfWidth = adjustedWidth * HALF;
+    float halfHeight = adjustedHeight * HALF;
+
+    // Draw background
+    DrawRectangle((int)topLeftCorner.x, (int)topLeftCorner.y, (int)adjustedWidth, (int)adjustedHeight, Fade(BLACK, 0.5f));
+
+    // Draw Menu Box
+    float menuBoxWidth = 400;
+    float menuBoxHeight = 100;
+    float menuBoxXPosition = topLeftCorner.x + halfWidth - menuBoxWidth * HALF;
+    float menuBoxYPosition = topLeftCorner.y + halfHeight - menuBoxHeight * HALF;
+    Rectangle menuBox = { menuBoxXPosition, menuBoxYPosition, menuBoxWidth, menuBoxHeight };
+    DrawRectangleRounded(menuBox, 0.1f, 12, LIGHTGRAY);
+
+    // Draw text
+
+    // Level Up
+    string levelUpText = "Game Over!";
+    int menuFontSize = 40;
+    float textHeight = menuFontSize * HALF;
+    int textWidth = MeasureText(levelUpText.c_str(), menuFontSize);
+    float uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
+    float uiPositionY = menuBox.y + textHeight;
+    DrawText(levelUpText.c_str(), (int)uiPositionX, (int)uiPositionY, menuFontSize, DARKBLUE);
 }
 
 unsigned short int Game::GetActiveObjectCountFromList(EGameObjectType type)

@@ -40,11 +40,21 @@ private:
 	std::vector<GameObject*> m_gameObjectsToRemove;
 
 	bool m_isPaused = false;
+	bool m_isPlayerDeadMenuOn = false;
+	bool m_isLevelUpMenuOn = false;
 
 public:
 	void StartGame();
-	void PauseGame();
+
+	// Game getters and setters
 	bool const IsPaused() const { return m_isPaused; }
+	void PauseGame() { m_isPaused = !m_isPaused; }
+	void SetIsPlayerDeadMenuOn() { m_isPlayerDeadMenuOn = !m_isPlayerDeadMenuOn; }
+	bool const IsPlayerDead() const { return m_isPlayerDeadMenuOn; }
+	void SetLevelUpMenuOn() { m_isLevelUpMenuOn = !m_isLevelUpMenuOn; }
+	bool const IsLevelUp() const { return m_isLevelUpMenuOn; }
+
+	// GameObjects Methods
 	void RegisterGameObject(GameObject* agent);
 	void UnregisterGameObject(GameObject* agent);
 	void UpdateCameraPosition(Vector2 playerPosition);
@@ -101,6 +111,7 @@ public:
 	Projectile* GetCollidingProjectile(Rectangle enemy);
 	bool AreOrbPlayerColliding(Vector2 orbPosition, float orbradius);
 	bool ArePlayerEnemyColliding(Rectangle player);
+	Enemy* GetCollidingEnemy(Rectangle player);
 
 	// Entities getters
 	//const unsigned short int GetEntityHealth(GameObject* entity) const;
@@ -111,6 +122,8 @@ private:
 	void RenderBackground();
 	void UpdateGameObjects(float deltatime);
 	void RenderPause();
+	void RenderLevelUp();
+	void RenderGameOver();
 	unsigned short int GetActiveObjectCountFromList(EGameObjectType type);
 	void RenderGameObjects();
 	void UpdateEnemySpawner();
