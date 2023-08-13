@@ -1,13 +1,14 @@
 #pragma once
 #include "GameObject.h"
+#include "Entity.h"
 
 class UIElement : public GameObject
 {
 	friend class Game;
 
 public:
-	UIElement(GameObject* targetEntity, EUIElementType uitype, Color color, Vector2 size, Vector2 offset, float value);
-	UIElement(GameObject* targetEntity, EUIElementType uitype, Color color, int size, Vector2 offset, unsigned short int value);
+	UIElement(Entity* targetEntity, EUIElementType uitype, Color color, Vector2 size, Vector2 offset, float value);
+	UIElement(Entity* targetEntity, EUIElementType uitype, Color color, int size, Vector2 offset, unsigned short int value);
 	virtual void OnStart() override;
 	void FollowPosition(Vector2 newPosition);
 	virtual bool IsActive() override { return m_isActive; }
@@ -19,6 +20,7 @@ private:
 	virtual void Render() override;
 
 	void RenderProgressBar();
+	void RenderRegressBar();
 	void UpdateProgressBar();
 	void UpdateRegressBar();
 	virtual const Vector2& GetPosition() const override { return m_position; }
@@ -27,7 +29,7 @@ private:
 public:
 
 private:
-	GameObject* m_targetEntity = nullptr;
+	Entity* m_targetEntity = nullptr;
 	Color m_color = { 40, 40, 40, 255 };
 	Vector2 m_size = { 32.0f, 32.0f };
 	Vector2 m_offset = { 0.0f, 0.0f };

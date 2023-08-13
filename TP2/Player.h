@@ -3,7 +3,7 @@
 #include "Weapon.h"
 #include "UIElement.h"
 
-class Player : public GameObject
+class Player : public Entity
 {
 	friend class Game;
 
@@ -12,7 +12,7 @@ public:
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::PLAYER; }
 	const Rectangle GetRect() const { return { m_position.x, m_position.y, m_playerSize.x, m_playerSize.y }; }
-	const short int GetHealth() const { return m_health; }
+	//const short int GetHealth() const { return m_health; }
 	
 private:
 	UIElement* m_healthBar = nullptr;

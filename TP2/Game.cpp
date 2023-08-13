@@ -181,25 +181,25 @@ bool Game::ArePlayerEnemyColliding(Rectangle player)
     return false;
 }
 
-const unsigned short int Game::GetEntityHealth(GameObject* entity) const
-{
-    switch (entity->GetGameObjectType())
-    {
-    case EGameObjectType::PLAYER:
-        return m_player->GetHealth();
-        break;
-
-    case EGameObjectType::ENEMY:
-        return dynamic_cast<Enemy*>(entity)->GetHealth();
-        break;
-
-    case EGameObjectType::COUNT:
-    default:
-        std::cout << "Game::GetEntityHealth() : wrong entity type" << std::endl;
-        return 0;
-        break;
-    }
-}
+//const unsigned short int Game::GetEntityHealth(GameObject* entity) const
+//{
+//    switch (entity->GetGameObjectType())
+//    {
+//    case EGameObjectType::PLAYER:
+//        return m_player->GetHealth();
+//        break;
+//
+//    case EGameObjectType::ENEMY:
+//        return dynamic_cast<Enemy*>(entity)->GetHealth();
+//        break;
+//
+//    case EGameObjectType::COUNT:
+//    default:
+//        std::cout << "Game::GetEntityHealth() : wrong entity type" << std::endl;
+//        return 0;
+//        break;
+//    }
+//}
 
 void Game::MainLoop()
 {

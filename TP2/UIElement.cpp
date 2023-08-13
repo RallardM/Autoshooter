@@ -3,7 +3,7 @@
 #include <string>
 #include "Game.h"
 
-UIElement::UIElement(GameObject* targetEntity, EUIElementType uitype, Color color, Vector2 size, Vector2 offset, float value)
+UIElement::UIElement(Entity* targetEntity, EUIElementType uitype, Color color, Vector2 size, Vector2 offset, float value)
 {
 	m_targetEntity = targetEntity;
 	m_UIType = uitype;
@@ -14,7 +14,7 @@ UIElement::UIElement(GameObject* targetEntity, EUIElementType uitype, Color colo
 	m_floatValue = value;
 }
 
-UIElement::UIElement(GameObject* targetEntity, EUIElementType uitype, Color color, int size, Vector2 offset, unsigned short int value)
+UIElement::UIElement(Entity* targetEntity, EUIElementType uitype, Color color, int size, Vector2 offset, unsigned short int value)
 {
 	m_targetEntity = targetEntity;
 	m_UIType = uitype;
@@ -55,7 +55,7 @@ void UIElement::Update(float _deltatime)
 		break;
 
 	case EUIElementType::REGRESS_BAR:
-		m_floatValue = Game::GetInstance()->GetPlayerExperience();
+		UpdateRegressBar();
 		break;
 
 	case EUIElementType::TEXT:
@@ -78,7 +78,7 @@ void UIElement::Render()
 		break;
 	
 	case EUIElementType::REGRESS_BAR:
-		DrawRectangleV(m_position, m_size, m_color);
+		RenderRegressBar();
 		break;
 
 	case EUIElementType::TEXT:
@@ -88,12 +88,21 @@ void UIElement::Render()
 	case EUIElementType::COUNT:
 	default:
 		std::cout << "UIElement::Render() : wrong UIElement type" << std::endl;
-		DrawRectangleV(m_position, m_size, m_color);
 		break;
 	}
 }
 
 void UIElement::RenderProgressBar()
+{
+	if (m_floatValue == 0.0f)
+	{
+		return;
+	}
+
+	DrawRectangleV(m_position, m_size, m_color);
+}
+
+void UIElement::RenderRegressBar()
 {
 	if (m_floatValue == 0.0f)
 	{
@@ -113,7 +122,8 @@ void UIElement::UpdateProgressBar()
 
 void UIElement::UpdateRegressBar()
 {
-	m_floatValue = Game::GetInstance()->GetEntityHealth(m_targetEntity);
+	//m_floatValue = Game::GetInstance()->GetEntityHealth(m_targetEntity);
+	m_floatValue = m_targetEntity->GetHealth();
 
 	// 32.0f  = 100% of the bar
 	m_size.x = (m_floatValue * 32.0f) / 100;
