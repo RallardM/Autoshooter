@@ -103,7 +103,7 @@ public:
 	bool ArePlayerEnemyColliding(Rectangle player);
 
 	// Entities getters
-	const unsigned short int GetEntityHealth(GameObject* entity) const;
+	//const unsigned short int GetEntityHealth(GameObject* entity) const;
 
 private:
 	Game() {} // Private constructor for singleton pattern

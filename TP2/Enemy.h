@@ -1,12 +1,11 @@
 #pragma once
-#include "GameObject.h"
+#include "Entity.h"
 #include "UIElement.h"
-
-#include <vector>
+#include "Projectile.h"
 
 class Weapon;
 
-class Enemy : public GameObject
+class Enemy : public Entity
 {
 	friend class Game;
 public:
@@ -26,8 +25,8 @@ public:
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	const Rectangle GetRect() const  { return { m_position.x, m_position.y, m_enemySize.x, m_enemySize.y }; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::ENEMY; }
-	const short int GetHealth() const { return m_health; }
-
+	virtual const short int GetHealth() const override { return m_health; }
+	virtual const short int GetMaxHealth() const override { return MAX_HEALTH; }
 
 private:
 	UIElement* m_healthBar = nullptr;
@@ -38,7 +37,8 @@ private:
 	Vector2 m_previousPosition = { 0.0f, 0.0f };
 	const float SPEED = 100.0f;
 	Color m_color = BLUE;
-	short int m_health = 100;
+	
+	unsigned short int m_previousProjectileId = 0;
 	static unsigned short int s_id;
 
 public:

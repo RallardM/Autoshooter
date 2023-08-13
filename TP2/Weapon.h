@@ -8,7 +8,7 @@ struct SWeaponData
 {
 public:
 	float m_attackRate = 1.0f;
-	SHandGunProjectileData m_projectileInfos;
+	SProjectileData m_projectileInfos;
 };
 
 
@@ -32,7 +32,8 @@ protected:
 	virtual const Vector2& GetPosition() const = 0;
 	virtual const EGameObjectType GetGameObjectType() const = 0;
 	const SWeaponData GetWeaponInfos() const { return m_weaponInfos; }
-	void SetProjectileInfos(const SHandGunProjectileData& projectileInfos) { m_weaponInfos.m_projectileInfos = projectileInfos; }
+	SProjectileData& GetProjectileInfos() { return m_weaponInfos.m_projectileInfos; }
+	void SetProjectileInfos(const SProjectileData& projectileInfos) { m_weaponInfos.m_projectileInfos = projectileInfos; }
 
 private:
 	SWeaponData m_weaponInfos;

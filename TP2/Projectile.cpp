@@ -8,7 +8,8 @@
 
 unsigned short int Projectile::s_id = 0;
 
-Projectile::Projectile(Vector2 origin, float size, float speed, float lifetime)
+Projectile::Projectile(SProjectileData& projectileData, Vector2 origin, float size, float speed, float lifetime)
+	: m_projectileData(projectileData)
 {
 	m_id = s_id++;
 	m_gameObjectType = EGameObjectType::PROJECTILE;
@@ -53,11 +54,6 @@ Projectile::Projectile(Vector2 origin, float size, float speed, float lifetime)
 	m_xSpeed = speedMagnitude * cos(randomAngle);
 	m_ySpeed = speedMagnitude * sin(randomAngle);
 
-}
-
-Projectile::~Projectile()
-{
-	// TODO
 }
 
 void Projectile::OnStart()
