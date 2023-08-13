@@ -35,16 +35,32 @@ void Player::HandleInput()
 {
 	// Debug keys
 
+	// Debug Level Up Menu
 	if (IsKeyPressed(KEY_F1))
 	{
 		Game::GetInstance()->PauseGame();
 		Game::GetInstance()->SetLevelUpMenuOn();
 	}
 
+	// Debug Game Over Menu
 	if (IsKeyPressed(KEY_F2))
 	{
 		Game::GetInstance()->PauseGame();
 		Game::GetInstance()->SetIsPlayerDeadMenuOn();
+	}
+
+	// Debug + 5 Levels
+	if (IsKeyPressed(KEY_F5))
+	{
+		m_level += 5;
+		for (Weapon* in : m_weapons)
+		{
+			in->IncreaseRate();
+			in->IncreaseProjectileDamage();
+			in->IncreaseProjectileSize();
+		}
+		IncreaseHealth();
+		IncreaseHealth();
 	}
 
 	// Experience Menu Keys
@@ -185,7 +201,7 @@ void Player::Update(float deltatime)
 	{
 		m_experienceText->FollowPosition(m_position); // TODO Make pure virtual
 	}
-	
+
 	// Update experience bar position
 	if (m_experienceBar != nullptr)
 	{
@@ -238,9 +254,9 @@ void Player::Collision()
 		return;
 	}
 
-	if (enemy->m_id == m_previousEnemyId) 
-	{ 
-		return; 
+	if (enemy->m_id == m_previousEnemyId)
+	{
+		return;
 	}
 
 	m_previousEnemyId = enemy->m_id;
