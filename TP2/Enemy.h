@@ -45,6 +45,7 @@ public:
 	unsigned short int m_id;
 
 private:
+	void UpdatePosition(float deltatime);
 	void TrackPlayer();
 	void Collision();
 	void VerifyHealth();

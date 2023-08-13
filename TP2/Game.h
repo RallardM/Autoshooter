@@ -59,16 +59,7 @@ public:
 	const float GetTransformedCameraWidth() { return (float)CAMERA_WIDTH * m_camera->zoom; }
 	const float GetTransformedCameraHeight() { return (float)CAMERA_HEIGHT * m_camera->zoom; }
 
-	// Camera limits
-	//const float GetCameraLeftLimit() { return m_camera->target.x - (CAMERA_WIDTH * HALF) / m_camera->zoom; }
-	//const float GetCameraRightLimit() { return m_camera->target.x + (CAMERA_WIDTH * HALF) / m_camera->zoom; }
-	//const float GetCameraTopLimit() { return m_camera->target.y - (CAMERA_HEIGHT * HALF) / m_camera->zoom; }
-	//const float GetCameraBottomLimit() { return m_camera->target.y + (CAMERA_HEIGHT * HALF) / m_camera->zoom; }
-	//const float GetCameraLeftLimit() { return (m_camera->target.x - m_camera->offset.x) * m_camera->zoom; }
-	//const float GetCameraTopLimit() { return (m_camera->target.y - m_camera->offset.y) * m_camera->zoom; }
-	//const float GetCameraRightLimit() { return (m_camera->target.x + m_camera->offset.x) * m_camera->zoom; }
-	//const float GetCameraBottomLimit() { return (m_camera->target.y + m_camera->offset.y) * m_camera->zoom; }
-
+	// Camera limits 
 	const float GetCameraLeftLimit() 
 	{
 		Vector2 screenLeftBorderPosition = { 0.0f, ((float)GetScreenHeight()) / 2.0f };

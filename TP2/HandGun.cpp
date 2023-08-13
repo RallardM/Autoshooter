@@ -3,14 +3,13 @@
 
 void HandGun::Fire()
 {
-	// TODO comment out after debug
-	//Projectile* projectile = new Projectile(
-	//	m_position,
-	//	GetWeaponInfos().m_projectileInfos.RADIUS,
-	//	GetWeaponInfos().m_projectileInfos.SPEED,
-	//	GetWeaponInfos().m_projectileInfos.LIFETIME);
+	Projectile* projectile = new Projectile(
+		m_position,
+		GetWeaponInfos().m_projectileInfos.RADIUS,
+		GetWeaponInfos().m_projectileInfos.SPEED,
+		GetWeaponInfos().m_projectileInfos.LIFETIME);
 
-	//projectile->OnStart();
+	projectile->OnStart();
 }
 
 void HandGun::Reset()
