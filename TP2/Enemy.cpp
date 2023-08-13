@@ -164,11 +164,8 @@ void Enemy::Collision()
 		if (projectile->m_id == m_previousProjectileId) { return; }
 		m_previousProjectileId = projectile->m_id;
 
-		//projectile->GetWeaponInfo();
 		short int projectileDamage = (short)projectile->GetDamage();
-		std::cout << "Enemy hit by projectile : " << projectileDamage << std::endl;
 		m_health -= projectileDamage;
-		std::cout << "Enemy health : " << m_health << std::endl;
 	}
 }
 

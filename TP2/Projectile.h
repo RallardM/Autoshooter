@@ -4,9 +4,10 @@
 #include "GameObject.h"
 #include "Enemy.h"
 
-struct SHandGunProjectileData
+struct SProjectileData
 {
 public:
+
 	float RADIUS = 5.0f;
 	float LIFETIME = 2.0f;
 	float DAMAGE = 10.0f;
@@ -29,13 +30,12 @@ private:
 	float m_radius;
 	Color m_color;
 	EGameObjectType m_gameObjectType;
-
+	SProjectileData& m_projectileData;
 	static unsigned short int s_id;
 
 public:
 	
-	Projectile(Vector2 origin, float size, float speed, float lifetime);
-	~Projectile();
+	Projectile(SProjectileData& projectileData, Vector2 origin, float size, float speed, float lifetime);
 
 	// Inherited via GameObject
 	virtual void OnStart() override;
@@ -46,5 +46,5 @@ public:
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	const float& GetRadius() const { return m_radius; }
 	virtual const EGameObjectType GetGameObjectType() const override { return m_gameObjectType; }
-	const float GetDamage() const { return SHandGunProjectileData().DAMAGE; }
+	const float GetDamage() const { return m_projectileData.DAMAGE; }
 };

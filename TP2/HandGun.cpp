@@ -4,6 +4,7 @@
 void HandGun::Fire()
 {
 	Projectile* projectile = new Projectile(
+		GetProjectileInfos(),
 		m_position,
 		GetWeaponInfos().m_projectileInfos.RADIUS,
 		GetWeaponInfos().m_projectileInfos.SPEED,
@@ -22,7 +23,7 @@ void HandGun::Reset()
 void HandGun::OnStart()
 {
 	GameObject::OnStart();
-	SetProjectileInfos(SHandGunProjectileData());
+	SetProjectileInfos(SProjectileData());
 
 	// Add attributes before m_isActive = true;
 	m_isActive = true;
