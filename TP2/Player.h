@@ -43,4 +43,8 @@ private:
 	void Collision();
 	void VerifyHealth();
 	void VerifyExperience();
+	void IncreaseWeaponRate();
+	void IncreaseProjectileDamage();
+	void IncreaseProjectileSize();
+	void IncreaseHealthCapacity();
 };

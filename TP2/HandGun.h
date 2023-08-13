@@ -1,13 +1,6 @@
 #pragma once
 #include "Weapon.h"
 
-struct SWeaponData
-{
-public:
-	float m_attackRate = 1.0f;
-	SHandGunProjectileData m_projectileInfos;
-};
-
 class HandGun : public Weapon
 {
 	friend class Game;
@@ -18,6 +11,7 @@ private:
 	Vector2 m_size = { 5.0f, 5.0f };
 private:
 	virtual void Fire() override;
+	virtual void IncreaseRate() override;
 	virtual void Reset() override;
 	
 public:
@@ -30,4 +24,6 @@ public:
 	virtual bool IsActive() override { return m_isActive; }
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::WEAPON; }
+	virtual void IncreaseProjectileDamage() override;
+	virtual void IncreaseProjectileSize() override;
 };

@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "HandGun.h"
 #include "MathUtils.h"
+#include "Weapon.h"
 #include <iostream>
 
 Player::~Player()
@@ -33,6 +34,37 @@ void Player::HandleInput()
 	if (IsKeyPressed(KEY_F1))
 	{
 		Game::GetInstance()->PauseGame();
+	}
+
+	// Experience Menu Keys
+	if (Game::GetInstance()->IsPaused())
+	{
+		if (IsKeyPressed(KEY_ONE))
+		{
+			// Increase shooting rate
+			IncreaseWeaponRate();
+			Game::GetInstance()->PauseGame();
+		}
+		else if (IsKeyPressed(KEY_TWO))
+		{
+			// Increase projectile damages
+			IncreaseProjectileDamage();
+			Game::GetInstance()->PauseGame();
+		}
+		else if (IsKeyPressed(KEY_THREE))
+		{
+			// Increase projectile size
+			IncreaseProjectileSize();
+			Game::GetInstance()->PauseGame();
+		}
+		else if (IsKeyPressed(KEY_FOUR))
+		{
+			// Increase health capacity
+			IncreaseHealthCapacity();
+			Game::GetInstance()->PauseGame();
+		}
+
+		return;
 	}
 
 	// Movement keys
@@ -193,5 +225,50 @@ void Player::VerifyExperience()
 	{
 		m_experience = 0;
 		m_level++;
+		Game::GetInstance()->PauseGame();
 	}
+}
+
+void Player::IncreaseWeaponRate()
+{
+	for (Weapon* weapon : m_weapons)
+	{
+		if (weapon == nullptr)
+		{
+			continue;
+		}
+
+		weapon->IncreaseRate();
+	}
+}
+
+void Player::IncreaseProjectileDamage()
+{
+	for (Weapon* weapon : m_weapons)
+	{
+		if (weapon == nullptr)
+		{
+			continue;
+		}
+
+		weapon->IncreaseProjectileDamage();
+	}
+}
+
+void Player::IncreaseProjectileSize()
+{
+	for (Weapon* weapon : m_weapons)
+	{
+		if (weapon == nullptr)
+		{
+			continue;
+		}
+
+		weapon->IncreaseProjectileSize();
+	}
+}
+
+void Player::IncreaseHealthCapacity()
+{
+	m_health += 10;
 }

@@ -4,6 +4,17 @@
 #include "GameObject.h"
 #include "Enemy.h"
 
+struct SHandGunProjectileData
+{
+public:
+	float RADIUS = 5.0f;
+	float LIFETIME = 2.0f;
+	float DAMAGE = 10.0f;
+	float SPEED = 300.0f;
+	EWeaponType WEAPON_TYPE = EWeaponType::HAND_GUN;
+};
+
+
 class Projectile : public GameObject
 {
 	friend class Game;
@@ -35,15 +46,5 @@ public:
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	const float& GetRadius() const { return m_radius; }
 	virtual const EGameObjectType GetGameObjectType() const override { return m_gameObjectType; }
-
-};
-
-struct SHandGunProjectileData
-{
-public:
-	float RADIUS = 5.0f;
-	float LIFETIME = 2.0f;
-	float DAMAGE = 10.0f;
-	float SPEED = 300.0f;
-	EWeaponType WEAPON_TYPE = EWeaponType::HAND_GUN;
+	const float GetDamage() const { return SHandGunProjectileData().DAMAGE; }
 };

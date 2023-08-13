@@ -139,8 +139,9 @@ void Enemy::Collision()
 
 	if (isEnemyHitByProjctile)
 	{
-		m_health -= 50;
-		//TODO: Destroy projectile too
+		Projectile* projectile = Game::GetInstance()->GetCollidingProjectile(enemyRect);
+		short int projectileDamage = (short)projectile->GetDamage();
+		m_health -= projectileDamage;
 	}
 }
 

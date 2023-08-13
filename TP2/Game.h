@@ -44,6 +44,7 @@ private:
 public:
 	void StartGame();
 	void PauseGame();
+	bool const IsPaused() const { return m_isPaused; }
 	void RegisterGameObject(GameObject* agent);
 	void UnregisterGameObject(GameObject* agent);
 	void UpdateCameraPosition(Vector2 playerPosition);
@@ -75,6 +76,7 @@ public:
 
 	// Collision detection // TODO Extract collision detection to its own class
 	bool AreEnemyProjectileColliding(Rectangle enemy);
+	Projectile* GetCollidingProjectile(Rectangle enemy);
 	bool AreOrbPlayerColliding(Vector2 orbPosition, float orbradius);
 	bool ArePlayerEnemyColliding(Rectangle player);
 

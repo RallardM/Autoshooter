@@ -131,6 +131,26 @@ bool Game::AreEnemyProjectileColliding(Rectangle enemy)
     return false;
 }
 
+Projectile* Game::GetCollidingProjectile(Rectangle enemy)
+{
+    for (GameObject* gameObject : _Instance->m_gameObjects)
+    {
+        if (gameObject->GetGameObjectType() == EGameObjectType::PROJECTILE)
+        {
+			Projectile* projectile = dynamic_cast<Projectile*>(gameObject);
+			Vector2 projectilePosition = projectile->GetPosition();
+			float projectileRadius = projectile->GetRadius();
+
+			bool IsEnemyHitByProjectile = CheckCollisionCircleRec(projectilePosition, projectileRadius, enemy);
+            if (IsEnemyHitByProjectile)
+            {
+                return projectile;
+            }
+        }
+    }
+    return nullptr;
+}
+
 bool Game::AreOrbPlayerColliding(Vector2 orbPosition, float orbradius)
 {
     bool IsEnemyHitByProjectile = CheckCollisionCircleRec(orbPosition, orbradius, _Instance->m_player->GetRect());
@@ -256,28 +276,6 @@ void Game::RenderBackground()
 
 void Game::UpdateGameObjects(float deltatime)
 {
-    //unsigned short int enemiesCount = GetActiveObjectCountFromList(EGameObjectType::ENEMY);
-    //
-    //if (enemiesCount < MAX_ENEMY_AMOUNT)
-    //{
-    //    // Find an available enemy from the pool
-    //    Enemy* enemy = nullptr;
-    //    for (Enemy* poolEnemy : m_enemyPool)
-    //    {
-    //        if (!poolEnemy->IsActive())
-    //        {
-    //            enemy = poolEnemy;
-    //            break;
-    //        }
-    //    }
-
-    //    if (enemy)
-    //    {
-    //        RegisterGameObject(enemy);
-    //        enemy->OnStart();
-    //    }
-    //}
-
     for (auto const& i : m_gameObjects) 
     {
         if (i == NULL) {continue;}
@@ -337,7 +335,7 @@ void Game::RenderPause()
     // Upgrades
 
     // Shooting rate
-    string shootingRateText = "Shooting Rate x 2";
+    string shootingRateText = "1 Shooting Rate x 2";
     int choicesFontSize = 30;
     textHeight = choicesFontSize * HALF;
     textWidth = MeasureText(shootingRateText.c_str(), choicesFontSize);
@@ -347,7 +345,7 @@ void Game::RenderPause()
     DrawText(shootingRateText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
 
     // Shooting Damage
-    string shootingDamageText = "Shooting Damage x 2";
+    string shootingDamageText = "2 Shooting Damage x 2";
     textHeight = choicesFontSize * HALF;
     textWidth = MeasureText(shootingDamageText.c_str(), choicesFontSize);
     offsetDown = menuBoxHeight * EIGHTH + textHeight;
@@ -356,7 +354,7 @@ void Game::RenderPause()
     DrawText(shootingDamageText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
 
     // Projectile Size
-    string bulletSizeText = "Projectile Size x 2";
+    string bulletSizeText = "3 Projectile Size x 2";
     textHeight = choicesFontSize * HALF;
     textWidth = MeasureText(bulletSizeText.c_str(), choicesFontSize);
     offsetDown = menuBoxHeight * EIGHTH + textHeight;
@@ -365,7 +363,7 @@ void Game::RenderPause()
     DrawText(bulletSizeText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
 
     // Health Capacity
-    string healthCapText = "Health Capacity x 2";
+    string healthCapText = "4 Health Bonus + 10";
     textHeight = choicesFontSize * HALF;
     textWidth = MeasureText(healthCapText.c_str(), choicesFontSize);
     offsetDown = menuBoxHeight * EIGHTH + textHeight;
