@@ -46,5 +46,5 @@ private:
 	void IncreaseWeaponRate();
 	void IncreaseProjectileDamage();
 	void IncreaseProjectileSize();
-	void IncreaseHealthCapacity();
+	void IncreaseHealth();
 };

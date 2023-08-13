@@ -60,7 +60,7 @@ void Player::HandleInput()
 		else if (IsKeyPressed(KEY_FOUR))
 		{
 			// Increase health capacity
-			IncreaseHealthCapacity();
+			IncreaseHealth();
 			Game::GetInstance()->PauseGame();
 		}
 
@@ -268,7 +268,7 @@ void Player::IncreaseProjectileSize()
 	}
 }
 
-void Player::IncreaseHealthCapacity()
+void Player::IncreaseHealth()
 {
 	m_health += 10;
 }

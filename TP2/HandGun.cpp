@@ -5,16 +5,11 @@ void HandGun::Fire()
 {
 	Projectile* projectile = new Projectile(
 		m_position,
-		m_weaponInfos.m_projectileInfos.RADIUS,
-		m_weaponInfos.m_projectileInfos.SPEED,
-		m_weaponInfos.m_projectileInfos.LIFETIME);
+		GetWeaponInfos().m_projectileInfos.RADIUS,
+		GetWeaponInfos().m_projectileInfos.SPEED,
+		GetWeaponInfos().m_projectileInfos.LIFETIME);
 
 	projectile->OnStart();
-}
-
-void HandGun::IncreaseRate()
-{
-	m_weaponInfos.m_attackRate *= 2.0f;
 }
 
 void HandGun::Reset()
@@ -24,15 +19,10 @@ void HandGun::Reset()
 	m_isActive = false;
 }
 
-HandGun::HandGun()
-{
-	// TODO Remi : 
-}
-
 void HandGun::OnStart()
 {
 	GameObject::OnStart();
-	m_weaponInfos.m_projectileInfos = SHandGunProjectileData();
+	SetProjectileInfos(SHandGunProjectileData());
 
 	// Add attributes before m_isActive = true;
 	m_isActive = true;
@@ -40,12 +30,10 @@ void HandGun::OnStart()
 
 void HandGun::Update(float deltatime)
 {
-	//float frameTime = GetFrameTime();
-	//m_currentAttackTimer += frameTime;
 	m_currentAttackTimer += deltatime;
-	if (m_currentAttackTimer >= m_weaponInfos.m_attackRate)
+	if (m_currentAttackTimer >= GetWeaponInfos().m_attackRate)
 	{
-		m_currentAttackTimer -= m_weaponInfos.m_attackRate;
+		m_currentAttackTimer -= GetWeaponInfos().m_attackRate;
 		Fire();
 	}
 }
@@ -53,13 +41,4 @@ void HandGun::Update(float deltatime)
 void HandGun::Render()
 {
 	DrawRectangleV(m_position, m_size, { 255, 255, 0, 255 });
-}
-
-void HandGun::IncreaseProjectileDamage()
-{
-
-}
-
-void HandGun::IncreaseProjectileSize()
-{
 }

@@ -14,7 +14,6 @@ public:
 	EWeaponType WEAPON_TYPE = EWeaponType::HAND_GUN;
 };
 
-
 class Projectile : public GameObject
 {
 	friend class Game;

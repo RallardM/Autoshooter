@@ -4,19 +4,25 @@
 class HandGun : public Weapon
 {
 	friend class Game;
-private:
 
-	float m_currentAttackTimer = 0.0f;
-	SWeaponData m_weaponInfos;
-	Vector2 m_size = { 5.0f, 5.0f };
 private:
+	float m_currentAttackTimer = 0.0f;
+	Vector2 m_size = { 5.0f, 5.0f };
+
+public:
+	using Weapon::GetWeaponInfos;
+
+private:
+	// Inherited via Weapon
 	virtual void Fire() override;
-	virtual void IncreaseRate() override;
+	//virtual void IncreaseRate() override;
+	//virtual void IncreaseProjectileDamage() override;
+	//virtual void IncreaseProjectileSize() override;
+
+	// Inherited via GameObject
 	virtual void Reset() override;
 	
 public:
-	HandGun();
-
 	// Inherited via GameObject
 	virtual void OnStart() override;
 	virtual void Update(float deltatime) override;
@@ -24,6 +30,5 @@ public:
 	virtual bool IsActive() override { return m_isActive; }
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::WEAPON; }
-	virtual void IncreaseProjectileDamage() override;
-	virtual void IncreaseProjectileSize() override;
+
 };

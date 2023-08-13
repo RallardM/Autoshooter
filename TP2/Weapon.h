@@ -15,24 +15,26 @@ public:
 class Weapon : public GameObject
 {
 	friend class Player;
-public:
 
 private:
 	virtual void Fire() = 0;
-	virtual void IncreaseRate()= 0;
 	virtual void OnStart() = 0;
 	virtual void Update(float deltatime) = 0;
 	void FollowPosition(Vector2 newPosition); // TODO make pure virtual
 	virtual void Render() = 0;
 	virtual bool IsActive() = 0;
 	virtual void Reset() = 0;
-	virtual void IncreaseProjectileDamage() = 0;
-	virtual void IncreaseProjectileSize() = 0;
-
 
 protected:
+	void IncreaseRate();
+	void IncreaseProjectileDamage();
+	void IncreaseProjectileSize();
 	virtual const Vector2& GetPosition() const = 0;
 	virtual const EGameObjectType GetGameObjectType() const = 0;
+	const SWeaponData GetWeaponInfos() const { return m_weaponInfos; }
+	void SetProjectileInfos(const SHandGunProjectileData& projectileInfos) { m_weaponInfos.m_projectileInfos = projectileInfos; }
+
+private:
+	SWeaponData m_weaponInfos;
+
 };
-
-
