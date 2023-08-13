@@ -7,7 +7,6 @@
 
 unsigned short int Enemy::s_id = 0;
 
-
 Enemy::Enemy()
 {
 	m_id = s_id++;
@@ -140,8 +139,9 @@ void Enemy::Collision()
 
 	if (isEnemyHitByProjctile)
 	{
-		m_health -= 50;
-		//TODO: Destroy projectile too
+		Projectile* projectile = Game::GetInstance()->GetCollidingProjectile(enemyRect);
+		short int projectileDamage = (short)projectile->GetDamage();
+		m_health -= projectileDamage;
 	}
 }
 

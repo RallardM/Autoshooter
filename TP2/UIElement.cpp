@@ -1,5 +1,6 @@
 #include "UIElement.h"
 #include <iostream>
+#include <string>
 #include "Game.h"
 
 UIElement::UIElement(GameObject* targetEntity, EUIElementType uitype, Color color, Vector2 size, Vector2 offset, float value)
@@ -7,9 +8,22 @@ UIElement::UIElement(GameObject* targetEntity, EUIElementType uitype, Color colo
 	m_targetEntity = targetEntity;
 	m_UIType = uitype;
 	m_color = color;
+	m_fontSize = 0;
 	m_size = size;
 	m_offset = offset;
-	m_value = value;
+	m_floatValue = value;
+}
+
+UIElement::UIElement(GameObject* targetEntity, EUIElementType uitype, Color color, int size, Vector2 offset, unsigned short int value)
+{
+	m_targetEntity = targetEntity;
+	m_UIType = uitype;
+	m_color = color;
+	m_fontSize = size;
+	m_size = { 0.0f, 0.0f };
+	m_offset = offset;
+	m_intValue = value;
+	m_floatValue = 0.0f;
 }
 
 void UIElement::OnStart()
@@ -41,13 +55,16 @@ void UIElement::Update(float _deltatime)
 		break;
 
 	case EUIElementType::REGRESS_BAR:
-		m_value = Game::GetInstance()->GetPlayerExperience();
+		m_floatValue = Game::GetInstance()->GetPlayerExperience();
+		break;
+
+	case EUIElementType::TEXT:
+		m_intValue = Game::GetInstance()->GetPlayerTotalExperience();
 		break;
 
 	case EUIElementType::COUNT:
 	default:
 		std::cout << "UIElement::Render() : wrong UIElement type" << std::endl;
-		m_value = Game::GetInstance()->GetPlayerExperience();
 		break;
 	}
 }
@@ -64,6 +81,10 @@ void UIElement::Render()
 		DrawRectangleV(m_position, m_size, m_color);
 		break;
 
+	case EUIElementType::TEXT:
+		DrawText(std::to_string(m_intValue).c_str(), (int)m_position.x, (int)m_position.y, m_fontSize, m_color);
+		break;
+
 	case EUIElementType::COUNT:
 	default:
 		std::cout << "UIElement::Render() : wrong UIElement type" << std::endl;
@@ -72,11 +93,9 @@ void UIElement::Render()
 	}
 }
 
-
-
 void UIElement::RenderProgressBar()
 {
-	if (m_value == 0.0f)
+	if (m_floatValue == 0.0f)
 	{
 		return;
 	}
@@ -86,16 +105,16 @@ void UIElement::RenderProgressBar()
 
 void UIElement::UpdateProgressBar()
 {
-	m_value = Game::GetInstance()->GetPlayerExperience();
+	m_floatValue = Game::GetInstance()->GetPlayerExperience();
 	
 	// 32.0f  = 100% of the bar
-	m_size.x = (m_value * 32.0f) / 100;
+	m_size.x = (m_floatValue * 32.0f) / 100;
 }
 
 void UIElement::UpdateRegressBar()
 {
-	m_value = Game::GetInstance()->GetEntityHealth(m_targetEntity);
+	m_floatValue = Game::GetInstance()->GetEntityHealth(m_targetEntity);
 
 	// 32.0f  = 100% of the bar
-	m_size.x = (m_value * 32.0f) / 100;
+	m_size.x = (m_floatValue * 32.0f) / 100;
 }

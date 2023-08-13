@@ -1,10 +1,14 @@
 #include "Player.h"
 #include "Game.h"
 #include "HandGun.h"
+#include "MathUtils.h"
+#include "Weapon.h"
 #include <iostream>
 
 Player::~Player()
 {
+	// TODO debug crashes when esc
+	// 
 	// Empty weapon list
 	for (auto it = m_weapons.begin(); it != m_weapons.end(); ++it)
 	{
@@ -25,6 +29,45 @@ Player::~Player()
 
 void Player::HandleInput()
 {
+	// Debug keys
+
+	if (IsKeyPressed(KEY_F1))
+	{
+		Game::GetInstance()->PauseGame();
+	}
+
+	// Experience Menu Keys
+	if (Game::GetInstance()->IsPaused())
+	{
+		if (IsKeyPressed(KEY_ONE))
+		{
+			// Increase shooting rate
+			IncreaseWeaponRate();
+			Game::GetInstance()->PauseGame();
+		}
+		else if (IsKeyPressed(KEY_TWO))
+		{
+			// Increase projectile damages
+			IncreaseProjectileDamage();
+			Game::GetInstance()->PauseGame();
+		}
+		else if (IsKeyPressed(KEY_THREE))
+		{
+			// Increase projectile size
+			IncreaseProjectileSize();
+			Game::GetInstance()->PauseGame();
+		}
+		else if (IsKeyPressed(KEY_FOUR))
+		{
+			// Increase health capacity
+			IncreaseHealth();
+			Game::GetInstance()->PauseGame();
+		}
+
+		return;
+	}
+
+	// Movement keys
 
 	if (IsKeyDown(KEY_W))
 	{
@@ -72,14 +115,20 @@ void Player::OnStart()
 {
 	GameObject::OnStart();
 
-	m_position.x = (float)Game::GetInstance()->GetMapWidth() / 2;
-	m_position.y = (float)Game::GetInstance()->GetMapHeight() / 2;
+	m_position.x = (float)Game::GetInstance()->GetMapWidth() * HALF;
+	m_position.y = (float)Game::GetInstance()->GetMapHeight() * HALF;
 
 	// Initialize health bar
 	Vector2 barSize = { 32.0f, 3.0f };
 	Vector2 offsetFromPlayer = { 0.0f, 33.0f };
 	m_healthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromPlayer, m_health);
 	m_healthBar->OnStart();
+
+	// Initialize experience text
+	int fontSize = 15;
+	offsetFromPlayer = { 3.0f, 8.0f };
+	m_experienceText = new UIElement(this, EUIElementType::TEXT, GREEN, fontSize, offsetFromPlayer, m_totalExperience);
+	m_experienceText->OnStart();
 
 	// Initialize experience bar
 	barSize = { 32.0f, 3.0f };
@@ -109,8 +158,14 @@ void Player::Update(float deltatime)
 	{
 		m_healthBar->FollowPosition(m_position); // TODO Make pure virtual
 	}
+
+	// Update experience text position
+	if (m_experienceText != nullptr)
+	{
+		m_experienceText->FollowPosition(m_position); // TODO Make pure virtual
+	}
 	
-	// Update experrience bar position
+	// Update experience bar position
 	if (m_experienceBar != nullptr)
 	{
 		m_experienceBar->FollowPosition(m_position); // TODO Make pure virtual
@@ -160,7 +215,7 @@ void Player::VerifyHealth()
 {
 	if (m_health <= 0)
 	{
-		//TODO: Game Over screen or info
+		//TODO: Game Over screen or info delete ui pointers 
 	}
 }
 
@@ -170,5 +225,50 @@ void Player::VerifyExperience()
 	{
 		m_experience = 0;
 		m_level++;
+		Game::GetInstance()->PauseGame();
 	}
+}
+
+void Player::IncreaseWeaponRate()
+{
+	for (Weapon* weapon : m_weapons)
+	{
+		if (weapon == nullptr)
+		{
+			continue;
+		}
+
+		weapon->IncreaseRate();
+	}
+}
+
+void Player::IncreaseProjectileDamage()
+{
+	for (Weapon* weapon : m_weapons)
+	{
+		if (weapon == nullptr)
+		{
+			continue;
+		}
+
+		weapon->IncreaseProjectileDamage();
+	}
+}
+
+void Player::IncreaseProjectileSize()
+{
+	for (Weapon* weapon : m_weapons)
+	{
+		if (weapon == nullptr)
+		{
+			continue;
+		}
+
+		weapon->IncreaseProjectileSize();
+	}
+}
+
+void Player::IncreaseHealth()
+{
+	m_health += 10;
 }

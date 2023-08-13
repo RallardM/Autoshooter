@@ -3,10 +3,18 @@
 #include "GameObject.h"
 #include "Projectile.h"
 
+
+struct SWeaponData
+{
+public:
+	float m_attackRate = 1.0f;
+	SHandGunProjectileData m_projectileInfos;
+};
+
+
 class Weapon : public GameObject
 {
 	friend class Player;
-public:
 
 private:
 	virtual void Fire() = 0;
@@ -18,6 +26,15 @@ private:
 	virtual void Reset() = 0;
 
 protected:
+	void IncreaseRate();
+	void IncreaseProjectileDamage();
+	void IncreaseProjectileSize();
 	virtual const Vector2& GetPosition() const = 0;
 	virtual const EGameObjectType GetGameObjectType() const = 0;
+	const SWeaponData GetWeaponInfos() const { return m_weaponInfos; }
+	void SetProjectileInfos(const SHandGunProjectileData& projectileInfos) { m_weaponInfos.m_projectileInfos = projectileInfos; }
+
+private:
+	SWeaponData m_weaponInfos;
+
 };

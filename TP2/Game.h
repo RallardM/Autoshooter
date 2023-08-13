@@ -5,6 +5,7 @@
 #include "Enumerations.h"
 #include "Enemy.h"
 #include "Player.h"
+#include "MathUtils.h"
 
 class GameObject;
 class Player;
@@ -38,8 +39,12 @@ private:
 	std::list<GameObject*> m_gameObjects;
 	std::vector<GameObject*> m_gameObjectsToRemove;
 
+	bool m_isPaused = false;
+
 public:
 	void StartGame();
+	void PauseGame();
+	bool const IsPaused() const { return m_isPaused; }
 	void RegisterGameObject(GameObject* agent);
 	void UnregisterGameObject(GameObject* agent);
 	void UpdateCameraPosition(Vector2 playerPosition);
@@ -48,43 +53,49 @@ public:
 	const float GetMapWidth() { return S_MAP_WIDTH; }
 	const float GetMapHeight() { return S_MAP_HEIGHT; }
 
-	// Camera getters
-	const float GetCameraLeftLimit() { return m_camera->target.x - (CAMERA_WIDTH / 2) / m_camera->zoom; }
-	const float GetCameraRightLimit() { return m_camera->target.x + (CAMERA_WIDTH / 2) / m_camera->zoom; }
-	const float GetCameraTopLimit() { return m_camera->target.y - (CAMERA_HEIGHT / 2) / m_camera->zoom; }
-	const float GetCameraBottomLimit() { return m_camera->target.y + (CAMERA_HEIGHT / 2) / m_camera->zoom; }
+	// Camera getters // TODO Extract camera to its own class
+	const float GetCameraWidth() { return (float)CAMERA_WIDTH; }
+	const float GetCameraHeight() { return (float)CAMERA_HEIGHT; }
+	const float GetCameraLeftLimit() { return m_camera->target.x - (CAMERA_WIDTH * HALF) / m_camera->zoom; }
+	const float GetCameraRightLimit() { return m_camera->target.x + (CAMERA_WIDTH * HALF) / m_camera->zoom; }
+	const float GetCameraTopLimit() { return m_camera->target.y - (CAMERA_HEIGHT * HALF) / m_camera->zoom; }
+	const float GetCameraBottomLimit() { return m_camera->target.y + (CAMERA_HEIGHT * HALF) / m_camera->zoom; }
 	Vector2 GetCameraPosition() { return m_camera->target; }
+	Vector2 GetCameraTopLeftCorner() { return { GetCameraLeftLimit(), GetCameraTopLimit() }; }
 	bool IsWithinCameraBounds(Vector2 position) { return position.x >= GetCameraLeftLimit() && position.x <= GetCameraRightLimit() && position.y >= GetCameraTopLimit() && position.y <= GetCameraBottomLimit(); }
 
-	// Player getters
+	// Player getters // TODO Extract experience to its own class
 	Vector2 GetPlayerPosition() { return { m_player->m_position.x, m_player->m_position.y }; }
 	const unsigned short int GetPlayerExperience() { return m_player->m_experience; }
-	void AddPlayerExperience(unsigned short int experience) { m_player->m_experience += experience; }
-
-	// Entities getters
-	const unsigned short int GetEntityHealth(GameObject* entity) const;
-	//void ReturnEnemyToPool(Enemy* enemy);
+	const unsigned short int GetPlayerTotalExperience() { return m_player->m_totalExperience; }
+	void AddPlayerExperience(unsigned short int experience) { m_player->m_experience += experience; m_player->m_totalExperience += experience; }
 
 	// Game objects getter
 	std::list<GameObject*> GetGameObjects() { return m_gameObjects; }
-
 	GameObject* GetClosestGameObject(Vector2 position, EGameObjectType type);
+
+	// Collision detection // TODO Extract collision detection to its own class
 	bool AreEnemyProjectileColliding(Rectangle enemy);
+	Projectile* GetCollidingProjectile(Rectangle enemy);
 	bool AreOrbPlayerColliding(Vector2 orbPosition, float orbradius);
 	bool ArePlayerEnemyColliding(Rectangle player);
 
-	void CleanUpGame();
+	// Entities getters
+	const unsigned short int GetEntityHealth(GameObject* entity) const;
 
 private:
 	Game() {} // Private constructor for singleton pattern
 	void MainLoop();
 	void RenderBackground();
 	void UpdateGameObjects(float deltatime);
+	void RenderPause();
 	unsigned short int GetActiveObjectCountFromList(EGameObjectType type);
-	//string GameObjectTypeToString(EGameObjectType type);
 	void RenderGameObjects();
 	void UpdateEnemySpawner();
 	void RemoveGameObjectsMarkedForRemoval();
 	void CleanupGameObjects();
+
+public:
+	void CleanUpGame();
 	
 };

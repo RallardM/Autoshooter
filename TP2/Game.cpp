@@ -23,13 +23,6 @@ Game::~Game()
 {
     delete m_player;
 	delete m_camera;
-    
- //   for (Enemy* enemy : m_enemyPool)
- //   {
-	//	delete enemy;
-	//}
-
- //   m_enemyPool.clear();
 
     for (GameObject* gameObject : m_gameObjects)
     {
@@ -67,19 +60,17 @@ void Game::StartGame()
 
     // Initialize camera
     m_camera = new Camera2D();
-    m_camera->offset = { (float)CAMERA_WIDTH / 2, (float)CAMERA_HEIGHT / 2 };
+    m_camera->offset = { (float)CAMERA_WIDTH * HALF, (float)CAMERA_HEIGHT * HALF };
     m_camera->rotation = 0.0f;
     m_camera->zoom = 0.8f;
 
- //   // Initialize enemies pool
- //   for (int i = 0; i < MAX_ENEMY_AMOUNT; i++)
- //   {
- //       Enemy* enemy = new Enemy();
- //       m_enemyPool.push_back(enemy);
- //       RegisterGameObject(enemy);
-	//}
-
     MainLoop();
+}
+
+void Game::PauseGame()
+{
+    std::cout << "Game paused : "<< m_isPaused << std::endl;
+    m_isPaused = !m_isPaused;
 }
 
 void Game::RegisterGameObject(GameObject* gameObject)
@@ -98,31 +89,6 @@ void Game::UpdateCameraPosition(Vector2 playerPosition)
 {
     _Instance->m_camera->target = { playerPosition.x, playerPosition.y };
 }
-
-const unsigned short int Game::GetEntityHealth(GameObject* entity) const
-{
-    switch (entity->GetGameObjectType())
-    {
-        case EGameObjectType::PLAYER:
-			return m_player->GetHealth();
-			break;
-
-        case EGameObjectType::ENEMY:
-            return dynamic_cast<Enemy*>(entity)->GetHealth();
-            break;
-
-        case EGameObjectType::COUNT:
-            default:
-			std::cout << "Game::GetEntityHealth() : wrong entity type" << std::endl;
-			return 0;
-			break;
-    }
-}
-
-//void Game::ReturnEnemyToPool(Enemy* enemy)
-//{
-//	m_enemyPool.push_back(enemy);
-//}
 
 GameObject* Game::GetClosestGameObject(Vector2 position, EGameObjectType type)
 {
@@ -165,6 +131,26 @@ bool Game::AreEnemyProjectileColliding(Rectangle enemy)
     return false;
 }
 
+Projectile* Game::GetCollidingProjectile(Rectangle enemy)
+{
+    for (GameObject* gameObject : _Instance->m_gameObjects)
+    {
+        if (gameObject->GetGameObjectType() == EGameObjectType::PROJECTILE)
+        {
+			Projectile* projectile = dynamic_cast<Projectile*>(gameObject);
+			Vector2 projectilePosition = projectile->GetPosition();
+			float projectileRadius = projectile->GetRadius();
+
+			bool IsEnemyHitByProjectile = CheckCollisionCircleRec(projectilePosition, projectileRadius, enemy);
+            if (IsEnemyHitByProjectile)
+            {
+                return projectile;
+            }
+        }
+    }
+    return nullptr;
+}
+
 bool Game::AreOrbPlayerColliding(Vector2 orbPosition, float orbradius)
 {
     bool IsEnemyHitByProjectile = CheckCollisionCircleRec(orbPosition, orbradius, _Instance->m_player->GetRect());
@@ -195,10 +181,24 @@ bool Game::ArePlayerEnemyColliding(Rectangle player)
     return false;
 }
 
-void Game::CleanUpGame()
+const unsigned short int Game::GetEntityHealth(GameObject* entity) const
 {
-    CleanupGameObjects();
-    // TODO : Clean up other resources
+    switch (entity->GetGameObjectType())
+    {
+    case EGameObjectType::PLAYER:
+        return m_player->GetHealth();
+        break;
+
+    case EGameObjectType::ENEMY:
+        return dynamic_cast<Enemy*>(entity)->GetHealth();
+        break;
+
+    case EGameObjectType::COUNT:
+    default:
+        std::cout << "Game::GetEntityHealth() : wrong entity type" << std::endl;
+        return 0;
+        break;
+    }
 }
 
 void Game::MainLoop()
@@ -208,13 +208,23 @@ void Game::MainLoop()
     {
         // Update Data
         m_player->HandleInput();
-        UpdateGameObjects(GetFrameTime());
 
         // Render
         BeginDrawing();
         BeginMode2D(*m_camera);
+
         RenderBackground();
         RenderGameObjects();
+
+        if (m_isPaused) 
+        { 
+            RenderPause(); 
+        }
+        else 
+        { 
+            UpdateGameObjects(GetFrameTime());
+        }
+
         EndMode2D();
         EndDrawing();
     }
@@ -266,28 +276,6 @@ void Game::RenderBackground()
 
 void Game::UpdateGameObjects(float deltatime)
 {
-    //unsigned short int enemiesCount = GetActiveObjectCountFromList(EGameObjectType::ENEMY);
-    //
-    //if (enemiesCount < MAX_ENEMY_AMOUNT)
-    //{
-    //    // Find an available enemy from the pool
-    //    Enemy* enemy = nullptr;
-    //    for (Enemy* poolEnemy : m_enemyPool)
-    //    {
-    //        if (!poolEnemy->IsActive())
-    //        {
-    //            enemy = poolEnemy;
-    //            break;
-    //        }
-    //    }
-
-    //    if (enemy)
-    //    {
-    //        RegisterGameObject(enemy);
-    //        enemy->OnStart();
-    //    }
-    //}
-
     for (auto const& i : m_gameObjects) 
     {
         if (i == NULL) {continue;}
@@ -303,6 +291,85 @@ void Game::UpdateGameObjects(float deltatime)
 
     UpdateEnemySpawner();
     RemoveGameObjectsMarkedForRemoval();
+}
+
+void Game::RenderPause()
+{
+
+    float zoom = m_camera->zoom; 
+
+    // Get the top-left corner, width, and height of the camera
+    Vector2 topLeftCorner = GetCameraTopLeftCorner();
+    float cameraWidth = GetCameraWidth();
+    float cameraHeight = GetCameraHeight();
+
+    // Adjust the width and height of the rectangle based on the zoom value
+    float adjustedWidth = cameraWidth / zoom;
+    float adjustedHeight = cameraHeight / zoom;
+
+    float halfWidth = adjustedWidth * HALF;
+    float halfHeight = adjustedHeight * HALF;
+
+    // Draw background
+    DrawRectangle((int)topLeftCorner.x, (int)topLeftCorner.y, (int)adjustedWidth, (int)adjustedHeight, Fade(BLACK, 0.5f));
+
+    // Draw Menu Box
+    float menuBoxWidth = 400;
+    float menuBoxHeight = 400;
+    float menuBoxXPosition = topLeftCorner.x + halfWidth - menuBoxWidth * HALF;
+    float menuBoxYPosition = topLeftCorner.y + halfHeight - menuBoxHeight * HALF;
+    Rectangle menuBox = { menuBoxXPosition, menuBoxYPosition, menuBoxWidth, menuBoxHeight };
+    DrawRectangleRounded(menuBox, 0.1f, 12, LIGHTGRAY);
+
+    // Draw text
+    
+    // Level Up
+    string levelUpText = "Level Up!";
+    int menuFontSize = 40;
+    float textHeight = menuFontSize * HALF;
+    int textWidth = MeasureText(levelUpText.c_str(), menuFontSize);
+    float uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
+    float uiPositionY = menuBox.y + textHeight;
+    DrawText(levelUpText.c_str(), (int)uiPositionX, (int)uiPositionY, menuFontSize, DARKBLUE);
+
+    // Upgrades
+
+    // Shooting rate
+    string shootingRateText = "1 Shooting Rate x 2";
+    int choicesFontSize = 30;
+    textHeight = choicesFontSize * HALF;
+    textWidth = MeasureText(shootingRateText.c_str(), choicesFontSize);
+    float offsetDown = menuBoxHeight * EIGHTH + menuFontSize;
+    uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
+    uiPositionY += offsetDown;
+    DrawText(shootingRateText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
+
+    // Shooting Damage
+    string shootingDamageText = "2 Shooting Damage x 2";
+    textHeight = choicesFontSize * HALF;
+    textWidth = MeasureText(shootingDamageText.c_str(), choicesFontSize);
+    offsetDown = menuBoxHeight * EIGHTH + textHeight;
+    uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
+    uiPositionY += offsetDown;
+    DrawText(shootingDamageText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
+
+    // Projectile Size
+    string bulletSizeText = "3 Projectile Size x 2";
+    textHeight = choicesFontSize * HALF;
+    textWidth = MeasureText(bulletSizeText.c_str(), choicesFontSize);
+    offsetDown = menuBoxHeight * EIGHTH + textHeight;
+    uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
+    uiPositionY += offsetDown;
+    DrawText(bulletSizeText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
+
+    // Health Capacity
+    string healthCapText = "4 Health Bonus + 10";
+    textHeight = choicesFontSize * HALF;
+    textWidth = MeasureText(healthCapText.c_str(), choicesFontSize);
+    offsetDown = menuBoxHeight * EIGHTH + textHeight;
+    uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
+    uiPositionY += offsetDown;
+    DrawText(healthCapText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
 }
 
 unsigned short int Game::GetActiveObjectCountFromList(EGameObjectType type)
@@ -390,3 +457,8 @@ void Game::CleanupGameObjects()
     // TODO : verify and add any new list of objects to clean up here (Player, Weapons)
 }
 
+void Game::CleanUpGame()
+{
+    CleanupGameObjects();
+    // TODO : Clean up other resources
+}
