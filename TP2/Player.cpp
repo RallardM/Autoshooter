@@ -38,6 +38,13 @@ void Player::HandleInput()
 	if (IsKeyPressed(KEY_F1))
 	{
 		Game::GetInstance()->PauseGame();
+		Game::GetInstance()->SetLevelUpMenuOn();
+	}
+
+	if (IsKeyPressed(KEY_F2))
+	{
+		Game::GetInstance()->PauseGame();
+		Game::GetInstance()->SetIsPlayerDeadMenuOn();
 	}
 
 	// Experience Menu Keys
@@ -48,24 +55,28 @@ void Player::HandleInput()
 			// Increase shooting rate
 			IncreaseWeaponRate();
 			Game::GetInstance()->PauseGame();
+			Game::GetInstance()->SetLevelUpMenuOn();
 		}
 		else if (IsKeyPressed(KEY_TWO))
 		{
-			// Increase projectile damages
+			// Increase enemy damages
 			IncreaseProjectileDamage();
 			Game::GetInstance()->PauseGame();
+			Game::GetInstance()->SetLevelUpMenuOn();
 		}
 		else if (IsKeyPressed(KEY_THREE))
 		{
-			// Increase projectile size
+			// Increase enemy size
 			IncreaseProjectileSize();
 			Game::GetInstance()->PauseGame();
+			Game::GetInstance()->SetLevelUpMenuOn();
 		}
 		else if (IsKeyPressed(KEY_FOUR))
 		{
 			// Increase health capacity
 			IncreaseHealth();
 			Game::GetInstance()->PauseGame();
+			Game::GetInstance()->SetLevelUpMenuOn();
 		}
 
 		return;
@@ -215,17 +226,34 @@ void Player::Collision()
 	Rectangle playerRect = { m_position.x, m_position.y, m_playerSize.x, m_playerSize.y };
 	bool isEnemyHitPlayer = Game::GetInstance()->ArePlayerEnemyColliding(playerRect);
 
-	if (isEnemyHitPlayer)
+	if (!isEnemyHitPlayer)
 	{
-		//m_health -= 10;
+		return;
 	}
+
+	Enemy* enemy = Game::GetInstance()->GetCollidingEnemy(playerRect);
+
+	if (enemy == nullptr)
+	{
+		return;
+	}
+
+	if (enemy->m_id == m_previousEnemyId) 
+	{ 
+		return; 
+	}
+
+	m_previousEnemyId = enemy->m_id;
+
+	m_health -= 10;
 }
 
 void Player::VerifyHealth()
 {
 	if (m_health <= 0)
 	{
-		//TODO: Game Over screen or info delete ui pointers 
+		Game::GetInstance()->PauseGame();
+		Game::GetInstance()->SetIsPlayerDeadMenuOn();
 	}
 
 	if (m_health > MAX_HEALTH && m_secondHealthBar == nullptr)
@@ -256,6 +284,7 @@ void Player::VerifyExperience()
 		m_experience = 0;
 		m_level++;
 		Game::GetInstance()->PauseGame();
+		Game::GetInstance()->SetLevelUpMenuOn();
 	}
 }
 

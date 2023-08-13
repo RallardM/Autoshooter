@@ -31,6 +31,7 @@ private:
 	unsigned short int m_experience = 0;
 	unsigned short int m_totalExperience = 0;
 	unsigned short int m_level = 1;
+	unsigned short int m_previousEnemyId = 0;
 
 	std::list<Weapon*> m_weapons;
 
