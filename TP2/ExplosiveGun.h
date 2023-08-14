@@ -6,6 +6,8 @@ class ExplosiveGun : public Weapon
 	friend class Game;
 
 private:
+	static float s_uiOffsetRight;
+	float m_uiOffset;
 	float m_currentAttackTimer = 0.0f;
 	Vector2 m_size = { 5.0f, 5.0f };
 	Color m_color = { 255, 0, 255, 255 };
@@ -21,6 +23,7 @@ private:
 	virtual void Reset() override;
 
 public:
+
 	// Inherited via GameObject
 	virtual void OnStart() override;
 	virtual void Update(float deltatime) override;

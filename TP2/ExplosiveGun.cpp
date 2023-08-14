@@ -2,6 +2,8 @@
 #include <corecrt_math.h>
 #include "MathUtils.h"
 
+float ExplosiveGun::s_uiOffsetRight = 0.0f;
+
 void ExplosiveGun::Fire()
 {
 	// Initialize projectile infos
@@ -49,6 +51,12 @@ void ExplosiveGun::OnStart()
 	GameObject::OnStart();
 	SetProjectileInfos(SProjectileData());
 
+	m_uiOffset = s_uiOffsetRight;
+	s_uiOffsetRight += 5.0f;
+
+	// Generate a random color for each gun squares
+	m_color = { (unsigned char)GetRandomValue(0, 255), (unsigned char)GetRandomValue(0, 255), (unsigned char)GetRandomValue(0, 255), 255 };
+
 	// Add attributes before m_isActive = true;
 	m_isActive = true;
 }
@@ -65,5 +73,11 @@ void ExplosiveGun::Update(float deltatime)
 
 void ExplosiveGun::Render()
 {
-	DrawRectangleV(m_position, m_size, m_color);
+	// Add a small offset to the right at every new ExplosiveGun
+	Vector2 position = m_position;
+	position.x += m_uiOffset;
+	
+	// Add a small offset down bellow the handgun
+	position.y += 5.0f;
+	DrawRectangleV(position, m_size, m_color);
 }

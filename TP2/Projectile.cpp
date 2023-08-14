@@ -56,7 +56,25 @@ void Projectile::Update(float deltatime)
 
 void Projectile::Render()
 {
-	DrawCircleV(m_position, m_radius, m_color);
+	switch (m_projectileData.WEAPON_TYPE)
+	{
+		case EWeaponType::HAND_GUN:
+			DrawCircleV(m_position, m_radius, m_color);
+			break;
+
+		case EWeaponType::EXPLOSIVE_GUN:
+			DrawPoly(m_position, 3, m_radius, 0.0f, m_color);
+			break;
+
+		case EWeaponType::LAZER_GUN:
+			//DrawLineEx(m_position, { m_position.x + m_xSpeed, m_position.y + m_ySpeed }, m_radius, m_color);
+			break;
+
+		case EWeaponType::COUNT:
+			default:
+			std::cout << "Projectile::Render() : Error : Invalid weapon type" << std::endl;
+			break;
+	}
 }
 
 void Projectile::SetHandGunProjectileData(SProjectileData& projectileData)
