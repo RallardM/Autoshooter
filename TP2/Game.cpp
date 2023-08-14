@@ -485,7 +485,7 @@ void Game::UpdateEnemySpawner()
 {
     unsigned short int enemiesCount = GetActiveObjectCountFromList(EGameObjectType::ENEMY);
 
-    if (enemiesCount < MAX_ENEMY_AMOUNT)
+    if (enemiesCount < MAX_ENEMY_AMOUNT * m_player->m_level)
     {
         Enemy* enemy = new Enemy();
 

@@ -29,7 +29,6 @@ private:
 	const float ROW_COUNT = S_MAP_HEIGHT / CELL_SIZE;
 
 	// Enemies properties
-	const int MIN_ENEMY_AMOUNT = 5;
 	const int MAX_ENEMY_AMOUNT = 10;
 
 	Player* m_player = nullptr;

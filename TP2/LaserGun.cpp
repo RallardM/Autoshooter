@@ -35,6 +35,6 @@ void LaserGun::Render()
 	position.x += m_uiOffset;
 
 	// Add a small offsetdown above the explosive gun at the bottom of the player square
-	position.y += 17.0f;
+	position.y += 25.0f;
 	DrawRectangleV(position, m_size, m_color);
 }

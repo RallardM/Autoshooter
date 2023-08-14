@@ -173,8 +173,8 @@ void Player::OnStart()
 	m_position.y = (float)Game::GetInstance()->GetMapHeight() * HALF;
 
 	// Initialize health bar
-	Vector2 barSize = { 32.0f, 3.0f };
-	Vector2 offsetFromPlayer = { 0.0f, 33.0f };
+	Vector2 barSize = { 40.0f, 3.0f };
+	Vector2 offsetFromPlayer = { 0.0f, 41.0f };
 	m_healthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromPlayer, m_health);
 	m_healthBar->OnStart();
 
@@ -185,7 +185,7 @@ void Player::OnStart()
 	m_experienceText->OnStart();
 
 	// Initialize experience bar
-	barSize = { 32.0f, 3.0f };
+	barSize = { 40.0f, 3.0f };
 	offsetFromPlayer = { 0.0f, -3.0f };
 	m_experienceBar = new UIElement(this, EUIElementType::PROGRESS_BAR, GREEN, barSize, offsetFromPlayer, m_experience);
 	m_experienceBar->OnStart();
@@ -297,8 +297,8 @@ void Player::VerifyHealth()
 	{
 		// Initialize one additional health bar
 		float extraHealth = (float)m_health - (float)MAX_HEALTH;
-		// 32.0f  = 100% of the bar
-		extraHealth = (extraHealth * 32.0f) / 100;
+		// 40.0f  = 100% of the bar
+		extraHealth = (extraHealth * 40.0f) / 100;
 		Vector2 barSize = { extraHealth, 3.0f };
 		Vector2 offsetFromPlayer = { 0.0f, 37.0f };
 		m_secondHealthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromPlayer, m_health);

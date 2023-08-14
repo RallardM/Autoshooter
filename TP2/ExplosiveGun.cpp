@@ -77,6 +77,6 @@ void ExplosiveGun::Render()
 	position.x += m_uiOffset;
 	
 	// Add a small offset down above the handgun at the bottom of the player square
-	position.y += 22.0f;
+	position.y += 30.0f;
 	DrawRectangleV(position, m_size, m_color);
 }

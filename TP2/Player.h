@@ -23,7 +23,7 @@ private:
 
 	// Player default parameter
 	Color m_color = { 40, 40, 40, 255 };
-	Vector2 m_playerSize = { 32.0f, 32.0f };
+	Vector2 m_playerSize = { 40.0f, 40.0f };
 	Vector2 m_direction = { 0.0f, 0.0f };
 	const float PLAYER_SPEED = 200.0f;
 

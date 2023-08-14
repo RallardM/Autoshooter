@@ -51,6 +51,6 @@ void HandGun::Render()
 	position.x += m_uiOffset;
 
 	// Add an offset down at the bottom of the player square
-	position.y += 27.0f;
+	position.y += 35.0f;
 	DrawRectangleV(position, m_size, m_color);
 }

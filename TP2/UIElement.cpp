@@ -3,27 +3,27 @@
 #include <string>
 #include "Game.h"
 
-UIElement::UIElement(Entity* targetEntity, EUIElementType uitype, Color color, Vector2 size, Vector2 offset, float value)
+UIElement::UIElement(Entity* targetEntity, EUIElementType uitype, Color color, Vector2 size, Vector2 offset, float value) // TODO : diminush the number of arguments like in projectile
 {
+	// Bar UI
 	m_targetEntity = targetEntity;
 	m_UIType = uitype;
 	m_color = color;
-	m_fontSize = 0;
 	m_size = size;
+	m_width = size.x;
 	m_offset = offset;
 	m_floatValue = value;
 }
 
-UIElement::UIElement(Entity* targetEntity, EUIElementType uitype, Color color, int size, Vector2 offset, unsigned short int value)
+UIElement::UIElement(Entity* targetEntity, EUIElementType uitype, Color color, int size, Vector2 offset, unsigned short int value) // TODO : diminush the number of arguments like in projectile
 {
+	// Textual UI
 	m_targetEntity = targetEntity;
 	m_UIType = uitype;
 	m_color = color;
 	m_fontSize = size;
-	m_size = { 0.0f, 0.0f };
 	m_offset = offset;
 	m_intValue = value;
-	m_floatValue = 0.0f;
 }
 
 void UIElement::OnStart()
@@ -116,8 +116,8 @@ void UIElement::UpdateProgressBar()
 {
 	m_floatValue = Game::GetInstance()->GetPlayerExperience();
 	
-	// 32.0f  = 100% of the bar
-	m_size.x = (m_floatValue * 32.0f) / 100;
+	// 40.0f = 100% of the bar or 32.0f = 100% of the bar thus health*pixelsize/100
+	m_size.x = (m_floatValue * m_width) / 100;
 }
 
 void UIElement::UpdateRegressBar()
@@ -131,7 +131,7 @@ void UIElement::UpdateRegressBar()
 
 	if (m_hasASecondBarToRegressBefore)
 	{
-		m_size.x = 32.0f;
+		m_size.x = 40.0f;
 		return;
 	}
 
@@ -144,6 +144,6 @@ void UIElement::UpdateRegressBar()
 		m_floatValue = m_targetEntity->GetHealth();
 	}
 
-	// 32.0f  = 100% of the bar
-	m_size.x = (m_floatValue * 32.0f) / 100;
+	// 40.0f = 100% of the bar or 32.0f = 100% of the bar thus health*pixelsize/100
+	m_size.x = (m_floatValue * m_width) / 100;
 }
