@@ -44,9 +44,24 @@ void Projectile::OnStart()
 
 void Projectile::Update(float deltatime)
 {
+	// Lazer reflects on the screen borders
+	if (m_projectileData.WEAPON_TYPE == EWeaponType::LAZER_GUN && m_laserBounces > 0)
+	{
+		if (m_position.x < CameraManager::GetInstance()->GetCameraLeftLimit() || m_position.x > CameraManager::GetInstance()->GetCameraRightLimit())
+		{
+			m_xSpeed = -m_xSpeed;
+			m_laserBounces--;
+		}
+		if (m_position.y < CameraManager::GetInstance()->GetCameraTopLimit() || m_position.y > CameraManager::GetInstance()->GetCameraBottomLimit())
+		{
+			m_ySpeed = -m_ySpeed;
+			m_laserBounces--;
+		}
+	}
+
 	m_position.x += m_xSpeed * deltatime;
 	m_position.y += m_ySpeed * deltatime;
-	m_currentLifetime -= GetFrameTime();
+	m_currentLifetime -= deltatime;
 	if (m_currentLifetime < 0)
 	{
 		Reset();
@@ -67,7 +82,7 @@ void Projectile::Render()
 			break;
 
 		case EWeaponType::LAZER_GUN:
-			//DrawLineEx(m_position, { m_position.x + m_xSpeed, m_position.y + m_ySpeed }, m_radius, m_color);
+			DrawLineEx(m_position, { m_position.x + m_xSpeed * EIGHTH, m_position.y + m_ySpeed * EIGHTH }, m_radius, m_color);
 			break;
 
 		case EWeaponType::COUNT:
@@ -137,6 +152,16 @@ void Projectile::SetLaserGunProjectileValues(SProjectileData& projectileData)
 	m_radius = projectileData.RADIUS;
 	m_color = projectileData.COLOR;
 
+	// Calculate the magnitude of the speed vector : squareroot of (x*x + y*y)
+	float speedMagnitude = GetMagnitude({ projectileData.SPEED, projectileData.SPEED });
+
+	// Generate a random angle
+	float randomRadianAngle = static_cast<float>(rand()) / RAND_MAX;
+	float randomAngle = FULL_CIRCLE * randomRadianAngle;
+
+	// Calculate new normalized speed values with the same magnitude
+	m_xSpeed = speedMagnitude * cos(randomAngle);
+	m_ySpeed = speedMagnitude * sin(randomAngle);
 }
 
 void Projectile::Reset()

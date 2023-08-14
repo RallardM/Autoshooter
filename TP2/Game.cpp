@@ -19,21 +19,22 @@ Game::~Game()
         m_player = nullptr;
 	}
 
+    for (GameObject* gameObject : m_gameObjectsToRemove)
+    {
+        if (gameObject == nullptr) { continue; }
+        delete gameObject;
+        gameObject = nullptr;
+    }
+    m_gameObjectsToRemove.clear();
+
     for (GameObject* gameObject : m_gameObjects)
     {
+        if (gameObject == nullptr) { continue; }
 		delete gameObject;
         gameObject = nullptr;
 	}
-
 	m_gameObjects.clear();
 
-    for (GameObject* gameObject : m_gameObjectsToRemove)
-    {
-		delete gameObject;
-    gameObject = nullptr;
-	}
-
-	m_gameObjectsToRemove.clear();
 
     if (m_menuManager != nullptr)
 	{
@@ -110,7 +111,7 @@ GameObject* Game::GetClosestGameObject(Vector2 position, EGameObjectType type)
     {
         if (gameObject->GetGameObjectType() == type)
         {
-			float distance = Vector2Distance(position, gameObject->GetPosition());
+			float distance = GetFloatDistanceBetweenTwoVects(position, gameObject->GetPosition());
             if (closest == nullptr || distance < closestDistance)
             {
 				closest = gameObject;
@@ -375,37 +376,39 @@ void Game::RemoveGameObjectsMarkedForRemoval()
     m_gameObjectsToRemove.resize(0);
 }
 
-void Game::CleanupGameObjects()
-{
-    // Delete and remove objects from m_gameObjects
-    if (m_gameObjectsToRemove.size() != 0)
-	{
-        for (GameObject* obj : m_gameObjectsToRemove)
-        {
-            m_gameObjects.remove(obj);
-            delete obj;
-            obj = nullptr;
-        }
-        m_gameObjectsToRemove.clear();
-	}
-
-
-    if (m_gameObjects.size() != 0)
-	{
-		for (GameObject* obj : m_gameObjects)
-		{
-			m_gameObjects.remove(obj);
-			delete obj;
-            obj = nullptr;
-		}
-		m_gameObjects.clear();
-	}
-
-    // TODO : verify and add any new list of objects to clean up here (Player, Weapons)
-}
-
-void Game::CleanUpGame()
-{
-    CleanupGameObjects();
-    // TODO : Clean up other resources
-}
+//void Game::CleanupGameObjects()
+//{
+//    // Delete and remove objects from m_gameObjects
+//    if (m_gameObjectsToRemove.size() != 0)
+//	{
+//        for (GameObject* obj : m_gameObjectsToRemove)
+//        {
+//            if (obj == nullptr) { continue; }
+//            m_gameObjects.remove(obj);
+//            delete obj;
+//            obj = nullptr;
+//        }
+//        m_gameObjectsToRemove.clear();
+//	}
+//
+//
+//    if (m_gameObjects.size() != 0)
+//	{
+//		for (GameObject* obj : m_gameObjects)
+//		{
+//            if (obj == nullptr) { continue; }
+//			m_gameObjects.remove(obj);
+//			delete obj;
+//            obj = nullptr;
+//		}
+//		m_gameObjects.clear();
+//	}
+//
+//    // TODO : verify and add any new list of objects to clean up here (Player, Weapons)
+//}
+//
+//void Game::CleanUpGame()
+//{
+//    CleanupGameObjects();
+//    // TODO : Clean up other resources
+//}

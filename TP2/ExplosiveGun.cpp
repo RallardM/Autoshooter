@@ -9,7 +9,7 @@ void ExplosiveGun::Fire()
 	// Initialize projectile infos
 	GetProjectileInfos().RADIUS = 7.0f;
 	GetProjectileInfos().LIFETIME = 0.5f;
-	GetProjectileInfos().DAMAGE = 15.0f;
+	GetProjectileInfos().DAMAGE = 40.0f;
 	GetProjectileInfos().SPEED = 50.0f;
 	GetProjectileInfos().COLOR = GOLD;
 	GetProjectileInfos().WEAPON_TYPE = EWeaponType::EXPLOSIVE_GUN;
@@ -55,6 +55,8 @@ void ExplosiveGun::OnStart()
 
 	m_uiOffset = s_uiOffsetRight;
 	s_uiOffsetRight += 5.0f;
+
+	m_weaponInfos.m_attackRate = 2.0f;
 
 	// Add attributes before m_isActive = true;
 	m_isActive = true;

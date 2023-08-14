@@ -7,11 +7,19 @@ const float EIGHTH = 0.125f;
 const float HALF = 0.5f;
 const float THREE_FOURTH = 0.75f;
 
-float Vector2Distance(const Vector2& firstVector, const Vector2& secondVector)
+float GetFloatDistanceBetweenTwoVects(const Vector2& firstVector, const Vector2& secondVector)
 {
 	float distanceInX = secondVector.x - firstVector.x;
 	float distanceInY = secondVector.y - firstVector.y;
 	return static_cast<float>(sqrt(distanceInX * distanceInX + distanceInY * distanceInY));
+}
+
+Vector2 GetVectDistanceBetweenTwoVects(const Vector2& firstVector, const Vector2& secondVector)
+{
+	Vector2 distance;
+	distance.x = secondVector.x - firstVector.x;
+	distance.y = secondVector.y - firstVector.y;
+	return distance;
 }
 
 float GetMagnitude(Vector2 vector)

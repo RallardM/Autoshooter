@@ -1,4 +1,6 @@
 #pragma once
+#include "MathUtils.h"
+
 class CameraManager
 {
 private:
@@ -23,32 +25,23 @@ public:
 	const float GetTransformedCameraWidth() const { return (float)CAMERA_WIDTH * m_camera->zoom; }
 	const float GetTransformedCameraHeight() const { return (float)CAMERA_HEIGHT * m_camera->zoom; }
 
-	// Camera limits 
-	const float GetCameraLeftLimit()
-	{
-		Vector2 screenLeftBorderPosition = { 0.0f, ((float)GetScreenHeight()) / 2.0f };
-		return GetScreenToWorld2D(screenLeftBorderPosition, *m_camera).x;
-	}
-	const float GetCameraTopLimit()
-	{
-		Vector2 screenTopBorderPosition = { ((float)GetScreenWidth()) / 2.0f, 0.0f };
-		return GetScreenToWorld2D(screenTopBorderPosition, *m_camera).y;
-	}
-	const float GetCameraRightLimit()
-	{
-		Vector2 screenRightBorderPosition = { (float)GetScreenWidth(), ((float)GetScreenHeight()) / 2.0f };
-		return GetScreenToWorld2D(screenRightBorderPosition, *m_camera).x;
-	}
-	const float GetCameraBottomLimit()
-	{
-		Vector2 screenBottomBorderPosition = { ((float)GetScreenWidth()) / 2.0f, (float)GetScreenHeight() };
-		return GetScreenToWorld2D(screenBottomBorderPosition, *m_camera).y;
-	}
-
+	// Camera2D getters
 	const Vector2 GetCameraPosition() { return m_camera->target; }
 	const Vector2 GetCameraOffset() { return m_camera->offset; }
 	const Vector2 GetCameraTopLeftCorner() { return { GetCameraLeftLimit(), GetCameraTopLimit() }; }
 	const float GetCameraZoom() { return m_camera->zoom; }
+
+	// Camera limits 
+	const float GetCameraLeftLimit();
+	const float GetCameraTopLimit();
+	const float GetCameraRightLimit();
+	const float GetCameraBottomLimit();
+
+	// Camera limits with moving camera
+	const float GetMovingCameraLeftLimit();
+	const float GetMovingCameraTopLimit();
+	const float GetMovingCameraRightLimit();
+	const float GetMovingCameraBottomLimit();
 
 private:
 	CameraManager() {} // Private constructor for singleton pattern

@@ -9,8 +9,8 @@ struct SProjectileData
 public:
 
 	float RADIUS = 5.0f;
-	float LIFETIME = 2.0f;
-	float DAMAGE = 10.0f;
+	float LIFETIME = 1.0f;
+	float DAMAGE = 20.0f;
 	float SPEED = 300.0f;
 	Color COLOR = { 255, 255, 255, 255 };
 	EWeaponType WEAPON_TYPE = EWeaponType::COUNT;
@@ -31,6 +31,8 @@ private:
 	float m_radius = 0.0f;
 	Color m_color = { 255, 255, 255, 255 };
 	SProjectileData& m_projectileData;
+	short int m_laserBounces = 2;
+
 	static unsigned short int s_id;
 
 public:

@@ -83,7 +83,7 @@ private:
 	void RenderGameObjects();
 	void UpdateEnemySpawner();
 	void RemoveGameObjectsMarkedForRemoval();
-	void CleanupGameObjects();
+	//void CleanupGameObjects();
 
 public:
 	void CleanUpGame();
