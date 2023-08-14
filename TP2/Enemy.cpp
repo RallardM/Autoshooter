@@ -15,8 +15,10 @@ Enemy::Enemy()
 Enemy::~Enemy()
 {
 	// Delete health bar
-	delete m_healthBar;
-	m_healthBar = nullptr;
+	m_healthBar->Reset();
+	Game::GetInstance()->UnregisterGameObject(m_healthBar);
+	//delete m_healthBar;
+	//m_healthBar = nullptr;
 }
 
 void Enemy::OnStart()
@@ -73,9 +75,9 @@ void Enemy::Spawn()
 	Vector2 randPosition = { 0.0f, 0.0f };
 
 	// Get a reference to the camera's position
-	Vector2 cameraPosition = Game::GetInstance()->GetCameraPosition();
-	Vector2 cameraOffset = Game::GetInstance()->GetCameraOffset();
-	float cameraZoom = Game::GetInstance()->GetCameraZoom();
+	Vector2 cameraPosition = CameraManager::GetInstance()->GetCameraPosition();
+	Vector2 cameraOffset = CameraManager::GetInstance()->GetCameraOffset();
+	float cameraZoom = CameraManager::GetInstance()->GetCameraZoom();
 
 	// Add a random threshold to the spawn position outside the camera view
 	int randMultiple = std::rand() % 10 + 1;
@@ -85,33 +87,33 @@ void Enemy::Spawn()
 	{
 	case 0:
 		// Spawn left
-		randPosition.x = Game::GetInstance()->GetCameraLeftLimit() - OUTSIDE_THRESHOLD;
+		randPosition.x = CameraManager::GetInstance()->GetCameraLeftLimit() - OUTSIDE_THRESHOLD;
 		// Random number between Camera Top Limit and Camera Bottom Limit
-		randPosition.y = (float)(std::rand() % (int)(Game::GetInstance()->GetCameraTopLimit() - Game::GetInstance()->GetCameraBottomLimit()) + Game::GetInstance()->GetCameraBottomLimit());
+		randPosition.y = (float)(std::rand() % (int)(CameraManager::GetInstance()->GetCameraTopLimit() - CameraManager::GetInstance()->GetCameraBottomLimit()) + CameraManager::GetInstance()->GetCameraBottomLimit());
 		m_color = ORANGE;
 		break;
 
 	case 1:
 		// Spawn top
 		// Random number between Camera Left Limit and Camera Right Limit
-		randPosition.x = (float)(std::rand() % (int)(Game::GetInstance()->GetCameraRightLimit() - Game::GetInstance()->GetCameraLeftLimit()) + Game::GetInstance()->GetCameraLeftLimit());
-		randPosition.y = Game::GetInstance()->GetCameraTopLimit() - OUTSIDE_THRESHOLD;
+		randPosition.x = (float)(std::rand() % (int)(CameraManager::GetInstance()->GetCameraRightLimit() - CameraManager::GetInstance()->GetCameraLeftLimit()) + CameraManager::GetInstance()->GetCameraLeftLimit());
+		randPosition.y = CameraManager::GetInstance()->GetCameraTopLimit() - OUTSIDE_THRESHOLD;
 		m_color = GREEN;
 		break;
 
 	case 2:
 		// Spawn right
-		randPosition.x = Game::GetInstance()->GetCameraRightLimit() + OUTSIDE_THRESHOLD;
+		randPosition.x = CameraManager::GetInstance()->GetCameraRightLimit() + OUTSIDE_THRESHOLD;
 		// Random number between Camera Top Limit and Camera Bottom Limit
-		randPosition.y = (float)(std::rand() % (int)(Game::GetInstance()->GetCameraTopLimit() - Game::GetInstance()->GetCameraBottomLimit()) + Game::GetInstance()->GetCameraBottomLimit());
+		randPosition.y = (float)(std::rand() % (int)(CameraManager::GetInstance()->GetCameraTopLimit() - CameraManager::GetInstance()->GetCameraBottomLimit()) + CameraManager::GetInstance()->GetCameraBottomLimit());
 		m_color = YELLOW;
 		break;
 
 	case 3:
 		// Spawn bottom
 		// Random number between Camera Left Limit and Camera Right Limit
-		randPosition.x = (float)(std::rand() % (int)(Game::GetInstance()->GetCameraRightLimit() - Game::GetInstance()->GetCameraLeftLimit()) + Game::GetInstance()->GetCameraLeftLimit());
-		randPosition.y = Game::GetInstance()->GetCameraBottomLimit() + OUTSIDE_THRESHOLD;
+		randPosition.x = (float)(std::rand() % (int)(CameraManager::GetInstance()->GetCameraRightLimit() - CameraManager::GetInstance()->GetCameraLeftLimit()) + CameraManager::GetInstance()->GetCameraLeftLimit());
+		randPosition.y = CameraManager::GetInstance()->GetCameraBottomLimit() + OUTSIDE_THRESHOLD;
 		m_color = PURPLE;
 		break;
 

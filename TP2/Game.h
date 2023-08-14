@@ -5,7 +5,8 @@
 #include "Enumerations.h"
 #include "Enemy.h"
 #include "Player.h"
-#include "MathUtils.h"
+#include "MenuManager.h"
+#include "CameraManager.h"
 
 class GameObject;
 class Player;
@@ -17,10 +18,6 @@ public:
 	static Game* GetInstance();
 
 private:
-	static Game* _Instance;
-	const int CAMERA_WIDTH = 1200;
-	const int CAMERA_HEIGHT = 800;
-
 	// Static GetMapWidth() and GetMapHeight() permits player to access map size without having a reference to Game
 	const float S_MAP_WIDTH = 1601.0f;
 	const float S_MAP_HEIGHT = 1601.0f;
@@ -31,16 +28,17 @@ private:
 	// Enemies properties
 	const int MAX_ENEMY_AMOUNT = 10;
 
-	Player* m_player = nullptr;
-	Camera2D* m_camera = nullptr;
+	bool m_isPaused = false;
 
-	//std::list <Enemy*> m_enemyPool;
+	// Keep dynamically changing sizes bellow
+	static Game* _Instance;
+	CameraManager* m_cameraManager = nullptr;
+	MenuManager* m_menuManager = nullptr;
+	Camera2D* m_camera = nullptr;
+	Player* m_player = nullptr;
+
 	std::list<GameObject*> m_gameObjects;
 	std::vector<GameObject*> m_gameObjectsToRemove;
-
-	bool m_isPaused = false;
-	bool m_isPlayerDeadMenuOn = false;
-	bool m_isLevelUpMenuOn = false;
 
 public:
 	void StartGame();
@@ -48,52 +46,16 @@ public:
 	// Game getters and setters
 	bool const IsPaused() const { return m_isPaused; }
 	void PauseGame() { m_isPaused = !m_isPaused; }
-	void SetIsPlayerDeadMenuOn() { m_isPlayerDeadMenuOn = !m_isPlayerDeadMenuOn; }
-	bool const IsPlayerDead() const { return m_isPlayerDeadMenuOn; }
-	void SetLevelUpMenuOn() { m_isLevelUpMenuOn = !m_isLevelUpMenuOn; }
-	bool const IsLevelUp() const { return m_isLevelUpMenuOn; }
+
 
 	// GameObjects Methods
 	void RegisterGameObject(GameObject* agent);
 	void UnregisterGameObject(GameObject* agent);
-	void UpdateCameraPosition(Vector2 playerPosition);
+	void UnegisterAllObjects();
 
 	// Map getters
 	const float GetMapWidth() { return S_MAP_WIDTH; }
 	const float GetMapHeight() { return S_MAP_HEIGHT; }
-
-	// Camera getters // TODO Extract camera to its own class
-	const float GetCameraWidth() { return (float)CAMERA_WIDTH; }
-	const float GetCameraHeight() { return (float)CAMERA_HEIGHT; }
-	const float GetTransformedCameraWidth() { return (float)CAMERA_WIDTH * m_camera->zoom; }
-	const float GetTransformedCameraHeight() { return (float)CAMERA_HEIGHT * m_camera->zoom; }
-
-	// Camera limits 
-	const float GetCameraLeftLimit() 
-	{
-		Vector2 screenLeftBorderPosition = { 0.0f, ((float)GetScreenHeight()) / 2.0f };
-		return GetScreenToWorld2D(screenLeftBorderPosition, * m_camera).x;
-	}
-	const float GetCameraTopLimit() 
-	{ 
-		Vector2 screenTopBorderPosition = { ((float)GetScreenWidth()) / 2.0f, 0.0f };
-		return GetScreenToWorld2D(screenTopBorderPosition, * m_camera).y;
-	}
-	const float GetCameraRightLimit() 
-	{ 
-		Vector2 screenRightBorderPosition = { (float)GetScreenWidth(), ((float)GetScreenHeight()) / 2.0f };
-		return GetScreenToWorld2D(screenRightBorderPosition, * m_camera).x;
-	}
-	const float GetCameraBottomLimit() 
-	{ 
-		Vector2 screenBottomBorderPosition = { ((float)GetScreenWidth()) / 2.0f, (float)GetScreenHeight() };
-		return GetScreenToWorld2D(screenBottomBorderPosition, * m_camera).y;
-	}
-
-	const Vector2 GetCameraPosition() { return m_camera->target; }
-	const Vector2 GetCameraOffset() { return m_camera->offset; }
-	const Vector2 GetCameraTopLeftCorner() { return { GetCameraLeftLimit(), GetCameraTopLimit() }; }
-	const float GetCameraZoom() { return m_camera->zoom; }
 
 	// Player getters // TODO Extract experience to its own class
 	Vector2 GetPlayerPosition() { return { m_player->m_position.x, m_player->m_position.y }; }
@@ -112,22 +74,15 @@ public:
 	bool ArePlayerEnemyColliding(Rectangle player);
 	Enemy* GetCollidingEnemy(Rectangle player);
 
-	// Entities getters
-	//const unsigned short int GetEntityHealth(GameObject* entity) const;
-
 private:
 	Game() {} // Private constructor for singleton pattern
 	void MainLoop();
 	void RenderBackground();
 	void UpdateGameObjects(float deltatime);
-	void RenderPause();
-	void RenderLevelUp();
-	void RenderGameOver();
 	unsigned short int GetActiveObjectCountFromList(EGameObjectType type);
 	void RenderGameObjects();
 	void UpdateEnemySpawner();
 	void RemoveGameObjectsMarkedForRemoval();
-	void CleanupGameObjects();
 
 public:
 	void CleanUpGame();

@@ -6,32 +6,7 @@
 #include "MathUtils.h"
 #include "Weapon.h"
 #include <iostream>
-
-Player::~Player()
-{
-	// TODO debug crashes when esc
-	// 
-	// Empty weapon list
-	for (auto it = m_weapons.begin(); it != m_weapons.end(); ++it)
-	{
-		delete* it;
-		*it = nullptr;
-	}
-
-	m_weapons.clear();
-
-	// Delete health bar
-	delete m_healthBar;
-	m_healthBar = nullptr;
-
-	// Delete second health bar
-	delete m_secondHealthBar;
-	m_secondHealthBar = nullptr;
-
-	// Delete experience bar
-	delete m_experienceBar;
-	m_experienceBar = nullptr;
-}
+#include "MenuManager.h"
 
 void Player::HandleInput()
 {
@@ -41,14 +16,14 @@ void Player::HandleInput()
 	if (IsKeyPressed(KEY_F1))
 	{
 		Game::GetInstance()->PauseGame();
-		Game::GetInstance()->SetLevelUpMenuOn();
+		MenuManager::GetInstance()->SetLevelUpMenuOn();
 	}
 
 	// Debug Game Over Menu
 	if (IsKeyPressed(KEY_F2))
 	{
 		Game::GetInstance()->PauseGame();
-		Game::GetInstance()->SetIsPlayerDeadMenuOn();
+		MenuManager::GetInstance()->SetIsPlayerDeadMenuOn();
 	}
 
 	// Debug + 5 Levels
@@ -73,49 +48,49 @@ void Player::HandleInput()
 			// Increase shooting rate
 			IncreaseWeaponRate();
 			Game::GetInstance()->PauseGame();
-			Game::GetInstance()->SetLevelUpMenuOn();
+			MenuManager::GetInstance()->SetLevelUpMenuOn();
 		}
 		else if (IsKeyPressed(KEY_TWO))
 		{
 			// Increase enemy damages
 			IncreaseProjectileDamage();
 			Game::GetInstance()->PauseGame();
-			Game::GetInstance()->SetLevelUpMenuOn();
+			MenuManager::GetInstance()->SetLevelUpMenuOn();
 		}
 		else if (IsKeyPressed(KEY_THREE))
 		{
 			// Increase enemy size
 			IncreaseProjectileSize();
 			Game::GetInstance()->PauseGame();
-			Game::GetInstance()->SetLevelUpMenuOn();
+			MenuManager::GetInstance()->SetLevelUpMenuOn();
 		}
 		else if (IsKeyPressed(KEY_FOUR))
 		{
 			// Increase health capacity
 			IncreaseHealth();
 			Game::GetInstance()->PauseGame();
-			Game::GetInstance()->SetLevelUpMenuOn();
+			MenuManager::GetInstance()->SetLevelUpMenuOn();
 		}
 		else if (IsKeyPressed(KEY_FIVE))
 		{
 			// Add new HandGun
 			AddNewHandGun();
 			Game::GetInstance()->PauseGame();
-			Game::GetInstance()->SetLevelUpMenuOn();
+			MenuManager::GetInstance()->SetLevelUpMenuOn();
 		}
 		else if (IsKeyPressed(KEY_SIX))
 		{
 			// Add new Explosive Gun
 			AddNewExplosiveGun();
 			Game::GetInstance()->PauseGame();
-			Game::GetInstance()->SetLevelUpMenuOn();
+			MenuManager::GetInstance()->SetLevelUpMenuOn();
 		}
 		else if (IsKeyPressed(KEY_SEVEN))
 		{
 			// Add new Laser Gun
 			AddNewLaserGun();
 			Game::GetInstance()->PauseGame();
-			Game::GetInstance()->SetLevelUpMenuOn();
+			MenuManager::GetInstance()->SetLevelUpMenuOn();
 		}
 
 		return;
@@ -241,7 +216,7 @@ void Player::Update(float deltatime)
 	}
 
 	// Update camera position to player position
-	Game::GetInstance()->UpdateCameraPosition(m_position);
+	CameraManager::GetInstance()->UpdateCameraPosition(m_position);
 
 	Collision();
 }
@@ -290,7 +265,7 @@ void Player::VerifyHealth()
 	if (m_health <= 0)
 	{
 		Game::GetInstance()->PauseGame();
-		Game::GetInstance()->SetIsPlayerDeadMenuOn();
+		MenuManager::GetInstance()->SetIsPlayerDeadMenuOn();
 	}
 
 	if (m_health > MAX_HEALTH && m_secondHealthBar == nullptr)
@@ -321,7 +296,7 @@ void Player::VerifyExperience()
 		m_experience = 0;
 		m_level++;
 		Game::GetInstance()->PauseGame();
-		Game::GetInstance()->SetLevelUpMenuOn();
+		MenuManager::GetInstance()->SetLevelUpMenuOn();
 	}
 }
 

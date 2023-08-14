@@ -33,4 +33,3 @@ public:
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::WEAPON; }
 	virtual const EWeaponType GetWeaponType() const { return EWeaponType::EXPLOSIVE_GUN; } // TODO : Make pure virtual
 };
-

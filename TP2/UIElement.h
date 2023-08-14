@@ -9,6 +9,7 @@ class UIElement : public GameObject
 public:
 	UIElement(Entity* targetEntity, EUIElementType uitype, Color color, Vector2 size, Vector2 offset, float value);
 	UIElement(Entity* targetEntity, EUIElementType uitype, Color color, int size, Vector2 offset, unsigned short int value);
+	
 	virtual void OnStart() override;
 	void FollowPosition(Vector2 newPosition);
 	virtual const bool IsActive() const override { return m_isActive; }

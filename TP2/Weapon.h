@@ -6,7 +6,7 @@
 struct SWeaponData
 {
 public:
-	float m_attackRate = 2.0f;
+	float m_attackRate = 1.0f;
 	SProjectileData m_projectileInfos;
 };
 
