@@ -396,8 +396,33 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-/.vs/TP2/v17/Browse.VC.db
-/.vs/TP2/v17/Browse.VC.db
+/.vs/TP2/FileContentIndex/1bc54c5f-3f18-4948-b50e-c9b6eeef670c.vsidx
+/.vs/TP2/FileContentIndex/93951c8a-d3c5-471c-8ce0-1cec31f04d4f.vsidx
+/.vs/TP2/FileContentIndex/f22446cb-f682-4d48-a213-c6ea1996d7a0.vsidx
+/.vs/TP2/FileContentIndex/febadd60-c655-43d5-a54b-0a7f6530646f.vsidx
 /.vs/TP2/v17/.suo
+/.vs/TP2/v17/Browse.VC.db
+/TP2/x64/Debug/TP2.tlog/CL.command.1.tlog
+/TP2/x64/Debug/TP2.tlog/Cl.items.tlog
+/TP2/x64/Debug/TP2.tlog/CL.read.1.tlog
+/TP2/x64/Debug/TP2.tlog/CL.write.1.tlog
+/TP2/x64/Debug/TP2.tlog/link.command.1.tlog
+/TP2/x64/Debug/TP2.tlog/link.read.1.tlog
+/TP2/x64/Debug/TP2.tlog/link.write.1.tlog
+/TP2/x64/Debug/TP2.tlog/TP2.lastbuildstate
+/TP2/x64/Debug/TP2.tlog/TP2.write.1u.tlog
+/TP2/x64/Debug/Agent.obj
+/TP2/x64/Debug/Game.obj
+/TP2/x64/Debug/MainCharacter.obj
+/TP2/x64/Debug/Weapon.obj
+/x64/Debug/raylib.dll
 /x64/Debug/TP2.exe
 /x64/Debug/TP2.pdb
+/TP2/x64/Debug/Projectile.obj
+/TP2/x64/Debug/TP2.exe.recipe
+/TP2/x64/Debug/TP2.ilk
+/TP2/x64/Debug/TP2.log
+/TP2/x64/Debug/TP2.vcxproj.FileListAbsolute.txt
+/TP2/x64/Debug/vc143.idb
+/TP2/x64/Debug/vc143.pdb
+/TP2/x64/Debug/vcpkg.applocal.log
