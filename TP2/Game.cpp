@@ -6,27 +6,23 @@
 #include "Projectile.h"
 #include "MathUtils.h"
 
+
 using namespace std;
 
 Game* Game::_Instance = 0;
 
-int main(void)
-{
-    Game* game = Game::GetInstance();
-    game->StartGame();
-    game->CleanUpGame(); // TODO verify if it is propelry cleaning
-    delete game;
-    return 0;
-}
-
 Game::~Game()
 {
-    delete m_player;
-	delete m_camera;
+    if (m_player != nullptr)
+	{
+		delete m_player;
+        m_player = nullptr;
+	}
 
     for (GameObject* gameObject : m_gameObjects)
     {
 		delete gameObject;
+        gameObject = nullptr;
 	}
 
 	m_gameObjects.clear();
@@ -34,9 +30,35 @@ Game::~Game()
     for (GameObject* gameObject : m_gameObjectsToRemove)
     {
 		delete gameObject;
+    gameObject = nullptr;
 	}
 
 	m_gameObjectsToRemove.clear();
+
+    if (m_menuManager != nullptr)
+	{
+	    delete m_menuManager;
+        m_menuManager = nullptr;
+    }
+
+    if (m_cameraManager != nullptr)
+    {
+	    delete m_cameraManager;
+		m_cameraManager = nullptr;
+    }
+
+    if (m_camera != nullptr)
+	{
+		delete m_camera;
+		m_camera = nullptr;
+	}
+
+    // Keep _Instance check at the end
+    if (_Instance != nullptr)
+	{
+		delete _Instance;
+		_Instance = nullptr;
+	}
 }
 
 Game* Game::GetInstance()
@@ -50,19 +72,18 @@ Game* Game::GetInstance()
 
 void Game::StartGame()
 {
+    // Initialize camera manager
+    CameraManager* m_cameraManager = CameraManager::GetInstance();
+    m_cameraManager->InitializeCamera();
+    m_camera = m_cameraManager->GetCamera();
+
     _Instance = this;
-    InitWindow(CAMERA_WIDTH, CAMERA_HEIGHT, "raylib [core] example - basic window");
+    InitWindow((int)m_cameraManager->GetCameraWidth(), (int)m_cameraManager->GetCameraHeight(), "raylib [core] example - basic window");
     SetTargetFPS(60);
 
     // Initialize player
     m_player = new Player();
     m_player->OnStart();
-
-    // Initialize camera
-    m_camera = new Camera2D();
-    m_camera->offset = { (float)CAMERA_WIDTH * HALF, (float)CAMERA_HEIGHT * HALF };
-    m_camera->rotation = 0.0f;
-    m_camera->zoom = 0.8f;
 
     MainLoop();
 }
@@ -79,10 +100,6 @@ void Game::UnregisterGameObject(GameObject* gameObject)
     //cout << "GameObject marked for removal" << endl;
 }
 
-void Game::UpdateCameraPosition(Vector2 playerPosition)
-{
-    _Instance->m_camera->target = { playerPosition.x, playerPosition.y };
-}
 
 GameObject* Game::GetClosestGameObject(Vector2 position, EGameObjectType type)
 {
@@ -216,7 +233,7 @@ void Game::MainLoop()
 
         if (m_isPaused) 
         { 
-            RenderPause(); 
+            MenuManager::GetInstance()->RenderPause();
         }
         else 
         { 
@@ -291,165 +308,6 @@ void Game::UpdateGameObjects(float deltatime)
     RemoveGameObjectsMarkedForRemoval();
 }
 
-void Game::RenderPause()
-{
-    if (m_isPlayerDeadMenuOn)
-    {
-		RenderGameOver();
-        return;
-	}
-
-    if (m_isLevelUpMenuOn)
-    {
-        RenderLevelUp();
-    }
-}
-
-void Game::RenderLevelUp()
-{
-    float zoom = m_camera->zoom;
-
-    // Get the top-left corner, width, and height of the camera
-    Vector2 topLeftCorner = GetCameraTopLeftCorner();
-    float cameraWidth = GetCameraWidth();
-    float cameraHeight = GetCameraHeight();
-
-    // Adjust the width and height of the rectangle based on the zoom value
-    float adjustedWidth = cameraWidth / zoom;
-    float adjustedHeight = cameraHeight / zoom;
-
-    float halfWidth = adjustedWidth * HALF;
-    float halfHeight = adjustedHeight * HALF;
-
-    // Draw background
-    DrawRectangle((int)topLeftCorner.x, (int)topLeftCorner.y, (int)adjustedWidth, (int)adjustedHeight, Fade(BLACK, 0.5f));
-
-    // Draw Menu Box
-    float menuBoxWidth = 400;
-    float menuBoxHeight = 700;
-    float menuBoxXPosition = topLeftCorner.x + halfWidth - menuBoxWidth * HALF;
-    float menuBoxYPosition = topLeftCorner.y + halfHeight - menuBoxHeight * HALF;
-    Rectangle menuBox = { menuBoxXPosition, menuBoxYPosition, menuBoxWidth, menuBoxHeight };
-    DrawRectangleRounded(menuBox, 0.1f, 12, LIGHTGRAY);
-
-    // Draw text
-
-    // Level Up
-    string levelUpText = "Level Up!";
-    int menuFontSize = 40;
-    float textHeight = menuFontSize * HALF;
-    int textWidth = MeasureText(levelUpText.c_str(), menuFontSize);
-    float uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
-    float uiPositionY = menuBox.y + textHeight;
-    DrawText(levelUpText.c_str(), (int)uiPositionX, (int)uiPositionY, menuFontSize, DARKBLUE);
-
-    // Upgrades
-
-    // Shooting rate
-    string shootingRateText = "1 Shooting Rate x 2";
-    int choicesFontSize = 30;
-    textHeight = choicesFontSize * HALF;
-    textWidth = MeasureText(shootingRateText.c_str(), choicesFontSize);
-    float offsetDown = menuBoxHeight * EIGHTH;
-    uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
-    uiPositionY += offsetDown;
-    DrawText(shootingRateText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
-
-    // Shooting Damage
-    string shootingDamageText = "2 Shooting Damage x 2";
-    textHeight = choicesFontSize * HALF;
-    textWidth = MeasureText(shootingDamageText.c_str(), choicesFontSize);
-    offsetDown = menuBoxHeight * EIGHTH;
-    uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
-    uiPositionY += offsetDown;
-    DrawText(shootingDamageText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
-
-    // Projectile Size
-    string bulletSizeText = "3 Projectile Size x 2";
-    textHeight = choicesFontSize * HALF;
-    textWidth = MeasureText(bulletSizeText.c_str(), choicesFontSize);
-    offsetDown = menuBoxHeight * EIGHTH;
-    uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
-    uiPositionY += offsetDown;
-    DrawText(bulletSizeText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
-
-    // Health Capacity
-    string healthCapText = "4 Health Bonus + 10";
-    textHeight = choicesFontSize * HALF;
-    textWidth = MeasureText(healthCapText.c_str(), choicesFontSize);
-    offsetDown = menuBoxHeight * EIGHTH ;
-    uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
-    uiPositionY += offsetDown;
-    DrawText(healthCapText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
-
-    // New HandGun
-    string newHandGunText = "5 New HandGun";
-    textHeight = choicesFontSize * HALF;
-    textWidth = MeasureText(newHandGunText.c_str(), choicesFontSize);
-    offsetDown = menuBoxHeight * EIGHTH;
-    uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
-    uiPositionY += offsetDown;
-    DrawText(newHandGunText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
-
-    // New Eplosive Gun
-    string newExplosiveGunText = "6 New Explosive Gun";
-    textHeight = choicesFontSize * HALF;
-    textWidth = MeasureText(newExplosiveGunText.c_str(), choicesFontSize);
-    offsetDown = menuBoxHeight * EIGHTH;
-    uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
-    uiPositionY += offsetDown;
-    DrawText(newExplosiveGunText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
-
-    // New Laser Gun
-    string newLaserGunText = "7 New Laser Gun";
-    textHeight = choicesFontSize * HALF;
-    textWidth = MeasureText(newLaserGunText.c_str(), choicesFontSize);
-    offsetDown = menuBoxHeight * EIGHTH;
-    uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
-    uiPositionY += offsetDown;
-    DrawText(newLaserGunText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
-
-}
-
-void Game::RenderGameOver()
-{
-    float zoom = m_camera->zoom;
-
-    // Get the top-left corner, width, and height of the camera
-    Vector2 topLeftCorner = GetCameraTopLeftCorner();
-    float cameraWidth = GetCameraWidth();
-    float cameraHeight = GetCameraHeight();
-
-    // Adjust the width and height of the rectangle based on the zoom value
-    float adjustedWidth = cameraWidth / zoom;
-    float adjustedHeight = cameraHeight / zoom;
-
-    float halfWidth = adjustedWidth * HALF;
-    float halfHeight = adjustedHeight * HALF;
-
-    // Draw background
-    DrawRectangle((int)topLeftCorner.x, (int)topLeftCorner.y, (int)adjustedWidth, (int)adjustedHeight, Fade(BLACK, 0.5f));
-
-    // Draw Menu Box
-    float menuBoxWidth = 400;
-    float menuBoxHeight = 100;
-    float menuBoxXPosition = topLeftCorner.x + halfWidth - menuBoxWidth * HALF;
-    float menuBoxYPosition = topLeftCorner.y + halfHeight - menuBoxHeight * HALF;
-    Rectangle menuBox = { menuBoxXPosition, menuBoxYPosition, menuBoxWidth, menuBoxHeight };
-    DrawRectangleRounded(menuBox, 0.1f, 12, LIGHTGRAY);
-
-    // Draw text
-
-    // Level Up
-    string levelUpText = "Game Over!";
-    int menuFontSize = 40;
-    float textHeight = menuFontSize * HALF;
-    int textWidth = MeasureText(levelUpText.c_str(), menuFontSize);
-    float uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
-    float uiPositionY = menuBox.y + textHeight;
-    DrawText(levelUpText.c_str(), (int)uiPositionX, (int)uiPositionY, menuFontSize, DARKBLUE);
-}
-
 unsigned short int Game::GetActiveObjectCountFromList(EGameObjectType type)
 {
     unsigned short int count = 0;
@@ -520,17 +378,27 @@ void Game::RemoveGameObjectsMarkedForRemoval()
 void Game::CleanupGameObjects()
 {
     // Delete and remove objects from m_gameObjects
-    for (GameObject* obj : m_gameObjectsToRemove)
-    {
-        m_gameObjects.remove(obj);
-        delete obj;
-    }
-    m_gameObjectsToRemove.clear();
+    if (m_gameObjectsToRemove.size() != 0)
+	{
+        for (GameObject* obj : m_gameObjectsToRemove)
+        {
+            m_gameObjects.remove(obj);
+            delete obj;
+            obj = nullptr;
+        }
+        m_gameObjectsToRemove.clear();
+	}
 
 
-    for (GameObject* obj : m_gameObjects)
-    {
-		delete obj;
+    if (m_gameObjects.size() != 0)
+	{
+		for (GameObject* obj : m_gameObjects)
+		{
+			m_gameObjects.remove(obj);
+			delete obj;
+            obj = nullptr;
+		}
+		m_gameObjects.clear();
 	}
 
     // TODO : verify and add any new list of objects to clean up here (Player, Weapons)
