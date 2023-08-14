@@ -11,7 +11,7 @@ public:
 	UIElement(Entity* targetEntity, EUIElementType uitype, Color color, int size, Vector2 offset, unsigned short int value);
 	virtual void OnStart() override;
 	void FollowPosition(Vector2 newPosition);
-	virtual bool IsActive() override { return m_isActive; }
+	virtual const bool IsActive() const override { return m_isActive; }
 	virtual void Reset() override; // TODO check how to make it private, less spaghetti
 	void SetHasSecondBarToRegressBefore(bool value) { m_hasASecondBarToRegressBefore = value; }
 private:

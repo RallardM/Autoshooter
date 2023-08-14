@@ -3,13 +3,16 @@
 
 void HandGun::Fire()
 {
-	Projectile* projectile = new Projectile(
-		GetProjectileInfos(),
-		m_position,
-		GetWeaponInfos().m_projectileInfos.RADIUS,
-		GetWeaponInfos().m_projectileInfos.SPEED,
-		GetWeaponInfos().m_projectileInfos.LIFETIME);
+	//Projectile* projectile = new Projectile(
+	//	GetProjectileInfos(),
+	//	m_position,
+	//	GetWeaponInfos().m_projectileInfos.RADIUS,
+	//	GetWeaponInfos().m_projectileInfos.SPEED,
+	//	GetWeaponInfos().m_projectileInfos.LIFETIME,
+	//	GetWeaponType()
+	//);
 
+	Projectile* projectile = new Projectile(GetProjectileInfos(), m_position);
 	projectile->OnStart();
 }
 
@@ -41,5 +44,5 @@ void HandGun::Update(float deltatime)
 
 void HandGun::Render()
 {
-	DrawRectangleV(m_position, m_size, { 255, 255, 0, 255 });
+	DrawRectangleV(m_position, m_size, m_color);
 }

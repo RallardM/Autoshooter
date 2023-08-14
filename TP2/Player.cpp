@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "Game.h"
 #include "HandGun.h"
+#include "ExplosiveGun.h"
+#include "LaserGun.h"
 #include "MathUtils.h"
 #include "Weapon.h"
 #include <iostream>
@@ -94,6 +96,19 @@ void Player::HandleInput()
 			Game::GetInstance()->PauseGame();
 			Game::GetInstance()->SetLevelUpMenuOn();
 		}
+		else if (IsKeyPressed(KEY_FIVE))
+		{
+			// Add new HandGun
+
+		}
+		else if (IsKeyPressed(KEY_SIX))
+		{
+			// Add new Explosive Gun
+		}
+		else if (IsKeyPressed(KEY_SEVEN))
+		{
+			// Add new Laser Gun
+		}
 
 		return;
 	}
@@ -167,9 +182,7 @@ void Player::OnStart()
 	m_experienceBar = new UIElement(this, EUIElementType::PROGRESS_BAR, GREEN, barSize, offsetFromPlayer, m_experience);
 	m_experienceBar->OnStart();
 
-	HandGun* handGun = new HandGun();
-	m_weapons.push_back(handGun);
-	handGun->OnStart();
+	AddNewHandGun();
 
 	// Add attributes before m_isActive = true;
 	m_isActive = true;
@@ -346,4 +359,25 @@ void Player::IncreaseProjectileSize()
 void Player::IncreaseHealth()
 {
 	m_health += 10;
+}
+
+void Player::AddNewHandGun()
+{
+	HandGun* handGun = new HandGun();
+	m_weapons.push_back(handGun);
+	handGun->OnStart();
+}
+
+void Player::AddNewExplosiveGun()
+{
+	ExplosiveGun* explosiveGun = new ExplosiveGun();
+	m_weapons.push_back(explosiveGun);
+	explosiveGun->OnStart();
+}
+
+void Player::AddNewLaserGun()
+{
+	LaserGun* laserGun = new LaserGun();
+	m_weapons.push_back(laserGun);
+	laserGun->OnStart();
 }

@@ -131,9 +131,11 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Enumerations.h" />
     <ClInclude Include="ExperienceOrb.h" />
+    <ClInclude Include="ExplosiveGun.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HandGun.h" />
+    <ClInclude Include="LaserGun.h" />
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Projectile.h" />
@@ -143,9 +145,11 @@
   <ItemGroup>
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="ExperienceOrb.cpp" />
+    <ClCompile Include="ExplosiveGun.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HandGun.cpp" />
+    <ClCompile Include="LaserGun.cpp" />
     <ClCompile Include="MathUtils.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Projectile.cpp" />
