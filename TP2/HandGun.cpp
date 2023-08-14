@@ -3,16 +3,11 @@
 
 void HandGun::Fire()
 {
-	//Projectile* projectile = new Projectile(
-	//	GetProjectileInfos(),
-	//	m_position,
-	//	GetWeaponInfos().m_projectileInfos.RADIUS,
-	//	GetWeaponInfos().m_projectileInfos.SPEED,
-	//	GetWeaponInfos().m_projectileInfos.LIFETIME,
-	//	GetWeaponType()
-	//);
+	// Initialize projectile infos
+	GetProjectileInfos().WEAPON_TYPE = EWeaponType::HAND_GUN;
 
-	Projectile* projectile = new Projectile(GetProjectileInfos(), m_position);
+	Vector2 noDirection = { 0.0f, 0.0f };
+	Projectile* projectile = new Projectile(GetProjectileInfos(), m_position, noDirection);
 	projectile->OnStart();
 }
 

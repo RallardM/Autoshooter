@@ -99,15 +99,23 @@ void Player::HandleInput()
 		else if (IsKeyPressed(KEY_FIVE))
 		{
 			// Add new HandGun
-
+			AddNewHandGun();
+			Game::GetInstance()->PauseGame();
+			Game::GetInstance()->SetLevelUpMenuOn();
 		}
 		else if (IsKeyPressed(KEY_SIX))
 		{
 			// Add new Explosive Gun
+			AddNewExplosiveGun();
+			Game::GetInstance()->PauseGame();
+			Game::GetInstance()->SetLevelUpMenuOn();
 		}
 		else if (IsKeyPressed(KEY_SEVEN))
 		{
 			// Add new Laser Gun
+			AddNewLaserGun();
+			Game::GetInstance()->PauseGame();
+			Game::GetInstance()->SetLevelUpMenuOn();
 		}
 
 		return;

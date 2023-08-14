@@ -24,7 +24,7 @@ public:
 	unsigned short int m_id;
 
 private:
-
+	Vector2 m_direction = { 0.0f, 0.0f };
 	float m_currentLifetime = 0.0f;
 	float m_xSpeed = 0.0f;
 	float m_ySpeed = 0.0f;
@@ -35,7 +35,7 @@ private:
 
 public:
 	
-	Projectile(SProjectileData& projectileData, Vector2& origin);
+	Projectile(SProjectileData& projectileData, Vector2& origin, Vector2& direction);
 
 	// Inherited via GameObject
 	virtual void OnStart() override;
@@ -51,6 +51,6 @@ public:
 
 private:
 	void SetHandGunProjectileData(SProjectileData& projectileData);
-	void SetExplosiveGunProjectileValues(SProjectileData& projectileData);
+	void SetExplosiveGunProjectileValues(SProjectileData& projectileData, Vector2& direction);
 	void SetLaserGunProjectileValues(SProjectileData& projectileData);
 };

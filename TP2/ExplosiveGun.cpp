@@ -1,16 +1,25 @@
 #include "ExplosiveGun.h"
 #include <corecrt_math.h>
+#include "MathUtils.h"
 
 void ExplosiveGun::Fire()
 {
+	// Initialize projectile infos
+	GetProjectileInfos().RADIUS = 7.0f;
+	GetProjectileInfos().LIFETIME = 0.5f;
+	GetProjectileInfos().DAMAGE = 15.0f;
+	GetProjectileInfos().SPEED = 50.0f;
+	GetProjectileInfos().COLOR = GOLD;
+	GetProjectileInfos().WEAPON_TYPE = EWeaponType::EXPLOSIVE_GUN;
+
+	// Initialize projectile position and direction
 	Vector2 projectilePosition = { 0.0f, 0.0f };
 	Vector2 projectileDirection = { 0.0f, 0.0f };
 	int projectilesNumber = 8;
-	float teta = (2 * PI) / projectilesNumber;
+	float teta = FULL_CIRCLE / projectilesNumber;
 	float angle = 0.0f;
 	int radius = 16;
 
-	//Construction shape of projectile
 	for (int i = 0; i < projectilesNumber; i++)
 	{
 		projectilePosition.x = radius * cosf(angle);
@@ -22,17 +31,8 @@ void ExplosiveGun::Fire()
 		projectilePosition.x += m_position.x;
 		projectilePosition.y += m_position.y;
 
-		//Projectile* projectile = new Projectile(
-		//	GetProjectileInfos(),
-		//	projectilePosition,
-		//	GetWeaponInfos().m_projectileInfos.RADIUS,
-		//	GetWeaponInfos().m_projectileInfos.SPEED,
-		//	GetWeaponInfos().m_projectileInfos.LIFETIME,
-		//	GetWeaponType()
-		//);
-
-		Projectile* projectile = new Projectile(GetProjectileInfos(), m_position);
-
+		Projectile* projectile = new Projectile(GetProjectileInfos(), projectilePosition, projectileDirection);
+		projectile->OnStart();
 		angle += teta;
 	}
 }

@@ -8,7 +8,7 @@
 
 unsigned short int Projectile::s_id = 0;
 
-Projectile::Projectile(SProjectileData& projectileData, Vector2& origin)
+Projectile::Projectile(SProjectileData& projectileData, Vector2& origin, Vector2& direction)
 	: m_projectileData(projectileData)
 {
 	m_id = s_id++;
@@ -20,7 +20,7 @@ Projectile::Projectile(SProjectileData& projectileData, Vector2& origin)
 		break;
 
 	case EWeaponType::EXPLOSIVE_GUN:
-		SetExplosiveGunProjectileValues(projectileData);
+		SetExplosiveGunProjectileValues(projectileData, direction);
 		break;
 
 	case EWeaponType::LAZER_GUN:
@@ -102,11 +102,14 @@ void Projectile::SetHandGunProjectileData(SProjectileData& projectileData)
 	m_ySpeed = speedMagnitude * sin(randomAngle);
 }
 
-void Projectile::SetExplosiveGunProjectileValues(SProjectileData& projectileData)
+void Projectile::SetExplosiveGunProjectileValues(SProjectileData& projectileData, Vector2& direction)
 {
 	m_currentLifetime = projectileData.LIFETIME;
 	m_radius = projectileData.RADIUS;
 	m_color = projectileData.COLOR;
+
+	m_xSpeed += direction.x * projectileData.SPEED;
+	m_ySpeed += direction.y * projectileData.SPEED;
 
 }
 
