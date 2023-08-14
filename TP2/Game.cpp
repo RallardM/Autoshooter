@@ -446,42 +446,8 @@ void Game::RemoveGameObjectsMarkedForRemoval()
 	}
 }
 
-void Game::CleanupGameObjects()
-{
-	// Delete and remove objects from m_gameObjects
-
-	RemoveGameObjectsMarkedForRemoval();
-
-	if (m_gameObjectsToRemove.size() != 0)
-	{
-		for (GameObject* obj : m_gameObjectsToRemove)
-		{
-			if (obj == nullptr) { continue; }
-			m_gameObjects.remove(obj);
-			delete obj;
-			obj = nullptr;
-		}
-		m_gameObjectsToRemove.clear();
-	}
-
-	for (GameObject* obj : m_gameObjects)
-	{
-		if (obj == nullptr)
-		{
-			continue;
-		}
-
-		delete obj;
-	}
-	m_gameObjects.clear();
-
-	// TODO : verify and add any new list of objects to clean up here (Player, Weapons)
-}
-
 void Game::CleanUpGame()
 {
 	UnegisterAllObjects();
 	RemoveGameObjectsMarkedForRemoval();
-	//CleanupGameObjects();
-	// TODO : Clean up other resources
 }
