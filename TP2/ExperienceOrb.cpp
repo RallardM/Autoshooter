@@ -1,5 +1,6 @@
 #include "ExperienceOrb.h"
 #include "Game.h"
+#include "CollisionManager.h"
 
 ExperienceOrb::ExperienceOrb(Vector2 origin)
 {
@@ -38,7 +39,7 @@ void ExperienceOrb::Reset()
 
 void ExperienceOrb::Collision()
 {
-	bool isPlayerCollidingOrb = Game::GetInstance()->AreOrbPlayerColliding(m_position, m_radius);
+	bool isPlayerCollidingOrb = CollisionManager::GetInstance()->AreOrbPlayerColliding(m_position, m_radius);
 
 	if (isPlayerCollidingOrb)
 	{

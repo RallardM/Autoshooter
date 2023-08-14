@@ -1,9 +1,9 @@
 #pragma once
 #include <list>
 #include <vector>
-
-#include "Enumerations.h"
-#include "Enemy.h"
+//
+//#include "Enumerations.h"
+//#include "Enemy.h"
 #include "Player.h"
 #include "MenuManager.h"
 #include "CameraManager.h"
@@ -59,6 +59,7 @@ public:
 	const float GetMapHeight() { return S_MAP_HEIGHT; }
 
 	// Player getters // TODO Extract experience to its own class
+	Player* GetPlayer() { return m_player; }
 	Vector2 GetPlayerPosition() { return { m_player->m_position.x, m_player->m_position.y }; }
 	const unsigned short int GetPlayerExperience() { return m_player->m_experience; }
 	const unsigned short int GetPlayerTotalExperience() { return m_player->m_totalExperience; }
@@ -66,14 +67,8 @@ public:
 
 	// Game objects getter
 	std::list<GameObject*> GetGameObjects() { return m_gameObjects; }
+	EGameObjectType GetGameObjectType(GameObject* gameObject);
 	GameObject* GetClosestGameObject(Vector2 position, EGameObjectType type);
-
-	// Collision detection // TODO Extract collision detection to its own class
-	bool AreEnemyProjectileColliding(Rectangle enemy);
-	Projectile* GetCollidingProjectile(Rectangle enemy);
-	bool AreOrbPlayerColliding(Vector2 orbPosition, float orbradius);
-	bool ArePlayerEnemyColliding(Rectangle player);
-	Enemy* GetCollidingEnemy(Rectangle player);
 
 private:
 	Game() {} // Private constructor for singleton pattern

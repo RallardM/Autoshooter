@@ -161,6 +161,11 @@ void Game::UnegisterAllObjects()
 }
 
 
+EGameObjectType Game::GetGameObjectType(GameObject* gameObject)
+{
+	return gameObject->GetGameObjectType();
+}
+
 GameObject* Game::GetClosestGameObject(Vector2 position, EGameObjectType type)
 {
 	GameObject* closest = nullptr;
@@ -180,100 +185,6 @@ GameObject* Game::GetClosestGameObject(Vector2 position, EGameObjectType type)
 	}
 
 	return closest;
-}
-
-bool Game::AreEnemyProjectileColliding(Rectangle enemy)
-{
-	for (GameObject* gameObject : _Instance->m_gameObjects)
-	{
-		if (gameObject == nullptr) { continue; }
-
-		if (gameObject->GetGameObjectType() == EGameObjectType::PROJECTILE)
-		{
-			Projectile* projectile = dynamic_cast<Projectile*>(gameObject);
-			Vector2 projectilePosition = projectile->GetPosition();
-			float projectileRadius = projectile->GetRadius();
-
-			bool IsEnemyHitByProjectile = CheckCollisionCircleRec(projectilePosition, projectileRadius, enemy);
-			if (IsEnemyHitByProjectile)
-			{
-				return true;
-			}
-		}
-	}
-	return false;
-}
-
-Projectile* Game::GetCollidingProjectile(Rectangle enemy)
-{
-	for (GameObject* gameObject : _Instance->m_gameObjects)
-	{
-		if (gameObject->GetGameObjectType() == EGameObjectType::PROJECTILE)
-		{
-			Projectile* projectile = dynamic_cast<Projectile*>(gameObject);
-			Vector2 projectilePosition = projectile->GetPosition();
-			float projectileRadius = projectile->GetRadius();
-
-			bool IsEnemyHitByProjectile = CheckCollisionCircleRec(projectilePosition, projectileRadius, enemy);
-			if (IsEnemyHitByProjectile)
-			{
-				return projectile;
-			}
-		}
-	}
-	return nullptr;
-}
-
-bool Game::AreOrbPlayerColliding(Vector2 orbPosition, float orbradius)
-{
-	bool IsEnemyHitByProjectile = CheckCollisionCircleRec(orbPosition, orbradius, _Instance->m_player->GetRect());
-	if (IsEnemyHitByProjectile)
-	{
-		return true;
-	}
-	return false;
-}
-
-bool Game::ArePlayerEnemyColliding(Rectangle player)
-{
-	for (GameObject* gameObject : _Instance->m_gameObjects)
-	{
-		if (gameObject == nullptr) { continue; }
-
-		if (gameObject->GetGameObjectType() == EGameObjectType::ENEMY)
-		{
-			Enemy* enemy = dynamic_cast<Enemy*>(gameObject);
-			Vector2 enemyPosition = enemy->GetPosition();
-			Rectangle enemyRect = enemy->GetRect();
-
-			bool IsEnemyHitByProjectile = CheckCollisionRecs(player, enemyRect);
-			if (IsEnemyHitByProjectile)
-			{
-				return true;
-			}
-		}
-	}
-	return false;
-}
-
-Enemy* Game::GetCollidingEnemy(Rectangle player)
-{
-	for (GameObject* gameObject : _Instance->m_gameObjects)
-	{
-		if (gameObject->GetGameObjectType() == EGameObjectType::ENEMY)
-		{
-			Enemy* enemy = dynamic_cast<Enemy*>(gameObject);
-			Vector2 enemyPosition = enemy->GetPosition();
-			Rectangle enemyRect = enemy->GetRect();
-
-			bool IsEnemyHitByProjectile = CheckCollisionRecs(player, enemyRect);
-			if (IsEnemyHitByProjectile)
-			{
-				return enemy;
-			}
-		}
-	}
-	return nullptr;
 }
 
 void Game::MainLoop()

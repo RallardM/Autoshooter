@@ -4,6 +4,7 @@
 #include "Game.h"
 #include <iostream>
 #include "ExperienceOrb.h"
+#include "CollisionManager.h"
 
 unsigned short int Enemy::s_id = 0;
 
@@ -154,11 +155,11 @@ void Enemy::TrackPlayer()
 void Enemy::Collision()
 {
 	Rectangle enemyRect = { m_position.x, m_position.y, m_enemySize.x, m_enemySize.y };
-	bool isEnemyHitByProjctile = Game::GetInstance()->AreEnemyProjectileColliding(enemyRect);
+	bool isEnemyHitByProjctile = CollisionManager::GetInstance()->AreEnemyProjectileColliding(enemyRect);
 
 	if (isEnemyHitByProjctile)
 	{
-		Projectile* projectile = Game::GetInstance()->GetCollidingProjectile(enemyRect);
+		Projectile* projectile = CollisionManager::GetInstance()->GetCollidingProjectile(enemyRect);
 
 		if (projectile == nullptr) 
 		{ 
