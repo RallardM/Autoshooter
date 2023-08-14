@@ -11,6 +11,7 @@ private:
 
 public:
 	~MenuManager();
+	void Cleanup();
 	static MenuManager* GetInstance();
 
 	void SetIsPlayerDeadMenuOn() { m_isPlayerDeadMenuOn = !m_isPlayerDeadMenuOn; }

@@ -66,6 +66,7 @@ public:
 	// Game objects getter
 	std::list<GameObject*> GetGameObjects() { return m_gameObjects; }
 	GameObject* GetClosestGameObject(Vector2 position, EGameObjectType type);
+	GameObject* GetObjectFromId(unsigned short int gameObjectId);
 
 	// Collision detection // TODO Extract collision detection to its own class
 	bool AreEnemyProjectileColliding(Rectangle enemy);
@@ -83,7 +84,7 @@ private:
 	void RenderGameObjects();
 	void UpdateEnemySpawner();
 	void RemoveGameObjectsMarkedForRemoval();
-	//void CleanupGameObjects();
+	void CleanupGameObjects();
 
 public:
 	void CleanUpGame();

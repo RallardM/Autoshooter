@@ -15,8 +15,10 @@ Enemy::Enemy()
 Enemy::~Enemy()
 {
 	// Delete health bar
-	delete m_healthBar;
-	m_healthBar = nullptr;
+	if (m_healthBar != nullptr)
+	{
+		m_healthBar->Cleanup();
+	}
 }
 
 void Enemy::OnStart()
@@ -24,9 +26,10 @@ void Enemy::OnStart()
 	GameObject::OnStart();
 
 	// Initialize health bar
-	Vector2 barSize = { 32.0f, 3.0f };
-	Vector2 offsetFromEnemy = { 0.0f, 33.0f };
-	m_healthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromEnemy, m_health);
+	//Vector2 barSize = { 32.0f, 3.0f };
+	//Vector2 offsetFromEnemy = { 0.0f, 33.0f };
+	//m_healthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromEnemy, m_health);
+	m_healthBar = new UIElement(m_gameObjectId, EUIElementType::REGRESS_BAR);
 	m_healthBar->OnStart();
 
 	// Add attributes before m_isActive = true; except for spawn position

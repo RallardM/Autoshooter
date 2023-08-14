@@ -14,6 +14,9 @@ class Weapon : public GameObject
 {
 	friend class Player;
 
+public:
+	virtual ~Weapon() = default;
+
 private:
 	virtual void Fire() = 0;
 	virtual void Update(float deltatime) = 0;

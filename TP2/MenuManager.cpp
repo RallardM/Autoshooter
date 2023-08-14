@@ -12,20 +12,17 @@ MenuManager* MenuManager::_Instance = 0;
 
 MenuManager::~MenuManager()
 {
+    Cleanup();
+}
 
-    // Keep _Instance check at the end
-    if (_Instance != nullptr || NULL)
-	{
-		delete _Instance;
-		_Instance = nullptr;
-	}
+void MenuManager::Cleanup()
+{
+
 }
 
 MenuManager* MenuManager::GetInstance()
 {
-
-    // Keep _Instance check at the end
-    if (_Instance == nullptr || NULL)
+    if (_Instance == nullptr)
     {
         _Instance = new MenuManager();
     }

@@ -8,13 +8,22 @@
 #include <iostream>
 #include "MenuManager.h"
 
+Player::Player() : m_experience(0) // Variable seems to fail initializing
+{
+}
+
 Player::~Player()
 {
 	// TODO debug crashes when esc
-	// 
-	// Empty weapon list
+	Cleanup();
+}
+
+void Player::Cleanup()
+{
 	for (auto it = m_weapons.begin(); it != m_weapons.end(); ++it)
 	{
+		if (*it == nullptr) { continue; }
+
 		delete* it;
 		*it = nullptr;
 	}
@@ -22,16 +31,32 @@ Player::~Player()
 	m_weapons.clear();
 
 	// Delete health bar
-	delete m_healthBar;
-	m_healthBar = nullptr;
+	if (m_healthBar != nullptr)
+	{
+		delete m_healthBar;
+		m_healthBar = nullptr;
+	}
+
+	// Delete experience text
+	if (m_experienceText != nullptr)
+	{
+		delete m_experienceText;
+		m_experienceText = nullptr;
+	}
 
 	// Delete second health bar
-	delete m_secondHealthBar;
-	m_secondHealthBar = nullptr;
+	if (m_secondHealthBar != nullptr)
+	{
+		delete m_secondHealthBar;
+		m_secondHealthBar = nullptr;
+	}
 
 	// Delete experience bar
-	delete m_experienceBar;
-	m_experienceBar = nullptr;
+	if (m_experienceBar != nullptr)
+	{
+		delete m_experienceBar;
+		m_experienceBar = nullptr;
+	}
 }
 
 void Player::HandleInput()
@@ -174,21 +199,25 @@ void Player::OnStart()
 	m_position.y = (float)Game::GetInstance()->GetMapHeight() * HALF;
 
 	// Initialize health bar
-	Vector2 barSize = { 32.0f, 3.0f };
-	Vector2 offsetFromPlayer = { 0.0f, 33.0f };
-	m_healthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromPlayer, m_health);
+	//Vector2 barSize = { 32.0f, 3.0f };
+	//Vector2 offsetFromPlayer = { 0.0f, 33.0f };
+	//m_healthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromPlayer, m_health);
+	m_healthBar = new UIElement(m_gameObjectId, EUIElementType::REGRESS_BAR);
 	m_healthBar->OnStart();
 
 	// Initialize experience text
-	int fontSize = 15;
-	offsetFromPlayer = { 3.0f, 4.0f };
-	m_experienceText = new UIElement(this, EUIElementType::TEXT, GREEN, fontSize, offsetFromPlayer, m_totalExperience);
+	//int fontSize = 15;
+	//offsetFromPlayer = { 3.0f, 4.0f };
+	//m_experienceText = new UIElement(this, EUIElementType::TEXT, GREEN, fontSize, offsetFromPlayer, m_totalExperience);
+	m_experience = 0;
+	m_experienceText = new UIElement(m_gameObjectId, EUIElementType::TEXT);
 	m_experienceText->OnStart();
 
 	// Initialize experience bar
-	barSize = { 32.0f, 3.0f };
-	offsetFromPlayer = { 0.0f, -3.0f };
-	m_experienceBar = new UIElement(this, EUIElementType::PROGRESS_BAR, GREEN, barSize, offsetFromPlayer, m_experience);
+	//barSize = { 32.0f, 3.0f };
+	//offsetFromPlayer = { 0.0f, -3.0f };
+	//m_experienceBar = new UIElement(this, EUIElementType::PROGRESS_BAR, GREEN, barSize, offsetFromPlayer, m_experience);
+	m_experienceBar = new UIElement(m_gameObjectId, EUIElementType::PROGRESS_BAR);
 	m_experienceBar->OnStart();
 
 	AddNewHandGun();
@@ -297,12 +326,13 @@ void Player::VerifyHealth()
 	if (m_health > MAX_HEALTH && m_secondHealthBar == nullptr)
 	{
 		// Initialize one additional health bar
-		float extraHealth = (float)m_health - (float)MAX_HEALTH;
+		//float extraHealth = (float)m_health - (float)MAX_HEALTH;
 		// 32.0f  = 100% of the bar
-		extraHealth = (extraHealth * 32.0f) / 100;
-		Vector2 barSize = { extraHealth, 3.0f };
-		Vector2 offsetFromPlayer = { 0.0f, 37.0f };
-		m_secondHealthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromPlayer, m_health);
+		//extraHealth = (extraHealth * 32.0f) / 100;
+		//Vector2 barSize = { extraHealth, 3.0f };
+		//Vector2 offsetFromPlayer = { 0.0f, 37.0f };
+		//m_secondHealthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromPlayer, m_health);
+		m_secondHealthBar = new UIElement(m_gameObjectId, EUIElementType::REGRESS_BAR);
 		m_secondHealthBar->OnStart();
 		m_healthBar->SetHasSecondBarToRegressBefore(true);
 	}

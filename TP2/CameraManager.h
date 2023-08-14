@@ -13,6 +13,7 @@ private:
 public:
 	static CameraManager* GetInstance();
 	~CameraManager();
+	void Cleanup();
 
 	void InitializeCamera();
 

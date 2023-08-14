@@ -12,8 +12,6 @@ public:
 	Enemy();
 	~Enemy();
 
-public:
-
 	// Inherited via GameObject
 	virtual void OnStart() override;
 	virtual void Update(float deltatime) override;

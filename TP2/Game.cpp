@@ -13,58 +13,12 @@ Game* Game::_Instance = 0;
 
 Game::~Game()
 {
-    if (m_player != nullptr)
-	{
-		delete m_player;
-        m_player = nullptr;
-	}
-
-    for (GameObject* gameObject : m_gameObjectsToRemove)
-    {
-        if (gameObject == nullptr) { continue; }
-        delete gameObject;
-        gameObject = nullptr;
-    }
-    m_gameObjectsToRemove.clear();
-
-    for (GameObject* gameObject : m_gameObjects)
-    {
-        if (gameObject == nullptr) { continue; }
-		delete gameObject;
-        gameObject = nullptr;
-	}
-	m_gameObjects.clear();
-
-
-    if (m_menuManager != nullptr)
-	{
-	    delete m_menuManager;
-        m_menuManager = nullptr;
-    }
-
-    if (m_cameraManager != nullptr)
-    {
-	    delete m_cameraManager;
-		m_cameraManager = nullptr;
-    }
-
-    if (m_camera != nullptr)
-	{
-		delete m_camera;
-		m_camera = nullptr;
-	}
-
-    // Keep _Instance check at the end
-    if (_Instance != nullptr)
-	{
-		delete _Instance;
-		_Instance = nullptr;
-	}
+    CleanupGameObjects();
 }
 
 Game* Game::GetInstance()
 {
-    if (_Instance == nullptr || NULL)
+    if (_Instance == nullptr)
     {
         _Instance = new Game();
     }
@@ -121,6 +75,19 @@ GameObject* Game::GetClosestGameObject(Vector2 position, EGameObjectType type)
 	}
 
 	return closest;
+}
+
+GameObject* Game::GetObjectFromId(unsigned short int gameObjectId)
+{
+    for (GameObject* gameObject : _Instance->m_gameObjects)
+	{
+        if (gameObject == nullptr) { continue; }
+		if (gameObject->GetGameObjectId() == gameObjectId)
+		{
+			return gameObject;
+		}
+	}
+    return nullptr;
 }
 
 bool Game::AreEnemyProjectileColliding(Rectangle enemy)
@@ -366,6 +333,16 @@ void Game::RemoveGameObjectsMarkedForRemoval()
         //    std::cout << "GameObject is an enemy" << std::endl;
         //}
 
+        if (m_gameObjectsToRemove[i] == nullptr)
+		{
+			continue;
+		}
+
+        if (m_gameObjectsToRemove[i]->IsActive() == true)
+		{
+			continue;
+		}
+
         m_gameObjects.remove(m_gameObjectsToRemove[i]);
         delete(m_gameObjectsToRemove[i]);
        // std::cout << "GameObject removed from gameObjects list. GameObjects amount: " << m_gameObjects.size() << std::endl;
@@ -376,39 +353,65 @@ void Game::RemoveGameObjectsMarkedForRemoval()
     m_gameObjectsToRemove.resize(0);
 }
 
-//void Game::CleanupGameObjects()
-//{
-//    // Delete and remove objects from m_gameObjects
-//    if (m_gameObjectsToRemove.size() != 0)
-//	{
-//        for (GameObject* obj : m_gameObjectsToRemove)
-//        {
-//            if (obj == nullptr) { continue; }
-//            m_gameObjects.remove(obj);
-//            delete obj;
-//            obj = nullptr;
-//        }
-//        m_gameObjectsToRemove.clear();
-//	}
-//
-//
-//    if (m_gameObjects.size() != 0)
-//	{
-//		for (GameObject* obj : m_gameObjects)
-//		{
-//            if (obj == nullptr) { continue; }
-//			m_gameObjects.remove(obj);
-//			delete obj;
-//            obj = nullptr;
-//		}
-//		m_gameObjects.clear();
-//	}
-//
-//    // TODO : verify and add any new list of objects to clean up here (Player, Weapons)
-//}
-//
-//void Game::CleanUpGame()
-//{
-//    CleanupGameObjects();
-//    // TODO : Clean up other resources
-//}
+void Game::CleanupGameObjects()
+{
+    if (m_player != nullptr)
+	{
+        m_player->Cleanup();
+		delete m_player;
+		m_player = nullptr;
+	}
+
+    if (m_cameraManager != nullptr)
+	{
+        m_cameraManager->Cleanup();
+        delete m_cameraManager;
+		m_cameraManager = nullptr;
+    }
+
+    if (m_camera != nullptr)
+    {
+        delete m_camera;
+        m_camera = nullptr;
+    }
+
+    if (m_menuManager != nullptr)
+    {
+        m_menuManager->Cleanup();
+        delete m_menuManager;
+        m_menuManager = nullptr;
+    }
+
+    // Delete and remove objects from m_gameObjects
+    if (m_gameObjectsToRemove.size() != 0)
+	{
+        for (GameObject* obj : m_gameObjectsToRemove)
+        {
+            if (obj == nullptr) { continue; }
+            m_gameObjects.remove(obj);
+            delete obj;
+            obj = nullptr;
+        }
+        m_gameObjectsToRemove.clear();
+	}
+
+
+    if (m_gameObjects.size() != 0)
+	{
+		for (GameObject* obj : m_gameObjects)
+		{
+            if (obj == nullptr) { continue; }
+			m_gameObjects.remove(obj);
+			delete obj;
+            obj = nullptr;
+		}
+		m_gameObjects.clear();
+	}
+}
+
+
+void Game::CleanUpGame()
+{
+    // Check if necessary since called in destructor
+    CleanupGameObjects();
+}

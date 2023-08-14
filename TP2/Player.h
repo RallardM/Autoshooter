@@ -7,14 +7,6 @@ class Player : public Entity
 {
 	friend class Game;
 
-public:
-	~Player();
-	virtual const Vector2& GetPosition() const override { return m_position; }
-	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::PLAYER; }
-	virtual const short int GetHealth() const override { return m_health; }
-	virtual const short int GetMaxHealth() const override { return MAX_HEALTH; }
-	const Rectangle GetRect() const { return { m_position.x, m_position.y, m_playerSize.x, m_playerSize.y }; }
-	
 private:
 	UIElement* m_healthBar = nullptr;
 	UIElement* m_secondHealthBar = nullptr;
@@ -33,6 +25,19 @@ private:
 	unsigned short int m_previousEnemyId = 0;
 
 	std::list<Weapon*> m_weapons;
+
+public:
+	Player();
+	~Player();
+	virtual const Vector2& GetPosition() const override { return m_position; }
+	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::PLAYER; }
+	virtual const short int GetHealth() const override { return m_health; }
+	virtual const short int GetMaxHealth() const override { return MAX_HEALTH; }
+	const Rectangle GetRect() const { return { m_position.x, m_position.y, m_playerSize.x, m_playerSize.y }; }
+	const unsigned short int GetExperience() const { return m_experience; }
+	void Cleanup();
+	
+
 
 private:
 	void HandleInput();
