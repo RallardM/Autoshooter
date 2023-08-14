@@ -8,12 +8,17 @@ struct SProjectileData
 {
 public:
 
-	float RADIUS = 5.0f;
-	float LIFETIME = 1.0f;
-	float DAMAGE = 20.0f;
-	float SPEED = 300.0f;
-	Color COLOR = { 255, 255, 255, 255 };
-	EWeaponType WEAPON_TYPE = EWeaponType::COUNT;
+	float RADIUS;
+	float LIFETIME;
+	float DAMAGE;
+	float SPEED;
+	Color COLOR;
+	EWeaponType WEAPON_TYPE;
+	SProjectileData() = default;
+	SProjectileData(float radius, float lifetime, float damage, float speed, Color color, EWeaponType weaponType)
+		: RADIUS(radius), LIFETIME(lifetime), DAMAGE(damage), SPEED(speed), COLOR(color), WEAPON_TYPE(weaponType)
+	{
+	}
 };
 
 class Projectile : public GameObject

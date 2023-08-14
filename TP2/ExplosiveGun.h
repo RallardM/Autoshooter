@@ -3,12 +3,7 @@
 
 class ExplosiveGun : public Weapon
 {
-	//friend class Game;
-
 private:
-
-	float m_currentAttackTimer = 0.0f;
-	Vector2 m_size = { 5.0f, 5.0f };
 	static float s_uiOffsetRight;
 	float m_uiOffset;
 

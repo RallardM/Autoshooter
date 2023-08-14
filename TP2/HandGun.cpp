@@ -5,11 +5,8 @@ float HandGun::s_uiOffsetRight = 0.0f;
 
 void HandGun::Fire()
 {
-	// Initialize projectile infos
-	GetProjectileInfos().WEAPON_TYPE = EWeaponType::HAND_GUN;
-
 	Vector2 noDirection = { 0.0f, 0.0f };
-	Projectile* projectile = new Projectile(GetProjectileInfos(), m_position, noDirection);
+	Projectile* projectile = new Projectile(m_weaponInfos.m_projectileInfos, m_position, noDirection);
 	projectile->OnStart();
 }
 
@@ -23,7 +20,16 @@ void HandGun::Reset()
 void HandGun::OnStart()
 {
 	GameObject::OnStart();
-	SetProjectileInfos(SProjectileData());
+
+	// Initialize projectile infos
+	SProjectileData data;
+	data.RADIUS = 5.0f;
+	data.LIFETIME = 3.0f;
+	data.DAMAGE = 20.0f;
+	data.SPEED = 300.0f;
+	data.COLOR = LIGHTGRAY;
+	data.WEAPON_TYPE = EWeaponType::HAND_GUN;
+	SetProjectileInfos(data);
 
 	Weapon::OnStart();
 

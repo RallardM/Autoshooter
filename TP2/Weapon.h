@@ -30,10 +30,11 @@ protected:
 	virtual const Vector2& GetPosition() const = 0;
 	virtual const EGameObjectType GetGameObjectType() const = 0;
 	const SWeaponData GetWeaponInfos() const { return m_weaponInfos; }
-	SProjectileData& GetProjectileInfos() { return m_weaponInfos.m_projectileInfos; }
 	void SetProjectileInfos(const SProjectileData& projectileInfos) { m_weaponInfos.m_projectileInfos = projectileInfos; }
 
 protected:
 	SWeaponData m_weaponInfos;
 	Color m_color = { 255, 255, 255, 255 };
+	float m_currentAttackTimer = 0.0f;
+	Vector2 m_size = { 5.0f, 5.0f };
 };

@@ -6,14 +6,6 @@ float ExplosiveGun::s_uiOffsetRight = 0.0f;
 
 void ExplosiveGun::Fire()
 {
-	// Initialize projectile infos
-	GetProjectileInfos().RADIUS = 7.0f;
-	GetProjectileInfos().LIFETIME = 0.5f;
-	GetProjectileInfos().DAMAGE = 40.0f;
-	GetProjectileInfos().SPEED = 50.0f;
-	GetProjectileInfos().COLOR = GOLD;
-	GetProjectileInfos().WEAPON_TYPE = EWeaponType::EXPLOSIVE_GUN;
-
 	// Initialize projectile position and direction
 	Vector2 projectilePosition = { 0.0f, 0.0f };
 	Vector2 projectileDirection = { 0.0f, 0.0f };
@@ -33,7 +25,7 @@ void ExplosiveGun::Fire()
 		projectilePosition.x += m_position.x;
 		projectilePosition.y += m_position.y;
 
-		Projectile* projectile = new Projectile(GetProjectileInfos(), projectilePosition, projectileDirection);
+		Projectile* projectile = new Projectile(m_weaponInfos.m_projectileInfos, projectilePosition, projectileDirection);
 		projectile->OnStart();
 		angle += teta;
 	}
@@ -49,6 +41,15 @@ void ExplosiveGun::Reset()
 void ExplosiveGun::OnStart()
 {
 	GameObject::OnStart();
+
+	// Initialize projectile infos
+	SProjectileData data;
+	data.RADIUS = 7.0f;
+	data.LIFETIME = 0.5f;
+	data.DAMAGE = 40.0f;
+	data.SPEED = 50.0f;
+	data.COLOR = GOLD;
+	data.WEAPON_TYPE = EWeaponType::EXPLOSIVE_GUN;
 	SetProjectileInfos(SProjectileData());
 
 	Weapon::OnStart();
