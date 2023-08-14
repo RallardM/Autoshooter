@@ -10,7 +10,6 @@ private:
 	static MenuManager* _Instance;
 
 public:
-	~MenuManager();
 	static MenuManager* GetInstance();
 
 	void SetIsPlayerDeadMenuOn() { m_isPlayerDeadMenuOn = !m_isPlayerDeadMenuOn; }

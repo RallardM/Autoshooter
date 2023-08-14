@@ -15,8 +15,10 @@ Enemy::Enemy()
 Enemy::~Enemy()
 {
 	// Delete health bar
-	delete m_healthBar;
-	m_healthBar = nullptr;
+	m_healthBar->Reset();
+	Game::GetInstance()->UnregisterGameObject(m_healthBar);
+	//delete m_healthBar;
+	//m_healthBar = nullptr;
 }
 
 void Enemy::OnStart()

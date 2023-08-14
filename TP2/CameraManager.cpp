@@ -8,7 +8,7 @@ CameraManager* CameraManager::_Instance = 0;
 
 CameraManager* CameraManager::GetInstance()
 {
-    if (_Instance == nullptr || NULL)
+    if (_Instance == nullptr)
     {
         _Instance = new CameraManager();
     }
@@ -17,18 +17,11 @@ CameraManager* CameraManager::GetInstance()
 
 CameraManager::~CameraManager()
 {
-    if(m_camera != nullptr || NULL)
+    if(m_camera != nullptr)
 	{
 		delete m_camera;
 		m_camera = nullptr;
 	}
-
-    // Keep _Instance check at the end
-    if (_Instance != nullptr || NULL)
-    {
-        delete _Instance;
-        _Instance = nullptr;
-    }
 }
 
 void CameraManager::InitializeCamera()

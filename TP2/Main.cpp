@@ -5,7 +5,7 @@ int main(void)
     Game* game = Game::GetInstance();
     game->StartGame();
 
-    //game->CleanUpGame(); // TODO verify if it is propelry cleaning
+    game->CleanUpGame();
     delete game;
     game = nullptr;
 

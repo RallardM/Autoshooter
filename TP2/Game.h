@@ -52,6 +52,7 @@ public:
 	// GameObjects Methods
 	void RegisterGameObject(GameObject* agent);
 	void UnregisterGameObject(GameObject* agent);
+	void UnegisterAllObjects();
 
 	// Map getters
 	const float GetMapWidth() { return S_MAP_WIDTH; }
@@ -83,7 +84,7 @@ private:
 	void RenderGameObjects();
 	void UpdateEnemySpawner();
 	void RemoveGameObjectsMarkedForRemoval();
-	//void CleanupGameObjects();
+	void CleanupGameObjects();
 
 public:
 	void CleanUpGame();

@@ -8,32 +8,6 @@
 #include <iostream>
 #include "MenuManager.h"
 
-Player::~Player()
-{
-	// TODO debug crashes when esc
-	// 
-	// Empty weapon list
-	for (auto it = m_weapons.begin(); it != m_weapons.end(); ++it)
-	{
-		delete* it;
-		*it = nullptr;
-	}
-
-	m_weapons.clear();
-
-	// Delete health bar
-	delete m_healthBar;
-	m_healthBar = nullptr;
-
-	// Delete second health bar
-	delete m_secondHealthBar;
-	m_secondHealthBar = nullptr;
-
-	// Delete experience bar
-	delete m_experienceBar;
-	m_experienceBar = nullptr;
-}
-
 void Player::HandleInput()
 {
 	// Debug keys

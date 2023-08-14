@@ -8,7 +8,6 @@ class Player : public Entity
 	friend class Game;
 
 public:
-	~Player();
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::PLAYER; }
 	virtual const short int GetHealth() const override { return m_health; }

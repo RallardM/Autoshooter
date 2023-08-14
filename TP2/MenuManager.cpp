@@ -10,17 +10,6 @@ using namespace std;
 
 MenuManager* MenuManager::_Instance = 0;
 
-MenuManager::~MenuManager()
-{
-
-    // Keep _Instance check at the end
-    if (_Instance != nullptr || NULL)
-	{
-		delete _Instance;
-		_Instance = nullptr;
-	}
-}
-
 MenuManager* MenuManager::GetInstance()
 {
 
