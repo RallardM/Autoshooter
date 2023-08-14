@@ -326,7 +326,7 @@ void Game::RenderLevelUp()
 
     // Draw Menu Box
     float menuBoxWidth = 400;
-    float menuBoxHeight = 400;
+    float menuBoxHeight = 700;
     float menuBoxXPosition = topLeftCorner.x + halfWidth - menuBoxWidth * HALF;
     float menuBoxYPosition = topLeftCorner.y + halfHeight - menuBoxHeight * HALF;
     Rectangle menuBox = { menuBoxXPosition, menuBoxYPosition, menuBoxWidth, menuBoxHeight };
@@ -350,7 +350,7 @@ void Game::RenderLevelUp()
     int choicesFontSize = 30;
     textHeight = choicesFontSize * HALF;
     textWidth = MeasureText(shootingRateText.c_str(), choicesFontSize);
-    float offsetDown = menuBoxHeight * EIGHTH + menuFontSize;
+    float offsetDown = menuBoxHeight * EIGHTH;
     uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
     uiPositionY += offsetDown;
     DrawText(shootingRateText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
@@ -359,7 +359,7 @@ void Game::RenderLevelUp()
     string shootingDamageText = "2 Shooting Damage x 2";
     textHeight = choicesFontSize * HALF;
     textWidth = MeasureText(shootingDamageText.c_str(), choicesFontSize);
-    offsetDown = menuBoxHeight * EIGHTH + textHeight;
+    offsetDown = menuBoxHeight * EIGHTH;
     uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
     uiPositionY += offsetDown;
     DrawText(shootingDamageText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
@@ -368,7 +368,7 @@ void Game::RenderLevelUp()
     string bulletSizeText = "3 Projectile Size x 2";
     textHeight = choicesFontSize * HALF;
     textWidth = MeasureText(bulletSizeText.c_str(), choicesFontSize);
-    offsetDown = menuBoxHeight * EIGHTH + textHeight;
+    offsetDown = menuBoxHeight * EIGHTH;
     uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
     uiPositionY += offsetDown;
     DrawText(bulletSizeText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
@@ -377,10 +377,38 @@ void Game::RenderLevelUp()
     string healthCapText = "4 Health Bonus + 10";
     textHeight = choicesFontSize * HALF;
     textWidth = MeasureText(healthCapText.c_str(), choicesFontSize);
-    offsetDown = menuBoxHeight * EIGHTH + textHeight;
+    offsetDown = menuBoxHeight * EIGHTH ;
     uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
     uiPositionY += offsetDown;
     DrawText(healthCapText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
+
+    // New HandGun
+    string newHandGunText = "5 New HandGun";
+    textHeight = choicesFontSize * HALF;
+    textWidth = MeasureText(newHandGunText.c_str(), choicesFontSize);
+    offsetDown = menuBoxHeight * EIGHTH;
+    uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
+    uiPositionY += offsetDown;
+    DrawText(newHandGunText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
+
+    // New Eplosive Gun
+    string newExplosiveGunText = "6 New Explosive Gun";
+    textHeight = choicesFontSize * HALF;
+    textWidth = MeasureText(newExplosiveGunText.c_str(), choicesFontSize);
+    offsetDown = menuBoxHeight * EIGHTH;
+    uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
+    uiPositionY += offsetDown;
+    DrawText(newExplosiveGunText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
+
+    // New Laser Gun
+    string newLaserGunText = "7 New Laser Gun";
+    textHeight = choicesFontSize * HALF;
+    textWidth = MeasureText(newLaserGunText.c_str(), choicesFontSize);
+    offsetDown = menuBoxHeight * EIGHTH;
+    uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
+    uiPositionY += offsetDown;
+    DrawText(newLaserGunText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
+
 }
 
 void Game::RenderGameOver()

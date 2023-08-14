@@ -1,11 +1,12 @@
 #pragma once
 #include "Weapon.h"
 
-class HandGun : public Weapon
+class ExplosiveGun : public Weapon
 {
 	//friend class Game;
 
 private:
+
 	float m_currentAttackTimer = 0.0f;
 	Vector2 m_size = { 5.0f, 5.0f };
 	static float s_uiOffsetRight;
@@ -22,6 +23,7 @@ private:
 	virtual void Reset() override;
 
 public:
+
 	// Inherited via GameObject
 	virtual void OnStart() override;
 	virtual void Update(float deltatime) override;
@@ -29,6 +31,6 @@ public:
 	virtual const bool IsActive() const override { return m_isActive; }
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::WEAPON; }
-	virtual const EWeaponType GetWeaponType() const { return EWeaponType::HAND_GUN; } // TODO : Make pure virtual
-
+	virtual const EWeaponType GetWeaponType() const { return EWeaponType::EXPLOSIVE_GUN; } // TODO : Make pure virtual
 };
+

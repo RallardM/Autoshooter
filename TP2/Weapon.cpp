@@ -4,6 +4,12 @@
 #include "MathUtils.h"
 #include <iostream>
 
+void Weapon::OnStart()
+{
+	// Generate a random color for each gun squares with caps 10 to 240 to not have total black or total white
+	m_color = { (unsigned char)GetRandomValue(10, 240), (unsigned char)GetRandomValue(10, 240), (unsigned char)GetRandomValue(10, 240), 255 };
+}
+
 void Weapon::IncreaseRate()
 {
 	m_weaponInfos.m_attackRate *= HALF;

@@ -42,7 +42,7 @@ private:
 	virtual void OnStart() override;
 	virtual void Update(float deltatime) override;
 	virtual void Render() override;
-	virtual bool IsActive() override { return m_isActive; }
+	virtual const bool IsActive() const override { return m_isActive; }
 	virtual void Reset() override;
 	void Collision();
 	void VerifyHealth();
@@ -51,4 +51,7 @@ private:
 	void IncreaseProjectileDamage();
 	void IncreaseProjectileSize();
 	void IncreaseHealth();
+	void AddNewHandGun();
+	void AddNewExplosiveGun();
+	void AddNewLaserGun();
 };

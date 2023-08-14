@@ -11,7 +11,7 @@ private:
 	// Inherited via GameObject
 	virtual void Update(float deltatime) override;
 	virtual void Render() override;
-	virtual bool IsActive() override { return m_isActive; }
+	virtual const bool IsActive() const override { return m_isActive; }
 	void Reset() override;
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	

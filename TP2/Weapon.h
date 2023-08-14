@@ -3,14 +3,12 @@
 #include "GameObject.h"
 #include "Projectile.h"
 
-
 struct SWeaponData
 {
 public:
-	float m_attackRate = 1.0f;
+	float m_attackRate = 2.0f;
 	SProjectileData m_projectileInfos;
 };
-
 
 class Weapon : public GameObject
 {
@@ -18,14 +16,14 @@ class Weapon : public GameObject
 
 private:
 	virtual void Fire() = 0;
-	virtual void OnStart() = 0;
 	virtual void Update(float deltatime) = 0;
 	void FollowPosition(Vector2 newPosition); // TODO make pure virtual
 	virtual void Render() = 0;
-	virtual bool IsActive() = 0;
+	virtual const bool IsActive() const = 0;
 	virtual void Reset() = 0;
 
 protected:
+	virtual void OnStart() = 0;
 	void IncreaseRate();
 	void IncreaseProjectileDamage();
 	void IncreaseProjectileSize();
@@ -35,7 +33,7 @@ protected:
 	SProjectileData& GetProjectileInfos() { return m_weaponInfos.m_projectileInfos; }
 	void SetProjectileInfos(const SProjectileData& projectileInfos) { m_weaponInfos.m_projectileInfos = projectileInfos; }
 
-private:
+protected:
 	SWeaponData m_weaponInfos;
-
+	Color m_color = { 255, 255, 255, 255 };
 };

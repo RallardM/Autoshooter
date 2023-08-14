@@ -1,10 +1,8 @@
 #pragma once
 #include "Weapon.h"
 
-class HandGun : public Weapon
+class LaserGun : public Weapon
 {
-	//friend class Game;
-
 private:
 	float m_currentAttackTimer = 0.0f;
 	Vector2 m_size = { 5.0f, 5.0f };
@@ -29,6 +27,5 @@ public:
 	virtual const bool IsActive() const override { return m_isActive; }
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::WEAPON; }
-	virtual const EWeaponType GetWeaponType() const { return EWeaponType::HAND_GUN; } // TODO : Make pure virtual
-
 };
+
