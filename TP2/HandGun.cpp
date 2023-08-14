@@ -1,6 +1,8 @@
 #include "HandGun.h"
 #include "Game.h"
 
+float HandGun::s_uiOffsetRight = 0.0f;
+
 void HandGun::Fire()
 {
 	// Initialize projectile infos
@@ -23,6 +25,11 @@ void HandGun::OnStart()
 	GameObject::OnStart();
 	SetProjectileInfos(SProjectileData());
 
+	Weapon::OnStart();
+
+	m_uiOffset = s_uiOffsetRight;
+	s_uiOffsetRight += 5.0f;
+
 	// Add attributes before m_isActive = true;
 	m_isActive = true;
 }
@@ -39,5 +46,11 @@ void HandGun::Update(float deltatime)
 
 void HandGun::Render()
 {
-	DrawRectangleV(m_position, m_size, m_color);
+	// Add a small offset to the right at every new ExplosiveGun
+	Vector2 position = m_position;
+	position.x += m_uiOffset;
+
+	// Add an offset down at the bottom of the player square
+	position.y += 27.0f;
+	DrawRectangleV(position, m_size, m_color);
 }

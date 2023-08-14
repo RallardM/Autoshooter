@@ -4,4 +4,5 @@
 void GameObject::OnStart()
 {
 	Game::GetInstance()->RegisterGameObject(this);
+
 }

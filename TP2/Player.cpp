@@ -180,7 +180,7 @@ void Player::OnStart()
 
 	// Initialize experience text
 	int fontSize = 15;
-	offsetFromPlayer = { 3.0f, 8.0f }; // { 0.0f, 33.0f };
+	offsetFromPlayer = { 3.0f, 4.0f };
 	m_experienceText = new UIElement(this, EUIElementType::TEXT, GREEN, fontSize, offsetFromPlayer, m_totalExperience);
 	m_experienceText->OnStart();
 

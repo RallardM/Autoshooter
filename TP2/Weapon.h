@@ -3,7 +3,6 @@
 #include "GameObject.h"
 #include "Projectile.h"
 
-
 struct SWeaponData
 {
 public:
@@ -11,14 +10,12 @@ public:
 	SProjectileData m_projectileInfos;
 };
 
-
 class Weapon : public GameObject
 {
 	friend class Player;
 
 private:
 	virtual void Fire() = 0;
-	virtual void OnStart() = 0;
 	virtual void Update(float deltatime) = 0;
 	void FollowPosition(Vector2 newPosition); // TODO make pure virtual
 	virtual void Render() = 0;
@@ -26,6 +23,7 @@ private:
 	virtual void Reset() = 0;
 
 protected:
+	virtual void OnStart() = 0;
 	void IncreaseRate();
 	void IncreaseProjectileDamage();
 	void IncreaseProjectileSize();
@@ -35,7 +33,7 @@ protected:
 	SProjectileData& GetProjectileInfos() { return m_weaponInfos.m_projectileInfos; }
 	void SetProjectileInfos(const SProjectileData& projectileInfos) { m_weaponInfos.m_projectileInfos = projectileInfos; }
 
-private:
+protected:
 	SWeaponData m_weaponInfos;
-
+	Color m_color = { 255, 255, 255, 255 };
 };

@@ -3,14 +3,14 @@
 
 class ExplosiveGun : public Weapon
 {
-	friend class Game;
+	//friend class Game;
 
 private:
-	static float s_uiOffsetRight;
-	float m_uiOffset;
+
 	float m_currentAttackTimer = 0.0f;
 	Vector2 m_size = { 5.0f, 5.0f };
-	Color m_color = { 255, 0, 255, 255 };
+	static float s_uiOffsetRight;
+	float m_uiOffset;
 
 public:
 	using Weapon::GetWeaponInfos;

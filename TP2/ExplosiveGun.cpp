@@ -51,11 +51,10 @@ void ExplosiveGun::OnStart()
 	GameObject::OnStart();
 	SetProjectileInfos(SProjectileData());
 
+	Weapon::OnStart();
+
 	m_uiOffset = s_uiOffsetRight;
 	s_uiOffsetRight += 5.0f;
-
-	// Generate a random color for each gun squares
-	m_color = { (unsigned char)GetRandomValue(0, 255), (unsigned char)GetRandomValue(0, 255), (unsigned char)GetRandomValue(0, 255), 255 };
 
 	// Add attributes before m_isActive = true;
 	m_isActive = true;
@@ -77,7 +76,7 @@ void ExplosiveGun::Render()
 	Vector2 position = m_position;
 	position.x += m_uiOffset;
 	
-	// Add a small offset down bellow the handgun
-	position.y += 5.0f;
+	// Add a small offset down above the handgun at the bottom of the player square
+	position.y += 22.0f;
 	DrawRectangleV(position, m_size, m_color);
 }
