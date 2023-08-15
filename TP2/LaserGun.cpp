@@ -18,8 +18,8 @@ LaserGun::~LaserGun()
 
 void LaserGun::Fire()
 {
-	//m_weaponInfos.m_projectileInfos.POSITION = m_position;
-	Projectile* projectile = new Projectile(m_weaponInfos.m_projectileInfos, m_position);
+	m_weaponInfos.m_projectileInfos.POSITION = m_position;
+	Projectile* projectile = new Projectile(m_weaponInfos.m_projectileInfos);
 	projectile->OnStart();
 }
 
@@ -36,8 +36,8 @@ void LaserGun::OnStart()
 
 	// Initialize projectile infos
 	SProjectileData data;
-	//data.POSITION = { 0.0f, 0.0f };
 	data.DIRECTION = { 0.0f, 0.0f };
+	data.COUNT_DOWN = 2;
 	data.RADIUS = 4.0f;
 	data.LIFETIME = 2.0f;
 	data.DAMAGE = 100.0f;

@@ -21,8 +21,8 @@ HandGun::~HandGun()
 
 void HandGun::Fire()
 {
-	//m_weaponInfos.m_projectileInfos.POSITION = m_position;
-	Projectile* projectile = new Projectile(m_weaponInfos.m_projectileInfos, m_position);
+	m_weaponInfos.m_projectileInfos.POSITION = m_position;
+	Projectile* projectile = new Projectile(m_weaponInfos.m_projectileInfos);
 	projectile->OnStart();
 }
 
@@ -39,8 +39,8 @@ void HandGun::OnStart()
 
 	// Initialize projectile infos
 	SProjectileData data;
-	//data.POSITION = { 0.0f, 0.0f };
 	data.DIRECTION = { 0.0f, 0.0f };
+	data.COUNT_DOWN = 0;
 	data.RADIUS = 5.0f;
 	data.LIFETIME = 2.0f;
 	data.DAMAGE = 20.0f;

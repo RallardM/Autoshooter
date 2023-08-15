@@ -8,14 +8,14 @@
 
 unsigned short int Projectile::s_id = 0;
 
-Projectile::Projectile(SProjectileData& projectileData, Vector2& position)
-	: m_projectileData(projectileData), m_radius(projectileData.RADIUS)
+Projectile::Projectile(SProjectileData& projectileData)
+	: m_projectileData(projectileData), m_radius(projectileData.RADIUS), m_currentLifetime(projectileData.LIFETIME)
 {
 	m_id = s_id++;
 
 	std::cout << "Projectile constructor called. ID = " << m_id << std::endl;
 
-	m_position = position;
+	m_position = m_projectileData.POSITION;
 
 	switch (projectileData.WEAPON_TYPE)
 	{
@@ -53,23 +53,24 @@ void Projectile::OnStart()
 
 void Projectile::Update(float& deltatime)
 {
-	// Lazer reflects on the screen borders
-	if (m_projectileData.WEAPON_TYPE == EWeaponType::LAZER_GUN && m_laserBounces > 0)
+	// Lazer reflects on the screen borders, COUNT_DOWN is the number of times the lazer can reflect on the screen borders
+	if (m_projectileData.WEAPON_TYPE == EWeaponType::LAZER_GUN && m_projectileData.COUNT_DOWN > 0)
 	{
 		if (m_position.x < CameraManager::GetInstance()->GetCameraLeftLimit() || m_position.x > CameraManager::GetInstance()->GetCameraRightLimit())
 		{
 			m_xSpeed = -m_xSpeed;
-			m_laserBounces--;
+			m_projectileData.COUNT_DOWN--;
 		}
 		if (m_position.y < CameraManager::GetInstance()->GetCameraTopLimit() || m_position.y > CameraManager::GetInstance()->GetCameraBottomLimit())
 		{
 			m_ySpeed = -m_ySpeed;
-			m_laserBounces--;
+			m_projectileData.COUNT_DOWN--;
 		}
 	}
 
 	m_position.x += m_xSpeed * deltatime;
 	m_position.y += m_ySpeed * deltatime;
+
 	m_currentLifetime -= deltatime;
 	if (m_currentLifetime < 0 && m_isActive)
 	{
@@ -141,7 +142,6 @@ void Projectile::SetExplosiveGunProjectileValues()
 
 	m_xSpeed += m_projectileData.DIRECTION.x * m_projectileData.SPEED;
 	m_ySpeed += m_projectileData.DIRECTION.y * m_projectileData.SPEED;
-
 }
 
 void Projectile::SetLaserGunProjectileValues()
