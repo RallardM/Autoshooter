@@ -3,6 +3,7 @@
 
 #include "ExplosiveGun.h"
 #include "MathUtils.h"
+#include "GLOBALS.h"
 
 float ExplosiveGun::s_uiOffsetRight = 0.0f;
 
@@ -21,14 +22,6 @@ ExplosiveGun::~ExplosiveGun()
 
 void ExplosiveGun::Fire()
 {
-	// Initialize projectile infos
-	GetProjectileInfos().RADIUS = 7.0f;
-	GetProjectileInfos().LIFETIME = 0.5f;
-	GetProjectileInfos().DAMAGE = 15.0f;
-	GetProjectileInfos().SPEED = 50.0f;
-	GetProjectileInfos().COLOR = GOLD;
-	GetProjectileInfos().WEAPON_TYPE = EWeaponType::EXPLOSIVE_GUN;
-
 	// Initialize projectile position and direction
 	Vector2 projectilePosition = { 0.0f, 0.0f };
 	Vector2 projectileDirection = { 0.0f, 0.0f };

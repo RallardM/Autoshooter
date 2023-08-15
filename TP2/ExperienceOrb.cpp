@@ -3,6 +3,7 @@
 #include "ExperienceOrb.h"
 #include "Game.h"
 #include "CollisionManager.h"
+#include "GLOBALS.h"
 
 unsigned short int ExperienceOrb::s_id = 0;
 

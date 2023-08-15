@@ -3,6 +3,8 @@
 #include <string>
 #include "Game.h"
 
+unsigned short int  UIElement::s_id = 0;
+
 UIElement::UIElement(Entity* targetEntity, EUIElementType uitype, Color color, Vector2 size, Vector2 offset, float value) // TODO : diminush the number of arguments like in projectile
 {
 	m_id = s_id++;

@@ -12,18 +12,18 @@ const Color PROJECTILE_COLOR = { 255, 255, 255, 255 };
 const float P_INCREASE_DAMAGE_FACTOR = 2.0f;
 
 //Explosive gun projectiles data on fire
-const float E_PROJECTILE_RADIUS = 7.0f;
+const int E_PROJECTILE_RADIUS = 7;
 const float E_PROJECTILE_LIFETIME = 0.5f;
 const float E_PROJECTILE_DAMAGE = 15.0f;
 const float E_PROJECTILE_SPEED = 50.0f;
 const Color E_PROJECTILE_COLOR = GOLD;
 //const int E_PROJECTILE_RADIUS = 16;
-//const int E_PROJECTILE_NUMBER = 8;
-//const int E_EXPLOSIVEGUN_OFFSET = 30.0F;
-//const int E_PROJECTILE_EDGE_NUMBER = 3;
+const int E_PROJECTILE_NUMBER = 8;
+const float E_EXPLOSIVEGUN_OFFSET = 30.0F;
+const int E_PROJECTILE_EDGE_NUMBER = 3;
 
 //HandGun 
-const int H_HANDGUN_OFFSET = 35.0f;
+const float H_HANDGUN_OFFSET = 35.0f;
 const int TO_DOUBLE = 2;
 
 
@@ -36,10 +36,11 @@ const unsigned short int PLAYER_LEVEL = 1;
 const float P_HEALTH_WIDTH = 40.0f;
 const float P_HEALTH_HEIGHT = 3.0f;
 const float P_PLAYER_OFFSET = 3.0f;
-const float P_PLAYER_HEALTH_DAMAGE = 10;
+const int P_PLAYER_HEALTH_DAMAGE = 10;
 const float P_PLAYEROFFSET = 37.0f;
 const float P_EXTRA_HEALTH_HEIGHT = 3.0f;
 const int P_HEALTH_INCREASE = 10;
+const int P_EXPERIENCE_INCREASE = 10;
 const int P_MAX_EXPERIENCE = 100;
 
 const float P_EXTRA_HEALTH_FACTOR = 40.0f;
@@ -73,8 +74,8 @@ const std::string NEW_EXPLOSIVE_GUN_TEXT = "6 New Explosive Gun";
 const std::string NEW_LASER_GUN_TEXT = "7 New Laser Gun";
 // Enemy
 const int ENEMY_AMOUNT = 10;
-const int ENEMY_WIDTH = 32.0f;
-const int ENEMY_HEIGHT = 32.0f;
+const float ENEMY_WIDTH = 32.0f;
+const float ENEMY_HEIGHT = 32.0f;
 const int ENEMY_HEALTH = 100;
 
 // Health bar
