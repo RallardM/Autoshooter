@@ -30,7 +30,7 @@ private:
 	float m_currentLifetime = 0.0f;
 	float m_xSpeed = 0.0f;
 	float m_ySpeed = 0.0f;
-	float m_radius;
+	float& m_radius;
 	//Color m_color = { 255, 255, 255, 255 };
 	SProjectileData& m_projectileData;
 	short int m_laserBounces = 2;
