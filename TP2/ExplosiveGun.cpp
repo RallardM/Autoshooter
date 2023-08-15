@@ -65,7 +65,7 @@ void ExplosiveGun::OnStart()
 	data.SPEED = 50.0f;
 	data.COLOR = GOLD;
 	data.WEAPON_TYPE = EWeaponType::EXPLOSIVE_GUN;
-	SetProjectileInfos(SProjectileData());
+	SetProjectileInfos(data);
 
 	Weapon::OnStart();
 

@@ -35,6 +35,9 @@ bool CollisionManager::AreEnemyProjectileColliding(Rectangle& enemy)
 		{
 			Projectile* projectile = dynamic_cast<Projectile*>(gameObject);
 			Vector2 projectilePosition = projectile->GetPosition();
+
+			// The collision is checked with the radius and not considering the multiple shapes of each projectile
+			// it is not precise but it is faster in computation, less code for almost the same, and it is enough for not nothicing in game 
 			float projectileRadius = projectile->GetRadius();
 
 			bool IsEnemyHitByProjectile = CheckCollisionCircleRec(projectilePosition, projectileRadius, enemy);
@@ -55,6 +58,9 @@ Projectile* CollisionManager::GetCollidingProjectile(Rectangle& enemy)
 		{
 			Projectile* projectile = dynamic_cast<Projectile*>(gameObject);
 			Vector2 projectilePosition = projectile->GetPosition();
+
+			// The collision is checked with the radius and not considering the multiple shapes of each projectile
+			// it is not precise but it is faster in computation, less code for almost the same, and it is enough for not nothicing in game  
 			float projectileRadius = projectile->GetRadius();
 
 			bool IsEnemyHitByProjectile = CheckCollisionCircleRec(projectilePosition, projectileRadius, enemy);
