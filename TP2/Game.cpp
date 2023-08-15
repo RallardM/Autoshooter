@@ -205,9 +205,8 @@ void Game::MainLoop()
 
 		EndMode2D();
 		EndDrawing();
-
-		break;
 	}
+
 	CleanUpGame();
 	CloseWindow();
 }
