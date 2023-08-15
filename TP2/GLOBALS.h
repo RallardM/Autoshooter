@@ -17,10 +17,10 @@ const float E_PROJECTILE_LIFETIME = 0.5f;
 const float E_PROJECTILE_DAMAGE = 15.0f;
 const float E_PROJECTILE_SPEED = 50.0f;
 const Color E_PROJECTILE_COLOR = GOLD;
-const int E_PROJECTILE_RADIUS = 16;
-const int E_PROJECTILE_NUMBER = 8;
-const int E_EXPLOSIVEGUN_OFFSET = 30.0F;
-const int E_PROJECTILE_EDGE_NUMBER = 3;
+//const int E_PROJECTILE_RADIUS = 16;
+//const int E_PROJECTILE_NUMBER = 8;
+//const int E_EXPLOSIVEGUN_OFFSET = 30.0F;
+//const int E_PROJECTILE_EDGE_NUMBER = 3;
 
 //HandGun 
 const int H_HANDGUN_OFFSET = 35.0f;
