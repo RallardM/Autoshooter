@@ -24,7 +24,7 @@ CollisionManager* CollisionManager::GetInstance()
     return _Instance;
 }
 
-bool CollisionManager::AreEnemyProjectileColliding(Rectangle& enemy)
+bool CollisionManager::AreEnemyProjectileColliding(const Rectangle& enemy)
 {
 	for (GameObject* gameObject : Game::GetInstance()->GetGameObjects())
 	{
@@ -50,7 +50,7 @@ bool CollisionManager::AreEnemyProjectileColliding(Rectangle& enemy)
 	return false;
 }
 
-Projectile* CollisionManager::GetCollidingProjectile(Rectangle& enemy)
+Projectile* CollisionManager::GetCollidingProjectile(const Rectangle& enemy)
 {
 	for (GameObject* gameObject : Game::GetInstance()->GetGameObjects())
 	{
@@ -73,7 +73,7 @@ Projectile* CollisionManager::GetCollidingProjectile(Rectangle& enemy)
 	return nullptr;
 }
 
-bool CollisionManager::AreOrbPlayerColliding(Vector2& orbPosition, float& orbradius)
+bool CollisionManager::AreOrbPlayerColliding(const Vector2& orbPosition, const float& orbradius)
 {
 	bool isPlayerTouchingOrb = CheckCollisionCircleRec(orbPosition, orbradius, Game::GetInstance()->GetPlayer()->GetRect());
 	if (isPlayerTouchingOrb)
@@ -83,7 +83,7 @@ bool CollisionManager::AreOrbPlayerColliding(Vector2& orbPosition, float& orbrad
 	return false;
 }
 
-bool CollisionManager::ArePlayerEnemyColliding(Rectangle& player)
+bool CollisionManager::ArePlayerEnemyColliding(const Rectangle& player)
 {
 	for (GameObject* gameObject : Game::GetInstance()->GetGameObjects())
 	{
@@ -105,7 +105,7 @@ bool CollisionManager::ArePlayerEnemyColliding(Rectangle& player)
 	return false;
 }
 
-Enemy* CollisionManager::GetCollidingEnemy(Rectangle& player)
+Enemy* CollisionManager::GetCollidingEnemy(const Rectangle& player)
 {
 	for (GameObject* gameObject : Game::GetInstance()->GetGameObjects())
 	{

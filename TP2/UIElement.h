@@ -26,13 +26,13 @@ public:
 	~UIElement() override;
 
 	virtual void OnStart() override;
-	void FollowPosition(Vector2& newPosition);
+	void FollowPosition(const Vector2& newPosition);
 	virtual const bool IsActive() const override { return m_isActive; }
 	virtual void Reset() override; // TODO check how to make it private, less spaghetti
-	void SetHasSecondBarToRegressBefore(bool& value) { m_hasASecondBarToRegressBefore = value; }
+	void SetHasSecondBarToRegressBefore(const bool& value) { m_hasASecondBarToRegressBefore = value; }
 private:
 	// Inherited via GameObject
-	virtual void Update(float& deltatime) override;
+	virtual void Update(const float& deltatime) override;
 	virtual void Render() override;
 
 	void RenderProgressBar();

@@ -58,7 +58,7 @@ void HandGun::OnStart()
 	m_isActive = true;
 }
 
-void HandGun::Update(float& deltatime)
+void HandGun::Update(const float& deltatime)
 {
 	m_currentAttackTimer += deltatime;
 	if (m_currentAttackTimer >= GetWeaponInfos().m_attackRate)

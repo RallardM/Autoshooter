@@ -82,7 +82,7 @@ void ExplosiveGun::OnStart()
 	m_isActive = true;
 }
 
-void ExplosiveGun::Update(float& deltatime)
+void ExplosiveGun::Update(const float& deltatime)
 {
 	m_currentAttackTimer += deltatime;
 	if (m_currentAttackTimer >= GetWeaponInfos().m_attackRate)

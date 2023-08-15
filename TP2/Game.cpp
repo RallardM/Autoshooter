@@ -124,6 +124,9 @@ Game* Game::GetInstance()
 
 void Game::StartGame()
 {
+	// Initialize random seed
+	srand(time(nullptr));
+
 	// Initialize camera manager
 	CameraManager* m_cameraManager = CameraManager::GetInstance();
 	m_cameraManager->InitializeCamera();
@@ -158,7 +161,7 @@ EGameObjectType Game::GetGameObjectType(GameObject* gameObject)
 	return gameObject->GetGameObjectType();
 }
 
-GameObject* Game::GetClosestGameObject(Vector2& position, EGameObjectType& type)
+GameObject* Game::GetClosestGameObject(const Vector2& position, const EGameObjectType& type)
 {
 	GameObject* closest = nullptr;
 	float closestDistance = 0.f;
@@ -254,7 +257,7 @@ void Game::RenderBackground()
 	}
 }
 
-void Game::UpdateGameObjects(float& deltatime)
+void Game::UpdateGameObjects(const float& deltatime)
 {
 	for (auto const& i : m_gameObjects)
 	{
@@ -273,7 +276,7 @@ void Game::UpdateGameObjects(float& deltatime)
 	RemoveGameObjectsMarkedForRemoval();
 }
 
-unsigned short int Game::GetActiveObjectCountFromList(EGameObjectType& type)
+unsigned short int Game::GetActiveObjectCountFromList(const EGameObjectType& type)
 {
 	unsigned short int count = 0;
 	for (auto const& i : m_gameObjects)

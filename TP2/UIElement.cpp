@@ -47,7 +47,7 @@ void UIElement::OnStart()
 	m_isActive = true;
 }
 
-void UIElement::FollowPosition(Vector2& newPosition)
+void UIElement::FollowPosition(const Vector2& newPosition)
 {
 	m_position = { newPosition.x + m_offset.x, newPosition.y + m_offset.y };
 }
@@ -59,7 +59,7 @@ void UIElement::Reset()
 	m_isActive = false;
 }
 
-void UIElement::Update(float& _deltatime)
+void UIElement::Update(const float& _deltatime)
 {
 	switch (m_UIType)
 	{
@@ -135,20 +135,14 @@ void UIElement::UpdateProgressBar()
 
 void UIElement::UpdateRegressBar()
 {
-	// Dynamic cast to player
-	//Player* player = dynamic_cast<Player*>(m_targetEntity);
-	if (m_targetEntity->GetGameObjectType() == EGameObjectType::PLAYER)
-	{
-		int a = 0;
-	}
-
+	// Keep its size full it there is a second bar to regress
 	if (m_hasASecondBarToRegressBefore)
 	{
 		m_size.x = 32.0f;
 		return;
 	}
 
-	if (m_targetEntity->GetHealth() > m_targetEntity->GetMaxHealth())
+	if (m_targetEntity->GetHealth() > m_targetEntity->GetMaxHealth()) 
 	{
 		m_floatValue = (float)(m_targetEntity->GetHealth() - m_targetEntity->GetMaxHealth());
 	}

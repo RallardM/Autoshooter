@@ -17,7 +17,7 @@ public:
 	short int COUNT_DOWN;
 	EWeaponType WEAPON_TYPE;
 	SProjectileData() = default;
-	SProjectileData(float radius, float lifetime, float damage, float speed, short int countDown, Vector2 direction, Vector2 position, Color color, EWeaponType weaponType)
+	SProjectileData(const float radius, const float lifetime, const float damage, const float speed, const short int countDown, const Vector2 direction, const Vector2 position, const Color color, const EWeaponType weaponType)
 		: RADIUS(radius), LIFETIME(lifetime), DAMAGE(damage), SPEED(speed), DIRECTION(direction), COUNT_DOWN(countDown), POSITION(position), COLOR(color), WEAPON_TYPE(weaponType)
 	{
 	}
@@ -47,7 +47,7 @@ public:
 	// Inherited via GameObject
 	virtual void OnStart() override;
 
-	virtual void Update(float& deltatime) override;
+	virtual void Update(const float& deltatime) override;
 
 	virtual void Render() override;
 

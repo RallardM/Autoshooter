@@ -10,11 +10,11 @@ public:
 	static CollisionManager* GetInstance();
 
 	// Collision detection
-	bool AreEnemyProjectileColliding(Rectangle& enemy);
-	Projectile* GetCollidingProjectile(Rectangle& enemy);
-	bool AreOrbPlayerColliding(Vector2& orbPosition, float& orbradius);
-	bool ArePlayerEnemyColliding(Rectangle& player);
-	Enemy* GetCollidingEnemy(Rectangle& player);
+	bool AreEnemyProjectileColliding(const Rectangle& enemy);
+	Projectile* GetCollidingProjectile(const Rectangle& enemy);
+	bool AreOrbPlayerColliding(const Vector2& orbPosition, const float& orbradius);
+	bool ArePlayerEnemyColliding(const Rectangle& player);
+	Enemy* GetCollidingEnemy(const Rectangle& player);
 
 private:
 	static CollisionManager* _Instance;

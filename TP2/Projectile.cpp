@@ -51,7 +51,7 @@ void Projectile::OnStart()
 	m_isActive = true;
 }
 
-void Projectile::Update(float& deltatime)
+void Projectile::Update(const float& deltatime)
 {
 	// Lazer reflects on the screen borders, COUNT_DOWN is the number of times the lazer can reflect on the screen borders
 	if (m_projectileData.WEAPON_TYPE == EWeaponType::LAZER_GUN && m_projectileData.COUNT_DOWN > 0)

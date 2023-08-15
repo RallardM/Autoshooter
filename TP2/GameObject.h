@@ -20,7 +20,7 @@ public:
 	virtual ~GameObject() = 0;
 
 	virtual void OnStart() = 0;
-	virtual void Update(float& deltatime) = 0;
+	virtual void Update(const float& deltatime) = 0;
 	virtual void Render() = 0;
 	virtual const bool IsActive() const = 0;
 	virtual void Reset() = 0;

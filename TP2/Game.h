@@ -65,14 +65,14 @@ public:
 	// Game objects getter
 	std::list<GameObject*> GetGameObjects() { return m_gameObjects; }
 	EGameObjectType GetGameObjectType(GameObject* gameObject);
-	GameObject* GetClosestGameObject(Vector2& position, EGameObjectType& type);
+	GameObject* GetClosestGameObject(const Vector2& position, const EGameObjectType& type);
 
 private:
 	Game(); // Private constructor for singleton pattern
 	void MainLoop();
 	void RenderBackground();
-	void UpdateGameObjects(float& deltatime);
-	unsigned short int GetActiveObjectCountFromList(EGameObjectType& type);
+	void UpdateGameObjects(const float& deltatime);
+	unsigned short int GetActiveObjectCountFromList(const EGameObjectType& type);
 	void RenderGameObjects();
 	void UpdateEnemySpawner();
 	void RemoveGameObjectsMarkedForRemoval();

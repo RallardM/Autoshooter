@@ -184,7 +184,7 @@ void Player::OnStart()
 	m_isActive = true;
 }
 
-void Player::Update(float& deltatime)
+void Player::Update(const float& deltatime)
 {
 	VerifyHealth();
 	VerifyExperience();
