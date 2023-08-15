@@ -1,8 +1,9 @@
 
+#include <iostream>
+
 #include "Enemy.h"
 #include "Weapon.h"
 #include "Game.h"
-#include <iostream>
 #include "ExperienceOrb.h"
 #include "CollisionManager.h"
 
@@ -11,15 +12,16 @@ unsigned short int Enemy::s_id = 0;
 Enemy::Enemy()
 {
 	m_id = s_id++;
+	std::cout << "Enemy constructor called. ID : " << m_id << std::endl;
 }
 
 Enemy::~Enemy()
 {
+	std::cout << "Enemy destructor called  ID : " << m_id << std::endl;
+
 	// Delete health bar
 	m_healthBar->Reset();
 	Game::GetInstance()->UnregisterGameObject(m_healthBar);
-	//delete m_healthBar;
-	//m_healthBar = nullptr;
 }
 
 void Enemy::OnStart()

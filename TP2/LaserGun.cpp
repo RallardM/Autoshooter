@@ -1,6 +1,20 @@
+#include <iostream>
 #include "LaserGun.h"
 
 float LaserGun::s_uiOffsetRight = 0.0f;
+
+unsigned short int LaserGun::s_id = 0;
+
+LaserGun::LaserGun()
+{
+	m_id = s_id++;
+	std::cout << "LaserGun constructor called. ID = " << m_id << std::endl;
+}
+
+LaserGun::~LaserGun()
+{
+	std::cout << "LaserGun destructor called. ID = " << m_id << std::endl;
+}
 
 void LaserGun::Fire()
 {

@@ -25,9 +25,6 @@ class Projectile : public GameObject
 {
 	friend class Game;
 
-public:
-	unsigned short int m_id;
-
 private:
 	Vector2 m_direction = { 0.0f, 0.0f };
 	float m_currentLifetime = 0.0f;
@@ -41,8 +38,11 @@ private:
 	static unsigned short int s_id;
 
 public:
-	
+	unsigned short int m_id = 0;
+
+public:
 	Projectile(SProjectileData& projectileData, Vector2& origin, Vector2& direction);
+	~Projectile();
 
 	// Inherited via GameObject
 	virtual void OnStart() override;

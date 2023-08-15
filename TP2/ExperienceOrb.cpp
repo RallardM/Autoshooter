@@ -1,10 +1,22 @@
+#include <iostream>
+
 #include "ExperienceOrb.h"
 #include "Game.h"
 #include "CollisionManager.h"
 
+unsigned short int ExperienceOrb::s_id = 0;
+
 ExperienceOrb::ExperienceOrb(Vector2 origin)
 {
+	m_id = s_id++;
+	std::cout << "ExperienceOrb constructor called. ID = " << m_id << std::endl;
+
 	m_position = origin;
+}
+
+ExperienceOrb::~ExperienceOrb()
+{
+	std::cout << "ExperienceOrb destructor called. ID = " << m_id << std::endl;
 }
 
 void ExperienceOrb::OnStart()

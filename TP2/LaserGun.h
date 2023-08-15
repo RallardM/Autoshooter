@@ -5,9 +5,16 @@ class LaserGun : public Weapon
 {
 private:
 	static float s_uiOffsetRight;
-	float m_uiOffset;
+	float m_uiOffset = 0.0f;
+
+	static unsigned short int s_id;
 
 public:
+	unsigned short int m_id = 0;
+
+public:
+	LaserGun();
+	~LaserGun();
 	using Weapon::GetWeaponInfos;
 
 private:

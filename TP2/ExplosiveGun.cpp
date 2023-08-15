@@ -1,8 +1,23 @@
-#include "ExplosiveGun.h"
+#include <iostream>
 #include <corecrt_math.h>
+
+#include "ExplosiveGun.h"
 #include "MathUtils.h"
 
 float ExplosiveGun::s_uiOffsetRight = 0.0f;
+
+unsigned short int ExplosiveGun::s_id = 0;
+
+ExplosiveGun::ExplosiveGun()
+{
+	m_id = s_id++;
+	std::cout <<"EcplosionGun constructor called. ID = " << m_id << std::endl;
+}
+
+ExplosiveGun::~ExplosiveGun()
+{
+	std::cout << "ExplosiveGun destructor called. ID = " << m_id << std::endl;
+}
 
 void ExplosiveGun::Fire()
 {

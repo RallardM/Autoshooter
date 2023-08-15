@@ -13,4 +13,3 @@ public:
     virtual const short int GetMaxHealth() const = 0;
     virtual const EGameObjectType GetGameObjectType() const = 0;
 };
-

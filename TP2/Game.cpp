@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Projectile.h"
 #include "MathUtils.h"
+#include "CollisionManager.h"
 
 
 using namespace std;
@@ -15,18 +16,14 @@ Game::~Game()
 {
 	// The objects needs to be deleted in a certan order to avoid memory leaks
 
-	// Delete the player
-	if (m_player != nullptr)
-	{
-		delete m_player;
-		m_player = nullptr;
-	}
-
 	// Delete the camera 
 	delete CameraManager::GetInstance();
 
 	// Delete the menu manager
 	delete MenuManager::GetInstance();
+
+	// Delete the collision manager
+	delete CollisionManager::GetInstance();
 
 	// Delete Experience Orbs
 	for (GameObject* gameObject : m_gameObjects)
@@ -63,6 +60,13 @@ Game::~Game()
 
 		delete gameObject;
 		gameObject = nullptr;
+	}
+
+	// Delete the player
+	if (m_player != nullptr)
+	{
+		delete m_player;
+		m_player = nullptr;
 	}
 
 	// Delete Player's weapon
@@ -314,7 +318,7 @@ void Game::UpdateEnemySpawner()
 {
 	unsigned short int enemiesCount = GetActiveObjectCountFromList(EGameObjectType::ENEMY);
 
-	if (enemiesCount < MAX_ENEMY_AMOUNT)
+	if (enemiesCount < MAX_ENEMY_AMOUNT * m_player->GetLevel())
 	{
 		Enemy* enemy = new Enemy();
 

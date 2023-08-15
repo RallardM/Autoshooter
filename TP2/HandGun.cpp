@@ -1,7 +1,23 @@
+#include <iostream>
+
 #include "HandGun.h"
 #include "Game.h"
 
 float HandGun::s_uiOffsetRight = 0.0f;
+
+unsigned short int HandGun::s_id = 0;
+
+
+HandGun::HandGun()
+{
+	m_id = s_id++;
+	std::cout << "HandGun constructor called. ID : " << m_id << std::endl;
+}
+
+HandGun::~HandGun()
+{
+	std::cout << "HandGun destructor called. ID : " << m_id << std::endl;
+}
 
 void HandGun::Fire()
 {
@@ -24,7 +40,7 @@ void HandGun::OnStart()
 	// Initialize projectile infos
 	SProjectileData data;
 	data.RADIUS = 5.0f;
-	data.LIFETIME = 3.0f;
+	data.LIFETIME = 2.0f;
 	data.DAMAGE = 20.0f;
 	data.SPEED = 300.0f;
 	data.COLOR = LIGHTGRAY;

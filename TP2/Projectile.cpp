@@ -12,6 +12,9 @@ Projectile::Projectile(SProjectileData& projectileData, Vector2& origin, Vector2
 	: m_projectileData(projectileData)
 {
 	m_id = s_id++;
+
+	std::cout << "Projectile constructor called. ID = " << m_id << std::endl;
+
 	m_position = origin;
 	switch (projectileData.WEAPON_TYPE)
 	{
@@ -32,6 +35,11 @@ Projectile::Projectile(SProjectileData& projectileData, Vector2& origin, Vector2
 		std::cout << "Projectile::Projectile() : Error : Invalid weapon type" << std::endl;
 		break;
 	}
+}
+
+Projectile::~Projectile()
+{
+	std::cout << "Projectile destructor called. ID = " << m_id << std::endl;
 }
 
 void Projectile::OnStart()
@@ -62,7 +70,7 @@ void Projectile::Update(float deltatime)
 	m_position.x += m_xSpeed * deltatime;
 	m_position.y += m_ySpeed * deltatime;
 	m_currentLifetime -= deltatime;
-	if (m_currentLifetime < 0)
+	if (m_currentLifetime < 0 && m_isActive)
 	{
 		Reset();
 		Game::GetInstance()->UnregisterGameObject(this);

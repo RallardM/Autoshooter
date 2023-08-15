@@ -3,8 +3,13 @@
 #include <string>
 #include "Game.h"
 
+unsigned short int UIElement::s_id = 0;
+
 UIElement::UIElement(Entity* targetEntity, EUIElementType uitype, Color color, Vector2 size, Vector2 offset, float value)
 {
+	m_id = s_id++;
+	std::cout << "First UIElement constructor called. ID = " << m_id << std::endl;
+
 	m_targetEntity = targetEntity;
 	m_UIType = uitype;
 	m_color = color;
@@ -16,6 +21,9 @@ UIElement::UIElement(Entity* targetEntity, EUIElementType uitype, Color color, V
 
 UIElement::UIElement(Entity* targetEntity, EUIElementType uitype, Color color, int size, Vector2 offset, unsigned short int value)
 {
+	m_id = s_id++;
+	std::cout << "Second UIElement constructor called. ID = " << m_id << std::endl;
+
 	m_targetEntity = targetEntity;
 	m_UIType = uitype;
 	m_color = color;
@@ -24,6 +32,11 @@ UIElement::UIElement(Entity* targetEntity, EUIElementType uitype, Color color, i
 	m_offset = offset;
 	m_intValue = value;
 	m_floatValue = 0.0f;
+}
+
+UIElement::~UIElement()
+{
+	std::cout << "UIElement destructor called. ID = " << m_id << std::endl;
 }
 
 void UIElement::OnStart()

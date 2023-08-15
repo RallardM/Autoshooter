@@ -3,8 +3,17 @@
 
 class ExperienceOrb : public GameObject
 {
+private:
+	float m_radius = 10.0f;
+
+	static unsigned short int s_id;
+
+public:
+	unsigned short int m_id = 0;
+
 public:
 	ExperienceOrb(Vector2 origin);
+	~ExperienceOrb();
 
 	// Inherited via GameObject
 	virtual void OnStart() override;
@@ -20,10 +29,5 @@ private:
 	
 	const float& GetRadius() const { return m_radius; }
 	void Collision();
-
-public:
-
-private:
-	float m_radius = 10.0f;
 };
 

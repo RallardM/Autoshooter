@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "Player.h"
 #include "Game.h"
 #include "HandGun.h"
@@ -8,6 +10,16 @@
 #include <iostream>
 #include "MenuManager.h"
 #include "CollisionManager.h"
+
+Player::Player()
+{
+	std::cout << "Player constructor" << std::endl;
+}
+
+Player::~Player()
+{
+	std::cout << "Player destructor" << std::endl;
+}
 
 void Player::HandleInput()
 {
