@@ -8,26 +8,27 @@
 
 unsigned short int Projectile::s_id = 0;
 
-Projectile::Projectile(SProjectileData& projectileData, Vector2& origin, Vector2& direction)
-	: m_projectileData(projectileData)
+Projectile::Projectile(SProjectileData& projectileData, Vector2& position)
+	: m_projectileData(projectileData), m_radius(projectileData.RADIUS)
 {
 	m_id = s_id++;
 
 	std::cout << "Projectile constructor called. ID = " << m_id << std::endl;
 
-	m_position = origin;
+	m_position = position;
+
 	switch (projectileData.WEAPON_TYPE)
 	{
 	case EWeaponType::HAND_GUN:
-		SetHandGunProjectileData(projectileData);
+		SetHandGunProjectileData();
 		break;
 
 	case EWeaponType::EXPLOSIVE_GUN:
-		SetExplosiveGunProjectileValues(projectileData, direction);
+		SetExplosiveGunProjectileValues();
 		break;
 
 	case EWeaponType::LAZER_GUN:
-		SetLaserGunProjectileValues(projectileData);
+		SetLaserGunProjectileValues();
 		break;
 
 	case EWeaponType::COUNT:
@@ -82,15 +83,15 @@ void Projectile::Render()
 	switch (m_projectileData.WEAPON_TYPE)
 	{
 		case EWeaponType::HAND_GUN:
-			DrawCircleV(m_position, m_radius, m_color);
+			DrawCircleV(m_position, m_radius, m_projectileData.COLOR);
 			break;
 
 		case EWeaponType::EXPLOSIVE_GUN:
-			DrawPoly(m_position, 3, m_radius, 0.0f, m_color);
+			DrawPoly(m_position, 3, m_radius, 0.0f, m_projectileData.COLOR);
 			break;
 
 		case EWeaponType::LAZER_GUN:
-			DrawLineEx(m_position, { m_position.x + m_xSpeed * EIGHTH, m_position.y + m_ySpeed * EIGHTH }, m_radius, m_color);
+			DrawLineEx(m_position, { m_position.x + m_xSpeed * EIGHTH, m_position.y + m_ySpeed * EIGHTH }, m_radius, m_projectileData.COLOR);
 			break;
 
 		case EWeaponType::COUNT:
@@ -100,12 +101,9 @@ void Projectile::Render()
 	}
 }
 
-void Projectile::SetHandGunProjectileData(SProjectileData& projectileData)
+void Projectile::SetHandGunProjectileData()
 {
-	m_currentLifetime = projectileData.LIFETIME;
-	m_radius = projectileData.RADIUS;
-	m_color = projectileData.COLOR;
-
+	m_currentLifetime = m_projectileData.LIFETIME;
 	float diameter = m_radius * 2;
 
 	EGameObjectType enemyType = EGameObjectType::ENEMY;
@@ -125,60 +123,46 @@ void Projectile::SetHandGunProjectileData(SProjectileData& projectileData)
 		m_ySpeed = yDirection / directionMagnitude;
 
 		// Calculate new normalized speed values with the same magnitude
-		m_xSpeed = projectileData.SPEED * m_xSpeed;
-		m_ySpeed = projectileData.SPEED * m_ySpeed;
+		m_xSpeed = m_projectileData.SPEED * m_xSpeed;
+		m_ySpeed = m_projectileData.SPEED * m_ySpeed;
 
 		return;
 	}
 
 	//If no Enemy in range, generate random direction
-
-	// Calculate the magnitude of the speed vector : squareroot of (x*x + y*y)
-	Vector2 speedVector = { projectileData.SPEED, projectileData.SPEED };
-	float speedMagnitude = GetMagnitude(speedVector);
-
-	// Generate a random angle
-	float randomRadianAngle = static_cast<float>(rand()) / RAND_MAX;
-	float randomAngle = FULL_CIRCLE * randomRadianAngle;
-
-	// Calculate new normalized speed values with the same magnitude
-	m_xSpeed = speedMagnitude * cos(randomAngle);
-	m_ySpeed = speedMagnitude * sin(randomAngle);
+	SendInRandomDirections();
 }
 
-void Projectile::SetExplosiveGunProjectileValues(SProjectileData& projectileData, Vector2& direction)
+void Projectile::SetExplosiveGunProjectileValues()
 {
-	m_currentLifetime = projectileData.LIFETIME;
-	m_radius = projectileData.RADIUS;
-	m_color = projectileData.COLOR;
+	m_currentLifetime = m_projectileData.LIFETIME;
+	//m_radius = projectileData.RADIUS;
+	//m_color = projectileData.COLOR;
 
-	m_xSpeed += direction.x * projectileData.SPEED;
-	m_ySpeed += direction.y * projectileData.SPEED;
+	m_xSpeed += m_projectileData.DIRECTION.x * m_projectileData.SPEED;
+	m_ySpeed += m_projectileData.DIRECTION.y * m_projectileData.SPEED;
 
 }
 
-void Projectile::SetLaserGunProjectileValues(SProjectileData& projectileData)
+void Projectile::SetLaserGunProjectileValues()
 {
-	m_currentLifetime = projectileData.LIFETIME;
-	m_radius = projectileData.RADIUS;
-	m_color = projectileData.COLOR;
-
-	// Calculate the magnitude of the speed vector : squareroot of (x*x + y*y)
-	Vector2 speedVector = { projectileData.SPEED, projectileData.SPEED };
-	float speedMagnitude = GetMagnitude(speedVector);
-
-	// Generate a random angle
-	float randomRadianAngle = static_cast<float>(rand()) / RAND_MAX;
-	float randomAngle = FULL_CIRCLE * randomRadianAngle;
-
-	// Calculate new normalized speed values with the same magnitude
-	m_xSpeed = speedMagnitude * cos(randomAngle);
-	m_ySpeed = speedMagnitude * sin(randomAngle);
+	m_currentLifetime = m_projectileData.LIFETIME;
+	SendInRandomDirections();
 }
 
 void Projectile::SendInRandomDirections()
 {
+	// Calculate the magnitude of the speed vector : squareroot of (x*x + y*y)
+	Vector2 speedVector = { m_projectileData.SPEED, m_projectileData.SPEED };
+	float speedMagnitude = GetMagnitude(speedVector);
 
+	// Generate a random angle
+	float randomRadianAngle = static_cast<float>(rand()) / RAND_MAX;
+	float randomAngle = FULL_CIRCLE * randomRadianAngle;
+
+	// Calculate new normalized speed values with the same magnitude
+	m_xSpeed = speedMagnitude * cos(randomAngle);
+	m_ySpeed = speedMagnitude * sin(randomAngle);
 }
 
 void Projectile::Reset()

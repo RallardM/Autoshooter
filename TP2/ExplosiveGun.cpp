@@ -40,7 +40,9 @@ void ExplosiveGun::Fire()
 		projectilePosition.x += m_position.x;
 		projectilePosition.y += m_position.y;
 
-		Projectile* projectile = new Projectile(m_weaponInfos.m_projectileInfos, projectilePosition, projectileDirection);
+		m_weaponInfos.m_projectileInfos.DIRECTION = projectileDirection;
+		//m_weaponInfos.m_projectileInfos.POSITION = projectilePosition;
+		Projectile* projectile = new Projectile(m_weaponInfos.m_projectileInfos, projectilePosition);
 		projectile->OnStart();
 		angle += teta;
 	}
@@ -59,6 +61,8 @@ void ExplosiveGun::OnStart()
 
 	// Initialize projectile infos
 	SProjectileData data;
+	//data.POSITION = { 0.0f, 0.0f };
+	data.DIRECTION = { 0.0f, 0.0f };
 	data.RADIUS = 7.0f;
 	data.LIFETIME = 0.5f;
 	data.DAMAGE = 40.0f;
