@@ -22,8 +22,6 @@ MenuManager::~MenuManager()
 
 MenuManager* MenuManager::GetInstance()
 {
-
-    // Keep _Instance check at the end
     if (_Instance == nullptr || NULL)
     {
         _Instance = new MenuManager();
