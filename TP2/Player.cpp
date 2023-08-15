@@ -185,8 +185,8 @@ void Player::OnStart()
 	m_experienceText->OnStart();
 
 	// Initialize experience bar
-	barSize = { 40.0f, 3.0f };
-	offsetFromPlayer = { 0.0f, -3.0f };
+	barSize = { P_HEALTH_WIDTH, P_HEALTH_HEIGHT };
+	offsetFromPlayer = { 0.0f, -P_PLAYER_OFFSET };
 	m_experienceBar = new UIElement(this, EUIElementType::PROGRESS_BAR, GREEN, barSize, offsetFromPlayer, m_experience);
 	m_experienceBar->OnStart();
 
@@ -282,7 +282,7 @@ void Player::Collision()
 
 	m_previousEnemyId = enemy->m_id;
 
-	m_health -= 10;
+	m_health -= P_PLAYER_HEALTH_DAMAGE;
 }
 
 void Player::VerifyHealth()
@@ -298,9 +298,9 @@ void Player::VerifyHealth()
 		// Initialize one additional health bar
 		float extraHealth = (float)m_health - (float)MAX_HEALTH;
 		// 40.0f  = 100% of the bar
-		extraHealth = (extraHealth * 40.0f) / 100;
-		Vector2 barSize = { extraHealth, 3.0f };
-		Vector2 offsetFromPlayer = { 0.0f, 37.0f };
+		extraHealth = (extraHealth * P_EXTRA_HEALTH_FACTOR) / TO_PERCENT;
+		Vector2 barSize = { extraHealth, P_EXTRA_HEALTH_HEIGHT };
+		Vector2 offsetFromPlayer = { 0.0f, P_PLAYEROFFSET };
 		m_secondHealthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromPlayer, m_health);
 		m_secondHealthBar->OnStart();
 		m_healthBar->SetHasSecondBarToRegressBefore(true);
@@ -316,7 +316,7 @@ void Player::VerifyHealth()
 
 void Player::VerifyExperience()
 {
-	if (m_experience >= 100)
+	if (m_experience >= P_HEALTH_INCREASE)
 	{
 		m_experience = 0;
 		m_level++;
@@ -366,7 +366,7 @@ void Player::IncreaseProjectileSize()
 
 void Player::IncreaseHealth()
 {
-	m_health += 10;
+	m_health += P_HEALTH_INCREASE;
 }
 
 void Player::AddNewHandGun()

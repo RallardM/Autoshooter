@@ -28,7 +28,7 @@ void HandGun::OnStart()
 	Weapon::OnStart();
 
 	m_uiOffset = s_uiOffsetRight;
-	s_uiOffsetRight += 5.0f;
+	s_uiOffsetRight += UI_OFFSET_SET_RIGHT;
 
 	// Add attributes before m_isActive = true;
 	m_isActive = true;
@@ -51,6 +51,6 @@ void HandGun::Render()
 	position.x += m_uiOffset;
 
 	// Add an offset down at the bottom of the player square
-	position.y += 35.0f;
+	position.y += H_HANDGUN_OFFSET;
 	DrawRectangleV(position, m_size, m_color);
 }

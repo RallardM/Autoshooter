@@ -9,27 +9,32 @@
 
 class GameObject;
 class Player;
-
+/**
+ * @brief Represent game manager 
+*/
 class Game
 {
 public:
+	/**
+	 * @brief Destructor of game manager
+	*/
 	~Game();
-	static Game* GetInstance();
+	static Game* GetInstance();// content instance of the game manager
 
 private:
 	static Game* _Instance;
-	const int CAMERA_WIDTH = 1200;
-	const int CAMERA_HEIGHT = 800;
+	const int CAMERA_WIDTH = CAM_WIDTH;
+	const int CAMERA_HEIGHT = CAM_HEIGHT;
 
 	// Static GetMapWidth() and GetMapHeight() permits player to access map size without having a reference to Game
-	const float S_MAP_WIDTH = 1601.0f;
-	const float S_MAP_HEIGHT = 1601.0f;
-	const float CELL_SIZE = 16.0f;
+	const float S_MAP_WIDTH = MAP_WIDTH;
+	const float S_MAP_HEIGHT = MAP_HEIGHT;
+	const float CELL_SIZE = MAP_CELL_SIZE;
 	const float COLUMN_COUNT = S_MAP_WIDTH / CELL_SIZE;
 	const float ROW_COUNT = S_MAP_HEIGHT / CELL_SIZE;
 
 	// Enemies properties
-	const int MAX_ENEMY_AMOUNT = 10;
+	const int MAX_ENEMY_AMOUNT = ENEMY_AMOUNT;
 
 	Player* m_player = nullptr;
 	Camera2D* m_camera = nullptr;

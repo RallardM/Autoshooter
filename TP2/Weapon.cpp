@@ -7,7 +7,7 @@
 void Weapon::OnStart()
 {
 	// Generate a random color for each gun squares with caps 10 to 240 to not have total black or total white
-	m_color = { (unsigned char)GetRandomValue(10, 240), (unsigned char)GetRandomValue(10, 240), (unsigned char)GetRandomValue(10, 240), 255 };
+	m_color = { (unsigned char)GetRandomValue(MIN_RANDOM_VALUE, MAX_RANDOM_VALUE), (unsigned char)GetRandomValue(MIN_RANDOM_VALUE, MAX_RANDOM_VALUE), (unsigned char)GetRandomValue(MIN_RANDOM_VALUE, MAX_RANDOM_VALUE), 255 };
 }
 
 void Weapon::IncreaseRate()
@@ -17,13 +17,13 @@ void Weapon::IncreaseRate()
 
 void Weapon::IncreaseProjectileDamage()
 {
-	m_weaponInfos.m_projectileInfos.DAMAGE *= 2.0f;
+	m_weaponInfos.m_projectileInfos.DAMAGE *= P_INCREASE_DAMAGE_FACTOR;
 	std::cout << "Projectile damage doubled : " << m_weaponInfos.m_projectileInfos.DAMAGE << std::endl;
 }
 
 void Weapon::IncreaseProjectileSize()
 {
-	m_weaponInfos.m_projectileInfos.RADIUS *= 2.0f;
+	m_weaponInfos.m_projectileInfos.RADIUS *= P_INCREASE_DAMAGE_FACTOR;
 }
 
 void Weapon::FollowPosition(Vector2 newPosition)

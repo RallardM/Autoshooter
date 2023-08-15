@@ -7,20 +7,20 @@ float ExplosiveGun::s_uiOffsetRight = 0.0f;
 void ExplosiveGun::Fire()
 {
 	// Initialize projectile infos
-	GetProjectileInfos().RADIUS = 7.0f;
-	GetProjectileInfos().LIFETIME = 0.5f;
-	GetProjectileInfos().DAMAGE = 15.0f;
-	GetProjectileInfos().SPEED = 50.0f;
-	GetProjectileInfos().COLOR = GOLD;
+	GetProjectileInfos().RADIUS = E_PROJECTILE_RADIUS;
+	GetProjectileInfos().LIFETIME = E_PROJECTILE_LIFETIME;
+	GetProjectileInfos().DAMAGE = E_PROJECTILE_DAMAGE;
+	GetProjectileInfos().SPEED = E_PROJECTILE_SPEED;
+	GetProjectileInfos().COLOR = E_PROJECTILE_COLOR;
 	GetProjectileInfos().WEAPON_TYPE = EWeaponType::EXPLOSIVE_GUN;
 
 	// Initialize projectile position and direction
 	Vector2 projectilePosition = { 0.0f, 0.0f };
 	Vector2 projectileDirection = { 0.0f, 0.0f };
-	int projectilesNumber = 8;
+	int projectilesNumber = E_PROJECTILE_NUMBER;
 	float teta = FULL_CIRCLE / projectilesNumber;
 	float angle = 0.0f;
-	int radius = 16;
+	int radius = E_PROJECTILE_RADIUS;
 
 	for (int i = 0; i < projectilesNumber; i++)
 	{
@@ -54,7 +54,7 @@ void ExplosiveGun::OnStart()
 	Weapon::OnStart();
 
 	m_uiOffset = s_uiOffsetRight;
-	s_uiOffsetRight += 5.0f;
+	s_uiOffsetRight += UI_OFFSET_SET_RIGHT;
 
 	// Add attributes before m_isActive = true;
 	m_isActive = true;
@@ -77,6 +77,6 @@ void ExplosiveGun::Render()
 	position.x += m_uiOffset;
 	
 	// Add a small offset down above the handgun at the bottom of the player square
-	position.y += 30.0f;
+	position.y += E_EXPLOSIVEGUN_OFFSET;
 	DrawRectangleV(position, m_size, m_color);
 }

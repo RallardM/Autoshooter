@@ -63,7 +63,7 @@ void Projectile::Render()
 			break;
 
 		case EWeaponType::EXPLOSIVE_GUN:
-			DrawPoly(m_position, 3, m_radius, 0.0f, m_color);
+			DrawPoly(m_position, E_PROJECTILE_EDGE_NUMBER, m_radius, 0.0f, m_color);
 			break;
 
 		case EWeaponType::LAZER_GUN:
@@ -83,7 +83,7 @@ void Projectile::SetHandGunProjectileData(SProjectileData& projectileData)
 	m_radius = projectileData.RADIUS;
 	m_color = projectileData.COLOR;
 
-	float diameter = m_radius * 2;
+	float diameter = m_radius * TO_DOUBLE;
 
 	GameObject* closestGameObject = Game::GetInstance()->GetClosestGameObject(m_position, EGameObjectType::ENEMY);
 	if (closestGameObject != nullptr)

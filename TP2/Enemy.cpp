@@ -24,8 +24,8 @@ void Enemy::OnStart()
 	GameObject::OnStart();
 
 	// Initialize health bar
-	Vector2 barSize = { 32.0f, 3.0f };
-	Vector2 offsetFromEnemy = { 0.0f, 33.0f };
+	Vector2 barSize = { HEALTH_WIDTH, HEALTH_HEIGHT };
+	Vector2 offsetFromEnemy = { OFFSET_X, OFFSET_Y };
 	m_healthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromEnemy, m_health);
 	m_healthBar->OnStart();
 
@@ -58,10 +58,10 @@ void Enemy::Render()
 
 void Enemy::Reset()
 {
-	m_enemySize = { 32.0f, 32.0f };
+	m_enemySize = { ENEMY_WIDTH, ENEMY_HEIGHT };
 	m_direction = { 0.0f, 0.0f };
 	Color m_color = BLUE;
-	m_health = 100;
+	m_health = ENEMY_HEALTH;
 
 	// Reset everything before m_isActive = false;
 	m_isActive = false;
@@ -69,7 +69,7 @@ void Enemy::Reset()
 
 void Enemy::Spawn()
 {
-	int randCorner = std::rand() % 4;
+	int randCorner = std::rand() % CORNER_NUMBER;
 	Vector2 randPosition = { 0.0f, 0.0f };
 
 	// Get a reference to the camera's position
@@ -78,7 +78,7 @@ void Enemy::Spawn()
 	float cameraZoom = Game::GetInstance()->GetCameraZoom();
 
 	// Add a random threshold to the spawn position outside the camera view
-	int randMultiple = std::rand() % 10 + 1;
+	int randMultiple = std::rand() % MAX_THRESHOLD + MIN_THRESHOLD;
 	const float OUTSIDE_THRESHOLD = randMultiple* m_enemySize.x; // Enemy can spawn outside the camera view by a random threshold of its own size
 
 	switch (randCorner)

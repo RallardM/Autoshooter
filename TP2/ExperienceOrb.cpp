@@ -42,7 +42,7 @@ void ExperienceOrb::Collision()
 
 	if (isPlayerCollidingOrb)
 	{
-		Game::GetInstance()->AddPlayerExperience(10);
+		Game::GetInstance()->AddPlayerExperience(P_EXPERIENCE_INCREASE);
 		Reset();
 		Game::GetInstance()->UnregisterGameObject(this);
 	}
