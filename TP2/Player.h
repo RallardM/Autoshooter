@@ -41,7 +41,7 @@ private:
 
 	// Inherited via GameObject
 	void OnStart() override;
-	void Update(float deltatime) override;
+	void Update(float& deltatime) override;
 	void Render() override;
 	const bool IsActive() const override { return m_isActive; }
 	void Reset() override;

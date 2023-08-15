@@ -47,7 +47,7 @@ void UIElement::OnStart()
 	m_isActive = true;
 }
 
-void UIElement::FollowPosition(Vector2 newPosition)
+void UIElement::FollowPosition(Vector2& newPosition)
 {
 	m_position = { newPosition.x + m_offset.x, newPosition.y + m_offset.y };
 }
@@ -59,7 +59,7 @@ void UIElement::Reset()
 	m_isActive = false;
 }
 
-void UIElement::Update(float _deltatime)
+void UIElement::Update(float& _deltatime)
 {
 	switch (m_UIType)
 	{

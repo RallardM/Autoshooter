@@ -22,12 +22,12 @@ Vector2 GetVectDistanceBetweenTwoVects(const Vector2& firstVector, const Vector2
 	return distance;
 }
 
-float GetMagnitude(Vector2 vector)
+float GetMagnitude(Vector2& vector)
 {
 	return static_cast<float>(sqrt(vector.x * vector.x + vector.y * vector.y));
 }
 
-Vector2 SubstractVectors(Vector2 firstVector, Vector2 secondVector)
+Vector2 SubstractVectors(Vector2& firstVector, Vector2& secondVector)
 {
 	Vector2 result;
 	result.x = firstVector.x - secondVector.x;

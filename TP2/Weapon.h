@@ -27,8 +27,8 @@ public:
 
 private:
 	virtual void Fire() = 0;
-	virtual void Update(float deltatime) = 0;
-	void FollowPosition(Vector2 newPosition); // TODO make pure virtual
+	virtual void Update(float& deltatime) = 0;
+	void FollowPosition(Vector2& newPosition); // TODO make pure virtual
 	virtual void Render() = 0;
 	virtual const bool IsActive() const = 0;
 	virtual void Reset() = 0;

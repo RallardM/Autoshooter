@@ -184,7 +184,7 @@ void Player::OnStart()
 	m_isActive = true;
 }
 
-void Player::Update(float deltatime)
+void Player::Update(float& deltatime)
 {
 	VerifyHealth();
 	VerifyExperience();
@@ -291,14 +291,16 @@ void Player::VerifyHealth()
 		Vector2 offsetFromPlayer = { 0.0f, 37.0f };
 		m_secondHealthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromPlayer, m_health);
 		m_secondHealthBar->OnStart();
-		m_healthBar->SetHasSecondBarToRegressBefore(true);
+		bool hasSecondBarToRegressBefore = true;
+		m_healthBar->SetHasSecondBarToRegressBefore(hasSecondBarToRegressBefore);
 	}
 	else if (m_health <= MAX_HEALTH && m_secondHealthBar != nullptr)
 	{
 		// Delete additional health bar
 		delete m_secondHealthBar;
 		m_secondHealthBar = nullptr;
-		m_healthBar->SetHasSecondBarToRegressBefore(false);
+		bool hasSecondBarToRegressBefore = false;
+		m_healthBar->SetHasSecondBarToRegressBefore(hasSecondBarToRegressBefore);
 	}
 }
 

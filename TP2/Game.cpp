@@ -158,7 +158,7 @@ EGameObjectType Game::GetGameObjectType(GameObject* gameObject)
 	return gameObject->GetGameObjectType();
 }
 
-GameObject* Game::GetClosestGameObject(Vector2 position, EGameObjectType type)
+GameObject* Game::GetClosestGameObject(Vector2& position, EGameObjectType& type)
 {
 	GameObject* closest = nullptr;
 	float closestDistance = 0.f;
@@ -200,7 +200,8 @@ void Game::MainLoop()
 		}
 		else
 		{
-			UpdateGameObjects(GetFrameTime());
+			float deltaTime = GetFrameTime();
+			UpdateGameObjects(deltaTime);
 		}
 
 		EndMode2D();
@@ -253,7 +254,7 @@ void Game::RenderBackground()
 	}
 }
 
-void Game::UpdateGameObjects(float deltatime)
+void Game::UpdateGameObjects(float& deltatime)
 {
 	for (auto const& i : m_gameObjects)
 	{
@@ -272,7 +273,7 @@ void Game::UpdateGameObjects(float deltatime)
 	RemoveGameObjectsMarkedForRemoval();
 }
 
-unsigned short int Game::GetActiveObjectCountFromList(EGameObjectType type)
+unsigned short int Game::GetActiveObjectCountFromList(EGameObjectType& type)
 {
 	unsigned short int count = 0;
 	for (auto const& i : m_gameObjects)
@@ -305,7 +306,8 @@ void Game::RenderGameObjects()
 
 void Game::UpdateEnemySpawner()
 {
-	unsigned short int enemiesCount = GetActiveObjectCountFromList(EGameObjectType::ENEMY);
+	EGameObjectType enemyType = EGameObjectType::ENEMY;
+	unsigned short int enemiesCount = GetActiveObjectCountFromList(enemyType);
 
 	if (enemiesCount < MAX_ENEMY_AMOUNT * m_player->GetLevel())
 	{

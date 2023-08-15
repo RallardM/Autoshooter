@@ -55,7 +55,7 @@ void LaserGun::OnStart()
 	m_isActive = true;
 }
 
-void LaserGun::Update(float deltatime)
+void LaserGun::Update(float& deltatime)
 {
 	m_currentAttackTimer += deltatime;
 	if (m_currentAttackTimer >= GetWeaponInfos().m_attackRate)

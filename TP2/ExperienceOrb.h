@@ -12,7 +12,7 @@ public:
 	unsigned short int m_id = 0;
 
 public:
-	ExperienceOrb(Vector2 origin);
+	ExperienceOrb(Vector2& origin);
 	~ExperienceOrb()override;
 
 	// Inherited via GameObject
@@ -20,7 +20,7 @@ public:
 
 private:
 	// Inherited via GameObject
-	virtual void Update(float deltatime) override;
+	virtual void Update(float& deltatime) override;
 	virtual void Render() override;
 	virtual const bool IsActive() const override { return m_isActive; }
 	void Reset() override;

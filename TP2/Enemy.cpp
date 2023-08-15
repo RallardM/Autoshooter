@@ -36,7 +36,7 @@ void Enemy::OnStart()
 	Spawn();
 }
 
-void Enemy::Update(float deltatime)
+void Enemy::Update(float& deltatime)
 {
 	// Keep VerifyHealth() at top in case the enemy dies and needs to be deactivated
 	Collision();
@@ -124,7 +124,7 @@ void Enemy::Spawn()
 	m_position.y = randPosition.y;
 }
 
-void Enemy::UpdatePosition(float deltatime)
+void Enemy::UpdatePosition(float& deltatime)
 {
 	// Update Enemy position
 	m_position.x += m_direction.x * SPEED * deltatime;

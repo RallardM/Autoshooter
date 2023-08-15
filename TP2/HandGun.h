@@ -27,7 +27,7 @@ private:
 public:
 	// Inherited via GameObject
 	virtual void OnStart() override;
-	virtual void Update(float deltatime) override;
+	virtual void Update(float& deltatime) override;
 	virtual void Render() override;
 	virtual const bool IsActive() const override { return m_isActive; }
 	virtual const Vector2& GetPosition() const override { return m_position; }

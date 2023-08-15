@@ -16,7 +16,7 @@ public:
 
 	// Inherited via GameObject
 	virtual void OnStart() override;
-	virtual void Update(float deltatime) override;
+	virtual void Update(float& deltatime) override;
 	virtual void Render() override;
 	virtual const bool IsActive() const override { return m_isActive; }
 	virtual void Reset() override;
@@ -45,7 +45,7 @@ public:
 	unsigned short int m_id;
 
 private:
-	void UpdatePosition(float deltatime);
+	void UpdatePosition(float& deltatime);
 	void TrackPlayer();
 	void Collision();
 	void VerifyHealth();

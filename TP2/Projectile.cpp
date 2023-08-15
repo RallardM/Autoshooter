@@ -50,7 +50,7 @@ void Projectile::OnStart()
 	m_isActive = true;
 }
 
-void Projectile::Update(float deltatime)
+void Projectile::Update(float& deltatime)
 {
 	// Lazer reflects on the screen borders
 	if (m_projectileData.WEAPON_TYPE == EWeaponType::LAZER_GUN && m_laserBounces > 0)
@@ -108,7 +108,8 @@ void Projectile::SetHandGunProjectileData(SProjectileData& projectileData)
 
 	float diameter = m_radius * 2;
 
-	GameObject* closestGameObject = Game::GetInstance()->GetClosestGameObject(m_position, EGameObjectType::ENEMY);
+	EGameObjectType enemyType = EGameObjectType::ENEMY;
+	GameObject* closestGameObject = Game::GetInstance()->GetClosestGameObject(m_position, enemyType);
 	if (closestGameObject != nullptr)
 	{
 		Enemy* closestEnemy = dynamic_cast<Enemy*>(closestGameObject);
@@ -118,7 +119,8 @@ void Projectile::SetHandGunProjectileData(SProjectileData& projectileData)
 		float yDirection = closestEnemy->GetPosition().y - m_position.y;
 
 		// Normalize the direction of the projectile
-		float directionMagnitude = GetMagnitude({ xDirection, yDirection });
+		Vector2 direction = { xDirection, yDirection };
+		float directionMagnitude = GetMagnitude(direction);
 		m_xSpeed = xDirection / directionMagnitude;
 		m_ySpeed = yDirection / directionMagnitude;
 
@@ -132,7 +134,8 @@ void Projectile::SetHandGunProjectileData(SProjectileData& projectileData)
 	//If no Enemy in range, generate random direction
 
 	// Calculate the magnitude of the speed vector : squareroot of (x*x + y*y)
-	float speedMagnitude = GetMagnitude({ projectileData.SPEED, projectileData.SPEED });
+	Vector2 speedVector = { projectileData.SPEED, projectileData.SPEED };
+	float speedMagnitude = GetMagnitude(speedVector);
 
 	// Generate a random angle
 	float randomRadianAngle = static_cast<float>(rand()) / RAND_MAX;
@@ -161,7 +164,8 @@ void Projectile::SetLaserGunProjectileValues(SProjectileData& projectileData)
 	m_color = projectileData.COLOR;
 
 	// Calculate the magnitude of the speed vector : squareroot of (x*x + y*y)
-	float speedMagnitude = GetMagnitude({ projectileData.SPEED, projectileData.SPEED });
+	Vector2 speedVector = { projectileData.SPEED, projectileData.SPEED };
+	float speedMagnitude = GetMagnitude(speedVector);
 
 	// Generate a random angle
 	float randomRadianAngle = static_cast<float>(rand()) / RAND_MAX;
@@ -170,6 +174,11 @@ void Projectile::SetLaserGunProjectileValues(SProjectileData& projectileData)
 	// Calculate new normalized speed values with the same magnitude
 	m_xSpeed = speedMagnitude * cos(randomAngle);
 	m_ySpeed = speedMagnitude * sin(randomAngle);
+}
+
+void Projectile::SendInRandomDirections()
+{
+
 }
 
 void Projectile::Reset()

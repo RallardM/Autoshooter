@@ -6,7 +6,7 @@
 
 unsigned short int ExperienceOrb::s_id = 0;
 
-ExperienceOrb::ExperienceOrb(Vector2 origin)
+ExperienceOrb::ExperienceOrb(Vector2& origin)
 {
 	m_id = s_id++;
 	std::cout << "ExperienceOrb constructor called. ID = " << m_id << std::endl;
@@ -27,7 +27,7 @@ void ExperienceOrb::OnStart()
 	m_isActive = true;
 }
 
-void ExperienceOrb::Update(float _deltatime)
+void ExperienceOrb::Update(float& _deltatime)
 {
 	if (!m_isActive)
 	{

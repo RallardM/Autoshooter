@@ -39,7 +39,7 @@ void Weapon::IncreaseProjectileSize()
 	m_weaponInfos.m_projectileInfos.RADIUS *= 2.0f;
 }
 
-void Weapon::FollowPosition(Vector2 newPosition)
+void Weapon::FollowPosition(Vector2& newPosition)
 {
 	m_position = newPosition;
 }

@@ -24,6 +24,7 @@ public:
 class Projectile : public GameObject
 {
 private:
+	// Keep the member variables as low as possible so the objects are very light
 	Vector2 m_direction = { 0.0f, 0.0f };
 	float m_currentLifetime = 0.0f;
 	float m_xSpeed = 0.0f;
@@ -44,7 +45,7 @@ public:
 
 	// Inherited via GameObject
 	virtual void OnStart() override;
-	virtual void Update(float deltatime) override;
+	virtual void Update(float& deltatime) override;
 	virtual void Render() override;
 	virtual bool const IsActive() const override { return m_isActive; }
 	virtual void Reset() override;
@@ -58,4 +59,5 @@ private:
 	void SetHandGunProjectileData(SProjectileData& projectileData);
 	void SetExplosiveGunProjectileValues(SProjectileData& projectileData, Vector2& direction);
 	void SetLaserGunProjectileValues(SProjectileData& projectileData);
+	void SendInRandomDirections();
 };
