@@ -4,7 +4,7 @@
 #include "MathUtils.h"
 #include "Game.h"
 
-CameraManager* CameraManager::_Instance = 0;
+CameraManager* CameraManager::_Instance = nullptr;
 
 CameraManager* CameraManager::GetInstance()
 {

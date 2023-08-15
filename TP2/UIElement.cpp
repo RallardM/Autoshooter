@@ -5,7 +5,9 @@
 
 UIElement::UIElement(Entity* targetEntity, EUIElementType uitype, Color color, Vector2 size, Vector2 offset, float value) // TODO : diminush the number of arguments like in projectile
 {
-	// Bar UI
+	m_id = s_id++;
+	std::cout << "First UIElement constructor called. ID = " << m_id << std::endl;
+
 	m_targetEntity = targetEntity;
 	m_UIType = uitype;
 	m_color = color;
@@ -17,13 +19,17 @@ UIElement::UIElement(Entity* targetEntity, EUIElementType uitype, Color color, V
 
 UIElement::UIElement(Entity* targetEntity, EUIElementType uitype, Color color, int size, Vector2 offset, unsigned short int value) // TODO : diminush the number of arguments like in projectile
 {
-	// Textual UI
 	m_targetEntity = targetEntity;
 	m_UIType = uitype;
 	m_color = color;
 	m_fontSize = size;
 	m_offset = offset;
 	m_intValue = value;
+}
+
+UIElement::~UIElement()
+{
+	std::cout << "UIElement destructor called. ID = " << m_id << std::endl;
 }
 
 void UIElement::OnStart()

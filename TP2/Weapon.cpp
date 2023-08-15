@@ -4,6 +4,19 @@
 #include "MathUtils.h"
 #include <iostream>
 
+unsigned short int Weapon::s_weaponId = 0;
+
+Weapon::Weapon()
+{
+	m_weaponId = s_weaponId++;
+	std::cout << "Weapon constructor called. ID = " << m_weaponId << std::endl;
+}
+
+Weapon::~Weapon()
+{
+	std::cout << "Weapon destructor called. ID = " << m_weaponId << std::endl;
+}
+
 void Weapon::OnStart()
 {
 	// Generate a random color for each gun squares with caps 10 to 240 to not have total black or total white

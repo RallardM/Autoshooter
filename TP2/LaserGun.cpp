@@ -1,19 +1,25 @@
+#include <iostream>
 #include "LaserGun.h"
 
 float LaserGun::s_uiOffsetRight = 0.0f;
 
+unsigned short int LaserGun::s_id = 0;
+
+LaserGun::LaserGun()
+{
+	m_id = s_id++;
+	std::cout << "LaserGun constructor called. ID = " << m_id << std::endl;
+}
+
+LaserGun::~LaserGun()
+{
+	std::cout << "LaserGun destructor called. ID = " << m_id << std::endl;
+}
+
 void LaserGun::Fire()
 {
-	// Initialize projectile infos
-	GetProjectileInfos().RADIUS = 4.0f;
-	GetProjectileInfos().LIFETIME = 2.0f;
-	GetProjectileInfos().DAMAGE = 100.0f;
-	GetProjectileInfos().SPEED = 600.0f;
-	GetProjectileInfos().COLOR = SKYBLUE;
-	GetProjectileInfos().WEAPON_TYPE = EWeaponType::LAZER_GUN;
-
 	Vector2 noDirection = { 0.0f, 0.0f };
-	Projectile* projectile = new Projectile(GetProjectileInfos(), m_position, noDirection);
+	Projectile* projectile = new Projectile(m_weaponInfos.m_projectileInfos, m_position, noDirection);
 	projectile->OnStart();
 }
 
@@ -27,7 +33,16 @@ void LaserGun::Reset()
 void LaserGun::OnStart()
 {
 	GameObject::OnStart();
-	SetProjectileInfos(SProjectileData());
+
+	// Initialize projectile infos
+	SProjectileData data;
+	data.RADIUS = 4.0f;
+	data.LIFETIME = 2.0f;
+	data.DAMAGE = 100.0f;
+	data.SPEED = 600.0f;
+	data.COLOR = SKYBLUE;
+	data.WEAPON_TYPE = EWeaponType::LAZER_GUN;
+	SetProjectileInfos(data);
 
 	Weapon::OnStart();
 

@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "Player.h"
 #include "Game.h"
 #include "HandGun.h"
@@ -7,6 +9,17 @@
 #include "Weapon.h"
 #include <iostream>
 #include "MenuManager.h"
+#include "CollisionManager.h"
+
+Player::Player()
+{
+	std::cout << "Player constructor" << std::endl;
+}
+
+Player::~Player()
+{
+	std::cout << "Player destructor" << std::endl;
+}
 
 void Player::HandleInput()
 {
@@ -236,14 +249,14 @@ void Player::Reset()
 void Player::Collision()
 {
 	Rectangle playerRect = { m_position.x, m_position.y, m_playerSize.x, m_playerSize.y };
-	bool isEnemyHitPlayer = Game::GetInstance()->ArePlayerEnemyColliding(playerRect);
+	bool isEnemyHitPlayer = CollisionManager::GetInstance()->ArePlayerEnemyColliding(playerRect);
 
 	if (!isEnemyHitPlayer)
 	{
 		return;
 	}
 
-	Enemy* enemy = Game::GetInstance()->GetCollidingEnemy(playerRect);
+	Enemy* enemy = CollisionManager::GetInstance()->GetCollidingEnemy(playerRect);
 
 	if (enemy == nullptr)
 	{

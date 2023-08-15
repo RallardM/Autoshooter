@@ -8,10 +8,13 @@ class Player : public Entity
 	friend class Game;
 
 public:
-	virtual const Vector2& GetPosition() const override { return m_position; }
-	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::PLAYER; }
-	virtual const short int GetHealth() const override { return m_health; }
-	virtual const short int GetMaxHealth() const override { return MAX_HEALTH; }
+	Player();
+	~Player() override;
+	const Vector2& GetPosition() const override { return m_position; }
+	const EGameObjectType GetGameObjectType() const override { return EGameObjectType::PLAYER; }
+	const unsigned short int GetLevel() const { return m_level; }
+	const short int GetHealth() const override { return m_health; }
+	const short int GetMaxHealth() const override { return MAX_HEALTH; }
 	const Rectangle GetRect() const { return { m_position.x, m_position.y, m_playerSize.x, m_playerSize.y }; }
 	
 private:
@@ -37,11 +40,11 @@ private:
 	void HandleInput();
 
 	// Inherited via GameObject
-	virtual void OnStart() override;
-	virtual void Update(float deltatime) override;
-	virtual void Render() override;
-	virtual const bool IsActive() const override { return m_isActive; }
-	virtual void Reset() override;
+	void OnStart() override;
+	void Update(float deltatime) override;
+	void Render() override;
+	const bool IsActive() const override { return m_isActive; }
+	void Reset() override;
 	void Collision();
 	void VerifyHealth();
 	void VerifyExperience();

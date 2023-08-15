@@ -7,10 +7,10 @@ class Weapon;
 
 class Enemy : public Entity
 {
-	friend class Game;
+
 public:
 	Enemy();
-	~Enemy();
+	~Enemy() override;
 
 public:
 

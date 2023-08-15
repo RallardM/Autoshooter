@@ -3,16 +3,19 @@
 
 class ExplosiveGun : public Weapon
 {
-	//friend class Game;
 
 private:
-
-	float m_currentAttackTimer = 0.0f;
-	Vector2 m_size = { 5.0f, 5.0f };
 	static float s_uiOffsetRight;
-	float m_uiOffset;
+	float m_uiOffset = 0.0f;
+
+	static unsigned short int s_id;
 
 public:
+	unsigned short int m_id = 0;
+
+public:
+	ExplosiveGun();
+	~ExplosiveGun() override;
 	using Weapon::GetWeaponInfos;
 
 private:

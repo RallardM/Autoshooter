@@ -5,28 +5,20 @@
 #include "GameObject.h"
 #include "Projectile.h"
 #include "MathUtils.h"
-
+#include "CollisionManager.h"
 
 using namespace std;
 
-Game* Game::_Instance = 0;
+Game* Game::_Instance = nullptr;
+
+Game::Game()
+{
+	std::cout << "Game constructor called" << std::endl;
+}
 
 Game::~Game()
 {
-	// The objects needs to be deleted in a certan order to avoid memory leaks
-
-	// Delete the player
-	if (m_player != nullptr)
-	{
-		delete m_player;
-		m_player = nullptr;
-	}
-
-	// Delete the camera 
-	delete CameraManager::GetInstance();
-
-	// Delete the menu manager
-	delete MenuManager::GetInstance();
+	std::cout << "Game destructor called" << std::endl;
 
 	// Delete Experience Orbs
 	for (GameObject* gameObject : m_gameObjects)
@@ -64,6 +56,13 @@ Game::~Game()
 		delete gameObject;
 		gameObject = nullptr;
 	}
+
+	// Delete the player
+	//if (m_player != nullptr)
+	//{
+	//	delete m_player;
+	//	m_player = nullptr;
+	//}
 
 	// Delete Player's weapon
 	for (GameObject* gameObject : m_gameObjects)
@@ -103,6 +102,15 @@ Game::~Game()
 		delete m_cameraManager;
 		m_cameraManager = nullptr;
 	}
+
+	// Delete the camera 
+	delete CameraManager::GetInstance();
+
+	// Delete the menu manager
+	delete MenuManager::GetInstance();
+
+	// Delete the collision manager
+	delete CollisionManager::GetInstance();
 }
 
 Game* Game::GetInstance()
@@ -144,22 +152,11 @@ void Game::UnregisterGameObject(GameObject* gameObject)
 	//cout << "GameObject marked for removal" << endl;
 }
 
-void Game::UnegisterAllObjects()
+
+EGameObjectType Game::GetGameObjectType(GameObject* gameObject)
 {
-	for (GameObject* gameObject : m_gameObjects)
-	{
-		if (gameObject == nullptr) { continue; }
-
-		// if not in m_gameObjectsToRemove push_back to m_gameObjectsToRemove
-		if (std::find(m_gameObjectsToRemove.begin(), m_gameObjectsToRemove.end(), gameObject) == m_gameObjectsToRemove.end())
-		{
-			m_gameObjectsToRemove.push_back(gameObject);
-		}
-
-	}
-	m_gameObjects.clear();
+	return gameObject->GetGameObjectType();
 }
-
 
 GameObject* Game::GetClosestGameObject(Vector2 position, EGameObjectType type)
 {
@@ -180,100 +177,6 @@ GameObject* Game::GetClosestGameObject(Vector2 position, EGameObjectType type)
 	}
 
 	return closest;
-}
-
-bool Game::AreEnemyProjectileColliding(Rectangle enemy)
-{
-	for (GameObject* gameObject : _Instance->m_gameObjects)
-	{
-		if (gameObject == nullptr) { continue; }
-
-		if (gameObject->GetGameObjectType() == EGameObjectType::PROJECTILE)
-		{
-			Projectile* projectile = dynamic_cast<Projectile*>(gameObject);
-			Vector2 projectilePosition = projectile->GetPosition();
-			float projectileRadius = projectile->GetRadius();
-
-			bool IsEnemyHitByProjectile = CheckCollisionCircleRec(projectilePosition, projectileRadius, enemy);
-			if (IsEnemyHitByProjectile)
-			{
-				return true;
-			}
-		}
-	}
-	return false;
-}
-
-Projectile* Game::GetCollidingProjectile(Rectangle enemy)
-{
-	for (GameObject* gameObject : _Instance->m_gameObjects)
-	{
-		if (gameObject->GetGameObjectType() == EGameObjectType::PROJECTILE)
-		{
-			Projectile* projectile = dynamic_cast<Projectile*>(gameObject);
-			Vector2 projectilePosition = projectile->GetPosition();
-			float projectileRadius = projectile->GetRadius();
-
-			bool IsEnemyHitByProjectile = CheckCollisionCircleRec(projectilePosition, projectileRadius, enemy);
-			if (IsEnemyHitByProjectile)
-			{
-				return projectile;
-			}
-		}
-	}
-	return nullptr;
-}
-
-bool Game::AreOrbPlayerColliding(Vector2 orbPosition, float orbradius)
-{
-	bool IsEnemyHitByProjectile = CheckCollisionCircleRec(orbPosition, orbradius, _Instance->m_player->GetRect());
-	if (IsEnemyHitByProjectile)
-	{
-		return true;
-	}
-	return false;
-}
-
-bool Game::ArePlayerEnemyColliding(Rectangle player)
-{
-	for (GameObject* gameObject : _Instance->m_gameObjects)
-	{
-		if (gameObject == nullptr) { continue; }
-
-		if (gameObject->GetGameObjectType() == EGameObjectType::ENEMY)
-		{
-			Enemy* enemy = dynamic_cast<Enemy*>(gameObject);
-			Vector2 enemyPosition = enemy->GetPosition();
-			Rectangle enemyRect = enemy->GetRect();
-
-			bool IsEnemyHitByProjectile = CheckCollisionRecs(player, enemyRect);
-			if (IsEnemyHitByProjectile)
-			{
-				return true;
-			}
-		}
-	}
-	return false;
-}
-
-Enemy* Game::GetCollidingEnemy(Rectangle player)
-{
-	for (GameObject* gameObject : _Instance->m_gameObjects)
-	{
-		if (gameObject->GetGameObjectType() == EGameObjectType::ENEMY)
-		{
-			Enemy* enemy = dynamic_cast<Enemy*>(gameObject);
-			Vector2 enemyPosition = enemy->GetPosition();
-			Rectangle enemyRect = enemy->GetRect();
-
-			bool IsEnemyHitByProjectile = CheckCollisionRecs(player, enemyRect);
-			if (IsEnemyHitByProjectile)
-			{
-				return enemy;
-			}
-		}
-	}
-	return nullptr;
 }
 
 void Game::MainLoop()
@@ -302,8 +205,10 @@ void Game::MainLoop()
 
 		EndMode2D();
 		EndDrawing();
-	}
 
+		break;
+	}
+	CleanUpGame();
 	CloseWindow();
 }
 
@@ -403,9 +308,9 @@ void Game::UpdateEnemySpawner()
 {
 	unsigned short int enemiesCount = GetActiveObjectCountFromList(EGameObjectType::ENEMY);
 
-    if (enemiesCount < MAX_ENEMY_AMOUNT * m_player->m_level)
-    {
-        Enemy* enemy = new Enemy();
+	if (enemiesCount < MAX_ENEMY_AMOUNT * m_player->GetLevel())
+	{
+		Enemy* enemy = new Enemy();
 
 		enemy->OnStart();
 	}
@@ -417,23 +322,16 @@ void Game::RemoveGameObjectsMarkedForRemoval()
 {
 	for (int i = 0; i < m_gameObjectsToRemove.size(); i++)
 	{
-		// TODO delete after debug end of production
-		//EGameObjectType type = m_gameObjectsToRemove[i]->GetGameObjectType(); 
-		//bool isActive = m_gameObjectsToRemove[i]->IsActive();
-		//if (type == EGameObjectType::ENEMY)
-		//{
-		//    std::cout << "GameObject is an enemy" << std::endl;
-		//}
-
 		if (m_gameObjectsToRemove[i] == nullptr) { continue; }
 		if (m_gameObjectsToRemove[i]->IsActive() == true) { continue; }
 
-		m_gameObjects.remove(m_gameObjectsToRemove[i]);
-		delete(m_gameObjectsToRemove[i]);
-		// std::cout << "GameObject removed from gameObjects list. GameObjects amount: " << m_gameObjects.size() << std::endl;
+		auto iter = std::remove(m_gameObjects.begin(), m_gameObjects.end(), m_gameObjectsToRemove[i]);
+		m_gameObjects.erase(iter);
 
-
+		delete m_gameObjectsToRemove[i];
+		m_gameObjectsToRemove[i] = nullptr;
 	}
+
 	m_gameObjectsToRemove.clear();
 	m_gameObjectsToRemove.resize(0);
 
@@ -446,8 +344,68 @@ void Game::RemoveGameObjectsMarkedForRemoval()
 	}
 }
 
+
+void Game::ResetAllObjects()
+{
+	for (auto const& i : m_gameObjects)
+	{
+		if (i == NULL) { continue; }
+
+		i->Reset();
+	}
+
+	//m_gameObjects.clear();
+	//m_gameObjects.resize(0);
+}
+
+void Game::UnegisterAllObjects()
+{
+	for (GameObject* gameObject : m_gameObjects)
+	{
+		if (gameObject == nullptr) { continue; }
+
+		// if not in m_gameObjectsToRemove push_back to m_gameObjectsToRemove
+		if (std::find(m_gameObjectsToRemove.begin(), m_gameObjectsToRemove.end(), gameObject) == m_gameObjectsToRemove.end())
+		{
+			m_gameObjectsToRemove.push_back(gameObject);
+		}
+
+	}
+	//m_gameObjects.clear();
+}
+
+
+void Game::RemoveAllGameObjects()
+{
+	for (int i = 0; i < m_gameObjectsToRemove.size(); i++)
+	{
+		if (m_gameObjectsToRemove[i] == nullptr) { continue; }
+
+		auto iter = std::remove(m_gameObjects.begin(), m_gameObjects.end(), m_gameObjectsToRemove[i]);
+		m_gameObjects.erase(iter);
+
+		delete m_gameObjectsToRemove[i];
+		m_gameObjectsToRemove[i] = nullptr;
+	}
+
+	m_gameObjectsToRemove.clear();
+	m_gameObjectsToRemove.resize(0);
+
+	for (GameObject* obj : m_gameObjects)
+	{
+		if (obj == nullptr) { continue; }
+
+		delete obj;
+		obj = nullptr;
+	}
+
+	m_gameObjects.clear();
+	m_gameObjects.resize(0);
+}
+
 void Game::CleanUpGame()
 {
+	ResetAllObjects();
 	UnegisterAllObjects();
-	RemoveGameObjectsMarkedForRemoval();
+	RemoveAllGameObjects();
 }

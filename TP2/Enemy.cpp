@@ -1,24 +1,23 @@
 
+#include <iostream>
+
 #include "Enemy.h"
 #include "Weapon.h"
 #include "Game.h"
-#include <iostream>
 #include "ExperienceOrb.h"
+#include "CollisionManager.h"
 
 unsigned short int Enemy::s_id = 0;
 
 Enemy::Enemy()
 {
 	m_id = s_id++;
+	std::cout << "Enemy constructor called. ID : " << m_id << std::endl;
 }
 
 Enemy::~Enemy()
 {
-	// Delete health bar
-	m_healthBar->Reset();
-	Game::GetInstance()->UnregisterGameObject(m_healthBar);
-	//delete m_healthBar;
-	//m_healthBar = nullptr;
+	std::cout << "Enemy destructor called  ID : " << m_id << std::endl;
 }
 
 void Enemy::OnStart()
@@ -154,11 +153,11 @@ void Enemy::TrackPlayer()
 void Enemy::Collision()
 {
 	Rectangle enemyRect = { m_position.x, m_position.y, m_enemySize.x, m_enemySize.y };
-	bool isEnemyHitByProjctile = Game::GetInstance()->AreEnemyProjectileColliding(enemyRect);
+	bool isEnemyHitByProjctile = CollisionManager::GetInstance()->AreEnemyProjectileColliding(enemyRect);
 
 	if (isEnemyHitByProjctile)
 	{
-		Projectile* projectile = Game::GetInstance()->GetCollidingProjectile(enemyRect);
+		Projectile* projectile = CollisionManager::GetInstance()->GetCollidingProjectile(enemyRect);
 
 		if (projectile == nullptr) 
 		{ 

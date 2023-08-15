@@ -1,8 +1,22 @@
+#include <iostream>
+
 #include "GameObject.h"
 #include "Game.h"
+
+unsigned short int GameObject::s_gameObjectId = 0;
+
+GameObject::GameObject()
+{
+	m_gameObjectId = s_gameObjectId++;
+	std::cout << "GameObject constructor called. ID = " << m_gameObjectId << std::endl;
+}
+
+GameObject::~GameObject()
+{
+	std::cout << "GameObject destructor called. ID = " << m_gameObjectId << std::endl;
+}
 
 void GameObject::OnStart()
 {
 	Game::GetInstance()->RegisterGameObject(this);
-
 }

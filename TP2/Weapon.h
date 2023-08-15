@@ -15,6 +15,17 @@ class Weapon : public GameObject
 	friend class Player;
 
 private:
+
+	static unsigned short int s_weaponId;
+
+public:
+	unsigned short int m_weaponId = 0;
+
+public:
+	Weapon();
+	virtual ~Weapon() = 0;
+
+private:
 	virtual void Fire() = 0;
 	virtual void Update(float deltatime) = 0;
 	void FollowPosition(Vector2 newPosition); // TODO make pure virtual
@@ -30,10 +41,11 @@ protected:
 	virtual const Vector2& GetPosition() const = 0;
 	virtual const EGameObjectType GetGameObjectType() const = 0;
 	const SWeaponData GetWeaponInfos() const { return m_weaponInfos; }
-	SProjectileData& GetProjectileInfos() { return m_weaponInfos.m_projectileInfos; }
 	void SetProjectileInfos(const SProjectileData& projectileInfos) { m_weaponInfos.m_projectileInfos = projectileInfos; }
 
 protected:
 	SWeaponData m_weaponInfos;
 	Color m_color = { 255, 255, 255, 255 };
+	float m_currentAttackTimer = 0.0f;
+	Vector2 m_size = { 5.0f, 5.0f };
 };
