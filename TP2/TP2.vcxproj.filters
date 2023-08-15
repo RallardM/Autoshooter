@@ -13,6 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Abstract Classes">
+      <UniqueIdentifier>{bb25a46c-d5a9-4453-a227-05f1022fd218}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Derived Classes">
+      <UniqueIdentifier>{ff50b8a3-d163-4bac-bd29-491edc6e9a99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Singletons">
+      <UniqueIdentifier>{55ec6c44-a756-4562-83c0-b0ea9203094e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Derived Classes\Weapon">
+      <UniqueIdentifier>{8ef3f356-5c66-4615-be81-d7500cea497b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Derived Classes\Entity">
+      <UniqueIdentifier>{bdca1dfc-82ee-40b9-a054-e32e4ae8a415}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -63,52 +78,61 @@
     <ClInclude Include="CameraManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Projectile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Weapon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HandGun.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MathUtils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ExperienceOrb.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UIElement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ExplosiveGun.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LaserGun.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CameraManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Singletons</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Source Files\Singletons</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\Abstract Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="ExperienceOrb.cpp">
+      <Filter>Source Files\Derived Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\Singletons</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\Abstract Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="HandGun.cpp">
+      <Filter>Source Files\Derived Classes\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files\Derived Classes\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosiveGun.cpp">
+      <Filter>Source Files\Derived Classes\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="LaserGun.cpp">
+      <Filter>Source Files\Derived Classes\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuManager.cpp">
+      <Filter>Source Files\Singletons</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Derived Classes\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Source Files\Derived Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="UIElement.cpp">
+      <Filter>Source Files\Derived Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Source Files\Abstract Classes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
