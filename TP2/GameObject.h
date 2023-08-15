@@ -20,9 +20,20 @@ public:
 	virtual ~GameObject() = 0;
 
 	virtual void OnStart() = 0;
+	/**
+	 * @brief Abstract method call every frame of gameloop
+	 * @param deltatime Represent the time elapsed between two frame
+	*/
 	virtual void Update(float deltatime) = 0;
 	virtual void Render() = 0;
+	/**
+	 * @brief Abstract method call to update current state of the game object
+	 * @return Active state of the game object
+	*/
 	virtual const bool IsActive() const = 0;
+	/**
+	 * @brief Abstract method call to reinitialize the game object attributes
+	*/
 	virtual void Reset() = 0;
 
 protected:

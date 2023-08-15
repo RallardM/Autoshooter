@@ -12,9 +12,14 @@ class Player;
 class Game
 {
 public:
+	~Game();
 	static Game* GetInstance();
 
 private:
+	static Game* _Instance;
+	const int CAMERA_WIDTH = 1200;
+	const int CAMERA_HEIGHT = 800;
+
 	// Static GetMapWidth() and GetMapHeight() permits player to access map size without having a reference to Game
 	const float S_MAP_WIDTH = 1601.0f;
 	const float S_MAP_HEIGHT = 1601.0f;

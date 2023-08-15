@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "GLOBALS.h"
 
 class Entity : public GameObject
 {
@@ -10,8 +11,8 @@ public:
     unsigned short int m_entityId = 0;
 
 protected:
-    short int m_health = 100;
-    const unsigned short int MAX_HEALTH = 100;
+    short int m_health = HEALTH_VALUE;
+    const unsigned short int MAX_HEALTH = MAX_HEATH_VALUE;
 
 public: 
     Entity();

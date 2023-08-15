@@ -3,9 +3,12 @@
 #include "Weapon.h"
 #include "UIElement.h"
 
+/**
+ * @brief Represent the player
+*/
 class Player : public Entity
 {
-	friend class Game;
+	friend class Game;// Allow game class to access encapsulated method and member of player class
 
 public:
 	Player();
@@ -24,10 +27,10 @@ private:
 	UIElement* m_experienceBar = nullptr;
 
 	// Player default parameter
-	Color m_color = { 40, 40, 40, 255 };
-	Vector2 m_playerSize = { 40.0f, 40.0f };
-	Vector2 m_direction = { 0.0f, 0.0f };
-	const float PLAYER_SPEED = 200.0f;
+	Color m_color = PLAYER_COLOR;
+	Vector2 m_playerSize = PLAYER_SIZE;
+	Vector2 m_direction = PLAYER_DIRECTION;
+	const float PLAYER_SPEED = PLAYER_SPEED;
 
 	unsigned short int m_experience = 0;
 	unsigned short int m_totalExperience = 0;

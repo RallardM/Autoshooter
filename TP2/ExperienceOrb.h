@@ -27,7 +27,9 @@ private:
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::ORB; }
 	
+	
 	const float& GetRadius() const { return m_radius; }
+	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::ORB; }
 	void Collision();
 };
 

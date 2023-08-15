@@ -123,7 +123,7 @@ void UIElement::UpdateProgressBar()
 	m_floatValue = Game::GetInstance()->GetPlayerExperience();
 	
 	// 40.0f = 100% of the bar or 32.0f = 100% of the bar thus health*pixelsize/100
-	m_size.x = (m_floatValue * m_width) / 100;
+	m_size.x = (m_floatValue * m_width) / TO_PERCENT;
 }
 
 void UIElement::UpdateRegressBar()
@@ -137,7 +137,7 @@ void UIElement::UpdateRegressBar()
 
 	if (m_hasASecondBarToRegressBefore)
 	{
-		m_size.x = 40.0f;
+		m_size.x = S_HEALTH_WIDTH;
 		return;
 	}
 
@@ -151,5 +151,5 @@ void UIElement::UpdateRegressBar()
 	}
 
 	// 40.0f = 100% of the bar or 32.0f = 100% of the bar thus health*pixelsize/100
-	m_size.x = (m_floatValue * m_width) / 100;
+	m_size.x = (m_floatValue * m_width) / TO_PERCENT;
 }

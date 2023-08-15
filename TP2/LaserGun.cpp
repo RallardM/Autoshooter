@@ -47,7 +47,7 @@ void LaserGun::OnStart()
 	Weapon::OnStart();
 
 	m_uiOffset = s_uiOffsetRight;
-	s_uiOffsetRight += 5.0f;
+	s_uiOffsetRight += UI_OFFSET_SET_RIGHT;
 
 	m_weaponInfos.m_attackRate = 3.0f;
 
@@ -72,6 +72,6 @@ void LaserGun::Render()
 	position.x += m_uiOffset;
 
 	// Add a small offsetdown above the explosive gun at the bottom of the player square
-	position.y += 25.0f;
+	position.y += LAZER_GUN_OFFSET;
 	DrawRectangleV(position, m_size, m_color);
 }
