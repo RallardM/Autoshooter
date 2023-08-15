@@ -13,7 +13,7 @@ public:
 
 public:
 	ExperienceOrb(Vector2 origin);
-	~ExperienceOrb();
+	~ExperienceOrb()override;
 
 	// Inherited via GameObject
 	virtual void OnStart() override;

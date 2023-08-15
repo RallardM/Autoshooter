@@ -8,7 +8,17 @@
 
 using namespace std;
 
-MenuManager* MenuManager::_Instance = 0;
+MenuManager* MenuManager::_Instance = nullptr;
+
+MenuManager::MenuManager()
+{
+    std::cout << "MenuManager constructor called" << std::endl;
+}
+
+MenuManager::~MenuManager()
+{
+	std::cout << "MenuManager destructor called" << std::endl;
+}
 
 MenuManager* MenuManager::GetInstance()
 {

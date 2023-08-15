@@ -9,7 +9,7 @@ class Player : public Entity
 
 public:
 	Player();
-	~Player();
+	~Player() override;
 	const Vector2& GetPosition() const override { return m_position; }
 	const EGameObjectType GetGameObjectType() const override { return EGameObjectType::PLAYER; }
 	const unsigned short int GetLevel() const { return m_level; }

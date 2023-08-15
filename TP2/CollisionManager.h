@@ -6,6 +6,7 @@
 class CollisionManager
 {
 public:
+	~CollisionManager();
 	static CollisionManager* GetInstance();
 
 	// Collision detection
@@ -18,6 +19,6 @@ public:
 private:
 	static CollisionManager* _Instance;
 private:
-	CollisionManager() {} // Private constructor for singleton pattern
+	CollisionManager(); // Private constructor for singleton pattern
 };
 

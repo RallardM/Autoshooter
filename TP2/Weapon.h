@@ -15,6 +15,17 @@ class Weapon : public GameObject
 	friend class Player;
 
 private:
+
+	static unsigned short int s_weaponId;
+
+public:
+	unsigned short int m_weaponId = 0;
+
+public:
+	Weapon();
+	virtual ~Weapon() = 0;
+
+private:
 	virtual void Fire() = 0;
 	virtual void Update(float deltatime) = 0;
 	void FollowPosition(Vector2 newPosition); // TODO make pure virtual

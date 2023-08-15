@@ -18,10 +18,6 @@ Enemy::Enemy()
 Enemy::~Enemy()
 {
 	std::cout << "Enemy destructor called  ID : " << m_id << std::endl;
-
-	// Delete health bar
-	m_healthBar->Reset();
-	Game::GetInstance()->UnregisterGameObject(m_healthBar);
 }
 
 void Enemy::OnStart()

@@ -11,7 +11,7 @@ unsigned short int ExplosiveGun::s_id = 0;
 ExplosiveGun::ExplosiveGun()
 {
 	m_id = s_id++;
-	std::cout <<"EcplosionGun constructor called. ID = " << m_id << std::endl;
+	std::cout <<"ExplosiveGun constructor called. ID = " << m_id << std::endl;
 }
 
 ExplosiveGun::~ExplosiveGun()

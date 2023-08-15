@@ -1,9 +1,7 @@
 #pragma once
 #include <list>
 #include <vector>
-//
-//#include "Enumerations.h"
-//#include "Enemy.h"
+
 #include "Player.h"
 #include "MenuManager.h"
 #include "CameraManager.h"
@@ -14,7 +12,6 @@ class Player;
 class Game
 {
 public:
-	~Game();
 	static Game* GetInstance();
 
 private:
@@ -42,6 +39,7 @@ private:
 	std::vector<GameObject*> m_gameObjectsToRemove;
 
 public:
+	~Game();
 	void StartGame();
 
 	// Game getters and setters
@@ -52,7 +50,6 @@ public:
 	// GameObjects Methods
 	void RegisterGameObject(GameObject* agent);
 	void UnregisterGameObject(GameObject* agent);
-	void UnegisterAllObjects();
 
 	// Map getters
 	const float GetMapWidth() { return S_MAP_WIDTH; }
@@ -71,7 +68,7 @@ public:
 	GameObject* GetClosestGameObject(Vector2 position, EGameObjectType type);
 
 private:
-	Game() {} // Private constructor for singleton pattern
+	Game(); // Private constructor for singleton pattern
 	void MainLoop();
 	void RenderBackground();
 	void UpdateGameObjects(float deltatime);
@@ -80,7 +77,9 @@ private:
 	void UpdateEnemySpawner();
 	void RemoveGameObjectsMarkedForRemoval();
 
-public:
+	void ResetAllObjects();
+	void UnegisterAllObjects();
+	void RemoveAllGameObjects();
 	void CleanUpGame();
 	
 };

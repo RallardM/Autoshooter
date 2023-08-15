@@ -14,7 +14,7 @@ public:
 
 public:
 	HandGun();
-	~HandGun();
+	~HandGun() override;
 	using Weapon::GetWeaponInfos;
 
 private:

@@ -23,8 +23,6 @@ public:
 
 class Projectile : public GameObject
 {
-	friend class Game;
-
 private:
 	Vector2 m_direction = { 0.0f, 0.0f };
 	float m_currentLifetime = 0.0f;
@@ -42,7 +40,7 @@ public:
 
 public:
 	Projectile(SProjectileData& projectileData, Vector2& origin, Vector2& direction);
-	~Projectile();
+	~Projectile() override;
 
 	// Inherited via GameObject
 	virtual void OnStart() override;

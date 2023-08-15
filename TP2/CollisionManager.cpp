@@ -1,7 +1,19 @@
+#include <iostream>
+
 #include "CollisionManager.h"
 #include "Game.h"
 
-CollisionManager* CollisionManager::_Instance = 0;
+CollisionManager* CollisionManager::_Instance = nullptr;
+
+CollisionManager::CollisionManager()
+{
+	std::cout << "CollisionManager constructor called." << std::endl;
+}
+
+CollisionManager::~CollisionManager()
+{
+	std::cout << "CollisionManager destructor called" << std::endl;
+}
 
 CollisionManager* CollisionManager::GetInstance()
 {
@@ -18,7 +30,8 @@ bool CollisionManager::AreEnemyProjectileColliding(Rectangle enemy)
 	{
 		if (gameObject == nullptr) { continue; }
 
-		if (Game::GetInstance()->GetGameObjectType(gameObject) == EGameObjectType::PROJECTILE)
+		//if (Game::GetInstance()->GetGameObjectType(gameObject) == EGameObjectType::PROJECTILE)
+		if (gameObject->GetGameObjectType() == EGameObjectType::PROJECTILE)
 		{
 			Projectile* projectile = dynamic_cast<Projectile*>(gameObject);
 			Vector2 projectilePosition = projectile->GetPosition();

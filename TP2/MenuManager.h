@@ -10,6 +10,7 @@ private:
 	static MenuManager* _Instance;
 
 public:
+	~MenuManager();
 	static MenuManager* GetInstance();
 
 	void SetIsPlayerDeadMenuOn() { m_isPlayerDeadMenuOn = !m_isPlayerDeadMenuOn; }
@@ -22,7 +23,7 @@ public:
 	void RenderGameOver();
 
 private:
-	MenuManager() {} // Private constructor for singleton pattern
+	MenuManager(); // Private constructor for singleton pattern
 
 };
 

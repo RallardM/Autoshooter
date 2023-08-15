@@ -3,6 +3,7 @@
 
 class ExplosiveGun : public Weapon
 {
+
 private:
 	static float s_uiOffsetRight;
 	float m_uiOffset = 0.0f;
@@ -14,7 +15,7 @@ public:
 
 public:
 	ExplosiveGun();
-	~ExplosiveGun();
+	~ExplosiveGun() override;
 	using Weapon::GetWeaponInfos;
 
 private:
