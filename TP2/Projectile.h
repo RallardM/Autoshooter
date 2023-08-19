@@ -25,6 +25,12 @@ public:
 
 class Projectile : public GameObject
 {
+	friend class CollisionManager;
+	friend class Enemy;
+	friend class ExplosiveGun;
+	friend class HandGun;
+	friend class LaserGun;
+
 private:
 	// Keep the member variables as low as possible so the objects are very light
 	float& m_radius;
@@ -44,21 +50,19 @@ public:
 	Projectile(SProjectileData& projectileData);
 	~Projectile() override;
 
+private:
 	// Inherited via GameObject
 	virtual void OnStart() override;
-
 	virtual void Update(const float& deltatime) override;
-
 	virtual void Render() override;
-
 	virtual bool const IsActive() const override { return m_isActive; }
 	virtual void Reset() override;
 	virtual const Vector2& GetPosition() const override { return m_position; }
-	const float& GetRadius() const { return m_radius; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::PROJECTILE; }
+
+	const float& GetRadius() const { return m_radius; }
 	const float GetDamage() const { return m_projectileData.DAMAGE; }
 
-private:
 	void SetHandGunProjectileData();
 	void SetExplosiveGunProjectileValues();
 	void SetLaserGunProjectileValues();

@@ -125,7 +125,7 @@ Game* Game::GetInstance()
 void Game::StartGame()
 {
 	// Initialize random seed
-	srand(time(nullptr));
+	srand(static_cast<unsigned int>(time(NULL))); // cast for the warning :  C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
 
 	// Initialize camera manager
 	CameraManager* m_cameraManager = CameraManager::GetInstance();

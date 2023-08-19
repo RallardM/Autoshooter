@@ -7,26 +7,14 @@ class Weapon;
 
 class Enemy : public Entity
 {
+	friend class Game;
+	friend class Projectile;
+	friend class Enemy;
+	friend class CollisionManager;
 
 public:
 	Enemy();
 	~Enemy() override;
-
-public:
-
-	// Inherited via GameObject
-	virtual void OnStart() override;
-	virtual void Update(const float& deltatime) override;
-	virtual void Render() override;
-	virtual const bool IsActive() const override { return m_isActive; }
-	virtual void Reset() override;
-
-	void Spawn();
-	virtual const Vector2& GetPosition() const override { return m_position; }
-	const Rectangle GetRect() const  { return { m_position.x, m_position.y, m_enemySize.x, m_enemySize.y }; }
-	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::ENEMY; }
-	virtual const short int GetHealth() const override { return m_health; }
-	virtual const short int GetMaxHealth() const override { return MAX_HEALTH; }
 
 private:
 	UIElement* m_healthBar = nullptr;
@@ -45,6 +33,20 @@ public:
 	unsigned short int m_id;
 
 private:
+	// Inherited via GameObject
+	virtual void OnStart() override;
+	virtual void Update(const float& deltatime) override;
+	virtual void Render() override;
+	virtual const bool IsActive() const override { return m_isActive; }
+	virtual void Reset() override;
+
+	void Spawn();
+	virtual const Vector2& GetPosition() const override { return m_position; }
+	const Rectangle GetRect() const { return { m_position.x, m_position.y, m_enemySize.x, m_enemySize.y }; }
+	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::ENEMY; }
+	virtual const short int GetHealth() const override { return m_health; }
+	virtual const short int GetMaxHealth() const override { return MAX_HEALTH; }
+
 	void UpdatePosition(const float& deltatime);
 	void TrackPlayer();
 	void Collision();

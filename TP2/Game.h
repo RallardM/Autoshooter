@@ -11,6 +11,15 @@ class Player;
 
 class Game
 {
+	friend class CameraManager;
+	friend class CollisionManager;
+	friend class Player;
+	friend class Projectile;
+	friend class Enemy;
+	friend class ExperienceOrb;
+	friend class GameObject;
+	friend class UIElement;
+
 public:
 	static Game* GetInstance();
 
@@ -42,10 +51,10 @@ public:
 	~Game();
 	void StartGame();
 
+private:
 	// Game getters and setters
 	bool const IsPaused() const { return m_isPaused; }
 	void PauseGame() { m_isPaused = !m_isPaused; }
-
 
 	// GameObjects Methods
 	void RegisterGameObject(GameObject* agent);
@@ -67,7 +76,6 @@ public:
 	EGameObjectType GetGameObjectType(GameObject* gameObject);
 	GameObject* GetClosestGameObject(const Vector2& position, const EGameObjectType& type);
 
-private:
 	Game(); // Private constructor for singleton pattern
 	void MainLoop();
 	void RenderBackground();

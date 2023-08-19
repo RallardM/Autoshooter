@@ -6,17 +6,12 @@
 class Player : public Entity
 {
 	friend class Game;
+	friend class CollisionManager;
 
 public:
 	Player();
 	~Player() override;
-	const Vector2& GetPosition() const override { return m_position; }
-	const EGameObjectType GetGameObjectType() const override { return EGameObjectType::PLAYER; }
-	const unsigned short int GetLevel() const { return m_level; }
-	const short int GetHealth() const override { return m_health; }
-	const short int GetMaxHealth() const override { return MAX_HEALTH; }
-	const Rectangle GetRect() const { return { m_position.x, m_position.y, m_playerSize.x, m_playerSize.y }; }
-	
+
 private:
 	UIElement* m_healthBar = nullptr;
 	UIElement* m_secondHealthBar = nullptr;
@@ -37,6 +32,13 @@ private:
 	std::list<Weapon*> m_weapons;
 
 private:
+	const Vector2& GetPosition() const override { return m_position; }
+	const EGameObjectType GetGameObjectType() const override { return EGameObjectType::PLAYER; }
+	const unsigned short int GetLevel() const { return m_level; }
+	const short int GetHealth() const override { return m_health; }
+	const short int GetMaxHealth() const override { return MAX_HEALTH; }
+	const Rectangle GetRect() const { return { m_position.x, m_position.y, m_playerSize.x, m_playerSize.y }; }
+
 	void HandleInput();
 
 	// Inherited via GameObject

@@ -3,6 +3,8 @@
 
 class ExperienceOrb : public GameObject
 {
+	friend class Enemy;
+
 private:
 	float m_radius = 10.0f;
 
@@ -11,14 +13,13 @@ private:
 public:
 	unsigned short int m_id = 0;
 
-public:
+private:
 	ExperienceOrb(const Vector2& origin);
 	~ExperienceOrb()override;
 
 	// Inherited via GameObject
 	virtual void OnStart() override;
 
-private:
 	// Inherited via GameObject
 	virtual void Update(const float& deltatime) override;
 	virtual void Render() override;

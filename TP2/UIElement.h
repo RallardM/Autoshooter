@@ -4,6 +4,9 @@
 
 class UIElement : public GameObject
 {
+	friend class Player;
+	friend class Enemy;
+
 private:
 	Entity* m_targetEntity = nullptr;
 	Color m_color = { 40, 40, 40, 255 };
@@ -25,13 +28,14 @@ public:
 	UIElement(Entity* targetEntity, EUIElementType uitype, Color color, int size, Vector2 offset, unsigned short int value);
 	~UIElement() override;
 
+
+private:
+	// Inherited via GameObject
 	virtual void OnStart() override;
 	void FollowPosition(const Vector2& newPosition);
 	virtual const bool IsActive() const override { return m_isActive; }
-	virtual void Reset() override; // TODO check how to make it private, less spaghetti
-	void SetHasSecondBarToRegressBefore(const bool& value) { m_hasASecondBarToRegressBefore = value; }
-private:
-	// Inherited via GameObject
+	virtual void Reset() override; 
+	void SetHasSecondBarToRegressBefore(const bool& value) { m_hasASecondBarToRegressBefore = value; } 
 	virtual void Update(const float& deltatime) override;
 	virtual void Render() override;
 

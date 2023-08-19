@@ -3,6 +3,7 @@
 
 class LaserGun : public Weapon
 {
+	friend class Player;
 
 private:
 	static float s_uiOffsetRight;
@@ -16,17 +17,11 @@ public:
 public:
 	LaserGun();
 	~LaserGun() override;
-	using Weapon::GetWeaponInfos;
 
 private:
 	// Inherited via Weapon
 	virtual void Fire() override;
-
-	// Inherited via GameObject
 	virtual void Reset() override;
-
-public:
-	// Inherited via GameObject
 	virtual void OnStart() override;
 	virtual void Update(const float& deltatime) override;
 	virtual void Render() override;

@@ -3,6 +3,12 @@
 
 class CameraManager
 {
+	friend class Game;
+	friend class Player;
+	friend class Enemy;
+	friend class MenuManager;
+	friend class Projectile;
+
 private:
 	static CameraManager* _Instance;
 	Camera2D* m_camera = nullptr;
@@ -14,18 +20,20 @@ public:
 	static CameraManager* GetInstance();
 	~CameraManager();
 
+private:
+	CameraManager() {} // Private constructor for singleton pattern
+
 	void InitializeCamera();
 
-	void UpdateCameraPosition(Vector2 playerPosition);
-
-	// Camera getters
+	// Camera size fields
 	Camera2D* GetCamera() { return m_camera; }
 	const float GetCameraWidth() const { return (float)CAMERA_WIDTH; }
 	const float GetCameraHeight() const { return (float)CAMERA_HEIGHT; }
 	const float GetTransformedCameraWidth() const { return (float)CAMERA_WIDTH * m_camera->zoom; }
 	const float GetTransformedCameraHeight() const { return (float)CAMERA_HEIGHT * m_camera->zoom; }
 
-	// Camera2D getters
+	// Camera2D position fields
+	void UpdateCameraPosition(Vector2 playerPosition);
 	const Vector2 GetCameraPosition() { return m_camera->target; }
 	const Vector2 GetCameraOffset() { return m_camera->offset; }
 	const Vector2 GetCameraTopLeftCorner() { return { GetCameraLeftLimit(), GetCameraTopLimit() }; }
@@ -42,8 +50,5 @@ public:
 	const float GetMovingCameraTopLimit();
 	const float GetMovingCameraRightLimit();
 	const float GetMovingCameraBottomLimit();
-
-private:
-	CameraManager() {} // Private constructor for singleton pattern
 };
 

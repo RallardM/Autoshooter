@@ -2,6 +2,9 @@
 
 class MenuManager
 {
+	friend class Player;
+	friend class Game;
+
 public:
 	bool m_isPlayerDeadMenuOn = false;
 	bool m_isLevelUpMenuOn = false;
@@ -13,6 +16,7 @@ public:
 	~MenuManager();
 	static MenuManager* GetInstance();
 
+private:
 	void SetIsPlayerDeadMenuOn() { m_isPlayerDeadMenuOn = !m_isPlayerDeadMenuOn; }
 	bool const IsPlayerDead() const { return m_isPlayerDeadMenuOn; }
 	void SetLevelUpMenuOn() { m_isLevelUpMenuOn = !m_isLevelUpMenuOn; }
@@ -22,7 +26,7 @@ public:
 	void RenderLevelUp();
 	void RenderGameOver();
 
-private:
+
 	MenuManager(); // Private constructor for singleton pattern
 
 };
