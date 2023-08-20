@@ -259,6 +259,9 @@ void Game::RenderBackground()
 
 void Game::UpdateGameObjects(const float& deltatime)
 {
+	UpdateEnemySpawner();
+	RemoveGameObjectsMarkedForRemoval();
+
 	for (auto const& i : m_gameObjects)
 	{
 		if (i == NULL) { continue; }
@@ -268,12 +271,8 @@ void Game::UpdateGameObjects(const float& deltatime)
 			continue;
 		}
 
-		//Issue now is that I remove elements in the Update during the for loop
 		i->Update(deltatime);
 	}
-
-	UpdateEnemySpawner();
-	RemoveGameObjectsMarkedForRemoval();
 }
 
 unsigned short int Game::GetActiveObjectCountFromList(const EGameObjectType& type)
@@ -320,8 +319,6 @@ void Game::UpdateEnemySpawner()
 	}
 }
 
-//Complicated way of removing GameObjects, only to be sure that we do it AFTER
-	//updating every gameObject in a frame
 void Game::RemoveGameObjectsMarkedForRemoval()
 {
 	for (int i = 0; i < m_gameObjectsToRemove.size(); i++)
@@ -347,7 +344,6 @@ void Game::RemoveGameObjectsMarkedForRemoval()
 		m_gameObjectsToRemove.push_back(obj);
 	}
 }
-
 
 void Game::ResetAllObjects()
 {
