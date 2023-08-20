@@ -5,9 +5,18 @@
 
 class CollisionManager
 {
+	friend class Enemy;
+	friend class Player;
+	friend class ExperienceOrb;
+
 public:
 	~CollisionManager();
 	static CollisionManager* GetInstance();
+
+private:
+	static CollisionManager* _Instance;
+private:
+	CollisionManager(); // Private constructor for singleton pattern
 
 	// Collision detection
 	bool AreEnemyProjectileColliding(const Rectangle& enemy);
@@ -15,10 +24,5 @@ public:
 	bool AreOrbPlayerColliding(const Vector2& orbPosition, const float& orbradius);
 	bool ArePlayerEnemyColliding(const Rectangle& player);
 	Enemy* GetCollidingEnemy(const Rectangle& player);
-
-private:
-	static CollisionManager* _Instance;
-private:
-	CollisionManager(); // Private constructor for singleton pattern
 };
 
