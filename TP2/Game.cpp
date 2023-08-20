@@ -57,13 +57,6 @@ Game::~Game()
 		gameObject = nullptr;
 	}
 
-	// Delete the player
-	//if (m_player != nullptr)
-	//{
-	//	delete m_player;
-	//	m_player = nullptr;
-	//}
-
 	// Delete Player's weapon
 	for (GameObject* gameObject : m_gameObjects)
 	{
@@ -74,14 +67,6 @@ Game::~Game()
 		gameObject = nullptr;
 	}
 
-	for (GameObject* gameObject : m_gameObjectsToRemove)
-	{
-		if (gameObject == nullptr) { continue; }
-		delete gameObject;
-		gameObject = nullptr;
-	}
-	m_gameObjectsToRemove.clear();
-
 	for (GameObject* gameObject : m_gameObjects)
 	{
 		if (gameObject == nullptr) { continue; }
@@ -89,7 +74,6 @@ Game::~Game()
 		gameObject = nullptr;
 	}
 	m_gameObjects.clear();
-
 
 	if (m_menuManager != nullptr)
 	{
@@ -148,13 +132,6 @@ void Game::RegisterGameObject(GameObject* gameObject)
 	m_gameObjects.push_back(gameObject);
 	//std::cout << "GameObject added to gameObjects list. GameObjects amount: " << m_gameObjects.size() << std::endl;
 }
-
-void Game::UnregisterGameObject(GameObject* gameObject)
-{
-	m_gameObjectsToRemove.push_back(gameObject);
-	//cout << "GameObject marked for removal" << endl;
-}
-
 
 EGameObjectType Game::GetGameObjectType(GameObject* gameObject)
 {
@@ -259,21 +236,55 @@ void Game::RenderBackground()
 
 void Game::UpdateGameObjects(const float& deltatime)
 {
-	for (auto const& i : m_gameObjects)
-	{
-		if (i == NULL) { continue; }
+	UpdateEnemySpawner();
+	UpdateEnemies(deltatime); // Clears UI healthbars on Enemy first to avoid deleting an entity that contains a UI element pointer
 
-		if (i->IsActive() == false)
+	auto it = m_gameObjects.begin();
+	while (it != m_gameObjects.end()) 
+	{
+		GameObject* gameObject = *it;
+		if (gameObject == NULL) 
 		{
+			++it;
 			continue;
 		}
 
-		//Issue now is that I remove elements in the Update during the for loop
-		i->Update(deltatime);
+		if (gameObject->GetGameObjectType() == EGameObjectType::UI)
+		{
+			++it;
+			continue;
+		}
+
+		// Update the game object
+		gameObject->Update(deltatime);
+
+		if (gameObject->IsActive() == false && gameObject->GetIsSetToDestroy() == true) 
+		{
+			it = m_gameObjects.erase(it);
+			delete gameObject;
+			gameObject = nullptr;
+		}
+		else 
+		{
+			++it;
+		}
 	}
 
-	UpdateEnemySpawner();
-	RemoveGameObjectsMarkedForRemoval();
+	//for (GameObject* gameObject : m_gameObjects)
+	//{
+	//	if (gameObject == NULL) { continue; }
+	//	if (gameObject->GetGameObjectType() == EGameObjectType::UI) { continue; }
+
+	//	if (gameObject->IsActive() == false && gameObject->GetIsSetToDestroy() == true)
+	//	{
+	//		m_gameObjects.remove(gameObject);
+	//		delete gameObject;
+	//		gameObject = nullptr;
+	//		continue;
+	//	}
+
+	//	gameObject->Update(deltatime);
+	//}
 }
 
 unsigned short int Game::GetActiveObjectCountFromList(const EGameObjectType& type)
@@ -320,87 +331,85 @@ void Game::UpdateEnemySpawner()
 	}
 }
 
-//Complicated way of removing GameObjects, only to be sure that we do it AFTER
-	//updating every gameObject in a frame
-void Game::RemoveGameObjectsMarkedForRemoval()
+void Game::UpdateEnemies(const float& deltatime)
 {
-	for (int i = 0; i < m_gameObjectsToRemove.size(); i++)
+	auto it = m_gameObjects.begin();
+	while (it != m_gameObjects.end())
 	{
-		if (m_gameObjectsToRemove[i] == nullptr) { continue; }
-		if (m_gameObjectsToRemove[i]->IsActive() == true) { continue; }
+		GameObject* gameObject = *it;
+		if (gameObject == NULL)
+		{
+			++it;
+			continue;
+		}
 
-		auto iter = std::remove(m_gameObjects.begin(), m_gameObjects.end(), m_gameObjectsToRemove[i]);
-		m_gameObjects.erase(iter);
+		if (gameObject->GetGameObjectType() != EGameObjectType::ENEMY)
+		{
+			++it;
+			continue;
+		}
 
-		delete m_gameObjectsToRemove[i];
-		m_gameObjectsToRemove[i] = nullptr;
+		// Dynamic cast to Enemy
+		Enemy* enemy = dynamic_cast<Enemy*>(gameObject);
+
+		// Update the game object
+		enemy->Update(deltatime);
+
+		if (enemy->IsActive() == false && enemy->GetIsSetToDestroy() == true)
+		{
+			enemy->DestroyUIElements();
+			it = m_gameObjects.erase(it);
+			delete enemy;
+			enemy = nullptr;
+		}
+		else
+		{
+			++it;
+		}
 	}
 
-	m_gameObjectsToRemove.clear();
-	m_gameObjectsToRemove.resize(0);
 
-	for (GameObject* obj : m_gameObjects)
-	{
-		if (obj == nullptr) { continue; }
-		if (obj->IsActive() == true) { continue; }
+	//for (GameObject* gameObject : m_gameObjects)
+	//{
+	//	if (gameObject == NULL) { continue; }
+	//	if (gameObject->GetGameObjectType() != EGameObjectType::UI) { continue; }
 
-		m_gameObjectsToRemove.push_back(obj);
-	}
+	//	if (gameObject->IsActive() == false && gameObject->GetIsSetToDestroy() == true)
+	//	{
+	//		std::cout << "Removing UI element ID : " << gameObject->m_gameObjectId << std::endl;
+	//		m_gameObjects.remove(gameObject);
+	//		delete gameObject;
+	//		gameObject = nullptr;
+	//		continue;
+	//	}
+
+	//	gameObject->Update(deltatime);
+	//}
 }
 
+////Complicated way of removing GameObjects, only to be sure that we do it AFTER
+//	//updating every gameObject in a frame
+//void Game::RemoveGameObjectsMarkedForRemoval()
+//{
+//	for (GameObject* gameObject : m_gameObjects)
+//	{
+//		if (gameObject == nullptr) { continue; }
+//		if (gameObject->IsActive() == true) { continue; }
+//		if (gameObject->GetIsSetToDestroy() == false) { continue; }
+//		
+//		delete gameObject;
+//		gameObject = nullptr;
+//	}
+//}
 
-void Game::ResetAllObjects()
-{
-	for (auto const& i : m_gameObjects)
-	{
-		if (i == NULL) { continue; }
-
-		i->Reset();
-	}
-
-	//m_gameObjects.clear();
-	//m_gameObjects.resize(0);
-}
-
-void Game::UnegisterAllObjects()
+void Game::RemoveAllGameObjects()
 {
 	for (GameObject* gameObject : m_gameObjects)
 	{
 		if (gameObject == nullptr) { continue; }
 
-		// if not in m_gameObjectsToRemove push_back to m_gameObjectsToRemove
-		if (std::find(m_gameObjectsToRemove.begin(), m_gameObjectsToRemove.end(), gameObject) == m_gameObjectsToRemove.end())
-		{
-			m_gameObjectsToRemove.push_back(gameObject);
-		}
-
-	}
-	//m_gameObjects.clear();
-}
-
-
-void Game::RemoveAllGameObjects()
-{
-	for (int i = 0; i < m_gameObjectsToRemove.size(); i++)
-	{
-		if (m_gameObjectsToRemove[i] == nullptr) { continue; }
-
-		auto iter = std::remove(m_gameObjects.begin(), m_gameObjects.end(), m_gameObjectsToRemove[i]);
-		m_gameObjects.erase(iter);
-
-		delete m_gameObjectsToRemove[i];
-		m_gameObjectsToRemove[i] = nullptr;
-	}
-
-	m_gameObjectsToRemove.clear();
-	m_gameObjectsToRemove.resize(0);
-
-	for (GameObject* obj : m_gameObjects)
-	{
-		if (obj == nullptr) { continue; }
-
-		delete obj;
-		obj = nullptr;
+		delete gameObject;
+		gameObject = nullptr;
 	}
 
 	m_gameObjects.clear();
@@ -409,7 +418,5 @@ void Game::RemoveAllGameObjects()
 
 void Game::CleanUpGame()
 {
-	ResetAllObjects();
-	UnegisterAllObjects();
 	RemoveAllGameObjects();
 }

@@ -40,6 +40,7 @@ protected:
 	void IncreaseProjectileSize();
 	virtual const Vector2& GetPosition() const = 0;
 	virtual const EGameObjectType GetGameObjectType() const = 0;
+	virtual const bool GetIsSetToDestroy() const = 0;
 	const SWeaponData GetWeaponInfos() const { return m_weaponInfos; }
 	void SetProjectileInfos(const SProjectileData& projectileInfos) { m_weaponInfos.m_projectileInfos = projectileInfos; }
 

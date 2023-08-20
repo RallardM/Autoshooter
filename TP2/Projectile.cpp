@@ -75,7 +75,7 @@ void Projectile::Update(const float& deltatime)
 	if (m_currentLifetime < 0 && m_isActive)
 	{
 		Reset();
-		Game::GetInstance()->UnregisterGameObject(this);
+		m_isSetToDestroy = true;
 	}
 }
 

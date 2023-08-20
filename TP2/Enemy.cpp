@@ -68,6 +68,15 @@ void Enemy::Reset()
 	m_isActive = false;
 }
 
+void Enemy::DestroyUIElements()
+{
+	if (m_healthBar != nullptr)
+	{
+		delete m_healthBar;
+		m_healthBar = nullptr;
+	}
+}
+
 void Enemy::Spawn()
 {
 	int randCorner = std::rand() % 4;
@@ -183,10 +192,10 @@ void Enemy::VerifyHealth()
 		GenerateXPOrb();
 
 		m_healthBar->Reset();
-		Game::GetInstance()->UnregisterGameObject(m_healthBar);
+		// Destroying the healthbar must be done at the same time as the enemy
 
 		Reset();
-		Game::GetInstance()->UnregisterGameObject(this);
+		m_isSetToDestroy = true;
 	}
 }
 

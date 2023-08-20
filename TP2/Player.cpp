@@ -21,6 +21,19 @@ Player::~Player()
 	std::cout << "Player destructor" << std::endl;
 }
 
+void Player::DestroyUIElements()
+{
+	delete m_healthBar;
+	delete m_secondHealthBar;
+	delete m_experienceText;
+	delete m_experienceBar;
+
+	m_healthBar = nullptr;
+	m_secondHealthBar = nullptr;
+	m_experienceText = nullptr;
+	m_experienceBar = nullptr;
+}
+
 void Player::HandleInput()
 {
 	// Debug keys

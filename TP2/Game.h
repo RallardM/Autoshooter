@@ -45,7 +45,6 @@ private:
 	Player* m_player = nullptr;
 
 	std::list<GameObject*> m_gameObjects;
-	std::vector<GameObject*> m_gameObjectsToRemove;
 
 public:
 	~Game();
@@ -58,7 +57,6 @@ private:
 
 	// GameObjects Methods
 	void RegisterGameObject(GameObject* agent);
-	void UnregisterGameObject(GameObject* agent);
 
 	// Map getters
 	const float GetMapWidth() { return S_MAP_WIDTH; }
@@ -83,10 +81,8 @@ private:
 	unsigned short int GetActiveObjectCountFromList(const EGameObjectType& type);
 	void RenderGameObjects();
 	void UpdateEnemySpawner();
-	void RemoveGameObjectsMarkedForRemoval();
+	void UpdateEnemies(const float& deltatime);
 
-	void ResetAllObjects();
-	void UnegisterAllObjects();
 	void RemoveAllGameObjects();
 	void CleanUpGame();
 	

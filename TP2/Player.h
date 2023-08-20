@@ -29,14 +29,20 @@ private:
 	unsigned short int m_level = 1;
 	unsigned short int m_previousEnemyId = 0;
 
+	bool m_isSetToDestroy = false;
+
+	// Dynamic types:
 	std::list<Weapon*> m_weapons;
 
 private:
-	const Vector2& GetPosition() const override { return m_position; }
-	const EGameObjectType GetGameObjectType() const override { return EGameObjectType::PLAYER; }
-	const unsigned short int GetLevel() const { return m_level; }
-	const short int GetHealth() const override { return m_health; }
-	const short int GetMaxHealth() const override { return MAX_HEALTH; }
+	virtual const Vector2& GetPosition() const override { return m_position; }
+	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::PLAYER; }
+	virtual const unsigned short int GetLevel() const { return m_level; }
+	virtual const short int GetHealth() const override { return m_health; }
+	virtual const short int GetMaxHealth() const override { return MAX_HEALTH; }
+	virtual const bool GetIsSetToDestroy() const override { return m_isSetToDestroy; }
+	virtual void DestroyUIElements() override;
+
 	const Rectangle GetRect() const { return { m_position.x, m_position.y, m_playerSize.x, m_playerSize.y }; }
 
 	void HandleInput();

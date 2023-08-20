@@ -28,6 +28,7 @@ protected:
 	virtual void OnStart() = 0;
 	virtual const Vector2& GetPosition() const = 0;
 	virtual const EGameObjectType GetGameObjectType() const = 0;
+	virtual const bool GetIsSetToDestroy() const = 0;
 
 protected:
 	Vector2 m_position = { 0.0f, 0.0f };

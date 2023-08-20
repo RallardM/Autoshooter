@@ -107,6 +107,11 @@ void UIElement::Render()
 
 void UIElement::RenderProgressBar()
 {
+	if (m_isActive == false)
+	{
+		return;
+	}
+
 	if (m_floatValue == 0.0f)
 	{
 		return;
@@ -135,6 +140,12 @@ void UIElement::UpdateProgressBar()
 
 void UIElement::UpdateRegressBar()
 {
+	if (m_targetEntity == nullptr || m_targetEntity->GetIsSetToDestroy())
+	{
+		std::cout << "UIElement::UpdateRegressBar() : Entity was not properly destroyed with its UI element" << std::endl;
+		return;
+	}
+
 	// Keep its size full it there is a second bar to regress
 	if (m_hasASecondBarToRegressBefore)
 	{

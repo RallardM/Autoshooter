@@ -17,6 +17,7 @@ private:
 	unsigned short int m_intValue = 0;
 	int m_fontSize = 0;
 	bool m_hasASecondBarToRegressBefore = false;
+	bool m_isSetToDestroy = false;
 
 	static unsigned short int s_id;
 
@@ -38,13 +39,15 @@ private:
 	void SetHasSecondBarToRegressBefore(const bool& value) { m_hasASecondBarToRegressBefore = value; } 
 	virtual void Update(const float& deltatime) override;
 	virtual void Render() override;
+	virtual const Vector2& GetPosition() const override { return m_position; }
+	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::UI; }
+	virtual const bool GetIsSetToDestroy() const override { return m_isSetToDestroy; }
 
 	void RenderProgressBar();
 	void RenderRegressBar();
 	void UpdateProgressBar();
 	void UpdateRegressBar();
-	virtual const Vector2& GetPosition() const override { return m_position; }
-	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::UI; }
 
+	void SetToDestroy() { m_isSetToDestroy = true; }
 };
 

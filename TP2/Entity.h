@@ -20,4 +20,6 @@ public:
     virtual const short int GetHealth() const = 0;
     virtual const short int GetMaxHealth() const = 0;
     virtual const EGameObjectType GetGameObjectType() const = 0;
+    virtual const bool GetIsSetToDestroy() const = 0;
+    virtual void DestroyUIElements() = 0;
 };

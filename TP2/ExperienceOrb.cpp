@@ -57,6 +57,6 @@ void ExperienceOrb::Collision()
 	{
 		Game::GetInstance()->AddPlayerExperience(10);
 		Reset();
-		Game::GetInstance()->UnregisterGameObject(this);
+		m_isSetToDestroy = true;
 	}
 }
