@@ -55,7 +55,7 @@ void ExperienceOrb::Collision()
 
 	if (isPlayerCollidingOrb)
 	{
-		Game::GetInstance()->AddPlayerExperience(10);
+		Game::GetInstance()->AddPlayerExperience(ORB_EXPERIENCE_POINTS);
 		Reset();
 		Game::GetInstance()->UnregisterGameObject(this);
 	}

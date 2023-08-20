@@ -130,7 +130,10 @@ void UIElement::UpdateProgressBar()
 	m_floatValue = Game::GetInstance()->GetPlayerExperience();
 	
 	// 32.0f  = 100% of the bar
-	m_size.x = (m_floatValue * 32.0f) / 100;
+	m_size.x = (m_floatValue * PLAYER_HEALTH_BAR_SIZE.x) * HUNDREDTH; // TODO Remi: change the player size and xp/health bar to 40 
+																	  // Warning, this section is for both the Enemy and Player health bar
+																	  // PLAYER_HEALTH_BAR_SIZE.x would have to be changed wor a member variable
+																	  // to fit both the Enemy health bar width at 32.f and player's at 40.f																
 }
 
 void UIElement::UpdateRegressBar()
@@ -138,7 +141,10 @@ void UIElement::UpdateRegressBar()
 	// Keep its size full it there is a second bar to regress
 	if (m_hasASecondBarToRegressBefore)
 	{
-		m_size.x = 32.0f;
+		m_size.x = PLAYER_HEALTH_BAR_SIZE.x; // TODO Remi : change the player size and xp / health bar to 40
+						  // Warning, this section is for both the Enemy and Player health bar
+						  // PLAYER_HEALTH_BAR_SIZE.x would have to be changed wor a member variable
+						  // to fit both the Enemy health bar width at 32.f and player's at 40.f
 		return;
 	}
 
@@ -152,5 +158,8 @@ void UIElement::UpdateRegressBar()
 	}
 
 	// 32.0f  = 100% of the bar
-	m_size.x = (m_floatValue * 32.0f) / 100;
+	m_size.x = (m_floatValue * PLAYER_HEALTH_BAR_SIZE.x) * HUNDREDTH; // TODO Remi: change the player size and xp/health bar to 40 
+																	  // Warning, this section is for both the Enemy and Player health bar
+																	  // PLAYER_HEALTH_BAR_SIZE.x would have to be changed wor a member variable
+																	  // to fit both the Enemy health bar width at 32.f and player's at 40.f
 }

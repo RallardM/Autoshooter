@@ -88,7 +88,7 @@ void Projectile::Render()
 			break;
 
 		case EWeaponType::EXPLOSIVE_GUN:
-			DrawPoly(m_position, 3, m_radius, 0.0f, m_projectileData.COLOR);
+			DrawPoly(m_position, EXPLOSIVE_PROJECTILE_EDGE_NUMBER, m_radius, 0.0f, m_projectileData.COLOR);
 			break;
 
 		case EWeaponType::LAZER_GUN:

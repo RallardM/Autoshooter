@@ -6,7 +6,7 @@ const float FOURTH = 0.25f;
 const float EIGHTH = 0.125f;
 const float HALF = 0.5f;
 const float THREE_FOURTH = 0.75f;
-const float HUNDRETH = 0.01f;
+const float HUNDREDTH = 0.01f;
 const int EVEN = 2;
 const int DOUBLE = 2;
 

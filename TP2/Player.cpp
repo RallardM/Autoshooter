@@ -287,7 +287,7 @@ void Player::VerifyHealth()
 		// Initialize one additional health bar
 		float extraHealth = (float)m_health - (float)MAX_HEALTH;
 		// 32.0f  = 100% of the bar
-		extraHealth = (extraHealth * PLAYER_EXPERIENCE_BAR_SIZE.x) * HUNDRETH;
+		extraHealth = (extraHealth * PLAYER_EXPERIENCE_BAR_SIZE.x) * HUNDREDTH;
 		Vector2 barSize = { extraHealth, PLAYER_EXPERIENCE_BAR_SIZE.y };
 		Vector2 offsetFromPlayer = PLAYER_SECOND_HEALTH_BAR_OFFSET; // TODO Remi : make sure the health bonus stops at the full second bar and remove the bonus from the level up menu
 		m_secondHealthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromPlayer, m_health);

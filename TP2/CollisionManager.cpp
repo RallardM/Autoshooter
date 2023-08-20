@@ -30,7 +30,6 @@ bool CollisionManager::AreEnemyProjectileColliding(const Rectangle& enemy)
 	{
 		if (gameObject == nullptr) { continue; }
 
-		//if (Game::GetInstance()->GetGameObjectType(gameObject) == EGameObjectType::PROJECTILE)
 		if (gameObject->GetGameObjectType() == EGameObjectType::PROJECTILE)
 		{
 			Projectile* projectile = dynamic_cast<Projectile*>(gameObject);

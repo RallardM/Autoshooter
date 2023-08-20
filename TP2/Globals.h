@@ -79,6 +79,8 @@ const Vector2 PLAYER_EXPERIENCE_BAR_OFFSET = { 0.0f, -3.0f }; // TODO Remi: chan
  
 // Level up bonus
 const unsigned short int TEN_HEALTH_POINTS_BONUS = 10;
+// Orb Experience points
+const unsigned short int ORB_EXPERIENCE_POINTS = 10;
 
 // Enemy
 const short int ENEMY_DAMAGE = 10; // Enemy damage is kept outside the class to make the Enemy objects smaller in size
