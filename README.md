@@ -12,7 +12,7 @@
     - Visual studio code for coding as IDE
     - Raylib as external library
 ## Contributions
-### member1:
+### Remi:
     - Design of the class based on the given structure
     - Design of the UML
     - Implementation of game logic 
@@ -24,7 +24,7 @@
     - Implementation of the player enemy interaction
     - Implementation of the projectile enemy interaction
     - Implementation of Debug
-### member2:
+### Maurice:
     - Design of the weapon 
     - Implementation of the weapon
     - Implementation of basic class
