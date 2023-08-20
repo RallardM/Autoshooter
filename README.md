@@ -15,23 +15,20 @@
 ### Remi:
     - Design of the class based on the given structure
     - Design of the UML
-    - Implementation of game logic 
     - Implemenation of health system
     - Implementation GUI system
     - Implementation LevelUp system
     - Implementation Map
     - Implementation Camera system
-    - Implementation of the player enemy interaction
-    - Implementation of the projectile enemy interaction
+    - Implementation of the collisions
     - Implementation of Debug
 ### Maurice:
-    - Design of the weapon 
-    - Implementation of the weapon
-    - Implementation of basic class
+    - Design of the ExplosiveGun
+	- Design of the Enemy spawning system
+	- Implementation of Player's movements
     - Implementation of game object 
-    - Documentation 
-    - Code check and burgs report
+    - Code check and bugs report
     - Code review
-    - Documentation verification
+
 
 
