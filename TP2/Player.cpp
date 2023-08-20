@@ -42,7 +42,7 @@ void Player::HandleInput()
 	// Debug + 5 Levels
 	if (IsKeyPressed(KEY_F5))
 	{
-		m_level += 5;
+		m_level += FIVE_LEVELS_DEBUG;
 		for (Weapon* in : m_weapons)
 		{
 			in->IncreaseRate();
@@ -114,35 +114,36 @@ void Player::HandleInput()
 	if (IsKeyDown(KEY_W))
 	{
 		//Direction up
-		m_direction.y = -1.0f;
+		m_direction.y = UP.y;
 
 	}
 	else if (IsKeyDown(KEY_S))
 	{
 		//Direction down
-		m_direction.y = 1.0f;
+		m_direction.y = DOWN.y;
 	}
 	else
 	{
-		m_direction.y = 0.0f;
+		m_direction.y = NO_DIRECTION.y;
 	}
 
 	if (IsKeyDown(KEY_A))
 	{
 		//Direction left
-		m_direction.x = -1.0f;
+		m_direction.x = LEFT.x;
 	}
 	else if (IsKeyDown(KEY_D))
 	{
 		//Direction right
-		m_direction.x = 1.0f;
+		m_direction.x = RIGHT.x;
 	}
 	else
 	{
-		m_direction.x = 0.0f;
+		m_direction.x = NO_DIRECTION.x;
 	}
 
-	if (m_direction.x != 0.0f || m_direction.y != 0.0f)
+	// If player is moving diagonally, normalize the direction vector
+	if (m_direction.x != NO_DIRECTION.x || m_direction.y != NO_DIRECTION.y)
 	{
 		float magnitude = sqrtf(
 			(m_direction.x * m_direction.x) +
@@ -161,20 +162,20 @@ void Player::OnStart()
 	m_position.y = (float)Game::GetInstance()->GetMapHeight() * HALF;
 
 	// Initialize health bar
-	Vector2 barSize = { 32.0f, 3.0f };
-	Vector2 offsetFromPlayer = { 0.0f, 33.0f };
+	Vector2 barSize = PLAYER_HEALTH_BAR_SIZE;
+	Vector2 offsetFromPlayer = PLAYER_HEALTH_BAR_OFFSET;
 	m_healthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromPlayer, m_health);
 	m_healthBar->OnStart();
 
 	// Initialize experience text
-	int fontSize = 15;
-	offsetFromPlayer = { 3.0f, 4.0f };
+	int fontSize = PLAYER_EXPERIENCE_FONT_SIZE;
+	offsetFromPlayer = PLAYER_EXPERIENCE_TEXT_OFFSET;
 	m_experienceText = new UIElement(this, EUIElementType::TEXT, GREEN, fontSize, offsetFromPlayer, m_totalExperience);
 	m_experienceText->OnStart();
 
 	// Initialize experience bar
-	barSize = { 32.0f, 3.0f };
-	offsetFromPlayer = { 0.0f, -3.0f };
+	barSize = PLAYER_EXPERIENCE_BAR_SIZE;
+	offsetFromPlayer = PLAYER_EXPERIENCE_BAR_OFFSET;
 	m_experienceBar = new UIElement(this, EUIElementType::PROGRESS_BAR, GREEN, barSize, offsetFromPlayer, m_experience);
 	m_experienceBar->OnStart();
 
@@ -270,7 +271,7 @@ void Player::Collision()
 
 	m_previousEnemyId = enemy->m_id;
 
-	m_health -= 10;
+	m_health -= ENEMY_DAMAGE;
 }
 
 void Player::VerifyHealth()
@@ -286,9 +287,9 @@ void Player::VerifyHealth()
 		// Initialize one additional health bar
 		float extraHealth = (float)m_health - (float)MAX_HEALTH;
 		// 32.0f  = 100% of the bar
-		extraHealth = (extraHealth * 32.0f) / 100;
-		Vector2 barSize = { extraHealth, 3.0f };
-		Vector2 offsetFromPlayer = { 0.0f, 37.0f };
+		extraHealth = (extraHealth * PLAYER_EXPERIENCE_BAR_SIZE.x) * HUNDRETH;
+		Vector2 barSize = { extraHealth, PLAYER_EXPERIENCE_BAR_SIZE.y };
+		Vector2 offsetFromPlayer = PLAYER_SECOND_HEALTH_BAR_OFFSET; // TODO Remi : make sure the health bonus stops at the full second bar and remove the bonus from the level up menu
 		m_secondHealthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromPlayer, m_health);
 		m_secondHealthBar->OnStart();
 		bool hasSecondBarToRegressBefore = true;
@@ -306,6 +307,8 @@ void Player::VerifyHealth()
 
 void Player::VerifyExperience()
 {
+	// TODO Remi : create a higher number of experience to reach for every new level
+	// If a hundred experience is reached, the player levels up
 	if (m_experience >= 100)
 	{
 		m_experience = 0;
@@ -324,6 +327,9 @@ void Player::IncreaseWeaponRate()
 			continue;
 		}
 
+		// TODO Remi : make sure the rate bonus stops on individual projectiles before they 
+		// becomes too chaotic and remove the bonus from the level up menu if all weapon 
+		// has reach the max rate but re-add if a new weapon is not at its fastest rate
 		weapon->IncreaseRate();
 	}
 }
@@ -337,6 +343,9 @@ void Player::IncreaseProjectileDamage()
 			continue;
 		}
 
+		// TODO Remi : make sure the size bonus stops on individual projectiles before they 
+		// becomes too chaotic and remove the bonus from the level up menu if all weapon 
+		// has reach the max size but re-add  if a new weapon is not at its largest size
 		weapon->IncreaseProjectileDamage();
 	}
 }
@@ -356,7 +365,9 @@ void Player::IncreaseProjectileSize()
 
 void Player::IncreaseHealth()
 {
-	m_health += 10;
+	// TODO Remi : make sure the health bonus stops at the 
+	// full second bar and remove the bonus from the level up menu
+	m_health += TEN_HEALTH_POINTS_BONUS;
 }
 
 void Player::AddNewHandGun()

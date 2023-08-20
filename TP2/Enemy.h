@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "UIElement.h"
 #include "Projectile.h"
+#include "Globals.h"
 
 class Weapon;
 
@@ -20,11 +21,10 @@ private:
 	UIElement* m_healthBar = nullptr;
 
 	// Enemy default parameter
-	Vector2 m_enemySize = { 32.0f, 32.0f };
-	Vector2 m_direction = { 0.0f, 0.0f };
-	Vector2 m_previousPosition = { 0.0f, 0.0f };
-	const float SPEED = 100.0f;
-	Color m_color = BLUE;
+	Vector2 m_enemySize = ENEMY_SIZE;
+	Vector2 m_direction = NO_DIRECTION;
+	Vector2 m_previousPosition = NO_POSITION;
+	Color m_color = ENEMY_DEFAULT_COLOR;
 	
 	unsigned short int m_previousProjectileId = 0;
 	static unsigned short int s_id;

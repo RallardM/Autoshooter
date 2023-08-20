@@ -8,6 +8,9 @@ extern const float FOURTH; // 1 / 4 or * 0.25
 extern const float EIGHTH; // 1 / 8 or * 0.125
 extern const float HALF; // 1 / 2 or * 0.5
 extern const float THREE_FOURTH; // 3 / 4 or * 0.75
+extern const float HUNDRETH; // 1 / 100 or * 0.01
+extern const int EVEN;
+extern const int DOUBLE;
 
 extern float GetFloatDistanceBetweenTwoVects(const Vector2& firstVector, const Vector2& secondVector);
 extern Vector2 GetVectDistanceBetweenTwoVects(const Vector2& firstVector, const Vector2& secondVector);

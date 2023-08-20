@@ -136,6 +136,7 @@
     <ClInclude Include="ExplosiveGun.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Globals.h" />
     <ClInclude Include="HandGun.h" />
     <ClInclude Include="LaserGun.h" />
     <ClInclude Include="MathUtils.h" />

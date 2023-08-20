@@ -1,5 +1,6 @@
 #include <iostream>
 #include "LaserGun.h"
+#include "Globals.h"
 
 float LaserGun::s_uiOffsetRight = 0.0f;
 
@@ -36,22 +37,25 @@ void LaserGun::OnStart()
 
 	// Initialize projectile infos
 	SProjectileData data;
-	data.DIRECTION = { 0.0f, 0.0f };
-	data.COUNT_DOWN = 2;
-	data.RADIUS = 4.0f;
-	data.LIFETIME = 2.0f;
-	data.DAMAGE = 100.0f;
-	data.SPEED = 600.0f;
-	data.COLOR = SKYBLUE;
+	data.DIRECTION = NO_DIRECTION;
+	data.COUNT_DOWN = LASER_PROJECTILE_WALL_BOUNCES_COUNT;
+	data.RADIUS = LASER_PROJECTILE_RADIUS;
+	data.LIFETIME = LASER_PROJECTILE_LIFETIME;
+	data.DAMAGE = LASER_PROJECTILE_DAMAGE;
+	data.SPEED = LASER_PROJECTILE_SPEED;
+	data.COLOR = LASER_PROJECTILE_COLOR;
 	data.WEAPON_TYPE = EWeaponType::LAZER_GUN;
 	SetProjectileInfos(data);
 
+	m_weaponInfos.m_attackRate = LASER_PROJECTILE_RATE;
+
 	Weapon::OnStart();
 
+	// At every new weapon offsets the new weapon icon to the right
 	m_uiOffset = s_uiOffsetRight;
-	s_uiOffsetRight += 5.0f;
+	// Add the offset for the next weapon
+	s_uiOffsetRight += WEAPON_ICON_OFFSET;
 
-	m_weaponInfos.m_attackRate = 3.0f;
 
 	// Add attributes before m_isActive = true;
 	m_isActive = true;
@@ -74,6 +78,6 @@ void LaserGun::Render()
 	position.x += m_uiOffset;
 
 	// Add a small offsetdown above the explosive gun at the bottom of the player square
-	position.y += 17.0f;
+	position.y += LASER_ICON_ROW_OFFSET;
 	DrawRectangleV(position, m_size, m_color);
 }

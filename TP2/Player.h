@@ -2,6 +2,7 @@
 #include <list>
 #include "Weapon.h"
 #include "UIElement.h"
+#include "Globals.h"
 
 class Player : public Entity
 {
@@ -19,14 +20,13 @@ private:
 	UIElement* m_experienceBar = nullptr;
 
 	// Player default parameter
-	Color m_color = { 40, 40, 40, 255 };
-	Vector2 m_playerSize = { 32.0f, 32.0f };
-	Vector2 m_direction = { 0.0f, 0.0f };
-	const float PLAYER_SPEED = 200.0f;
+	Color m_color = PLAYER_COLOR;
+	Vector2 m_playerSize = PLAYER_SIZE;
+	Vector2 m_direction = NO_DIRECTION;
 
 	unsigned short int m_experience = 0;
 	unsigned short int m_totalExperience = 0;
-	unsigned short int m_level = 1;
+	unsigned short int m_level = PLAYER_STARTING_LEVEL;
 	unsigned short int m_previousEnemyId = 0;
 
 	std::list<Weapon*> m_weapons;

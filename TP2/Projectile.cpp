@@ -105,7 +105,7 @@ void Projectile::Render()
 void Projectile::SetHandGunProjectileData()
 {
 	m_currentLifetime = m_projectileData.LIFETIME;
-	float diameter = m_radius * 2;
+	float diameter = m_radius * DOUBLE;
 
 	EGameObjectType enemyType = EGameObjectType::ENEMY;
 	GameObject* closestGameObject = Game::GetInstance()->GetClosestGameObject(m_position, enemyType);

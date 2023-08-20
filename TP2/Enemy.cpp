@@ -25,8 +25,8 @@ void Enemy::OnStart()
 	GameObject::OnStart();
 
 	// Initialize health bar
-	Vector2 barSize = { 32.0f, 3.0f };
-	Vector2 offsetFromEnemy = { 0.0f, 33.0f };
+	Vector2 barSize = ENEMY_HEALTH_BAR_SIZE;
+	Vector2 offsetFromEnemy = ENEMY_HEALTH_BAR_OFFSET;
 	m_healthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromEnemy, m_health);
 	m_healthBar->OnStart();
 
@@ -59,10 +59,10 @@ void Enemy::Render()
 
 void Enemy::Reset()
 {
-	m_enemySize = { 32.0f, 32.0f };
-	m_direction = { 0.0f, 0.0f };
-	Color m_color = BLUE;
-	m_health = 100;
+	m_enemySize = ENEMY_SIZE;
+	m_direction = NO_DIRECTION;
+	Color m_color = ENEMY_DEFAULT_COLOR;
+	m_health = ENTITY_DEFAULT_HEALTH;
 
 	// Reset everything before m_isActive = false;
 	m_isActive = false;
@@ -70,8 +70,8 @@ void Enemy::Reset()
 
 void Enemy::Spawn()
 {
-	int randCorner = std::rand() % 4;
-	Vector2 randPosition = { 0.0f, 0.0f };
+	int randCorner = std::rand() % SCREEN_CORNER_COUNT;
+	Vector2 randPosition = NO_POSITION;
 
 	// Get a reference to the camera's position
 	Vector2 cameraPosition = CameraManager::GetInstance()->GetCameraPosition();
@@ -79,8 +79,8 @@ void Enemy::Spawn()
 	float cameraZoom = CameraManager::GetInstance()->GetCameraZoom();
 
 	// Add a random threshold to the spawn position outside the camera view
-	int randMultiple = std::rand() % 10 + 1;
-	const float OUTSIDE_THRESHOLD = randMultiple* m_enemySize.x; // Enemy can spawn outside the camera view by a random threshold of its own size
+	int randMultiple = (std::rand() % ENEMY_SPAWN_FARTHEST_THRESHOLD) + ENEMY_SPAWN_CLOSEST_THRESHOLD; // Random number between 1 and 10, 1 is the minimum of one enemy to avoid spawning the enemy on the camera view
+	const float OUTSIDE_THRESHOLD = randMultiple * m_enemySize.x; // Enemy can spawn outside the camera view by a random threshold of its own size
 
 	switch (randCorner)
 	{
@@ -127,16 +127,18 @@ void Enemy::Spawn()
 void Enemy::UpdatePosition(const float& deltatime)
 {
 	// Update Enemy position
-	m_position.x += m_direction.x * SPEED * deltatime;
-	m_position.y += m_direction.y * SPEED * deltatime;
+	m_position.x += m_direction.x * ENEMY_SPEED * deltatime;
+	m_position.y += m_direction.y * ENEMY_SPEED * deltatime;
 }
 
 void Enemy::TrackPlayer()
 {
+	// Get a reference to the player's position
 	Vector2 playerPosition = Game::GetInstance()->GetPlayerPosition();
 	m_direction.x = playerPosition.x - m_position.x;
 	m_direction.y = playerPosition.y - m_position.y;
 
+	// Normalize direction
 	float magnitude = sqrtf
 	(
 		(m_direction.x * m_direction.x) +

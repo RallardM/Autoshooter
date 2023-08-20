@@ -1,8 +1,9 @@
 #include <raylib.h>
+#include <iostream>
 
 #include "Weapon.h"
 #include "MathUtils.h"
-#include <iostream>
+#include "Globals.h"
 
 unsigned short int Weapon::s_weaponId = 0;
 
@@ -20,7 +21,7 @@ Weapon::~Weapon()
 void Weapon::OnStart()
 {
 	// Generate a random color for each gun squares with caps 10 to 240 to not have total black or total white
-	m_color = { (unsigned char)GetRandomValue(10, 240), (unsigned char)GetRandomValue(10, 240), (unsigned char)GetRandomValue(10, 240), 255 };
+	m_color = { (unsigned char)GetRandomValue(20, 240), (unsigned char)GetRandomValue(20, 240), (unsigned char)GetRandomValue(20, 240), 255 };
 }
 
 void Weapon::IncreaseRate()
@@ -30,13 +31,13 @@ void Weapon::IncreaseRate()
 
 void Weapon::IncreaseProjectileDamage()
 {
-	m_weaponInfos.m_projectileInfos.DAMAGE *= 2.0f;
+	m_weaponInfos.m_projectileInfos.DAMAGE *= INCREASE_PROJECTILE_FACTOR;
 	std::cout << "Projectile damage doubled : " << m_weaponInfos.m_projectileInfos.DAMAGE << std::endl;
 }
 
 void Weapon::IncreaseProjectileSize()
 {
-	m_weaponInfos.m_projectileInfos.RADIUS *= 2.0f;
+	m_weaponInfos.m_projectileInfos.RADIUS *= INCREASE_PROJECTILE_FACTOR;
 }
 
 void Weapon::FollowPosition(const Vector2& newPosition)

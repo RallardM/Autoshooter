@@ -224,8 +224,8 @@ void Game::RenderBackground()
 	// Source : Cours Algebre Vectoriel
 	for (int i = 0; i < COLUMN_COUNT; ++i)
 	{
-		// Alternate grid color on even columns
-		if (i % 2 == 0)
+		// Alternate grid color on even (%2) columns
+		if (i % EVEN == 0)
 		{
 			gridColor = SKYBLUE;
 		}
@@ -241,8 +241,8 @@ void Game::RenderBackground()
 
 	for (int i = 0; i < ROW_COUNT; ++i)
 	{
-		// Alternate grid color on even rows
-		if (i % 2 == 0)
+		// Alternate grid color on even (%2) rows
+		if (i % EVEN == 0)
 		{
 			gridColor = SKYBLUE;
 		}
