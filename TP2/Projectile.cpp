@@ -137,8 +137,6 @@ void Projectile::SetHandGunProjectileData()
 void Projectile::SetExplosiveGunProjectileValues()
 {
 	m_currentLifetime = m_projectileData.LIFETIME;
-	//m_radius = projectileData.RADIUS;
-	//m_color = projectileData.COLOR;
 
 	m_xSpeed += m_projectileData.DIRECTION.x * m_projectileData.SPEED;
 	m_ySpeed += m_projectileData.DIRECTION.y * m_projectileData.SPEED;

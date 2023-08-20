@@ -5,6 +5,7 @@
 #include "MenuManager.h"
 #include "MathUtils.h"
 #include "CameraManager.h"
+#include "Globals.h"
 
 using namespace std;
 
@@ -63,18 +64,18 @@ void MenuManager::RenderLevelUp()
     DrawRectangle((int)topLeftCorner.x, (int)topLeftCorner.y, (int)adjustedWidth, (int)adjustedHeight, Fade(BLACK, 0.5f));
 
     // Draw Menu Box
-    float menuBoxWidth = 400;
-    float menuBoxHeight = 700;
+    float menuBoxWidth = MENU_WIDTH;
+    float menuBoxHeight = MENU_HEIGHT;
     float menuBoxXPosition = topLeftCorner.x + halfWidth - menuBoxWidth * HALF;
     float menuBoxYPosition = topLeftCorner.y + halfHeight - menuBoxHeight * HALF;
     Rectangle menuBox = { menuBoxXPosition, menuBoxYPosition, menuBoxWidth, menuBoxHeight };
-    DrawRectangleRounded(menuBox, 0.1f, 12, LIGHTGRAY);
+    DrawRectangleRounded(menuBox, MENU_ROUNDNESS, MENU_SEGMENTS, LIGHTGRAY);
 
     // Draw text
 
     // Level Up
-    string levelUpText = "Level Up!";
-    int menuFontSize = 40;
+    string levelUpText = LEVEL_UP_TEXT;
+    int menuFontSize = MENU_TITLE_FONTSIZE;
     float textHeight = menuFontSize * HALF;
     int textWidth = MeasureText(levelUpText.c_str(), menuFontSize);
     float uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
@@ -84,8 +85,8 @@ void MenuManager::RenderLevelUp()
     // Upgrades
 
     // Shooting rate
-    string shootingRateText = "1 Shooting Rate x 2";
-    int choicesFontSize = 30;
+    string shootingRateText = SHOOTING_RATE_TEXT;
+    int choicesFontSize = MENU_CHOICES_FONTSIZE;
     textHeight = choicesFontSize * HALF;
     textWidth = MeasureText(shootingRateText.c_str(), choicesFontSize);
     float offsetDown = menuBoxHeight * EIGHTH;
@@ -94,7 +95,7 @@ void MenuManager::RenderLevelUp()
     DrawText(shootingRateText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
 
     // Shooting Damage
-    string shootingDamageText = "2 Shooting Damage x 2";
+    string shootingDamageText = SHOOTING_DAMAGE_TEXT;
     textHeight = choicesFontSize * HALF;
     textWidth = MeasureText(shootingDamageText.c_str(), choicesFontSize);
     offsetDown = menuBoxHeight * EIGHTH;
@@ -103,7 +104,7 @@ void MenuManager::RenderLevelUp()
     DrawText(shootingDamageText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
 
     // Projectile Size
-    string bulletSizeText = "3 Projectile Size x 2";
+    string bulletSizeText = BULLET_SIZE_TEXT;
     textHeight = choicesFontSize * HALF;
     textWidth = MeasureText(bulletSizeText.c_str(), choicesFontSize);
     offsetDown = menuBoxHeight * EIGHTH;
@@ -112,7 +113,7 @@ void MenuManager::RenderLevelUp()
     DrawText(bulletSizeText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
 
     // Health Capacity
-    string healthCapText = "4 Health Bonus + 10";
+    string healthCapText = HEALTH_CAP_TEXT;
     textHeight = choicesFontSize * HALF;
     textWidth = MeasureText(healthCapText.c_str(), choicesFontSize);
     offsetDown = menuBoxHeight * EIGHTH;
@@ -121,7 +122,7 @@ void MenuManager::RenderLevelUp()
     DrawText(healthCapText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
 
     // New HandGun
-    string newHandGunText = "5 New HandGun";
+    string newHandGunText = NEW_HAND_GUN_TEXT;
     textHeight = choicesFontSize * HALF;
     textWidth = MeasureText(newHandGunText.c_str(), choicesFontSize);
     offsetDown = menuBoxHeight * EIGHTH;
@@ -130,7 +131,7 @@ void MenuManager::RenderLevelUp()
     DrawText(newHandGunText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
 
     // New Eplosive Gun
-    string newExplosiveGunText = "6 New Explosive Gun";
+    string newExplosiveGunText = NEW_EXPLOSIVE_GUN_TEXT;
     textHeight = choicesFontSize * HALF;
     textWidth = MeasureText(newExplosiveGunText.c_str(), choicesFontSize);
     offsetDown = menuBoxHeight * EIGHTH;
@@ -139,7 +140,7 @@ void MenuManager::RenderLevelUp()
     DrawText(newExplosiveGunText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
 
     // New Laser Gun
-    string newLaserGunText = "7 New Laser Gun";
+    string newLaserGunText = NEW_LASER_GUN_TEXT;
     textHeight = choicesFontSize * HALF;
     textWidth = MeasureText(newLaserGunText.c_str(), choicesFontSize);
     offsetDown = menuBoxHeight * EIGHTH;
@@ -170,18 +171,18 @@ void MenuManager::RenderGameOver()
     DrawRectangle((int)topLeftCorner.x, (int)topLeftCorner.y, (int)adjustedWidth, (int)adjustedHeight, Fade(BLACK, 0.5f));
 
     // Draw Menu Box
-    float menuBoxWidth = 400;
-    float menuBoxHeight = 100;
+    float menuBoxWidth = GAMEOVER_MENU_WIDTH;
+    float menuBoxHeight = GAMEOVER_MENU_HEIGHT;
     float menuBoxXPosition = topLeftCorner.x + halfWidth - menuBoxWidth * HALF;
     float menuBoxYPosition = topLeftCorner.y + halfHeight - menuBoxHeight * HALF;
     Rectangle menuBox = { menuBoxXPosition, menuBoxYPosition, menuBoxWidth, menuBoxHeight };
-    DrawRectangleRounded(menuBox, 0.1f, 12, LIGHTGRAY);
+    DrawRectangleRounded(menuBox, MENU_ROUNDNESS, MENU_SEGMENTS, LIGHTGRAY);
 
     // Draw text
 
     // Level Up
     string levelUpText = "Game Over!";
-    int menuFontSize = 40;
+    int menuFontSize = MENU_TITLE_FONTSIZE;
     float textHeight = menuFontSize * HALF;
     int textWidth = MeasureText(levelUpText.c_str(), menuFontSize);
     float uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;

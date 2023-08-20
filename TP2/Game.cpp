@@ -134,7 +134,7 @@ void Game::StartGame()
 
 	_Instance = this;
 	InitWindow((int)m_cameraManager->GetCameraWidth(), (int)m_cameraManager->GetCameraHeight(), "raylib [core] example - basic window");
-	SetTargetFPS(60);
+	SetTargetFPS(TARGET_FPS);
 
 	// Initialize player
 	m_player = new Player();

@@ -29,7 +29,6 @@ void CameraManager::InitializeCamera()
     // Initialize camera
     m_camera = new Camera2D();
     m_camera->offset = { (float)CAMERA_WIDTH * HALF, (float)CAMERA_HEIGHT * HALF };
-    //m_camera->rotation = 0.0f;
     m_camera->zoom = CAM_ZOOM;
 }
 

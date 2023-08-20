@@ -20,6 +20,9 @@ const float INCREASE_PROJECTILE_FACTOR = 2.0f;
 
 // Weapon data default values
 const float WEAPON_ICON_OFFSET = 5.0f;
+const unsigned short int MIN_COLOR_CHANNEL_VALUE = 30;
+const unsigned short int MAX_COLOR_CHANNEL_VALUE = 200;
+const unsigned short int FULL_ALPHA_VALUE = 255;
 
 // HandGun Projectile data default values
 const float HANDGUN_PROJECTILE_RADIUS = 5.0f;
@@ -90,22 +93,17 @@ const Vector2 ENEMY_HEALTH_BAR_OFFSET = { 0.0f, 33.0f };
 const unsigned short int ENEMY_SPAWN_CLOSEST_THRESHOLD = 1;
 const unsigned short int ENEMY_SPAWN_FARTHEST_THRESHOLD = 10;
 
-// Game manager 
+// Camera manager 
 const float CAM_ZOOM = 0.8f;
-const float MAP_WIDTH = 1601.0f;
-const float MAP_HEIGHT = 1601.0f;
-const float MAP_CELL_SIZE = 16.0f;
-const float OFFSET_X = 0.0f;
-const float OFFSET_Y = 33.0f;
 const unsigned short int SCREEN_CORNER_COUNT = 4;
 
-// Menu
-const unsigned short int MENU_WIDTH = 400;
-const unsigned short int MENU_HEIGHT = 700;
-const float M_ROUNDNESS = 0.1f;
-const unsigned short int M_SEGMENTS = 12;
-const unsigned short int M_FONTSIZE_1 = 40;
-const unsigned short int M_FONTSIZE_2 = 30;
+// Level up Menu
+const float MENU_WIDTH = 400.0f;
+const float MENU_HEIGHT = 700.0f;
+const float MENU_ROUNDNESS = 0.1f;
+const unsigned short int MENU_SEGMENTS = 12;
+const unsigned short int MENU_TITLE_FONTSIZE = 40;
+const unsigned short int MENU_CHOICES_FONTSIZE = 30;
 const std::string LEVEL_UP_TEXT = "Level Up!";
 const std::string SHOOTING_RATE_TEXT = "1 Shooting Rate x 2";
 const std::string SHOOTING_DAMAGE_TEXT = "2 Shooting Damage x 2";
@@ -115,25 +113,9 @@ const std::string NEW_HAND_GUN_TEXT = "5 New HandGun";
 const std::string NEW_EXPLOSIVE_GUN_TEXT = "6 New Explosive Gun";
 const std::string NEW_LASER_GUN_TEXT = "7 New Laser Gun";
 
-// Health bar
-const float HEALTH_WIDTH = 32.0f;
-const float HEALTH_HEIGHT = 3.0f;
-
-// Second Health bar
-const float S_HEALTH_WIDTH = 40.0f;
-
-// Threshold
-const unsigned short int MAX_THRESHOLD = 10;
-const unsigned short int MIN_THRESHOLD = 1;
-
-// UI offset
-const float UI_OFFSET_SET_RIGHT = 5.0f;
-
-// Color
-const unsigned short int MIN_RANDOM_VALUE = 10;
-const unsigned short int MAX_RANDOM_VALUE = 240;
-
-const float LAZER_GUN_OFFSET = 25.0f;
+// GameOver Menu
+const float GAMEOVER_MENU_WIDTH = 400.0f;
+const float GAMEOVER_MENU_HEIGHT = 100.0f;
 
 // Game
 const unsigned short int TARGET_FPS = 60;

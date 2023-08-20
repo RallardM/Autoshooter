@@ -20,8 +20,14 @@ Weapon::~Weapon()
 
 void Weapon::OnStart()
 {
-	// Generate a random color for each gun squares with caps 10 to 240 to not have total black or total white
-	m_color = { (unsigned char)GetRandomValue(20, 240), (unsigned char)GetRandomValue(20, 240), (unsigned char)GetRandomValue(20, 240), 255 };
+	// Generate a random color for each gun squares with caps 30 to 200 to not have total black or total white
+	m_color = { (unsigned char)GetRandomValue(
+		MIN_COLOR_CHANNEL_VALUE, MAX_COLOR_CHANNEL_VALUE),
+		(unsigned char)GetRandomValue(
+			MIN_COLOR_CHANNEL_VALUE, MAX_COLOR_CHANNEL_VALUE), 
+		(unsigned char)GetRandomValue(
+			MIN_COLOR_CHANNEL_VALUE, MAX_COLOR_CHANNEL_VALUE), 
+		FULL_ALPHA_VALUE };
 }
 
 void Weapon::IncreaseRate()
