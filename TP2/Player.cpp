@@ -169,11 +169,8 @@ void Player::OnStart()
 	m_position.x = (float)Game::GetInstance()->GetMapWidth() * HALF;
 	m_position.y = (float)Game::GetInstance()->GetMapHeight() * HALF;
 
-	// Source: https://stackoverflow.com/questions/16894400/how-to-declare-stdunique-ptr-and-what-is-the-use-of-it
-	// Source: https://www.acodersjourney.com/top-10-dumb-mistakes-avoid-c-11-smart-pointers/
- 
 	// Initialize health bar
-	std::unique_ptr<SUIElementData> healthBarData = std::make_unique<SUIElementData>();
+	SUIElementData* healthBarData = new SUIElementData();
 	healthBarData->COLOR = RED;
 	healthBarData->BAR_SIZE = PLAYER_HEALTH_BAR_SIZE;
 	healthBarData->OFFSET = PLAYER_HEALTH_BAR_OFFSET;
@@ -183,11 +180,10 @@ void Player::OnStart()
 	healthBarData->INT_VALUE = 0;
 	healthBarData->TARGET_ID = m_entityId;
 	healthBarData->HAS_SECONDARY_BAR = false;
-	std::shared_ptr<SUIElementData> sharedHealthBarData = std::move(healthBarData);
-	GameObjectPool::GetInstance()->TakeUIElementFromPool(sharedHealthBarData);
+	GameObjectPool::GetInstance()->TakeUIElementFromPool(healthBarData);
 
 	// Initialize experience text
-	std::unique_ptr<SUIElementData> experienceText = std::make_unique<SUIElementData>();
+	SUIElementData* experienceText = new SUIElementData();
 	experienceText->COLOR = GREEN;
 	experienceText->BAR_SIZE = PLAYER_EXPERIENCE_BAR_SIZE;
 	experienceText->OFFSET = PLAYER_EXPERIENCE_TEXT_OFFSET;
@@ -197,11 +193,10 @@ void Player::OnStart()
 	experienceText->INT_VALUE = m_totalExperience;
 	experienceText->TARGET_ID = m_entityId;
 	experienceText->HAS_SECONDARY_BAR = false;
-	std::shared_ptr<SUIElementData> sharedExperienceTextData = std::move(experienceText);
-	GameObjectPool::GetInstance()->TakeUIElementFromPool(sharedExperienceTextData);
+	GameObjectPool::GetInstance()->TakeUIElementFromPool(experienceText);
 
 	// Initialize experience bar
-	std::unique_ptr<SUIElementData> experienceBar = std::make_unique<SUIElementData>();
+	SUIElementData* experienceBar = new SUIElementData();
 	experienceBar->COLOR = GREEN;
 	experienceBar->BAR_SIZE = PLAYER_EXPERIENCE_BAR_SIZE;
 	experienceBar->OFFSET = PLAYER_EXPERIENCE_BAR_OFFSET;
@@ -211,8 +206,7 @@ void Player::OnStart()
 	experienceBar->INT_VALUE = m_experience;
 	experienceBar->TARGET_ID = m_entityId;
 	experienceBar->HAS_SECONDARY_BAR = false;
-	std::shared_ptr<SUIElementData> sharedExperienceBarData = std::move(experienceBar);
-	GameObjectPool::GetInstance()->TakeUIElementFromPool(sharedExperienceBarData);
+	GameObjectPool::GetInstance()->TakeUIElementFromPool(experienceBar);
 
 	AddNewHandGun();
 
@@ -327,11 +321,7 @@ void Player::VerifyHealth()
 		Vector2 barSize = { extraHealth, PLAYER_EXPERIENCE_BAR_SIZE.y };
 		Vector2 offsetFromPlayer = PLAYER_SECOND_HEALTH_BAR_OFFSET; // TODO Remi : make sure the health bonus stops at the full second bar and remove the bonus from the level up menu
 
-		// Source: https://stackoverflow.com/questions/16894400/how-to-declare-stdunique-ptr-and-what-is-the-use-of-it
-		// Source: https://www.acodersjourney.com/top-10-dumb-mistakes-avoid-c-11-smart-pointers/
-		// Source : https://stackoverflow.com/questions/70563507/should-i-delete-pointer-from-new-passed-to-a-function-which-makes-into-a-shar
-
-		auto additionalHealthBarData = std::make_shared<SUIElementData>();
+		SUIElementData* additionalHealthBarData = new SUIElementData;
 		additionalHealthBarData->COLOR = RED;
 		additionalHealthBarData->BAR_SIZE = barSize;
 		additionalHealthBarData->OFFSET = offsetFromPlayer;

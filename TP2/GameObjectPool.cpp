@@ -292,7 +292,7 @@ const void GameObjectPool::TakeLaserGunFromPool() const
 	}
 }
 
-const void GameObjectPool::TakeUIElementFromPool(std::shared_ptr<SUIElementData> uiData) const
+const void GameObjectPool::TakeUIElementFromPool(SUIElementData* uiData) const
 {
 	for (UIElement* uiElement : m_uiElementsPool)
 	{

@@ -30,6 +30,8 @@ const void UIElement::FollowPosition(Vector2& newPosition)
 
 void UIElement::Reset()
 {
+	delete m_uiData;
+	m_uiData = nullptr;
 
 	// Reset everything before m_isActive = false;
 	m_isActive = false;
@@ -147,7 +149,7 @@ void UIElement::UpdateRegressBar()
 																	  // to fit both the Enemy health bar width at 32.f and player's at 40.f
 }
 
-void UIElement::SetUIElementData(std::shared_ptr<SUIElementData> uiData)
+void UIElement::SetUIElementData(SUIElementData* uiData)
 {
-	m_uiData = uiData.get(); // We make it a shared pointer because it will be overriden by the enemy many times throught the game
+	m_uiData = uiData;
 }

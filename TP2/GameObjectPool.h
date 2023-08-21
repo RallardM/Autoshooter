@@ -74,7 +74,7 @@ private:
 	const void TakeHandGunFromPool() const; // TODO Remi : Make into one weapon method
 	const void TakeExplosiveGunFromPool() const;// TODO Remi : Make into one weapon method
 	const void TakeLaserGunFromPool() const;// TODO Remi : Make into one weapon method
-	const void TakeUIElementFromPool(std::shared_ptr<SUIElementData> uiData) const;
+	const void TakeUIElementFromPool(SUIElementData* uiData) const;
 	const void TakeExperienceOrbFromPool(const Vector2 position) const;
 
 	// vector fields
