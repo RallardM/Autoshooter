@@ -1,5 +1,9 @@
+#include <iostream>
+
 #include "GameObjectPool.h"
 #include "MathUtils.h"
+#include "CameraManager.h"
+#include "Globals.h"
 
 GameObjectPool* GameObjectPool::_Instance = nullptr;
 
@@ -16,13 +20,28 @@ GameObjectPool* GameObjectPool::GetInstance()
     return _Instance;
 }
 
-void GameObjectPool::IntializeEnemyPool()
-{
-}
-
-
 GameObjectPool::GameObjectPool()
 {
+	std::cout << "GameObjectPool created" << std::endl;
+}
+
+void GameObjectPool::InitializeGameObjects()
+{
+	// Initialize random seed
+	srand(static_cast<unsigned int>(time(NULL))); // cast for the warning :  C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+
+	// Initialize camera manager
+	CameraManager* m_cameraManager = CameraManager::GetInstance();
+	m_cameraManager->InitializeCamera();
+	m_camera = m_cameraManager->GetCamera();
+
+	// Initialize player
+	m_player = new Player();
+	m_player->OnStart();
+
+	_Instance = this;
+	InitWindow((int)m_cameraManager->GetCameraWidth(), (int)m_cameraManager->GetCameraHeight(), "raylib [core] example - basic window");
+	SetTargetFPS(TARGET_FPS);
 }
 
 void GameObjectPool::RegisterGameObject(GameObject* gameObject)
@@ -187,6 +206,23 @@ void GameObjectPool::RemoveGameObjectsMarkedForRemoval()
 
 		m_gameObjectsToRemove.push_back(obj);
 	}
+}
+
+void GameObjectPool::UpdateEnemySpawner()
+{
+	EGameObjectType enemyType = EGameObjectType::ENEMY;
+	unsigned short int enemiesCount = GameObjectPool::GetInstance()->GetActiveObjectCountFromList(enemyType);
+
+	if (enemiesCount < MAX_ENEMY_AMOUNT_PER_LEVELS * m_player->GetLevel())
+	{
+		Enemy* enemy = new Enemy();
+
+		enemy->OnStart();
+	}
+}
+
+void GameObjectPool::IntializeEnemyPool()
+{
 }
 
 void GameObjectPool::CleanUpGame()

@@ -1,9 +1,11 @@
 #include "Game.h"
+#include "GameObjectPool.h"
 
 int main(void)
 {
     Game* game = Game::GetInstance();
-    game->StartGame();
+    GameObjectPool::GetInstance()->InitializeGameObjects();
+    game->MainLoop();
 
     delete game;
     game = nullptr;

@@ -7,7 +7,6 @@
 #include "CollisionManager.h"
 #include "GameObjectPool.h"
 #include "CameraManager.h"
-#include "Game.h"
 
 unsigned short int Enemy::s_id = 0;
 
@@ -136,7 +135,7 @@ void Enemy::UpdatePosition(const float& deltatime)
 void Enemy::TrackPlayer()
 {
 	// Get a reference to the player's position
-	Vector2 playerPosition = Game::GetInstance()->GetPlayerPosition();
+	Vector2 playerPosition = GameObjectPool::GetInstance()->GetPlayerPosition();
 	m_direction.x = playerPosition.x - m_position.x;
 	m_direction.y = playerPosition.y - m_position.y;
 

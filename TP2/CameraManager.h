@@ -3,7 +3,7 @@
 
 class CameraManager
 {
-	friend class Game;
+	friend class GameObjectPool;
 	friend class Player;
 	friend class Enemy;
 	friend class MenuManager;

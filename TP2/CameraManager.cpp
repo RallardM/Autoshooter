@@ -3,7 +3,7 @@
 #include "CameraManager.h"
 #include "MathUtils.h"
 #include "Globals.h"
-#include "Game.h"
+#include "GameObjectPool.h"
 
 CameraManager* CameraManager::_Instance = nullptr;
 
@@ -67,7 +67,7 @@ const float CameraManager::GetMovingCameraLeftLimit()
     Vector2 screenLeftBorderPosition = { NO_POSITION.x, ((float)GetScreenHeight()) * HALF };
     Vector2 worldPosition = GetScreenToWorld2D(screenLeftBorderPosition, *m_camera);
 
-    Vector2 playerPosition = Game::GetInstance()->GetPlayerPosition();
+    Vector2 playerPosition = GameObjectPool::GetInstance()->GetPlayerPosition();
     Vector2 playerPosOnScreen = GetWorldToScreen2D(playerPosition, *m_camera);
     Vector2 cameraOffset = m_camera->offset;
     Vector2 camOffsetAndZoom = { cameraOffset.x / m_camera->zoom, cameraOffset.y / m_camera->zoom };

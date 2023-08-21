@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "GameObject.h"
+#include "Player.h"
 
 class GameObjectPool
 {
@@ -13,15 +14,20 @@ class GameObjectPool
 	friend class Enemy;
 	friend class ExperienceOrb;
 	friend class Game;
+	friend class CameraManager;
+	friend class UIElement;
 
 public:
 	~GameObjectPool();
 	static GameObjectPool* GetInstance();
+	void InitializeGameObjects();
 
 private:
 	static GameObjectPool* _Instance;
 	std::list<GameObject*> m_gameObjects;
 	std::vector<GameObject*> m_gameObjectsToRemove;
+	Camera2D* m_camera = nullptr;
+	Player* m_player = nullptr;
 	
 private:
 	GameObjectPool(); // Private constructor for singleton pattern https://youtu.be/PPup1yeU45I
@@ -38,9 +44,16 @@ private:
 	void UnegisterAllObjects();
 	void RemoveAllGameObjects();
 	void RemoveGameObjectsMarkedForRemoval();
-
+	void UpdateEnemySpawner();
 	void IntializeEnemyPool();
 
 	void CleanUpGame();
+
+	// Player getters // TODO Extract experience to its own class
+	Player* GetPlayer() { return m_player; }
+	Vector2 GetPlayerPosition() { return { m_player->m_position.x, m_player->m_position.y }; }
+	const unsigned short int GetPlayerExperience() { return m_player->m_experience; }
+	const unsigned short int GetPlayerTotalExperience() { return m_player->m_totalExperience; }
+	void AddPlayerExperience(unsigned short int experience) { m_player->m_experience += experience; m_player->m_totalExperience += experience; }
 };
 

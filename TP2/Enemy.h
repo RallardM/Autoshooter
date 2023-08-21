@@ -8,7 +8,7 @@ class Weapon;
 
 class Enemy : public Entity
 {
-	friend class Game;
+	friend class GameObjectPool;
 	friend class Projectile;
 	friend class Enemy;
 	friend class CollisionManager;

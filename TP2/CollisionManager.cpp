@@ -2,7 +2,6 @@
 
 #include "CollisionManager.h"
 #include "GameObjectPool.h"
-#include "Game.h"
 
 CollisionManager* CollisionManager::_Instance = nullptr;
 
@@ -75,7 +74,7 @@ Projectile* CollisionManager::GetCollidingProjectile(const Rectangle& enemy)
 
 bool CollisionManager::AreOrbPlayerColliding(const Vector2& orbPosition, const float& orbradius)
 {
-	bool isPlayerTouchingOrb = CheckCollisionCircleRec(orbPosition, orbradius, Game::GetInstance()->GetPlayer()->GetRect());
+	bool isPlayerTouchingOrb = CheckCollisionCircleRec(orbPosition, orbradius, GameObjectPool::GetInstance()->GetPlayer()->GetRect());
 	if (isPlayerTouchingOrb)
 	{
 		return true;

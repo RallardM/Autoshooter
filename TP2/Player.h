@@ -6,6 +6,7 @@
 
 class Player : public Entity
 {
+	friend class GameObjectPool;
 	friend class Game;
 	friend class CollisionManager;
 

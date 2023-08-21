@@ -1,7 +1,9 @@
-#include "UIElement.h"
 #include <iostream>
 #include <string>
-#include "Game.h"
+
+#include "UIElement.h"
+#include "GameObjectPool.h"
+#include "Mathutils.h"
 
 unsigned short int UIElement::s_id = 0;
 
@@ -72,7 +74,7 @@ void UIElement::Update(const float& _deltatime)
 		break;
 
 	case EUIElementType::TEXT:
-		m_intValue = Game::GetInstance()->GetPlayerTotalExperience();
+		m_intValue = GameObjectPool::GetInstance()->GetPlayerTotalExperience();
 		break;
 
 	case EUIElementType::COUNT:
@@ -127,7 +129,7 @@ void UIElement::RenderRegressBar()
 
 void UIElement::UpdateProgressBar()
 {
-	m_floatValue = Game::GetInstance()->GetPlayerExperience();
+	m_floatValue = GameObjectPool::GetInstance()->GetPlayerExperience();
 	
 	// 32.0f  = 100% of the bar
 	m_size.x = (m_floatValue * PLAYER_HEALTH_BAR_SIZE.x) * HUNDREDTH; // TODO Remi: change the player size and xp/health bar to 40 

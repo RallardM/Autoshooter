@@ -3,7 +3,6 @@
 #include "ExperienceOrb.h"
 #include "CollisionManager.h"
 #include "GameObjectPool.h"
-#include "Game.h"
 
 unsigned short int ExperienceOrb::s_id = 0;
 
@@ -56,7 +55,7 @@ void ExperienceOrb::Collision()
 
 	if (isPlayerCollidingOrb)
 	{
-		Game::GetInstance()->AddPlayerExperience(ORB_EXPERIENCE_POINTS);
+		GameObjectPool::GetInstance()->AddPlayerExperience(ORB_EXPERIENCE_POINTS);
 		Reset();
 		GameObjectPool::GetInstance()->UnregisterGameObject(this);
 	}
