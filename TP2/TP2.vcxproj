@@ -136,6 +136,7 @@
     <ClInclude Include="ExplosiveGun.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameObjectPool.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="HandGun.h" />
     <ClInclude Include="LaserGun.h" />
@@ -155,6 +156,7 @@
     <ClCompile Include="ExplosiveGun.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameObjectPool.cpp" />
     <ClCompile Include="HandGun.cpp" />
     <ClCompile Include="LaserGun.cpp" />
     <ClCompile Include="Main.cpp" />

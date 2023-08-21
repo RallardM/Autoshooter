@@ -16,7 +16,7 @@ public:
 private:
 	static CollisionManager* _Instance;
 private:
-	CollisionManager(); // Private constructor for singleton pattern
+	CollisionManager(); // Private constructor for singleton pattern https://youtu.be/PPup1yeU45I
 
 	// Collision detection
 	bool AreEnemyProjectileColliding(const Rectangle& enemy);

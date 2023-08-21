@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 #include "Game.h"
+#include "GameObjectPool.h"
 
 unsigned short int GameObject::s_gameObjectId = 0;
 
@@ -18,5 +19,5 @@ GameObject::~GameObject()
 
 void GameObject::OnStart()
 {
-	Game::GetInstance()->RegisterGameObject(this);
+	GameObjectPool::GetInstance()->RegisterGameObject(this);
 }

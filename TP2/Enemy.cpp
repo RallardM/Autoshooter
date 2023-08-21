@@ -3,9 +3,11 @@
 
 #include "Enemy.h"
 #include "Weapon.h"
-#include "Game.h"
 #include "ExperienceOrb.h"
 #include "CollisionManager.h"
+#include "GameObjectPool.h"
+#include "CameraManager.h"
+#include "Game.h"
 
 unsigned short int Enemy::s_id = 0;
 
@@ -185,10 +187,10 @@ void Enemy::VerifyHealth()
 		GenerateXPOrb();
 
 		m_healthBar->Reset();
-		Game::GetInstance()->UnregisterGameObject(m_healthBar);
+		GameObjectPool::GetInstance()->UnregisterGameObject(m_healthBar);
 
 		Reset();
-		Game::GetInstance()->UnregisterGameObject(this);
+		GameObjectPool::GetInstance()->UnregisterGameObject(this);
 	}
 }
 

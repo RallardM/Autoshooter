@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "CollisionManager.h"
+#include "GameObjectPool.h"
 #include "Game.h"
 
 CollisionManager* CollisionManager::_Instance = nullptr;
@@ -26,7 +27,7 @@ CollisionManager* CollisionManager::GetInstance()
 
 bool CollisionManager::AreEnemyProjectileColliding(const Rectangle& enemy)
 {
-	for (GameObject* gameObject : Game::GetInstance()->GetGameObjects())
+	for (GameObject* gameObject : GameObjectPool::GetInstance()->GetGameObjects())
 	{
 		if (gameObject == nullptr) { continue; }
 
@@ -51,9 +52,9 @@ bool CollisionManager::AreEnemyProjectileColliding(const Rectangle& enemy)
 
 Projectile* CollisionManager::GetCollidingProjectile(const Rectangle& enemy)
 {
-	for (GameObject* gameObject : Game::GetInstance()->GetGameObjects())
+	for (GameObject* gameObject : GameObjectPool::GetInstance()->GetGameObjects())
 	{
-		if (Game::GetInstance()->GetGameObjectType(gameObject) == EGameObjectType::PROJECTILE)
+		if (GameObjectPool::GetInstance()->GetGameObjectType(gameObject) == EGameObjectType::PROJECTILE)
 		{
 			Projectile* projectile = dynamic_cast<Projectile*>(gameObject);
 			Vector2 projectilePosition = projectile->GetPosition();
@@ -84,11 +85,11 @@ bool CollisionManager::AreOrbPlayerColliding(const Vector2& orbPosition, const f
 
 bool CollisionManager::ArePlayerEnemyColliding(const Rectangle& player)
 {
-	for (GameObject* gameObject : Game::GetInstance()->GetGameObjects())
+	for (GameObject* gameObject : GameObjectPool::GetInstance()->GetGameObjects())
 	{
 		if (gameObject == nullptr) { continue; }
 
-		if (Game::GetInstance()->GetGameObjectType(gameObject) == EGameObjectType::ENEMY)
+		if (GameObjectPool::GetInstance()->GetGameObjectType(gameObject) == EGameObjectType::ENEMY)
 		{
 			Enemy* enemy = dynamic_cast<Enemy*>(gameObject);
 			Vector2 enemyPosition = enemy->GetPosition();
@@ -106,9 +107,9 @@ bool CollisionManager::ArePlayerEnemyColliding(const Rectangle& player)
 
 Enemy* CollisionManager::GetCollidingEnemy(const Rectangle& player)
 {
-	for (GameObject* gameObject : Game::GetInstance()->GetGameObjects())
+	for (GameObject* gameObject : GameObjectPool::GetInstance()->GetGameObjects())
 	{
-		if (Game::GetInstance()->GetGameObjectType(gameObject) == EGameObjectType::ENEMY)
+		if (GameObjectPool::GetInstance()->GetGameObjectType(gameObject) == EGameObjectType::ENEMY)
 		{
 			Enemy* enemy = dynamic_cast<Enemy*>(gameObject);
 			Vector2 enemyPosition = enemy->GetPosition();

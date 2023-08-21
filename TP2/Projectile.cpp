@@ -1,10 +1,10 @@
-//#include <stdlib.h> 
 #include <iostream>
 #include <raylib.h>
 
 #include "Projectile.h"
-#include "Game.h"
 #include "MathUtils.h"
+#include "GameObjectPool.h"
+#include "CameraManager.h"
 
 unsigned short int Projectile::s_id = 0;
 
@@ -75,7 +75,7 @@ void Projectile::Update(const float& deltatime)
 	if (m_currentLifetime < 0 && m_isActive)
 	{
 		Reset();
-		Game::GetInstance()->UnregisterGameObject(this);
+		GameObjectPool::GetInstance()->UnregisterGameObject(this);
 	}
 }
 
@@ -108,7 +108,7 @@ void Projectile::SetHandGunProjectileData()
 	float diameter = m_radius * DOUBLE;
 
 	EGameObjectType enemyType = EGameObjectType::ENEMY;
-	GameObject* closestGameObject = Game::GetInstance()->GetClosestGameObject(m_position, enemyType);
+	GameObject* closestGameObject = GameObjectPool::GetInstance()->GetClosestGameObject(m_position, enemyType);
 	if (closestGameObject != nullptr)
 	{
 		Enemy* closestEnemy = dynamic_cast<Enemy*>(closestGameObject);

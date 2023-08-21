@@ -17,6 +17,7 @@ public:
 	static MenuManager* GetInstance();
 
 private:
+	MenuManager(); // Private constructor for singleton pattern https://youtu.be/PPup1yeU45I
 	void SetIsPlayerDeadMenuOn() { m_isPlayerDeadMenuOn = !m_isPlayerDeadMenuOn; }
 	bool const IsPlayerDead() const { return m_isPlayerDeadMenuOn; }
 	void SetLevelUpMenuOn() { m_isLevelUpMenuOn = !m_isLevelUpMenuOn; }
@@ -25,9 +26,6 @@ private:
 	void RenderPause();
 	void RenderLevelUp();
 	void RenderGameOver();
-
-
-	MenuManager(); // Private constructor for singleton pattern
 
 };
 

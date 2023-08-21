@@ -4,7 +4,7 @@
 
 class GameObject
 {
-	friend class Game;
+	friend class GameObjectPool;
 	friend class CollisionManager; // To avoid violation access when CollisionManager tries to access GetGameObjectType()
 
 private:

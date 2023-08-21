@@ -2,6 +2,7 @@
 
 #include "CameraManager.h"
 #include "MathUtils.h"
+#include "Globals.h"
 #include "Game.h"
 
 CameraManager* CameraManager::_Instance = nullptr;

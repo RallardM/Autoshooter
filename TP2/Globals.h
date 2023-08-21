@@ -94,6 +94,8 @@ const Vector2 ENEMY_HEALTH_BAR_OFFSET = { 0.0f, 33.0f };
 // Enemy spawner
 const unsigned short int ENEMY_SPAWN_CLOSEST_THRESHOLD = 1;
 const unsigned short int ENEMY_SPAWN_FARTHEST_THRESHOLD = 10;
+// Enemies properties
+const int MAX_ENEMY_AMOUNT_PER_LEVELS = 10;
 
 // Camera manager 
 const float CAM_ZOOM = 0.8f;

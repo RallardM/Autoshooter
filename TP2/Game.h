@@ -1,6 +1,5 @@
 #pragma once
-#include <list>
-#include <vector>
+
 
 #include "Player.h"
 #include "MenuManager.h"
@@ -13,11 +12,9 @@ class Game
 {
 	friend class CameraManager;
 	friend class CollisionManager;
-	friend class Player;
-	friend class Projectile;
-	friend class Enemy;
 	friend class ExperienceOrb;
-	friend class GameObject;
+	friend class Player;
+	friend class Enemy;
 	friend class UIElement;
 
 public:
@@ -31,9 +28,7 @@ private:
 	const float COLUMN_COUNT = S_MAP_WIDTH / CELL_SIZE;
 	const float ROW_COUNT = S_MAP_HEIGHT / CELL_SIZE;
 
-	// Enemies properties
-	const int MIN_ENEMY_AMOUNT = 5;
-	const int MAX_ENEMY_AMOUNT = 10;
+
 
 	bool m_isPaused = false;
 
@@ -44,21 +39,19 @@ private:
 	Camera2D* m_camera = nullptr;
 	Player* m_player = nullptr;
 
-	std::list<GameObject*> m_gameObjects;
-	std::vector<GameObject*> m_gameObjectsToRemove;
-
 public:
 	~Game();
 	void StartGame();
 
 private:
+	Game(); // Private constructor for singleton pattern
+	void MainLoop();
+	void RenderBackground();
+	void UpdateEnemySpawner();
+
 	// Game getters and setters
 	bool const IsPaused() const { return m_isPaused; }
 	void PauseGame() { m_isPaused = !m_isPaused; }
-
-	// GameObjects Methods
-	void RegisterGameObject(GameObject* agent);
-	void UnregisterGameObject(GameObject* agent);
 
 	// Map getters
 	const float GetMapWidth() { return S_MAP_WIDTH; }
@@ -71,23 +64,4 @@ private:
 	const unsigned short int GetPlayerTotalExperience() { return m_player->m_totalExperience; }
 	void AddPlayerExperience(unsigned short int experience) { m_player->m_experience += experience; m_player->m_totalExperience += experience; }
 
-	// Game objects getter
-	std::list<GameObject*> GetGameObjects() { return m_gameObjects; }
-	EGameObjectType GetGameObjectType(GameObject* gameObject);
-	GameObject* GetClosestGameObject(const Vector2& position, const EGameObjectType& type);
-
-	Game(); // Private constructor for singleton pattern
-	void MainLoop();
-	void RenderBackground();
-	void UpdateGameObjects(const float& deltatime);
-	unsigned short int GetActiveObjectCountFromList(const EGameObjectType& type);
-	void RenderGameObjects();
-	void UpdateEnemySpawner();
-	void RemoveGameObjectsMarkedForRemoval();
-
-	void ResetAllObjects();
-	void UnegisterAllObjects();
-	void RemoveAllGameObjects();
-	void CleanUpGame();
-	
 };

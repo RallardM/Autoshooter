@@ -7,7 +7,6 @@
 #include "LaserGun.h"
 #include "MathUtils.h"
 #include "Weapon.h"
-#include <iostream>
 #include "MenuManager.h"
 #include "CollisionManager.h"
 

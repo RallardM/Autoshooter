@@ -21,7 +21,7 @@ public:
 	~CameraManager();
 
 private:
-	CameraManager() {} // Private constructor for singleton pattern
+	CameraManager() {} // Private constructor for singleton pattern https://youtu.be/PPup1yeU45I
 
 	void InitializeCamera();
 
