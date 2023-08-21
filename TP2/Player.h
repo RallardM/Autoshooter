@@ -15,10 +15,10 @@ public:
 	~Player() override;
 
 private:
-	UIElement* m_healthBar = nullptr;
-	UIElement* m_secondHealthBar = nullptr;
-	UIElement* m_experienceText = nullptr;
-	UIElement* m_experienceBar = nullptr;
+	//UIElement* m_healthBar = nullptr;
+	//UIElement* m_secondHealthBar = nullptr;
+	//UIElement* m_experienceText = nullptr;
+	//UIElement* m_experienceBar = nullptr;
 
 	// Player default parameter
 	Color m_color = PLAYER_COLOR;
@@ -30,7 +30,7 @@ private:
 	unsigned short int m_level = PLAYER_STARTING_LEVEL;
 	unsigned short int m_previousEnemyId = 0;
 
-	std::list<Weapon*> m_weapons;
+	//std::list<Weapon*> m_weapons;
 
 private:
 	const Vector2& GetPosition() const override { return m_position; }

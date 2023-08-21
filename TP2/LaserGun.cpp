@@ -1,6 +1,7 @@
 #include <iostream>
 #include "LaserGun.h"
 #include "Globals.h"
+#include "GameObjectPool.h"
 
 float LaserGun::s_uiOffsetRight = 0.0f;
 
@@ -20,8 +21,7 @@ LaserGun::~LaserGun()
 void LaserGun::Fire()
 {
 	m_weaponInfos.m_projectileInfos.POSITION = m_position;
-	Projectile* projectile = new Projectile(m_weaponInfos.m_projectileInfos);
-	projectile->OnStart();
+	GameObjectPool::GetInstance()->TakeProjectileFromPool(m_weaponInfos.m_projectileInfos);
 }
 
 void LaserGun::Reset()
@@ -33,8 +33,6 @@ void LaserGun::Reset()
 
 void LaserGun::OnStart()
 {
-	GameObject::OnStart();
-
 	// Initialize projectile infos
 	SProjectileData data;
 	data.DIRECTION = NO_DIRECTION;
@@ -44,7 +42,7 @@ void LaserGun::OnStart()
 	data.DAMAGE = LASER_PROJECTILE_DAMAGE;
 	data.SPEED = LASER_PROJECTILE_SPEED;
 	data.COLOR = LASER_PROJECTILE_COLOR;
-	data.WEAPON_TYPE = EWeaponType::LAZER_GUN;
+	data.WEAPON_TYPE = EWeaponType::LAZERGUN;
 	SetProjectileInfos(data);
 
 	m_weaponInfos.m_attackRate = LASER_PROJECTILE_RATE;

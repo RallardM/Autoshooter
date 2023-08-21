@@ -1,12 +1,7 @@
 #pragma once
 
-
-//#include "Player.h"
 #include "MenuManager.h"
 #include "CameraManager.h"
-
-//class GameObject;
-//class Player;
 
 class Game
 {
@@ -22,7 +17,7 @@ private:
 	const float CELL_SIZE = 16.0f;
 	const float COLUMN_COUNT = MAP_WIDTH / CELL_SIZE;
 	const float ROW_COUNT = MAP_HEIGHT / CELL_SIZE;
-	bool m_isPaused = false;
+	bool m_isPaused = true;
 
 	// Keep dynamically changing sizes bellow
 	static Game* _Instance;

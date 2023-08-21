@@ -25,6 +25,7 @@ public:
 
 class Projectile : public GameObject
 {
+	friend class GameObjectPool;
 	friend class CollisionManager;
 	friend class Enemy;
 	friend class ExplosiveGun;
@@ -47,6 +48,7 @@ public:
 	unsigned short int m_id = 0;
 
 public:
+	//Projectile(SProjectileData& projectileData);
 	Projectile(SProjectileData& projectileData);
 	~Projectile() override;
 
@@ -63,6 +65,7 @@ private:
 	const float& GetRadius() const { return m_radius; }
 	const float GetDamage() const { return m_projectileData.DAMAGE; }
 
+	void SetProjectileData(SProjectileData& projectileData) { m_projectileData = projectileData; }
 	void SetHandGunProjectileData();
 	void SetExplosiveGunProjectileValues();
 	void SetLaserGunProjectileValues();

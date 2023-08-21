@@ -3,6 +3,7 @@
 #include "HandGun.h"
 #include "Game.h"
 #include "Globals.h"
+#include "GameObjectPool.h"
 
 float HandGun::s_uiOffsetRight = 0.0f;
 
@@ -23,8 +24,7 @@ HandGun::~HandGun()
 void HandGun::Fire()
 {
 	m_weaponInfos.m_projectileInfos.POSITION = m_position;
-	Projectile* projectile = new Projectile(m_weaponInfos.m_projectileInfos);
-	projectile->OnStart();
+	GameObjectPool::GetInstance()->TakeProjectileFromPool(m_weaponInfos.m_projectileInfos);
 }
 
 void HandGun::Reset()
@@ -36,8 +36,6 @@ void HandGun::Reset()
 
 void HandGun::OnStart()
 {
-	GameObject::OnStart();
-
 	// Initialize projectile infos
 	SProjectileData data;
 	data.DIRECTION = NO_DIRECTION;
@@ -47,7 +45,7 @@ void HandGun::OnStart()
 	data.DAMAGE = HANDGUN_PROJECTILE_DAMAGE;
 	data.SPEED = HANDGUN_PROJECTILE_SPEED;
 	data.COLOR = HANDGUN_PROJECTILE_COLOR;
-	data.WEAPON_TYPE = EWeaponType::HAND_GUN;
+	data.WEAPON_TYPE = EWeaponType::HANDGUN;
 	SetProjectileInfos(data);
 
 	m_weaponInfos.m_attackRate = HANDGUN_PROJECTILE_RATE;

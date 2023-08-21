@@ -21,19 +21,12 @@ ExperienceOrb::~ExperienceOrb()
 
 void ExperienceOrb::OnStart()
 {
-	GameObject::OnStart();
-
 	// Add attributes before m_isActive = true;
 	m_isActive = true;
 }
 
 void ExperienceOrb::Update(const float& _deltatime)
 {
-	if (!m_isActive)
-	{
-		return;
-	}
-
 	Collision();
 }
 
@@ -57,6 +50,5 @@ void ExperienceOrb::Collision()
 	{
 		GameObjectPool::GetInstance()->AddPlayerExperience(ORB_EXPERIENCE_POINTS);
 		Reset();
-		GameObjectPool::GetInstance()->UnregisterGameObject(this);
 	}
 }

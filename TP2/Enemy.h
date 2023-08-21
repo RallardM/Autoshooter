@@ -18,7 +18,6 @@ public:
 	~Enemy() override;
 
 private:
-	UIElement* m_healthBar = nullptr;
 
 	// Enemy default parameter
 	Vector2 m_enemySize = ENEMY_SIZE;

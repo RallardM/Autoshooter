@@ -2,9 +2,9 @@
 
 enum class EWeaponType : unsigned short int
 {
-	HAND_GUN,
-	EXPLOSIVE_GUN,
-	LAZER_GUN,
+	HANDGUN,
+	EXPLOSIVEGUN,
+	LAZERGUN,
 	COUNT
 };
 
@@ -15,7 +15,7 @@ enum class EGameObjectType : unsigned short int
 	PROJECTILE,
 	WEAPON,
 	ORB,
-	UI,
+	UIELEMENT,
 	CAMERA,
 	COUNT
 };
@@ -25,5 +25,13 @@ enum class EUIElementType : unsigned short int
 	PROGRESS_BAR,
 	REGRESS_BAR,
 	TEXT,
+	COUNT
+};
+
+enum class EUIMenuType : unsigned short int
+{
+	MAIN_MENU,
+	LEVELUP_MENU,
+	GAMEOVER_MENU,
 	COUNT
 };

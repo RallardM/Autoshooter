@@ -51,4 +51,3 @@ private:
 	const float GetMovingCameraRightLimit();
 	const float GetMovingCameraBottomLimit();
 };
-

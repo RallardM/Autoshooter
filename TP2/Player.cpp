@@ -9,6 +9,7 @@
 #include "Weapon.h"
 #include "MenuManager.h"
 #include "CollisionManager.h"
+#include "GameObjectPool.h"
 
 Player::Player()
 {
@@ -28,81 +29,91 @@ void Player::HandleInput()
 	if (IsKeyPressed(KEY_F1))
 	{
 		Game::GetInstance()->PauseGame();
-		MenuManager::GetInstance()->SetLevelUpMenuOn();
+		MenuManager::GetInstance()->SetCurrentMenu(EUIMenuType::LEVELUP_MENU);
 	}
 
 	// Debug Game Over Menu
 	if (IsKeyPressed(KEY_F2))
 	{
 		Game::GetInstance()->PauseGame();
-		MenuManager::GetInstance()->SetIsPlayerDeadMenuOn();
+		MenuManager::GetInstance()->SetCurrentMenu(EUIMenuType::GAMEOVER_MENU);
 	}
 
 	// Debug + 5 Levels
 	if (IsKeyPressed(KEY_F5))
 	{
 		m_level += FIVE_LEVELS_DEBUG;
-		for (Weapon* in : m_weapons)
+		for (Weapon* weapon : GameObjectPool::GetInstance()->GetActiveWeapons())
 		{
-			in->IncreaseRate();
-			in->IncreaseProjectileDamage();
-			in->IncreaseProjectileSize();
+			weapon->IncreaseRate();
+			weapon->IncreaseProjectileDamage();
+			weapon->IncreaseProjectileSize();
 		}
 		IncreaseHealth();
 		IncreaseHealth();
 	}
 
+	// Main menu
+	if (Game::GetInstance()->IsPaused() && MenuManager::GetInstance()->GetCurrentMenu() == EUIMenuType::MAIN_MENU)
+	{
+		if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_KP_ENTER))
+		{
+			MenuManager::GetInstance()->SetCurrentMenu(EUIMenuType::LEVELUP_MENU);
+			Game::GetInstance()->PauseGame();
+		}
+	}
+
 	// Experience Menu Keys
-	if (Game::GetInstance()->IsPaused())
+	if (Game::GetInstance()->IsPaused() && MenuManager::GetInstance()->GetCurrentMenu() == EUIMenuType::LEVELUP_MENU)
 	{
 		if (IsKeyPressed(KEY_ONE))
 		{
 			// Increase shooting rate
 			IncreaseWeaponRate();
 			Game::GetInstance()->PauseGame();
-			MenuManager::GetInstance()->SetLevelUpMenuOn();
+			
 		}
 		else if (IsKeyPressed(KEY_TWO))
 		{
 			// Increase enemy damages
 			IncreaseProjectileDamage();
 			Game::GetInstance()->PauseGame();
-			MenuManager::GetInstance()->SetLevelUpMenuOn();
+			
 		}
 		else if (IsKeyPressed(KEY_THREE))
 		{
 			// Increase enemy size
 			IncreaseProjectileSize();
 			Game::GetInstance()->PauseGame();
-			MenuManager::GetInstance()->SetLevelUpMenuOn();
+			
 		}
 		else if (IsKeyPressed(KEY_FOUR))
 		{
 			// Increase health capacity
 			IncreaseHealth();
 			Game::GetInstance()->PauseGame();
-			MenuManager::GetInstance()->SetLevelUpMenuOn();
+			
 		}
 		else if (IsKeyPressed(KEY_FIVE))
 		{
 			// Add new HandGun
 			AddNewHandGun();
 			Game::GetInstance()->PauseGame();
-			MenuManager::GetInstance()->SetLevelUpMenuOn();
+			
 		}
 		else if (IsKeyPressed(KEY_SIX))
 		{
 			// Add new Explosive Gun
 			AddNewExplosiveGun();
 			Game::GetInstance()->PauseGame();
-			MenuManager::GetInstance()->SetLevelUpMenuOn();
+			
 		}
 		else if (IsKeyPressed(KEY_SEVEN))
 		{
 			// Add new Laser Gun
 			AddNewLaserGun();
 			Game::GetInstance()->PauseGame();
-			MenuManager::GetInstance()->SetLevelUpMenuOn();
+			
 		}
 
 		return;
@@ -155,28 +166,47 @@ void Player::HandleInput()
 
 void Player::OnStart()
 {
-	GameObject::OnStart();
-
 	m_position.x = (float)Game::GetInstance()->GetMapWidth() * HALF;
 	m_position.y = (float)Game::GetInstance()->GetMapHeight() * HALF;
 
 	// Initialize health bar
-	Vector2 barSize = PLAYER_HEALTH_BAR_SIZE;
-	Vector2 offsetFromPlayer = PLAYER_HEALTH_BAR_OFFSET;
-	m_healthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromPlayer, m_health);
-	m_healthBar->OnStart();
+	SUIElementData healthBarData;
+	healthBarData.TARGET = this;
+	healthBarData.COLOR = RED;
+	healthBarData.BAR_SIZE = PLAYER_HEALTH_BAR_SIZE;
+	healthBarData.OFFSET = PLAYER_HEALTH_BAR_OFFSET;
+	healthBarData.FLOAT_VALUE = m_health;
+	healthBarData.FONT_SIZE = 0;
+	healthBarData.UIELEMENT_TYPE = static_cast<unsigned short int>(EUIElementType::REGRESS_BAR);
+	healthBarData.INT_VALUE = 0;
+	healthBarData.HAS_SECONDARY_BAR = false;
+	GameObjectPool::GetInstance()->TakeUIElementFromPool(healthBarData);
 
 	// Initialize experience text
-	int fontSize = PLAYER_EXPERIENCE_FONT_SIZE;
-	offsetFromPlayer = PLAYER_EXPERIENCE_TEXT_OFFSET;
-	m_experienceText = new UIElement(this, EUIElementType::TEXT, GREEN, fontSize, offsetFromPlayer, m_totalExperience);
-	m_experienceText->OnStart();
+	SUIElementData experienceText;
+	experienceText.TARGET = this;
+	experienceText.COLOR = GREEN;
+	experienceText.BAR_SIZE = PLAYER_EXPERIENCE_BAR_SIZE;
+	experienceText.OFFSET = PLAYER_EXPERIENCE_TEXT_OFFSET;
+	experienceText.FLOAT_VALUE = 0.0f;
+	experienceText.FONT_SIZE = PLAYER_EXPERIENCE_FONT_SIZE;
+	experienceText.UIELEMENT_TYPE = static_cast<unsigned short int>(EUIElementType::TEXT);
+	experienceText.INT_VALUE = m_totalExperience;
+	experienceText.HAS_SECONDARY_BAR = false;
+	GameObjectPool::GetInstance()->TakeUIElementFromPool(experienceText);
 
 	// Initialize experience bar
-	barSize = PLAYER_EXPERIENCE_BAR_SIZE;
-	offsetFromPlayer = PLAYER_EXPERIENCE_BAR_OFFSET;
-	m_experienceBar = new UIElement(this, EUIElementType::PROGRESS_BAR, GREEN, barSize, offsetFromPlayer, m_experience);
-	m_experienceBar->OnStart();
+	SUIElementData experienceBar;
+	experienceText.TARGET = this;
+	experienceText.COLOR = GREEN;
+	experienceText.BAR_SIZE = PLAYER_EXPERIENCE_BAR_SIZE;
+	experienceText.OFFSET = PLAYER_EXPERIENCE_BAR_OFFSET;
+	experienceText.FLOAT_VALUE = 0.0f;
+	experienceText.FONT_SIZE = 0;
+	experienceText.UIELEMENT_TYPE = static_cast<unsigned short int>(EUIElementType::PROGRESS_BAR);
+	experienceText.INT_VALUE = m_experience;
+	experienceText.HAS_SECONDARY_BAR = false;
+	GameObjectPool::GetInstance()->TakeUIElementFromPool(experienceText);
 
 	AddNewHandGun();
 
@@ -194,31 +224,31 @@ void Player::Update(const float& deltatime)
 	m_position.y += m_direction.y * PLAYER_SPEED * deltatime;
 
 	// Update health bar position
-	if (m_healthBar != nullptr)
+	if (GameObjectPool::GetInstance()->GetPlayerHasSecondaryHealthBar())
 	{
-		m_healthBar->FollowPosition(m_position); // TODO Make pure virtual
+		GameObjectPool::GetInstance()->GetPlayerPrimaryHealthBar()->FollowPosition(m_position); // TODO Make pure virtual
 	}
 
 	// Update second health bar position
-	if (m_secondHealthBar != nullptr)
+	if (GameObjectPool::GetInstance()->GetPlayerHasSecondaryHealthBar())
 	{
-		m_secondHealthBar->FollowPosition(m_position); // TODO Make pure virtual
+		GameObjectPool::GetInstance()->GetPlayerSecondaryHealthBar()->FollowPosition(m_position); // TODO Make pure virtual
 	}
 
 	// Update experience text position
-	if (m_experienceText != nullptr)
+	if (GameObjectPool::GetInstance()->GetPlayerExperienceBar() != nullptr)
 	{
-		m_experienceText->FollowPosition(m_position); // TODO Make pure virtual
+		GameObjectPool::GetInstance()->GetPlayerExperienceBar()->FollowPosition(m_position); // TODO Make pure virtual
 	}
 
 	// Update experience bar position
-	if (m_experienceBar != nullptr)
+	if (GameObjectPool::GetInstance()->GetPlayerExperienceBar() != nullptr)
 	{
-		m_experienceBar->FollowPosition(m_position); // TODO Make pure virtual
+		GameObjectPool::GetInstance()->GetPlayerExperienceBar()->FollowPosition(m_position); // TODO Make pure virtual
 	}
 
 	// Update weapon position
-	for (Weapon* weapon : m_weapons)
+	for (Weapon* weapon : GameObjectPool::GetInstance()->GetActiveWeapons())
 	{
 		if (weapon == nullptr)
 		{
@@ -278,10 +308,10 @@ void Player::VerifyHealth()
 	if (m_health <= 0)
 	{
 		Game::GetInstance()->PauseGame();
-		MenuManager::GetInstance()->SetIsPlayerDeadMenuOn();
+		MenuManager::GetInstance()->SetCurrentMenu(EUIMenuType::GAMEOVER_MENU);
 	}
 
-	if (m_health > MAX_HEALTH && m_secondHealthBar == nullptr)
+	if (m_health > MAX_HEALTH && GameObjectPool::GetInstance()->GetPlayerHasSecondaryHealthBar())
 	{
 		// Initialize one additional health bar
 		float extraHealth = (float)m_health - (float)MAX_HEALTH;
@@ -289,18 +319,23 @@ void Player::VerifyHealth()
 		extraHealth = (extraHealth * PLAYER_EXPERIENCE_BAR_SIZE.x) * HUNDREDTH;
 		Vector2 barSize = { extraHealth, PLAYER_EXPERIENCE_BAR_SIZE.y };
 		Vector2 offsetFromPlayer = PLAYER_SECOND_HEALTH_BAR_OFFSET; // TODO Remi : make sure the health bonus stops at the full second bar and remove the bonus from the level up menu
-		m_secondHealthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromPlayer, m_health);
-		m_secondHealthBar->OnStart();
-		bool hasSecondBarToRegressBefore = true;
-		m_healthBar->SetHasSecondBarToRegressBefore(hasSecondBarToRegressBefore);
+
+		SUIElementData additionalHealthBarData;
+		additionalHealthBarData.TARGET = this;
+		additionalHealthBarData.COLOR = RED;
+		additionalHealthBarData.BAR_SIZE = barSize;
+		additionalHealthBarData.OFFSET = offsetFromPlayer;
+		additionalHealthBarData.FLOAT_VALUE = m_health;
+		additionalHealthBarData.FONT_SIZE = 0;
+		additionalHealthBarData.UIELEMENT_TYPE = static_cast<unsigned short int>(EUIElementType::REGRESS_BAR);
+		additionalHealthBarData.INT_VALUE = 0;
+		additionalHealthBarData.HAS_SECONDARY_BAR = false;
+		GameObjectPool::GetInstance()->TakeUIElementFromPool(additionalHealthBarData);
 	}
-	else if (m_health <= MAX_HEALTH && m_secondHealthBar != nullptr)
+	else if (m_health <= MAX_HEALTH && GameObjectPool::GetInstance()->GetPlayerHasSecondaryHealthBar())
 	{
 		// Delete additional health bar
-		delete m_secondHealthBar;
-		m_secondHealthBar = nullptr;
-		bool hasSecondBarToRegressBefore = false;
-		m_healthBar->SetHasSecondBarToRegressBefore(hasSecondBarToRegressBefore);
+		GameObjectPool::GetInstance()->GetPlayerSecondaryHealthBar()->Reset();
 	}
 }
 
@@ -313,13 +348,13 @@ void Player::VerifyExperience()
 		m_experience = 0;
 		m_level++;
 		Game::GetInstance()->PauseGame();
-		MenuManager::GetInstance()->SetLevelUpMenuOn();
+		MenuManager::GetInstance()->SetCurrentMenu(EUIMenuType::LEVELUP_MENU);
 	}
 }
 
 void Player::IncreaseWeaponRate()
 {
-	for (Weapon* weapon : m_weapons)
+	for (Weapon* weapon : GameObjectPool::GetInstance()->GetActiveWeapons())
 	{
 		if (weapon == nullptr)
 		{
@@ -335,7 +370,7 @@ void Player::IncreaseWeaponRate()
 
 void Player::IncreaseProjectileDamage()
 {
-	for (Weapon* weapon : m_weapons)
+	for (Weapon* weapon : GameObjectPool::GetInstance()->GetActiveWeapons())
 	{
 		if (weapon == nullptr)
 		{
@@ -351,7 +386,7 @@ void Player::IncreaseProjectileDamage()
 
 void Player::IncreaseProjectileSize()
 {
-	for (Weapon* weapon : m_weapons)
+	for (Weapon* weapon : GameObjectPool::GetInstance()->GetActiveWeapons())
 	{
 		if (weapon == nullptr)
 		{
@@ -371,21 +406,15 @@ void Player::IncreaseHealth()
 
 void Player::AddNewHandGun()
 {
-	HandGun* handGun = new HandGun();
-	m_weapons.push_back(handGun);
-	handGun->OnStart();
+	GameObjectPool::GetInstance()->TakeHandGunFromPool();
 }
 
 void Player::AddNewExplosiveGun()
 {
-	ExplosiveGun* explosiveGun = new ExplosiveGun();
-	m_weapons.push_back(explosiveGun);
-	explosiveGun->OnStart();
+	GameObjectPool::GetInstance()->TakeExplosiveGunFromPool();
 }
 
 void Player::AddNewLaserGun()
 {
-	LaserGun* laserGun = new LaserGun();
-	m_weapons.push_back(laserGun);
-	laserGun->OnStart();
+	GameObjectPool::GetInstance()->TakeLaserGunFromPool();
 }

@@ -34,6 +34,10 @@ Game* Game::GetInstance()
 
 void Game::MainLoop()
 {
+	// Update the GameObjects at least once so it gives a better camera angle on the Main menu
+	float deltaTime = GetFrameTime();
+	GameObjectPool::GetInstance()->UpdateGameObjects(deltaTime);
+
 	// Main game loop
 	while (!WindowShouldClose())    // Detect window close button or ESC key
 	{
@@ -49,14 +53,14 @@ void Game::MainLoop()
 
 		if (m_isPaused)
 		{
+
 			MenuManager::GetInstance()->RenderPause();
 		}
 		else
 		{
 			float deltaTime = GetFrameTime();
-			GameObjectPool::GetInstance()->UpdateEnemySpawner();
-			GameObjectPool::GetInstance()->RemoveGameObjectsMarkedForRemoval();
 			GameObjectPool::GetInstance()->UpdateGameObjects(deltaTime);
+			GameObjectPool::GetInstance()->UpdateEnemySpawner();
 		}
 
 		EndMode2D();

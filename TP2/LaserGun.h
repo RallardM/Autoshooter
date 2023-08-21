@@ -4,6 +4,7 @@
 class LaserGun : public Weapon
 {
 	friend class Player;
+	friend class GameObjectPool;
 
 private:
 	static float s_uiOffsetRight;
@@ -28,5 +29,6 @@ private:
 	virtual const bool IsActive() const override { return m_isActive; }
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::WEAPON; }
+	virtual const EWeaponType GetWeaponType() const override { return EWeaponType::LAZERGUN; }
 };
 

@@ -16,8 +16,3 @@ GameObject::~GameObject()
 {
 	std::cout << "GameObject destructor called. ID = " << m_gameObjectId << std::endl;
 }
-
-void GameObject::OnStart()
-{
-	GameObjectPool::GetInstance()->RegisterGameObject(this);
-}

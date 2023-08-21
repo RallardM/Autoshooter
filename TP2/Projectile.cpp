@@ -8,34 +8,12 @@
 
 unsigned short int Projectile::s_id = 0;
 
-Projectile::Projectile(SProjectileData& projectileData)
-	: m_projectileData(projectileData), m_radius(projectileData.RADIUS), m_currentLifetime(projectileData.LIFETIME)
+
+Projectile::Projectile(SProjectileData& projectileData) : m_radius(projectileData.RADIUS), m_currentLifetime(projectileData.LIFETIME), m_projectileData(projectileData)
 {
 	m_id = s_id++;
 
-	std::cout << "Projectile constructor called. ID = " << m_id << std::endl;
-
-	m_position = m_projectileData.POSITION;
-
-	switch (projectileData.WEAPON_TYPE)
-	{
-	case EWeaponType::HAND_GUN:
-		SetHandGunProjectileData();
-		break;
-
-	case EWeaponType::EXPLOSIVE_GUN:
-		SetExplosiveGunProjectileValues();
-		break;
-
-	case EWeaponType::LAZER_GUN:
-		SetLaserGunProjectileValues();
-		break;
-
-	case EWeaponType::COUNT:
-	default:
-		std::cout << "Projectile::Projectile() : Error : Invalid weapon type" << std::endl;
-		break;
-	}
+	std::cout << "Projectile default constructor called. ID = " << m_id << std::endl;
 }
 
 Projectile::~Projectile()
@@ -45,7 +23,27 @@ Projectile::~Projectile()
 
 void Projectile::OnStart()
 {
-	GameObject::OnStart();
+	m_position = m_projectileData.POSITION;
+
+	switch (m_projectileData.WEAPON_TYPE)
+	{
+	case EWeaponType::HANDGUN:
+		SetHandGunProjectileData();
+		break;
+
+	case EWeaponType::EXPLOSIVEGUN:
+		SetExplosiveGunProjectileValues();
+		break;
+
+	case EWeaponType::LAZERGUN:
+		SetLaserGunProjectileValues();
+		break;
+
+	case EWeaponType::COUNT:
+	default:
+		std::cout << "Projectile::Projectile() : Error : Invalid weapon type" << std::endl;
+		break;
+	}
 
 	// Add attributes before m_isActive = true;
 	m_isActive = true;
@@ -54,7 +52,7 @@ void Projectile::OnStart()
 void Projectile::Update(const float& deltatime)
 {
 	// Lazer reflects on the screen borders, COUNT_DOWN is the number of times the lazer can reflect on the screen borders
-	if (m_projectileData.WEAPON_TYPE == EWeaponType::LAZER_GUN && m_projectileData.COUNT_DOWN > 0)
+	if (m_projectileData.WEAPON_TYPE == EWeaponType::LAZERGUN && m_projectileData.COUNT_DOWN > 0)
 	{
 		if (m_position.x < CameraManager::GetInstance()->GetCameraLeftLimit() || m_position.x > CameraManager::GetInstance()->GetCameraRightLimit())
 		{
@@ -75,7 +73,6 @@ void Projectile::Update(const float& deltatime)
 	if (m_currentLifetime < 0 && m_isActive)
 	{
 		Reset();
-		GameObjectPool::GetInstance()->UnregisterGameObject(this);
 	}
 }
 
@@ -83,15 +80,15 @@ void Projectile::Render()
 {
 	switch (m_projectileData.WEAPON_TYPE)
 	{
-		case EWeaponType::HAND_GUN:
+		case EWeaponType::HANDGUN:
 			DrawCircleV(m_position, m_radius, m_projectileData.COLOR);
 			break;
 
-		case EWeaponType::EXPLOSIVE_GUN:
+		case EWeaponType::EXPLOSIVEGUN:
 			DrawPoly(m_position, EXPLOSIVE_PROJECTILE_EDGE_NUMBER, m_radius, 0.0f, m_projectileData.COLOR);
 			break;
 
-		case EWeaponType::LAZER_GUN:
+		case EWeaponType::LAZERGUN:
 			DrawLineEx(m_position, { m_position.x + m_xSpeed * EIGHTH, m_position.y + m_ySpeed * EIGHTH }, m_radius, m_projectileData.COLOR);
 			break;
 

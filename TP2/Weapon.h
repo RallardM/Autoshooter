@@ -13,6 +13,7 @@ public:
 class Weapon : public GameObject
 {
 	friend class Player;
+	friend class GameObjectPool;
 
 private:
 
@@ -32,6 +33,7 @@ private:
 	virtual void Render() = 0;
 	virtual const bool IsActive() const = 0;
 	virtual void Reset() = 0;
+	virtual const EWeaponType GetWeaponType() const = 0;
 
 protected:
 	virtual void OnStart() = 0;

@@ -4,6 +4,7 @@
 #include "ExplosiveGun.h"
 #include "MathUtils.h"
 #include "Globals.h"
+#include "GameObjectPool.h"
 
 float ExplosiveGun::s_uiOffsetRight = 0.0f;
 
@@ -43,8 +44,9 @@ void ExplosiveGun::Fire()
 
 		m_weaponInfos.m_projectileInfos.DIRECTION = projectileDirection;
 		m_weaponInfos.m_projectileInfos.POSITION = projectilePosition;
-		Projectile* projectile = new Projectile(m_weaponInfos.m_projectileInfos);
-		projectile->OnStart();
+
+		GameObjectPool::GetInstance()->TakeProjectileFromPool(m_weaponInfos.m_projectileInfos);
+
 		angle += teta;
 	}
 }
@@ -58,8 +60,6 @@ void ExplosiveGun::Reset()
 
 void ExplosiveGun::OnStart()
 {
-	GameObject::OnStart();
-
 	// Initialize projectile infos
 	SProjectileData data;
 	data.DIRECTION = NO_DIRECTION;
@@ -69,7 +69,7 @@ void ExplosiveGun::OnStart()
 	data.DAMAGE = EXPLOSIVE_PROJECTILE_DAMAGE;
 	data.SPEED = EXPLOSIVE_PROJECTILE_SPEED;
 	data.COLOR = EXPLOSIVE_PROJECTILE_COLOR;
-	data.WEAPON_TYPE = EWeaponType::EXPLOSIVE_GUN;
+	data.WEAPON_TYPE = EWeaponType::EXPLOSIVEGUN;
 	SetProjectileInfos(data);
 
 	m_weaponInfos.m_attackRate = EXPLOSIVE_PROJECTILE_RATE;

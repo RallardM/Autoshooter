@@ -23,13 +23,18 @@ Enemy::~Enemy()
 
 void Enemy::OnStart()
 {
-	GameObject::OnStart();
-
 	// Initialize health bar
-	Vector2 barSize = ENEMY_HEALTH_BAR_SIZE;
-	Vector2 offsetFromEnemy = ENEMY_HEALTH_BAR_OFFSET;
-	m_healthBar = new UIElement(this, EUIElementType::REGRESS_BAR, RED, barSize, offsetFromEnemy, m_health);
-	m_healthBar->OnStart();
+	SUIElementData enemyHealthBarData;
+	enemyHealthBarData.TARGET = this;
+	enemyHealthBarData.COLOR = RED;
+	enemyHealthBarData.BAR_SIZE = ENEMY_HEALTH_BAR_SIZE;
+	enemyHealthBarData.OFFSET = ENEMY_HEALTH_BAR_OFFSET;
+	enemyHealthBarData.FLOAT_VALUE = m_health;
+	enemyHealthBarData.FONT_SIZE = 0;
+	enemyHealthBarData.UIELEMENT_TYPE = static_cast<unsigned short int>(EUIElementType::REGRESS_BAR);
+	enemyHealthBarData.INT_VALUE = 0;
+	enemyHealthBarData.HAS_SECONDARY_BAR = false;
+	GameObjectPool::GetInstance()->TakeUIElementFromPool(enemyHealthBarData);
 
 	// Add attributes before m_isActive = true; except for spawn position
 	m_isActive = true;
@@ -47,9 +52,9 @@ void Enemy::Update(const float& deltatime)
 	UpdatePosition(deltatime);
 
 	// Update health bar position
-	if (m_healthBar != nullptr)
+	if (GameObjectPool::GetInstance()->GetPlayerPrimaryHealthBar() != nullptr)
 	{
-		m_healthBar->FollowPosition(m_position); // TODO Make pure virtual
+		GameObjectPool::GetInstance()->GetPlayerPrimaryHealthBar()->FollowPosition(m_position); // TODO Make pure virtual
 	}
 }
 
@@ -185,11 +190,8 @@ void Enemy::VerifyHealth()
 	{
 		GenerateXPOrb();
 
-		m_healthBar->Reset();
-		GameObjectPool::GetInstance()->UnregisterGameObject(m_healthBar);
-
+		GameObjectPool::GetInstance()->GetEnemyHealthBar()->Reset();
 		Reset();
-		GameObjectPool::GetInstance()->UnregisterGameObject(this);
 	}
 }
 
