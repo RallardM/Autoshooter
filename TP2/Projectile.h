@@ -44,6 +44,8 @@ private:
 
 	static unsigned short int s_id;
 
+	bool m_isActive = false;
+
 public:
 	unsigned short int m_id = 0;
 
@@ -57,7 +59,7 @@ private:
 	virtual void OnStart() override;
 	virtual void Update(const float& deltatime) override;
 	virtual void Render() override;
-	virtual bool const IsActive() const override { return m_isActive; }
+	virtual bool IsActive() const override { return m_isActive; }
 	virtual void Reset() override;
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::PROJECTILE; }
@@ -65,9 +67,9 @@ private:
 	const float& GetRadius() const { return m_radius; }
 	const float GetDamage() const { return m_projectileData.DAMAGE; }
 
-	void SetProjectileData(SProjectileData& projectileData) { m_projectileData = projectileData; }
-	void SetHandGunProjectileData();
-	void SetExplosiveGunProjectileValues();
-	void SetLaserGunProjectileValues();
-	void SendInRandomDirections();
+	const void SetProjectileData(const SProjectileData& projectileData) const { m_projectileData = projectileData; }
+	const void SetHandGunProjectileData();
+	const void SetExplosiveGunProjectileValues();
+	const void SetLaserGunProjectileValues();
+	const void SendInRandomDirections();
 };

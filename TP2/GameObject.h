@@ -20,17 +20,16 @@ public:
 private:
 	virtual void Update(const float& deltatime) = 0;
 	virtual void Render() = 0;
-	virtual const bool IsActive() const = 0;
+	virtual bool IsActive() const = 0;
 	virtual void Reset() = 0;
+	virtual const void FollowPosition(Vector2& newPosition);
 
 protected:
-
 	virtual void OnStart() = 0;
 	virtual const Vector2& GetPosition() const = 0;
 	virtual const EGameObjectType GetGameObjectType() const = 0;
 
 protected:
 	Vector2 m_position = { 0.0f, 0.0f };
-	bool m_isActive = false;
 
 };

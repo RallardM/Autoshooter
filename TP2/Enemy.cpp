@@ -23,18 +23,22 @@ Enemy::~Enemy()
 
 void Enemy::OnStart()
 {
+	// Source: https://stackoverflow.com/questions/16894400/how-to-declare-stdunique-ptr-and-what-is-the-use-of-it
+	// Source: https://www.acodersjourney.com/top-10-dumb-mistakes-avoid-c-11-smart-pointers/
+	
 	// Initialize health bar
-	SUIElementData enemyHealthBarData;
-	enemyHealthBarData.TARGET = this;
-	enemyHealthBarData.COLOR = RED;
-	enemyHealthBarData.BAR_SIZE = ENEMY_HEALTH_BAR_SIZE;
-	enemyHealthBarData.OFFSET = ENEMY_HEALTH_BAR_OFFSET;
-	enemyHealthBarData.FLOAT_VALUE = m_health;
-	enemyHealthBarData.FONT_SIZE = 0;
-	enemyHealthBarData.UIELEMENT_TYPE = static_cast<unsigned short int>(EUIElementType::REGRESS_BAR);
-	enemyHealthBarData.INT_VALUE = 0;
-	enemyHealthBarData.HAS_SECONDARY_BAR = false;
-	GameObjectPool::GetInstance()->TakeUIElementFromPool(enemyHealthBarData);
+	std::unique_ptr<SUIElementData> enemyHealthBarData = std::make_unique<SUIElementData>();
+	enemyHealthBarData->COLOR = RED;
+	enemyHealthBarData->BAR_SIZE = ENEMY_HEALTH_BAR_SIZE;
+	enemyHealthBarData->OFFSET = ENEMY_HEALTH_BAR_OFFSET;
+	enemyHealthBarData->FLOAT_VALUE = m_health;
+	enemyHealthBarData->FONT_SIZE = 0;
+	enemyHealthBarData->UIELEMENT_TYPE = static_cast<unsigned short int>(EUIElementType::REGRESS_BAR);
+	enemyHealthBarData->INT_VALUE = 0;
+	enemyHealthBarData->TARGET_ID = m_entityId;
+	enemyHealthBarData->HAS_SECONDARY_BAR = false;	
+	std::shared_ptr<SUIElementData> sharedEnemyHealthBarData = std::move(enemyHealthBarData);
+	GameObjectPool::GetInstance()->TakeUIElementFromPool(sharedEnemyHealthBarData);
 
 	// Add attributes before m_isActive = true; except for spawn position
 	m_isActive = true;
@@ -52,9 +56,9 @@ void Enemy::Update(const float& deltatime)
 	UpdatePosition(deltatime);
 
 	// Update health bar position
-	if (GameObjectPool::GetInstance()->GetPlayerPrimaryHealthBar() != nullptr)
+	if (GameObjectPool::GetInstance()->GetEnemyHealthBar(m_id) != nullptr)
 	{
-		GameObjectPool::GetInstance()->GetPlayerPrimaryHealthBar()->FollowPosition(m_position); // TODO Make pure virtual
+		GameObjectPool::GetInstance()->GetEnemyHealthBar(m_id)->FollowPosition(m_position); // TODO Make pure virtual
 	}
 }
 
@@ -165,7 +169,7 @@ void Enemy::Collision()
 
 	if (isEnemyHitByProjctile)
 	{
-		Projectile* projectile = CollisionManager::GetInstance()->GetCollidingProjectile(enemyRect);
+		const Projectile* projectile = CollisionManager::GetInstance()->GetCollidingProjectile(enemyRect);
 
 		if (projectile == nullptr) 
 		{ 
@@ -190,13 +194,15 @@ void Enemy::VerifyHealth()
 	{
 		GenerateXPOrb();
 
-		GameObjectPool::GetInstance()->GetEnemyHealthBar()->Reset();
+		UIElement* enemyHealthBar = GameObjectPool::GetInstance()->GetEnemyHealthBar(m_entityId);
+		if(enemyHealthBar == nullptr) { return; }
+
+		enemyHealthBar->Reset();
 		Reset();
 	}
 }
 
 void Enemy::GenerateXPOrb()
 {
-	ExperienceOrb* xpOrb = new ExperienceOrb(m_position);
-	xpOrb->OnStart();
+	GameObjectPool::GetInstance()->TakeExperienceOrbFromPool(m_position);
 }

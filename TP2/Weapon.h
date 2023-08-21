@@ -29,9 +29,9 @@ public:
 private:
 	virtual void Fire() = 0;
 	virtual void Update(const float& deltatime) = 0;
-	void FollowPosition(const Vector2& newPosition); // TODO make pure virtual
+	const void FollowPosition(Vector2& newPosition) override;
 	virtual void Render() = 0;
-	virtual const bool IsActive() const = 0;
+	virtual bool IsActive() const = 0;
 	virtual void Reset() = 0;
 	virtual const EWeaponType GetWeaponType() const = 0;
 

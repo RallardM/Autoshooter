@@ -99,20 +99,16 @@ void Projectile::Render()
 	}
 }
 
-void Projectile::SetHandGunProjectileData()
+const void Projectile::SetHandGunProjectileData()
 {
 	m_currentLifetime = m_projectileData.LIFETIME;
-	float diameter = m_radius * DOUBLE;
 
-	EGameObjectType enemyType = EGameObjectType::ENEMY;
-	GameObject* closestGameObject = GameObjectPool::GetInstance()->GetClosestGameObject(m_position, enemyType);
-	if (closestGameObject != nullptr)
+	const Enemy* closestEnemy = GameObjectPool::GetInstance()->GetClosestEnemy(m_position);
+	if (closestEnemy != nullptr)
 	{
-		Enemy* closestEnemy = dynamic_cast<Enemy*>(closestGameObject);
-
 		// Calculate the direction of the projectile towards the closest enemy
-		float xDirection = closestEnemy->GetPosition().x - m_position.x;
-		float yDirection = closestEnemy->GetPosition().y - m_position.y;
+		float xDirection = (closestEnemy->GetPosition().x + ENEMY_SIZE.x * HALF) - m_position.x;
+		float yDirection = (closestEnemy->GetPosition().y +ENEMY_SIZE.y * HALF) - m_position.y;
 
 		// Normalize the direction of the projectile
 		Vector2 direction = { xDirection, yDirection };
@@ -127,11 +123,11 @@ void Projectile::SetHandGunProjectileData()
 		return;
 	}
 
-	//If no Enemy in range, generate random direction
+	// If no Enemy in range, generate random direction
 	SendInRandomDirections();
 }
 
-void Projectile::SetExplosiveGunProjectileValues()
+const void Projectile::SetExplosiveGunProjectileValues() 
 {
 	m_currentLifetime = m_projectileData.LIFETIME;
 
@@ -139,13 +135,13 @@ void Projectile::SetExplosiveGunProjectileValues()
 	m_ySpeed += m_projectileData.DIRECTION.y * m_projectileData.SPEED;
 }
 
-void Projectile::SetLaserGunProjectileValues()
+const void Projectile::SetLaserGunProjectileValues()
 {
 	m_currentLifetime = m_projectileData.LIFETIME;
 	SendInRandomDirections();
 }
 
-void Projectile::SendInRandomDirections()
+const void Projectile::SendInRandomDirections()
 {
 	// Calculate the magnitude of the speed vector : squareroot of (x*x + y*y)
 	Vector2 speedVector = { m_projectileData.SPEED, m_projectileData.SPEED };

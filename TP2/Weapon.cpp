@@ -46,7 +46,7 @@ void Weapon::IncreaseProjectileSize()
 	m_weaponInfos.m_projectileInfos.RADIUS *= INCREASE_PROJECTILE_FACTOR;
 }
 
-void Weapon::FollowPosition(const Vector2& newPosition)
+const void Weapon::FollowPosition(Vector2& newPosition)
 {
 	m_position = newPosition;
 }

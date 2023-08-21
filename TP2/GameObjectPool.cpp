@@ -4,10 +4,7 @@
 #include "MathUtils.h"
 #include "CameraManager.h"
 #include "Globals.h"
-#include "HandGun.h"
-#include "ExplosiveGun.h"
-#include "LaserGun.h"
-
+#include "Entity.h"
 
 GameObjectPool* GameObjectPool::_Instance = nullptr;
 
@@ -42,37 +39,46 @@ void GameObjectPool::InitializeGameObjects()
 	// Initialize UIELEMENT elements pool
 	for (int i = 0; i < UI_ELEMENTS_POOL_SIZE; i++)
 	{
-		SUIElementData emptyUiData;
-		UIElement* ui = new UIElement(emptyUiData);
-		m_gameObjects.push_back(ui);
+		auto emptyUiData = std::make_shared<SUIElementData>();
+		UIElement* ui = new UIElement(emptyUiData.get());
+		m_uiElementsPool.push_back(ui);
+		m_allGameObjectsPool.push_back(ui);
 	}
 
 	// Initialize enemies pool
 	for (int i = 0; i < ENEMIES_POOL_SIZE; i++)
 	{
 		Enemy* enemy = new Enemy();
-		m_gameObjects.push_back(enemy);
+		m_enemiesPool.push_back(enemy);
+		m_allGameObjectsPool.push_back(enemy);
+		m_allEntitiesPool.push_back(enemy);
 	}
 
 	// Initialize hand gun pool
 	for (int i = 0; i < HANDGUNS_POOL_SIZE; i++)
 	{
 		HandGun* handGun = new HandGun();
-		m_gameObjects.push_back(handGun);
+		m_handGunsPool.push_back(handGun);
+		m_allWeaponsPool.push_back(handGun);
+		m_allGameObjectsPool.push_back(handGun);
 	}
 
 	// Initialize explosive gun pool
 	for (int i = 0; i < EXPLOSIVEGUNS_POOL_SIZE; i++)
 	{
 		ExplosiveGun* explosiveGun = new ExplosiveGun();
-		m_gameObjects.push_back(explosiveGun);
+		m_explosiveGunsPool.push_back(explosiveGun);
+		m_allWeaponsPool.push_back(explosiveGun);
+		m_allGameObjectsPool.push_back(explosiveGun);
 	}
 
 	// Initialize laser gun pool
 	for (int i = 0; i < LASERGUNS_POOL_SIZE; i++)
 	{
 		LaserGun* laserGun = new LaserGun();
-		m_gameObjects.push_back(laserGun);
+		m_laserGunsPool.push_back(laserGun);
+		m_allWeaponsPool.push_back(laserGun);
+		m_allGameObjectsPool.push_back(laserGun);
 	}
 
 	// Initialize projectiles pool
@@ -81,65 +87,80 @@ void GameObjectPool::InitializeGameObjects()
 		SProjectileData data;
 		SetEmptyProjectileInfos(data);
 		Projectile* projectile = new Projectile(m_emptyWeaponInfos.m_projectileInfos);
-		m_gameObjects.push_back(projectile);
+		m_projectilesPool.push_back(projectile);
+		m_allGameObjectsPool.push_back(projectile);
+	}
+
+	// Initialize experience orbs pool
+	for (int i = 0; i < EXPERIENCE_ORBS_POOL_SIZE; i++)
+	{
+		ExperienceOrb* experienceOrb = new ExperienceOrb();
+		m_experienceOrbsPool.push_back(experienceOrb);
+		m_allGameObjectsPool.push_back(experienceOrb);
 	}
 
 	// Initialize player
 	m_player = new Player();
 	m_player->OnStart();
-	m_gameObjects.push_back(m_player);
+	m_allGameObjectsPool.push_back(m_player);
+	m_allEntitiesPool.push_back(m_player);
 
 	_Instance = this;
 	InitWindow((int)m_cameraManager->GetCameraWidth(), (int)m_cameraManager->GetCameraHeight(), "raylib [core] example - basic window");
 	SetTargetFPS(TARGET_FPS);
 }
 
-EGameObjectType GameObjectPool::GetGameObjectType(GameObject* gameObject)
+
+void GameObjectPool::CleanUpGame()
+{
+	RemoveAllGameObjects();
+}
+
+const EGameObjectType GameObjectPool::GetGameObjectType(GameObject* gameObject) const
 {
 	return gameObject->GetGameObjectType();
 }
 
-GameObject* GameObjectPool::GetClosestGameObject(const Vector2& position, const EGameObjectType& type)
+const Enemy* GameObjectPool::GetClosestEnemy(const Vector2& position) const
 {
-	GameObject* closest = nullptr;
-	float closestDistance = 0.f;
+	Enemy* closest = nullptr;
+	float closestDistance = 0.0f;
 
-	for (GameObject* gameObject : _Instance->m_gameObjects)
+	for (Enemy* enemy : _Instance->m_enemiesPool)
 	{
-		if (gameObject->GetGameObjectType() == type)
+		if (enemy->IsActive() == false)
 		{
-			float distance = GetFloatDistanceBetweenTwoVects(position, gameObject->GetPosition());
-			if (closest == nullptr || distance < closestDistance)
-			{
-				closest = gameObject;
-				closestDistance = distance;
-			}
+			continue;
+		}
+
+		float distance = GetFloatDistanceBetweenTwoVects(position, enemy->GetPosition());
+		if (closest == nullptr || distance < closestDistance)
+		{
+			closest = enemy;
+			closestDistance = distance;
 		}
 	}
 
 	return closest;
 }
 
-void GameObjectPool::UpdateGameObjects(const float& deltatime)
+const void GameObjectPool::UpdateGameObjects(const float& deltatime) const
 {
 
-	for (auto const& i : m_gameObjects)
+	for (auto const& i : m_allGameObjectsPool)
 	{
 		if (i == NULL) { continue; }
 
-		if (i->IsActive() == false)
-		{
-			continue;
-		}
+		if (i->IsActive() == false) { continue; }
 
 		i->Update(deltatime);
 	}
 }
 
-unsigned short int GameObjectPool::GetActiveObjectCountFromList(const EGameObjectType& type)
+const unsigned short int GameObjectPool::GetActiveObjectCountFromList(const EGameObjectType& type) const
 {
 	unsigned short int count = 0;
-	for (auto const& i : m_gameObjects)
+	for (auto const& i : m_allGameObjectsPool)
 	{
 		if (i == NULL) { continue; }
 
@@ -152,16 +173,15 @@ unsigned short int GameObjectPool::GetActiveObjectCountFromList(const EGameObjec
 	return count;
 }
 
-void GameObjectPool::RenderGameObjects()
+const void GameObjectPool::RenderGameObjects() const
 {
 	// Layer 0 : Background
-	// 
+
 	// Render Layer 1 : UIELEMENT
-	for (auto const& i : m_gameObjects)
+	for (auto const& i : m_uiElementsPool)
 	{
 		if (i == NULL) { continue; }
 		if (i->IsActive() == false) { continue; }
-		if (i->GetGameObjectType() != EGameObjectType::UIELEMENT) { continue; }
 
 		i->Render();
 	}
@@ -170,7 +190,7 @@ void GameObjectPool::RenderGameObjects()
 	m_player->Render();
 
 	// Layer 3 : Weapons
-	for (auto const& i : m_gameObjects)
+	for (auto const& i : m_allWeaponsPool)
 	{
 		if (i == NULL) { continue; }
 		if (i->IsActive() == false) { continue; }
@@ -180,7 +200,7 @@ void GameObjectPool::RenderGameObjects()
 	}
 
 	// Layer 4 : Enemies
-	for (auto const& i : m_gameObjects)
+	for (auto const& i : m_enemiesPool)
 	{
 		if (i == NULL) { continue; }
 		if (i->IsActive() == false) { continue; }
@@ -190,7 +210,7 @@ void GameObjectPool::RenderGameObjects()
 	}
 
 	// Layer 5 : Projectiles
-	for (auto const& i : m_gameObjects)
+	for (auto const& i : m_projectilesPool)
 	{
 		if (i == NULL) { continue; }
 		if (i->IsActive() == false) { continue; }
@@ -200,45 +220,7 @@ void GameObjectPool::RenderGameObjects()
 	}
 }
 
-void GameObjectPool::ResetAllObjects()
-{
-	for (auto const& i : m_gameObjects)
-	{
-		if (i == NULL) { continue; }
-
-		i->Reset();
-	}
-}
-
-void GameObjectPool::RemoveAllGameObjects()
-{
-	for (int i = 0; i < m_gameObjectsToRemove.size(); i++)
-	{
-		if (m_gameObjectsToRemove[i] == nullptr) { continue; }
-
-		auto iter = std::remove(m_gameObjects.begin(), m_gameObjects.end(), m_gameObjectsToRemove[i]);
-		m_gameObjects.erase(iter);
-
-		delete m_gameObjectsToRemove[i];
-		m_gameObjectsToRemove[i] = nullptr;
-	}
-
-	m_gameObjectsToRemove.clear();
-	m_gameObjectsToRemove.resize(0);
-
-	for (GameObject* obj : m_gameObjects)
-	{
-		if (obj == nullptr) { continue; }
-
-		delete obj;
-		obj = nullptr;
-	}
-
-	m_gameObjects.clear();
-	m_gameObjects.resize(0);
-}
-
-void GameObjectPool::UpdateEnemySpawner()
+const void GameObjectPool::UpdateEnemySpawner() const
 {
 	EGameObjectType enemyType = EGameObjectType::ENEMY;
 	unsigned short int enemiesCount = GameObjectPool::GetInstance()->GetActiveObjectCountFromList(enemyType);
@@ -248,16 +230,12 @@ void GameObjectPool::UpdateEnemySpawner()
 	// Returns if there are more enemies than the max amount allowed per level
 	if (enemiesCount >= MAX_ENEMY_AMOUNT_PER_LEVELS * m_player->GetLevel()) { return; }
 
-	for (GameObject* gameObject : m_gameObjects)
+	for (Enemy* enemy : m_enemiesPool)
 	{
-		if (gameObject == nullptr) { continue; }
+		if (enemy == nullptr) { continue; }
+		if (enemy->IsActive() == true) { continue; }
 
-		if (gameObject->IsActive() == true || gameObject->GetGameObjectType() != EGameObjectType::ENEMY)
-		{
-			continue;
-		}
-
-		gameObject->OnStart();
+		enemy->OnStart();
 
 		// Update enemies count
 		enemiesCount = GameObjectPool::GetInstance()->GetActiveObjectCountFromList(enemyType);
@@ -265,20 +243,12 @@ void GameObjectPool::UpdateEnemySpawner()
 	}
 }
 
-void GameObjectPool::TakeProjectileFromPool(SProjectileData& projectileData)
+const void GameObjectPool::TakeProjectileFromPool(const SProjectileData& projectileData) const
 {
-	for (GameObject* gameObject : m_gameObjects)
+	for (Projectile* projectile : m_projectilesPool)
 	{
-		if (gameObject == nullptr) { continue; }
-
-		if (gameObject->IsActive() == true || gameObject->GetGameObjectType() != EGameObjectType::PROJECTILE)
-		{
-			continue;
-		}
-
-		Projectile* projectile = static_cast<Projectile*>(gameObject);
-
 		if (projectile == nullptr) { continue; }
+		if (projectile->IsActive() == true) { continue; }
 
 		projectile->SetProjectileData(projectileData);
 		projectile->OnStart();
@@ -286,204 +256,146 @@ void GameObjectPool::TakeProjectileFromPool(SProjectileData& projectileData)
 	}
 }
 
-void GameObjectPool::TakeHandGunFromPool()
+const void GameObjectPool::TakeHandGunFromPool() const
 {
-	for (GameObject* gameObject : m_gameObjects)
+	for (HandGun* handGun : m_handGunsPool)
 	{
-		if (gameObject == nullptr) { continue; }
+		if (handGun == nullptr) { continue; }
+		if (handGun->IsActive() == true) { continue; }
 
-		if (gameObject->IsActive() == true || gameObject->GetGameObjectType() != EGameObjectType::WEAPON)
-		{
-			continue;
-		}
-
-		Weapon* weapon = static_cast<Weapon*>(gameObject);
-
-		if (weapon == nullptr) { continue; }
-		if (weapon->GetWeaponType() != EWeaponType::HANDGUN) { continue; }
-
-		HandGun* handGun = static_cast<HandGun*>(weapon);
 		handGun->OnStart();
 		break;
 	}
 }
 
-void GameObjectPool::TakeExplosiveGunFromPool()
+const void GameObjectPool::TakeExplosiveGunFromPool() const
 {
-	for (GameObject* gameObject : m_gameObjects)
+	for (ExplosiveGun* explosiveGun : m_explosiveGunsPool)
 	{
-		if (gameObject == nullptr) { continue; }
+		if (explosiveGun == nullptr) { continue; }
+		if (explosiveGun->IsActive() == true) { continue; }
 
-		if (gameObject->IsActive() == true || gameObject->GetGameObjectType() != EGameObjectType::WEAPON)
-		{
-			continue;
-		}
-
-		Weapon* weapon = static_cast<Weapon*>(gameObject);
-
-		if (weapon == nullptr) { continue; }
-		if (weapon->GetWeaponType() != EWeaponType::EXPLOSIVEGUN) { continue; }
-
-		ExplosiveGun* explosiveGun = static_cast<ExplosiveGun*>(weapon);
 		explosiveGun->OnStart();
 		break;
 	}
 }
 
-void GameObjectPool::TakeLaserGunFromPool()
+const void GameObjectPool::TakeLaserGunFromPool() const
 {
-	for (GameObject* gameObject : m_gameObjects)
+	for (LaserGun* laserGun : m_laserGunsPool)
 	{
-		if (gameObject == nullptr) { continue; }
+		if (laserGun == nullptr) { continue; }
+		if (laserGun->IsActive() == true) { continue; }
 
-		if (gameObject->IsActive() == true || gameObject->GetGameObjectType() != EGameObjectType::WEAPON)
-		{
-			continue;
-		}
-
-		Weapon* weapon = static_cast<Weapon*>(gameObject);
-
-		if (weapon == nullptr) { continue; }
-		if (weapon->GetWeaponType() != EWeaponType::LAZERGUN) { continue; }
-
-		LaserGun* laserGun = static_cast<LaserGun*>(weapon);
 		laserGun->OnStart();
 		break;
 	}
 }
 
-void GameObjectPool::TakeUIElementFromPool(SUIElementData& uiData)
+const void GameObjectPool::TakeUIElementFromPool(std::shared_ptr<SUIElementData> uiData) const
 {
-	for (GameObject* gameObject : m_gameObjects)
+	for (UIElement* uiElement : m_uiElementsPool)
 	{
-		if (gameObject == nullptr) { continue; }
-
-		if (gameObject->IsActive() == true || gameObject->GetGameObjectType() != EGameObjectType::UIELEMENT)
-		{
-			continue;
-		}
-
-		UIElement* uiElement = static_cast<UIElement*>(gameObject);
-
 		if (uiElement == nullptr) { continue; }
+
+		if (uiElement->IsActive() == true) { continue; }
 
 		uiElement->SetUIElementData(uiData);
 		uiElement->OnStart();
 		break;
-
 	}
 }
 
-void GameObjectPool::CleanUpGame()
+const void GameObjectPool::TakeExperienceOrbFromPool(const Vector2 position) const
 {
-	ResetAllObjects();
-	RemoveAllGameObjects();
+	for (ExperienceOrb* experienceOrb : m_experienceOrbsPool)
+	{
+		if (experienceOrb == nullptr) { continue; }
+		if (experienceOrb->IsActive() == true) { continue; }
+
+		experienceOrb->SetPosition(position);
+		experienceOrb->OnStart();
+		break;
+	}
 }
 
-const std::list<Weapon*> GameObjectPool::GetActiveWeapons() const
+const std::vector<Weapon*> GameObjectPool::GetActiveWeapons() const
 {
-	std::list<Weapon*> activeWeapons;
+	std::vector<Weapon*> activeWeapons;
 
-	for (GameObject* gameObject : m_gameObjects)
+	for (Weapon* weapon : m_allWeaponsPool)
 	{
-		if (gameObject == nullptr) { continue; }
+		if (weapon == nullptr) { continue; }
+		if (weapon->IsActive() == false) { continue; }
 
-		if (gameObject->IsActive() == false || gameObject->GetGameObjectType() != EGameObjectType::WEAPON)
-		{
-			continue;
-		}
-
-		Weapon* weapon = static_cast<Weapon*>(gameObject);
 		activeWeapons.push_back(const_cast<Weapon*>(weapon));
 	}
 
 	return activeWeapons;
 }
 
-const bool GameObjectPool::GetPlayerHasSecondaryHealthBar() const
+const std::vector<Projectile*> GameObjectPool::GetActiveProjectiles() const
 {
-	for (GameObject* gameObject : m_gameObjects)
+	std::vector<Projectile*> activeProjectiles;
+
+	for (Projectile* projectile : m_projectilesPool)
 	{
-		if (gameObject == nullptr) { continue; }
+		if (projectile == nullptr) { continue; }
+		if (projectile->IsActive() == false) { continue; }
 
-		if (gameObject->IsActive() == false || gameObject->GetGameObjectType() != EGameObjectType::UIELEMENT)
-		{
-			continue;
-		}
-
-		UIElement* uiElement = static_cast<UIElement*>(gameObject);
-
-		if (uiElement == nullptr) { continue; }
-		if (uiElement->m_uiData.TARGET == nullptr) { continue; }
-		if (uiElement->m_uiData.TARGET->GetGameObjectType() != EGameObjectType::PLAYER) { continue; }
-
-		if (uiElement->m_uiData.HAS_SECONDARY_BAR == true)
-		{
-			return true;
-		}
-		else
-		{
-			continue;
-		}
+		activeProjectiles.push_back(const_cast<Projectile*>(projectile));
 	}
 
-	return false;
+	return activeProjectiles;
 }
 
-UIElement* GameObjectPool::GetEnemyHealthBar() const
+const std::vector<Enemy*> GameObjectPool::GetActiveEnemies() const
 {
-	UIElement* enemyHealthBar = nullptr;
+	std::vector<Enemy*> activeEnemies;
 
-	for (GameObject* gameObject : m_gameObjects)
+	for (Enemy* enemy : m_enemiesPool)
 	{
-		if (gameObject == nullptr) { continue; }
+		if (enemy == nullptr) { continue; }
+		if (enemy->IsActive() == false) { continue; }
 
-		if (gameObject->IsActive() == false || gameObject->GetGameObjectType() != EGameObjectType::UIELEMENT)
-		{
-			continue;
-		}
+		activeEnemies.push_back(const_cast<Enemy*>(enemy));
+	}
 
-		UIElement* uiElement = static_cast<UIElement*>(gameObject);
+	return activeEnemies;
+}
 
+UIElement* GameObjectPool::GetEnemyHealthBar(const unsigned short int& id) const
+{
+	for (UIElement* uiElement : m_uiElementsPool)
+	{
 		if (uiElement == nullptr) { continue; }
-		if (uiElement->m_uiData.TARGET == nullptr) { continue; }
-		if (uiElement->m_uiData.TARGET->GetGameObjectType() != EGameObjectType::ENEMY) { continue; }
-		if (uiElement->m_uiData.UIELEMENT_TYPE != static_cast<unsigned short int>(EUIElementType::REGRESS_BAR)) { continue; }
-		
-		enemyHealthBar = uiElement;
+		if (uiElement->IsActive() == false) { continue; }
+		if (uiElement->m_uiData->TARGET_ID != id) { continue; }
+
+		return uiElement;
 		break;
-
 	}
 
-	return enemyHealthBar;
+	return nullptr;
 }
 
-UIElement* GameObjectPool::GetPlayerPrimaryHealthBar() const
+UIElement* GameObjectPool::GetPlayerPrimaryHealthBar(const unsigned short int& id) const
 {
 	UIElement* playerPrimaryHealthBar = nullptr;
 
-	for (GameObject* gameObject : m_gameObjects)
+	for (UIElement* uiElement : m_uiElementsPool)
 	{
-		if (gameObject == nullptr) { continue; }
-
-		if (gameObject->IsActive() == false || gameObject->GetGameObjectType() != EGameObjectType::UIELEMENT)
-		{
-			continue;
-		}
-
-		UIElement* uiElement = static_cast<UIElement*>(gameObject);
-
 		if (uiElement == nullptr) { continue; }
-		if (uiElement->m_uiData.TARGET == nullptr) { continue; }
-		if (uiElement->m_uiData.TARGET->GetGameObjectType() != EGameObjectType::PLAYER) { continue; }
-		if (uiElement->m_uiData.UIELEMENT_TYPE != static_cast<unsigned short int>(EUIElementType::REGRESS_BAR)) { continue; }
+		if (uiElement->IsActive() == false) { continue; }
+		if (uiElement->m_uiData->TARGET_ID != id) { continue; }
+		if (uiElement->m_uiData->UIELEMENT_TYPE != static_cast<unsigned short int>(EUIElementType::REGRESS_BAR)) { continue; }
 
-		if (uiElement->m_uiData.HAS_SECONDARY_BAR == true)
+		if (uiElement->m_uiData->HAS_SECONDARY_BAR == true)
 		{
 			playerPrimaryHealthBar = uiElement;
 			break;
 		}
-		else if (uiElement->m_uiData.HAS_SECONDARY_BAR == false)
+		else if (uiElement->m_uiData->HAS_SECONDARY_BAR == false)
 		{
 			playerPrimaryHealthBar = uiElement;
 			continue;
@@ -493,64 +405,127 @@ UIElement* GameObjectPool::GetPlayerPrimaryHealthBar() const
 	return playerPrimaryHealthBar;
 }
 
-UIElement* GameObjectPool::GetPlayerSecondaryHealthBar() const
+UIElement* GameObjectPool::GetPlayerSecondaryHealthBar(const unsigned short int& id) const
 {
-UIElement* playerSecondaryHealthBar = nullptr;
-
-	for (GameObject* gameObject : m_gameObjects)
+	for (UIElement* uiElement : m_uiElementsPool)
 	{
-		if (gameObject == nullptr) { continue; }
-
-		if (gameObject->IsActive() == false || gameObject->GetGameObjectType() != EGameObjectType::UIELEMENT)
-		{
-			continue;
-		}
-
-		UIElement* uiElement = static_cast<UIElement*>(gameObject);
-
 		if (uiElement == nullptr) { continue; }
-		if (uiElement->m_uiData.TARGET == nullptr) { continue; }
-		if (uiElement->m_uiData.TARGET->GetGameObjectType() != EGameObjectType::PLAYER) { continue; }
-		if (uiElement->m_uiData.UIELEMENT_TYPE != static_cast<unsigned short int>(EUIElementType::REGRESS_BAR)) { continue; }
+		if (uiElement->IsActive() == false) { continue; }
+		if (uiElement->m_uiData->TARGET_ID != id) { continue; }
+		if (uiElement->m_uiData->UIELEMENT_TYPE != static_cast<unsigned short int>(EUIElementType::REGRESS_BAR)) { continue; }
 
-		if (uiElement->m_uiData.HAS_SECONDARY_BAR == true)
+		if (uiElement->m_uiData->HAS_SECONDARY_BAR == true)
 		{
 			continue;
 		}
-		else if (uiElement->m_uiData.HAS_SECONDARY_BAR == false)
+		else if (uiElement->m_uiData->HAS_SECONDARY_BAR == false)
 		{
-			playerSecondaryHealthBar = uiElement;
-			break;
+			return uiElement;
 		}
 	}
 
-	return playerSecondaryHealthBar;
+	return nullptr;
 }
 
-UIElement* GameObjectPool::GetPlayerExperienceBar() const
+UIElement* GameObjectPool::GetPlayerExperienceBar(const unsigned short int& id) const
 {
-	UIElement* playerExperienceBar = nullptr;
-
-	for (GameObject* gameObject : m_gameObjects)
+	for (UIElement* uiElement : m_uiElementsPool)
 	{
-		if (gameObject == nullptr) { continue; }
-
-		if (gameObject->IsActive() == false || gameObject->GetGameObjectType() != EGameObjectType::UIELEMENT)
-		{
-			continue;
-		}
-
-		UIElement* uiElement = static_cast<UIElement*>(gameObject);
-
 		if (uiElement == nullptr) { continue; }
-		if (uiElement->m_uiData.TARGET == nullptr) { continue; }
-		if (uiElement->m_uiData.TARGET->GetGameObjectType() != EGameObjectType::PLAYER) { continue; }
-		if (uiElement->m_uiData.UIELEMENT_TYPE != static_cast<unsigned short int>(EUIElementType::PROGRESS_BAR)) { continue; }
+		if (uiElement->IsActive() == false) { continue; }
+		if (uiElement->m_uiData->TARGET_ID != id) { continue; }
+		if (uiElement->m_uiData->UIELEMENT_TYPE != static_cast<unsigned short int>(EUIElementType::PROGRESS_BAR)) { continue; }
 
-		playerExperienceBar = uiElement;
+		return uiElement;
 		break;
-
 	}
 
-	return playerExperienceBar;
+	return nullptr;
+}
+
+Entity* GameObjectPool::GetEntityFromID(const unsigned short int& id) const
+{
+	for (Entity* entity : m_allEntitiesPool)
+	{
+		if (entity == nullptr) { continue; }
+		if (entity->IsActive() == false) { continue; }
+		if (entity->GetEntityID() != id) { continue; }
+
+		return entity;
+	}
+
+	return nullptr;
+}
+
+const void GameObjectPool::RemoveAllGameObjects()
+{
+	for (auto* i : m_allGameObjectsPool)
+	{
+		delete i;
+		i = nullptr;
+	}
+	m_allGameObjectsPool.clear();
+
+	for (auto* i : m_allWeaponsPool)
+	{
+		delete i;
+		i = nullptr;
+	}
+	m_allWeaponsPool.clear();
+
+	for (auto* i : m_uiElementsPool)
+	{
+		delete i;
+		i = nullptr;
+	}
+	m_uiElementsPool.clear();
+
+	for (auto* i : m_allEntitiesPool)
+	{
+		delete i;
+		i = nullptr;
+	}
+	m_allEntitiesPool.clear();
+
+	for (auto* i : m_enemiesPool)
+	{
+		delete i;
+		i = nullptr;
+	}
+	m_enemiesPool.clear();
+
+	for (auto* i : m_handGunsPool)
+	{
+		delete i;
+		i = nullptr;
+	}
+	m_handGunsPool.clear();
+
+	for (auto* i : m_explosiveGunsPool)
+	{
+		delete i;
+		i = nullptr;
+	}
+	m_explosiveGunsPool.clear();
+
+	for (auto* i : m_laserGunsPool)
+	{
+		delete i;
+		i = nullptr;
+	}
+	m_laserGunsPool.clear();
+
+	for (auto* i : m_projectilesPool)
+	{
+		delete i;
+		i = nullptr;
+	}
+	m_projectilesPool.clear();
+
+	for (auto* i : m_experienceOrbsPool)
+	{
+		delete i;
+		i = nullptr;
+	}
+	m_experienceOrbsPool.clear();
 }

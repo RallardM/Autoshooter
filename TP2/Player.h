@@ -15,11 +15,6 @@ public:
 	~Player() override;
 
 private:
-	//UIElement* m_healthBar = nullptr;
-	//UIElement* m_secondHealthBar = nullptr;
-	//UIElement* m_experienceText = nullptr;
-	//UIElement* m_experienceBar = nullptr;
-
 	// Player default parameter
 	Color m_color = PLAYER_COLOR;
 	Vector2 m_playerSize = PLAYER_SIZE;
@@ -30,7 +25,8 @@ private:
 	unsigned short int m_level = PLAYER_STARTING_LEVEL;
 	unsigned short int m_previousEnemyId = 0;
 
-	//std::list<Weapon*> m_weapons;
+	bool m_hasSecondaryHealthBar = false;
+	bool m_isActive = false;
 
 private:
 	const Vector2& GetPosition() const override { return m_position; }
@@ -46,7 +42,7 @@ private:
 	void OnStart() override;
 	void Update(const float& deltatime) override;
 	void Render() override;
-	const bool IsActive() const override { return m_isActive; }
+	bool IsActive() const override { return m_isActive; }
 	void Reset() override;
 	void Collision();
 	void VerifyHealth();

@@ -6,13 +6,20 @@
 
 unsigned short int ExperienceOrb::s_id = 0;
 
-ExperienceOrb::ExperienceOrb(const Vector2& origin)
+//ExperienceOrb::ExperienceOrb(const Vector2& origin)
+//{
+//	m_id = s_id++;
+//	std::cout << "ExperienceOrb constructor called. ID = " << m_id << std::endl;
+//
+//	m_position = origin;
+//}
+
+ExperienceOrb::ExperienceOrb()
 {
 	m_id = s_id++;
 	std::cout << "ExperienceOrb constructor called. ID = " << m_id << std::endl;
-
-	m_position = origin;
 }
+
 
 ExperienceOrb::~ExperienceOrb()
 {

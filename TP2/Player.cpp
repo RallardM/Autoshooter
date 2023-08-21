@@ -169,44 +169,50 @@ void Player::OnStart()
 	m_position.x = (float)Game::GetInstance()->GetMapWidth() * HALF;
 	m_position.y = (float)Game::GetInstance()->GetMapHeight() * HALF;
 
+	// Source: https://stackoverflow.com/questions/16894400/how-to-declare-stdunique-ptr-and-what-is-the-use-of-it
+	// Source: https://www.acodersjourney.com/top-10-dumb-mistakes-avoid-c-11-smart-pointers/
+ 
 	// Initialize health bar
-	SUIElementData healthBarData;
-	healthBarData.TARGET = this;
-	healthBarData.COLOR = RED;
-	healthBarData.BAR_SIZE = PLAYER_HEALTH_BAR_SIZE;
-	healthBarData.OFFSET = PLAYER_HEALTH_BAR_OFFSET;
-	healthBarData.FLOAT_VALUE = m_health;
-	healthBarData.FONT_SIZE = 0;
-	healthBarData.UIELEMENT_TYPE = static_cast<unsigned short int>(EUIElementType::REGRESS_BAR);
-	healthBarData.INT_VALUE = 0;
-	healthBarData.HAS_SECONDARY_BAR = false;
-	GameObjectPool::GetInstance()->TakeUIElementFromPool(healthBarData);
+	std::unique_ptr<SUIElementData> healthBarData = std::make_unique<SUIElementData>();
+	healthBarData->COLOR = RED;
+	healthBarData->BAR_SIZE = PLAYER_HEALTH_BAR_SIZE;
+	healthBarData->OFFSET = PLAYER_HEALTH_BAR_OFFSET;
+	healthBarData->FLOAT_VALUE = m_health;
+	healthBarData->FONT_SIZE = 0;
+	healthBarData->UIELEMENT_TYPE = static_cast<unsigned short int>(EUIElementType::REGRESS_BAR);
+	healthBarData->INT_VALUE = 0;
+	healthBarData->TARGET_ID = m_entityId;
+	healthBarData->HAS_SECONDARY_BAR = false;
+	std::shared_ptr<SUIElementData> sharedHealthBarData = std::move(healthBarData);
+	GameObjectPool::GetInstance()->TakeUIElementFromPool(sharedHealthBarData);
 
 	// Initialize experience text
-	SUIElementData experienceText;
-	experienceText.TARGET = this;
-	experienceText.COLOR = GREEN;
-	experienceText.BAR_SIZE = PLAYER_EXPERIENCE_BAR_SIZE;
-	experienceText.OFFSET = PLAYER_EXPERIENCE_TEXT_OFFSET;
-	experienceText.FLOAT_VALUE = 0.0f;
-	experienceText.FONT_SIZE = PLAYER_EXPERIENCE_FONT_SIZE;
-	experienceText.UIELEMENT_TYPE = static_cast<unsigned short int>(EUIElementType::TEXT);
-	experienceText.INT_VALUE = m_totalExperience;
-	experienceText.HAS_SECONDARY_BAR = false;
-	GameObjectPool::GetInstance()->TakeUIElementFromPool(experienceText);
+	std::unique_ptr<SUIElementData> experienceText = std::make_unique<SUIElementData>();
+	experienceText->COLOR = GREEN;
+	experienceText->BAR_SIZE = PLAYER_EXPERIENCE_BAR_SIZE;
+	experienceText->OFFSET = PLAYER_EXPERIENCE_TEXT_OFFSET;
+	experienceText->FLOAT_VALUE = 0.0f;
+	experienceText->FONT_SIZE = PLAYER_EXPERIENCE_FONT_SIZE;
+	experienceText->UIELEMENT_TYPE = static_cast<unsigned short int>(EUIElementType::TEXT);
+	experienceText->INT_VALUE = m_totalExperience;
+	experienceText->TARGET_ID = m_entityId;
+	experienceText->HAS_SECONDARY_BAR = false;
+	std::shared_ptr<SUIElementData> sharedExperienceTextData = std::move(experienceText);
+	GameObjectPool::GetInstance()->TakeUIElementFromPool(sharedExperienceTextData);
 
 	// Initialize experience bar
-	SUIElementData experienceBar;
-	experienceText.TARGET = this;
-	experienceText.COLOR = GREEN;
-	experienceText.BAR_SIZE = PLAYER_EXPERIENCE_BAR_SIZE;
-	experienceText.OFFSET = PLAYER_EXPERIENCE_BAR_OFFSET;
-	experienceText.FLOAT_VALUE = 0.0f;
-	experienceText.FONT_SIZE = 0;
-	experienceText.UIELEMENT_TYPE = static_cast<unsigned short int>(EUIElementType::PROGRESS_BAR);
-	experienceText.INT_VALUE = m_experience;
-	experienceText.HAS_SECONDARY_BAR = false;
-	GameObjectPool::GetInstance()->TakeUIElementFromPool(experienceText);
+	std::unique_ptr<SUIElementData> experienceBar = std::make_unique<SUIElementData>();
+	experienceBar->COLOR = GREEN;
+	experienceBar->BAR_SIZE = PLAYER_EXPERIENCE_BAR_SIZE;
+	experienceBar->OFFSET = PLAYER_EXPERIENCE_BAR_OFFSET;
+	experienceBar->FLOAT_VALUE = 0.0f;
+	experienceBar->FONT_SIZE = 0;
+	experienceBar->UIELEMENT_TYPE = static_cast<unsigned short int>(EUIElementType::PROGRESS_BAR);
+	experienceBar->INT_VALUE = m_experience;
+	experienceBar->TARGET_ID = m_entityId;
+	experienceBar->HAS_SECONDARY_BAR = false;
+	std::shared_ptr<SUIElementData> sharedExperienceBarData = std::move(experienceBar);
+	GameObjectPool::GetInstance()->TakeUIElementFromPool(sharedExperienceBarData);
 
 	AddNewHandGun();
 
@@ -224,27 +230,28 @@ void Player::Update(const float& deltatime)
 	m_position.y += m_direction.y * PLAYER_SPEED * deltatime;
 
 	// Update health bar position
-	if (GameObjectPool::GetInstance()->GetPlayerHasSecondaryHealthBar())
+	UIElement* playerHealthBar = GameObjectPool::GetInstance()->GetPlayerPrimaryHealthBar(m_entityId);
+	if (playerHealthBar != nullptr)
 	{
-		GameObjectPool::GetInstance()->GetPlayerPrimaryHealthBar()->FollowPosition(m_position); // TODO Make pure virtual
+		playerHealthBar->FollowPosition(m_position);
 	}
 
 	// Update second health bar position
-	if (GameObjectPool::GetInstance()->GetPlayerHasSecondaryHealthBar())
+	if (m_hasSecondaryHealthBar)
 	{
-		GameObjectPool::GetInstance()->GetPlayerSecondaryHealthBar()->FollowPosition(m_position); // TODO Make pure virtual
+		GameObjectPool::GetInstance()->GetPlayerSecondaryHealthBar(m_entityId)->FollowPosition(m_position);
 	}
 
 	// Update experience text position
-	if (GameObjectPool::GetInstance()->GetPlayerExperienceBar() != nullptr)
+	if (GameObjectPool::GetInstance()->GetPlayerExperienceBar(m_entityId) != nullptr)
 	{
-		GameObjectPool::GetInstance()->GetPlayerExperienceBar()->FollowPosition(m_position); // TODO Make pure virtual
+		GameObjectPool::GetInstance()->GetPlayerExperienceBar(m_entityId)->FollowPosition(m_position);
 	}
 
 	// Update experience bar position
-	if (GameObjectPool::GetInstance()->GetPlayerExperienceBar() != nullptr)
+	if (GameObjectPool::GetInstance()->GetPlayerExperienceBar(m_entityId) != nullptr)
 	{
-		GameObjectPool::GetInstance()->GetPlayerExperienceBar()->FollowPosition(m_position); // TODO Make pure virtual
+		GameObjectPool::GetInstance()->GetPlayerExperienceBar(m_entityId)->FollowPosition(m_position);
 	}
 
 	// Update weapon position
@@ -255,7 +262,7 @@ void Player::Update(const float& deltatime)
 			continue;
 		}
 
-		weapon->FollowPosition(m_position);// TODO Make pure virtual
+		weapon->FollowPosition(m_position);
 	}
 
 	// Update camera position to player position
@@ -311,7 +318,7 @@ void Player::VerifyHealth()
 		MenuManager::GetInstance()->SetCurrentMenu(EUIMenuType::GAMEOVER_MENU);
 	}
 
-	if (m_health > MAX_HEALTH && GameObjectPool::GetInstance()->GetPlayerHasSecondaryHealthBar())
+	if (m_health > MAX_HEALTH && m_hasSecondaryHealthBar == false)
 	{
 		// Initialize one additional health bar
 		float extraHealth = (float)m_health - (float)MAX_HEALTH;
@@ -320,22 +327,29 @@ void Player::VerifyHealth()
 		Vector2 barSize = { extraHealth, PLAYER_EXPERIENCE_BAR_SIZE.y };
 		Vector2 offsetFromPlayer = PLAYER_SECOND_HEALTH_BAR_OFFSET; // TODO Remi : make sure the health bonus stops at the full second bar and remove the bonus from the level up menu
 
-		SUIElementData additionalHealthBarData;
-		additionalHealthBarData.TARGET = this;
-		additionalHealthBarData.COLOR = RED;
-		additionalHealthBarData.BAR_SIZE = barSize;
-		additionalHealthBarData.OFFSET = offsetFromPlayer;
-		additionalHealthBarData.FLOAT_VALUE = m_health;
-		additionalHealthBarData.FONT_SIZE = 0;
-		additionalHealthBarData.UIELEMENT_TYPE = static_cast<unsigned short int>(EUIElementType::REGRESS_BAR);
-		additionalHealthBarData.INT_VALUE = 0;
-		additionalHealthBarData.HAS_SECONDARY_BAR = false;
+		// Source: https://stackoverflow.com/questions/16894400/how-to-declare-stdunique-ptr-and-what-is-the-use-of-it
+		// Source: https://www.acodersjourney.com/top-10-dumb-mistakes-avoid-c-11-smart-pointers/
+		// Source : https://stackoverflow.com/questions/70563507/should-i-delete-pointer-from-new-passed-to-a-function-which-makes-into-a-shar
+
+		auto additionalHealthBarData = std::make_shared<SUIElementData>();
+		additionalHealthBarData->COLOR = RED;
+		additionalHealthBarData->BAR_SIZE = barSize;
+		additionalHealthBarData->OFFSET = offsetFromPlayer;
+		additionalHealthBarData->FLOAT_VALUE = m_health;
+		additionalHealthBarData->FONT_SIZE = 0;
+		additionalHealthBarData->UIELEMENT_TYPE = static_cast<unsigned short int>(EUIElementType::REGRESS_BAR);
+		additionalHealthBarData->INT_VALUE = 0;
+		additionalHealthBarData->TARGET_ID = m_entityId;
+		additionalHealthBarData->HAS_SECONDARY_BAR = true;
 		GameObjectPool::GetInstance()->TakeUIElementFromPool(additionalHealthBarData);
+
+		m_hasSecondaryHealthBar = true;
 	}
-	else if (m_health <= MAX_HEALTH && GameObjectPool::GetInstance()->GetPlayerHasSecondaryHealthBar())
+	else if (m_health <= MAX_HEALTH && m_hasSecondaryHealthBar)
 	{
 		// Delete additional health bar
-		GameObjectPool::GetInstance()->GetPlayerSecondaryHealthBar()->Reset();
+		GameObjectPool::GetInstance()->GetPlayerSecondaryHealthBar(m_entityId)->Reset();
+		m_hasSecondaryHealthBar = false;
 	}
 }
 

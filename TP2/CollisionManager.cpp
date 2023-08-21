@@ -21,105 +21,104 @@ CollisionManager* CollisionManager::GetInstance()
     {
         _Instance = new CollisionManager();
     }
+
     return _Instance;
 }
 
-bool CollisionManager::AreEnemyProjectileColliding(const Rectangle& enemy)
+const bool CollisionManager::AreEnemyProjectileColliding(const Rectangle& enemy) const
 {
-	for (GameObject* gameObject : GameObjectPool::GetInstance()->GetGameObjects())
+	std::vector<Projectile*> activeProjectiles = GameObjectPool::GetInstance()->GetActiveProjectiles();
+
+	for (Projectile* projectile : activeProjectiles)
 	{
-		if (gameObject == nullptr) { continue; }
+		if (projectile == nullptr) { continue; }
+	
+		Vector2 projectilePosition = projectile->GetPosition();
 
-		if (gameObject->GetGameObjectType() == EGameObjectType::PROJECTILE)
+		// The collision is checked with the radius and not considering the multiple shapes of each projectile
+		// it is not precise but it is faster in computation, less code for almost the same, and it is enough for not nothicing in game 
+		float projectileRadius = projectile->GetRadius();
+
+		bool IsEnemyHitByProjectile = CheckCollisionCircleRec(projectilePosition, projectileRadius, enemy);
+		if (IsEnemyHitByProjectile)
 		{
-			Projectile* projectile = dynamic_cast<Projectile*>(gameObject);
-			Vector2 projectilePosition = projectile->GetPosition();
-
-			// The collision is checked with the radius and not considering the multiple shapes of each projectile
-			// it is not precise but it is faster in computation, less code for almost the same, and it is enough for not nothicing in game 
-			float projectileRadius = projectile->GetRadius();
-
-			bool IsEnemyHitByProjectile = CheckCollisionCircleRec(projectilePosition, projectileRadius, enemy);
-			if (IsEnemyHitByProjectile)
-			{
-				return true;
-			}
+			return true;
 		}
+		
 	}
+
 	return false;
 }
 
-Projectile* CollisionManager::GetCollidingProjectile(const Rectangle& enemy)
+const Projectile* CollisionManager::GetCollidingProjectile(const Rectangle& enemy) const
 {
-	for (GameObject* gameObject : GameObjectPool::GetInstance()->GetGameObjects())
+	std::vector<Projectile*> activeProjectiles = GameObjectPool::GetInstance()->GetActiveProjectiles();
+
+	for (Projectile* projectile : activeProjectiles)
 	{
-		if (GameObjectPool::GetInstance()->GetGameObjectType(gameObject) == EGameObjectType::PROJECTILE)
+		Vector2 projectilePosition = projectile->GetPosition();
+
+		// The collision is checked with the radius and not considering the multiple shapes of each projectile
+		// it is not precise but it is faster in computation, less code for almost the same, and it is enough for not nothicing in game  
+		float projectileRadius = projectile->GetRadius();
+
+		bool IsEnemyHitByProjectile = CheckCollisionCircleRec(projectilePosition, projectileRadius, enemy);
+		if (IsEnemyHitByProjectile)
 		{
-			Projectile* projectile = dynamic_cast<Projectile*>(gameObject);
-			Vector2 projectilePosition = projectile->GetPosition();
-
-			// The collision is checked with the radius and not considering the multiple shapes of each projectile
-			// it is not precise but it is faster in computation, less code for almost the same, and it is enough for not nothicing in game  
-			float projectileRadius = projectile->GetRadius();
-
-			bool IsEnemyHitByProjectile = CheckCollisionCircleRec(projectilePosition, projectileRadius, enemy);
-			if (IsEnemyHitByProjectile)
-			{
-				return projectile;
-			}
+			return projectile;
 		}
 	}
+
 	return nullptr;
 }
 
-bool CollisionManager::AreOrbPlayerColliding(const Vector2& orbPosition, const float& orbradius)
+const bool CollisionManager::AreOrbPlayerColliding(const Vector2& orbPosition, const float& orbradius) const
 {
 	bool isPlayerTouchingOrb = CheckCollisionCircleRec(orbPosition, orbradius, GameObjectPool::GetInstance()->GetPlayer()->GetRect());
 	if (isPlayerTouchingOrb)
 	{
 		return true;
 	}
+
 	return false;
 }
 
-bool CollisionManager::ArePlayerEnemyColliding(const Rectangle& player)
+const bool CollisionManager::ArePlayerEnemyColliding(const Rectangle& player) const
 {
-	for (GameObject* gameObject : GameObjectPool::GetInstance()->GetGameObjects())
+	std::vector<Enemy*> activeEnemies = GameObjectPool::GetInstance()->GetActiveEnemies();
+
+	for (Enemy* enemy : activeEnemies)
 	{
-		if (gameObject == nullptr) { continue; }
+		if (enemy == nullptr) { continue; }
 
-		if (GameObjectPool::GetInstance()->GetGameObjectType(gameObject) == EGameObjectType::ENEMY)
+		Vector2 enemyPosition = enemy->GetPosition();
+		Rectangle enemyRect = enemy->GetRect();
+
+		bool IsEnemyHitByProjectile = CheckCollisionRecs(player, enemyRect);
+		if (IsEnemyHitByProjectile)
 		{
-			Enemy* enemy = dynamic_cast<Enemy*>(gameObject);
-			Vector2 enemyPosition = enemy->GetPosition();
-			Rectangle enemyRect = enemy->GetRect();
-
-			bool IsEnemyHitByProjectile = CheckCollisionRecs(player, enemyRect);
-			if (IsEnemyHitByProjectile)
-			{
-				return true;
-			}
+			return true;
 		}
 	}
+
 	return false;
 }
 
-Enemy* CollisionManager::GetCollidingEnemy(const Rectangle& player)
+Enemy* CollisionManager::GetCollidingEnemy(const Rectangle& player) const
 {
-	for (GameObject* gameObject : GameObjectPool::GetInstance()->GetGameObjects())
-	{
-		if (GameObjectPool::GetInstance()->GetGameObjectType(gameObject) == EGameObjectType::ENEMY)
-		{
-			Enemy* enemy = dynamic_cast<Enemy*>(gameObject);
-			Vector2 enemyPosition = enemy->GetPosition();
-			Rectangle enemyRect = enemy->GetRect();
+	std::vector<Enemy*> activeEnemies = GameObjectPool::GetInstance()->GetActiveEnemies();
 
-			bool IsEnemyHitByProjectile = CheckCollisionRecs(player, enemyRect);
-			if (IsEnemyHitByProjectile)
-			{
-				return enemy;
-			}
+	for (Enemy* enemy : activeEnemies)
+	{
+		Vector2 enemyPosition = enemy->GetPosition();
+		Rectangle enemyRect = enemy->GetRect();
+
+		bool IsEnemyHitByProjectile = CheckCollisionRecs(player, enemyRect);
+		if (IsEnemyHitByProjectile)
+		{
+			return enemy;
 		}
 	}
+
 	return nullptr;
 }
