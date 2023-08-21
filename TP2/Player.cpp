@@ -237,9 +237,9 @@ void Player::Update(const float& deltatime)
 	}
 
 	// Update experience text position
-	if (GameObjectPool::GetInstance()->GetPlayerExperienceBar(m_entityId) != nullptr)
+	if (GameObjectPool::GetInstance()->GetPlayerExperienceText(m_entityId) != nullptr)
 	{
-		GameObjectPool::GetInstance()->GetPlayerExperienceBar(m_entityId)->FollowPosition(m_position);
+		GameObjectPool::GetInstance()->GetPlayerExperienceText(m_entityId)->FollowPosition(m_position);
 	}
 
 	// Update experience bar position

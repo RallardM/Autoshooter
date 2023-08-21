@@ -177,8 +177,8 @@ const void GameObjectPool::RenderGameObjects() const
 {
 	// Layer 0 : Background
 
-	// Render Layer 1 : UIELEMENT
-	for (auto const& i : m_uiElementsPool)
+	// Render Layer 1 : Experience Orbs
+	for (auto const& i : m_experienceOrbsPool)
 	{
 		if (i == NULL) { continue; }
 		if (i->IsActive() == false) { continue; }
@@ -189,7 +189,16 @@ const void GameObjectPool::RenderGameObjects() const
 	// Layer 2 : Player
 	m_player->Render();
 
-	// Layer 3 : Weapons
+	// Render Layer 3 : UIELEMENT
+	for (auto const& i : m_uiElementsPool)
+	{
+		if (i == NULL) { continue; }
+		if (i->IsActive() == false) { continue; }
+
+		i->Render();
+	}
+
+	// Layer 4 : Weapons
 	for (auto const& i : m_allWeaponsPool)
 	{
 		if (i == NULL) { continue; }
@@ -199,7 +208,7 @@ const void GameObjectPool::RenderGameObjects() const
 		i->Render();
 	}
 
-	// Layer 4 : Enemies
+	// Layer 5 : Enemies
 	for (auto const& i : m_enemiesPool)
 	{
 		if (i == NULL) { continue; }
@@ -209,7 +218,7 @@ const void GameObjectPool::RenderGameObjects() const
 		i->Render();
 	}
 
-	// Layer 5 : Projectiles
+	// Layer 6 : Projectiles
 	for (auto const& i : m_projectilesPool)
 	{
 		if (i == NULL) { continue; }
@@ -424,6 +433,21 @@ UIElement* GameObjectPool::GetPlayerSecondaryHealthBar(const unsigned short int&
 		}
 	}
 
+	return nullptr;
+}
+
+UIElement* GameObjectPool::GetPlayerExperienceText(const unsigned short int& id) const
+{
+for (UIElement* uiElement : m_uiElementsPool)
+	{
+		if (uiElement == nullptr) { continue; }
+		if (uiElement->IsActive() == false) { continue; }
+		if (uiElement->m_uiData->TARGET_ID != id) { continue; }
+		if (uiElement->m_uiData->UIELEMENT_TYPE != static_cast<unsigned short int>(EUIElementType::TEXT)) { continue; }
+
+		return uiElement;
+		break;
+	}
 	return nullptr;
 }
 

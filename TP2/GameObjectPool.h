@@ -58,7 +58,7 @@ private:
 	const unsigned short int HANDGUNS_POOL_SIZE = 10; // Max 65535
 	const unsigned short int EXPLOSIVEGUNS_POOL_SIZE = 10; // Max 65535
 	const unsigned short int LASERGUNS_POOL_SIZE = 10; // Max 65535
-	const unsigned short int PROJECTILES_POOL_SIZE = 1500; // Max 65535
+	const unsigned short int PROJECTILES_POOL_SIZE = 150; // Max 65535
 
 private:
 	GameObjectPool(); // Private constructor for singleton pattern https://youtu.be/PPup1yeU45I
@@ -91,6 +91,7 @@ private:
 	UIElement* GetEnemyHealthBar(const unsigned short int& id) const;
 	UIElement* GetPlayerPrimaryHealthBar(const unsigned short int& id) const;
 	UIElement* GetPlayerSecondaryHealthBar(const unsigned short int& id) const;
+	UIElement* GetPlayerExperienceText(const unsigned short int& id) const;
 	UIElement* GetPlayerExperienceBar(const unsigned short int& id) const;
 	Entity* GetEntityFromID(const unsigned short int& id) const;
 
