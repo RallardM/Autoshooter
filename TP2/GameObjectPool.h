@@ -48,10 +48,9 @@ private:
 	std::vector<Projectile*> m_projectilesPool;
 	std::vector<ExperienceOrb*> m_experienceOrbsPool;
 
-
 	Camera2D* m_camera = nullptr;
 	Player* m_player = nullptr;
-	SWeaponData m_emptyWeaponInfos;
+	SWeaponData* m_emptyWeaponInfos = nullptr;
 	const unsigned short int UI_ELEMENTS_POOL_SIZE = 13; // Max 65535 // Enemies + Player's 3 UIELEMENT elements
 	const unsigned short int EXPERIENCE_ORBS_POOL_SIZE = 20; // Max 65535 // At lest the double of ennemies
 	const unsigned short int ENEMIES_POOL_SIZE = 10; // Max 65535
@@ -66,11 +65,11 @@ private:
 	const Enemy* GetClosestEnemy(const Vector2& position) const;
 	const void UpdateGameObjects(const float& deltatime) const;
 	const unsigned short int GetActiveObjectCountFromList(const EGameObjectType& type) const;
-	const void SetEmptyProjectileInfos(const SProjectileData& projectileInfos) { m_emptyWeaponInfos.m_projectileInfos = projectileInfos; }
+	const void SetEmptyProjectileInfos(SProjectileData* projectileInfos) { m_emptyWeaponInfos->m_projectileInfos = projectileInfos; }
 
 	const void RenderGameObjects() const;
 	const void UpdateEnemySpawner() const;
-	const void TakeProjectileFromPool(const SProjectileData& projectileData) const;
+	const void TakeProjectileFromPool(SProjectileData* projectileData) const;
 	const void TakeHandGunFromPool() const; // TODO Remi : Make into one weapon method
 	const void TakeExplosiveGunFromPool() const;// TODO Remi : Make into one weapon method
 	const void TakeLaserGunFromPool() const;// TODO Remi : Make into one weapon method

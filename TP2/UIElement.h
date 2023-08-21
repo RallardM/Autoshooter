@@ -35,6 +35,6 @@ private:
 	void UpdateRegressBar();
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::UIELEMENT; }
-	void SetUIElementData(SUIElementData* uiData);
+	void SetUIElementData(SUIElementData* uiData) { m_uiData = uiData; }
 };
 

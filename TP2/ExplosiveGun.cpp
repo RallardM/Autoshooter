@@ -42,8 +42,8 @@ void ExplosiveGun::Fire()
 		projectilePosition.x += m_position.x;
 		projectilePosition.y += m_position.y;
 
-		m_weaponInfos.m_projectileInfos.DIRECTION = projectileDirection;
-		m_weaponInfos.m_projectileInfos.POSITION = projectilePosition;
+		m_weaponInfos.m_projectileInfos->DIRECTION = projectileDirection;
+		m_weaponInfos.m_projectileInfos->POSITION = projectilePosition;
 
 		GameObjectPool::GetInstance()->TakeProjectileFromPool(m_weaponInfos.m_projectileInfos);
 
@@ -61,15 +61,15 @@ void ExplosiveGun::Reset()
 void ExplosiveGun::OnStart()
 {
 	// Initialize projectile infos
-	SProjectileData data;
-	data.DIRECTION = NO_DIRECTION;
-	data.COUNT_DOWN = NO_COUNTDOWN;
-	data.RADIUS = EXPLOSIVE_PROJECTILE_RADIUS;
-	data.LIFETIME = EXPLOSIVE_PROJECTILE_LIFETIME;
-	data.DAMAGE = EXPLOSIVE_PROJECTILE_DAMAGE;
-	data.SPEED = EXPLOSIVE_PROJECTILE_SPEED;
-	data.COLOR = EXPLOSIVE_PROJECTILE_COLOR;
-	data.WEAPON_TYPE = EWeaponType::EXPLOSIVEGUN;
+	SProjectileData* data = new SProjectileData();
+	data->DIRECTION = NO_DIRECTION;
+	data->COUNT_DOWN = NO_COUNTDOWN;
+	data->RADIUS = EXPLOSIVE_PROJECTILE_RADIUS;
+	data->LIFETIME = EXPLOSIVE_PROJECTILE_LIFETIME;
+	data->DAMAGE = EXPLOSIVE_PROJECTILE_DAMAGE;
+	data->SPEED = EXPLOSIVE_PROJECTILE_SPEED;
+	data->COLOR = EXPLOSIVE_PROJECTILE_COLOR;
+	data->WEAPON_TYPE = EWeaponType::EXPLOSIVEGUN;
 	SetProjectileInfos(data);
 
 	m_weaponInfos.m_attackRate = EXPLOSIVE_PROJECTILE_RATE;

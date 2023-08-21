@@ -20,7 +20,7 @@ LaserGun::~LaserGun()
 
 void LaserGun::Fire()
 {
-	m_weaponInfos.m_projectileInfos.POSITION = m_position;
+	m_weaponInfos.m_projectileInfos->POSITION = m_position;
 	GameObjectPool::GetInstance()->TakeProjectileFromPool(m_weaponInfos.m_projectileInfos);
 }
 
@@ -34,15 +34,18 @@ void LaserGun::Reset()
 void LaserGun::OnStart()
 {
 	// Initialize projectile infos
-	SProjectileData data;
-	data.DIRECTION = NO_DIRECTION;
-	data.COUNT_DOWN = LASER_PROJECTILE_WALL_BOUNCES_COUNT;
-	data.RADIUS = LASER_PROJECTILE_RADIUS;
-	data.LIFETIME = LASER_PROJECTILE_LIFETIME;
-	data.DAMAGE = LASER_PROJECTILE_DAMAGE;
-	data.SPEED = LASER_PROJECTILE_SPEED;
-	data.COLOR = LASER_PROJECTILE_COLOR;
-	data.WEAPON_TYPE = EWeaponType::LAZERGUN;
+	SProjectileData* data = new SProjectileData(
+		LASER_PROJECTILE_COLOR,
+		NO_DIRECTION,
+		m_position,
+		LASER_PROJECTILE_WALL_BOUNCES_COUNT,
+		LASER_PROJECTILE_RADIUS,
+		LASER_PROJECTILE_LIFETIME,
+		LASER_PROJECTILE_DAMAGE,
+		LASER_PROJECTILE_SPEED,
+		EWeaponType::LAZERGUN
+	);
+
 	SetProjectileInfos(data);
 
 	m_weaponInfos.m_attackRate = LASER_PROJECTILE_RATE;

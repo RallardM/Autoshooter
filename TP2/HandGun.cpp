@@ -23,7 +23,7 @@ HandGun::~HandGun()
 
 void HandGun::Fire()
 {
-	m_weaponInfos.m_projectileInfos.POSITION = m_position;
+	m_weaponInfos.m_projectileInfos->POSITION = m_position;
 	GameObjectPool::GetInstance()->TakeProjectileFromPool(m_weaponInfos.m_projectileInfos);
 }
 
@@ -37,15 +37,15 @@ void HandGun::Reset()
 void HandGun::OnStart()
 {
 	// Initialize projectile infos
-	SProjectileData data;
-	data.DIRECTION = NO_DIRECTION;
-	data.COUNT_DOWN = NO_COUNTDOWN;
-	data.RADIUS = HANDGUN_PROJECTILE_RADIUS;
-	data.LIFETIME = HANDGUN_PROJECTILE_LIFETIME;
-	data.DAMAGE = HANDGUN_PROJECTILE_DAMAGE;
-	data.SPEED = HANDGUN_PROJECTILE_SPEED;
-	data.COLOR = HANDGUN_PROJECTILE_COLOR;
-	data.WEAPON_TYPE = EWeaponType::HANDGUN;
+	SProjectileData* data = new SProjectileData();
+	data->DIRECTION = NO_DIRECTION;
+	data->COUNT_DOWN = NO_COUNTDOWN;
+	data->RADIUS = HANDGUN_PROJECTILE_RADIUS;
+	data->LIFETIME = HANDGUN_PROJECTILE_LIFETIME;
+	data->DAMAGE = HANDGUN_PROJECTILE_DAMAGE;
+	data->SPEED = HANDGUN_PROJECTILE_SPEED;
+	data->COLOR = HANDGUN_PROJECTILE_COLOR;
+	data->WEAPON_TYPE = EWeaponType::HANDGUN;
 	SetProjectileInfos(data);
 
 	m_weaponInfos.m_attackRate = HANDGUN_PROJECTILE_RATE;

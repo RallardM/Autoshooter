@@ -84,9 +84,10 @@ void GameObjectPool::InitializeGameObjects()
 	// Initialize projectiles pool
 	for (int i = 0; i < PROJECTILES_POOL_SIZE; i++)
 	{
-		SProjectileData data;
+		SProjectileData* data = new SProjectileData();
+		m_emptyWeaponInfos = new SWeaponData(data);
 		SetEmptyProjectileInfos(data);
-		Projectile* projectile = new Projectile(m_emptyWeaponInfos.m_projectileInfos);
+		Projectile* projectile = new Projectile(m_emptyWeaponInfos->m_projectileInfos);
 		m_projectilesPool.push_back(projectile);
 		m_allGameObjectsPool.push_back(projectile);
 	}
@@ -252,14 +253,14 @@ const void GameObjectPool::UpdateEnemySpawner() const
 	}
 }
 
-const void GameObjectPool::TakeProjectileFromPool(const SProjectileData& projectileData) const
+const void GameObjectPool::TakeProjectileFromPool(SProjectileData* projectileData) const
 {
 	for (Projectile* projectile : m_projectilesPool)
 	{
 		if (projectile == nullptr) { continue; }
 		if (projectile->IsActive() == true) { continue; }
 
-		projectile->SetProjectileData(projectileData);
+		projectile->SetProjectileInfos(projectileData);
 		projectile->OnStart();
 		break;
 	}
@@ -485,6 +486,7 @@ const void GameObjectPool::RemoveAllGameObjects()
 {
 	for (auto* i : m_allGameObjectsPool)
 	{
+		if (i == nullptr) { continue; }
 		delete i;
 		i = nullptr;
 	}
@@ -492,6 +494,7 @@ const void GameObjectPool::RemoveAllGameObjects()
 
 	for (auto* i : m_allWeaponsPool)
 	{
+		if (i == nullptr) { continue; }
 		delete i;
 		i = nullptr;
 	}
@@ -499,6 +502,7 @@ const void GameObjectPool::RemoveAllGameObjects()
 
 	for (auto* i : m_uiElementsPool)
 	{
+		if (i == nullptr) { continue; }
 		delete i;
 		i = nullptr;
 	}
@@ -506,6 +510,7 @@ const void GameObjectPool::RemoveAllGameObjects()
 
 	for (auto* i : m_allEntitiesPool)
 	{
+		if (i == nullptr) { continue; }
 		delete i;
 		i = nullptr;
 	}
@@ -513,6 +518,7 @@ const void GameObjectPool::RemoveAllGameObjects()
 
 	for (auto* i : m_enemiesPool)
 	{
+		if (i == nullptr) { continue; }
 		delete i;
 		i = nullptr;
 	}
@@ -520,6 +526,7 @@ const void GameObjectPool::RemoveAllGameObjects()
 
 	for (auto* i : m_handGunsPool)
 	{
+		if (i == nullptr) { continue; }
 		delete i;
 		i = nullptr;
 	}
@@ -527,6 +534,7 @@ const void GameObjectPool::RemoveAllGameObjects()
 
 	for (auto* i : m_explosiveGunsPool)
 	{
+		if (i == nullptr) { continue; }
 		delete i;
 		i = nullptr;
 	}
@@ -534,6 +542,7 @@ const void GameObjectPool::RemoveAllGameObjects()
 
 	for (auto* i : m_laserGunsPool)
 	{
+		if (i == nullptr) { continue; }
 		delete i;
 		i = nullptr;
 	}
@@ -541,6 +550,7 @@ const void GameObjectPool::RemoveAllGameObjects()
 
 	for (auto* i : m_projectilesPool)
 	{
+		if (i == nullptr) { continue; }
 		delete i;
 		i = nullptr;
 	}
@@ -548,6 +558,7 @@ const void GameObjectPool::RemoveAllGameObjects()
 
 	for (auto* i : m_experienceOrbsPool)
 	{
+		if (i == nullptr) { continue; }
 		delete i;
 		i = nullptr;
 	}

@@ -148,8 +148,3 @@ void UIElement::UpdateRegressBar()
 																	  // PLAYER_HEALTH_BAR_SIZE.x would have to be changed wor a member variable
 																	  // to fit both the Enemy health bar width at 32.f and player's at 40.f
 }
-
-void UIElement::SetUIElementData(SUIElementData* uiData)
-{
-	m_uiData = uiData;
-}

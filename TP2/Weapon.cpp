@@ -37,13 +37,13 @@ void Weapon::IncreaseRate()
 
 void Weapon::IncreaseProjectileDamage()
 {
-	m_weaponInfos.m_projectileInfos.DAMAGE *= INCREASE_PROJECTILE_FACTOR;
-	std::cout << "Projectile damage doubled : " << m_weaponInfos.m_projectileInfos.DAMAGE << std::endl;
+	m_weaponInfos.m_projectileInfos->DAMAGE *= INCREASE_PROJECTILE_FACTOR;
+	std::cout << "Projectile damage doubled : " << m_weaponInfos.m_projectileInfos->DAMAGE << std::endl;
 }
 
 void Weapon::IncreaseProjectileSize()
 {
-	m_weaponInfos.m_projectileInfos.RADIUS *= INCREASE_PROJECTILE_FACTOR;
+	m_weaponInfos.m_projectileInfos->RADIUS *= INCREASE_PROJECTILE_FACTOR;
 }
 
 const void Weapon::FollowPosition(Vector2& newPosition)
