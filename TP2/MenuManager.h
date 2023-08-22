@@ -19,11 +19,11 @@ public: // Public methods
 private: // Private methods
 	MenuManager(); // Private constructor for singleton pattern https://youtu.be/PPup1yeU45I
 	const EUIMenuType GetCurrentMenu() const { return m_currentMenu; }
-	void SetCurrentMenu(EUIMenuType menu) { m_currentMenu = menu; }
+	const void SetCurrentMenu(const EUIMenuType menu) { m_currentMenu = menu; }
 
-	void RenderPause();
-	void RenderMainMenu();
-	void RenderLevelUp();
-	void RenderGameOver();
+	const void RenderPause() const;
+	const void RenderMainMenu() const;
+	const void RenderLevelUp() const;
+	const void RenderGameOver() const;
 
 };

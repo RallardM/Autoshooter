@@ -34,7 +34,7 @@ private: // Private methods
 
 	// Game getters and setters
 	bool const IsPaused() const { return m_isPaused; }
-	void PauseGame() { m_isPaused = !m_isPaused; }
+	const void PauseGame() { m_isPaused = !m_isPaused; }
 
 	// Map getters
 	const float GetMapWidth() { return MAP_WIDTH; }

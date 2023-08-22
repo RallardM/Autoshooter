@@ -29,33 +29,32 @@ private: // Private member variables
 public: // Public methods
 	~GameObjectPool();
 	static GameObjectPool* GetInstance();
-	void InitializeGameObjects();
+	const void InitializeGameObjects();
 	
 private: // Private methods
 	GameObjectPool(); // Private constructor for singleton pattern https://youtu.be/PPup1yeU45I
 	
-	void RegisterGameObject(GameObject* gameObject);
-	void UnregisterGameObject(GameObject* gameObject);
-	EGameObjectType GetGameObjectType(GameObject* gameObject);
-	GameObject* GetClosestGameObject(const Vector2& position, const EGameObjectType& type);
-	void UpdateGameObjects(const float& deltatime);
-	unsigned short int GetActiveObjectCountFromList(const EGameObjectType& type);
+	const void RegisterGameObject(GameObject* gameObject);
+	const void UnregisterGameObject(GameObject* gameObject);
+	const EGameObjectType GetGameObjectType(const GameObject* gameObject) const;
+	GameObject* GetClosestGameObject(const Vector2& position, const EGameObjectType& type) const;
+	const void UpdateGameObjects(const float& deltatime) const;
+	const unsigned short int GetActiveObjectCountFromList(const EGameObjectType& type) const;
 	
-	void RenderGameObjects();
-	void ResetAllObjects();
-	void UnegisterAllObjects();
-	void RemoveAllGameObjects();
-	void RemoveGameObjectsMarkedForRemoval();
-	void UpdateEnemySpawner();
-	void IntializeEnemyPool();
-	void CleanUpGame();
+	const void RenderGameObjects() const;
+	const void ResetAllObjects() const;
+	const void UnegisterAllObjects();
+	const void RemoveAllGameObjects();
+	const void RemoveGameObjectsMarkedForRemoval();
+	const void UpdateEnemySpawner() const;;
+	const void CleanUpGame();
 
-	std::list<GameObject*> GetGameObjects() { return m_gameObjects; }
+	const std::list<GameObject*> GetGameObjects() const { return m_gameObjects; }
 	// Player getters // TODO Extract experience to its own class
-	Player* GetPlayer() { return m_player; }
-	Vector2 GetPlayerPosition() { return { m_player->m_position.x, m_player->m_position.y }; }
-	const unsigned short int GetPlayerExperience() { return m_player->m_experience; }
-	const unsigned short int GetPlayerTotalExperience() { return m_player->m_totalExperience; }
-	void AddPlayerExperience(unsigned short int experience) { m_player->m_experience += experience; m_player->m_totalExperience += experience; }
+	const Player* GetPlayer() const { return m_player; }
+	const Vector2 GetPlayerPosition() const { return { m_player->m_position.x, m_player->m_position.y }; }
+	const unsigned short int GetPlayerExperience() const { return m_player->m_experience; }
+	const unsigned short int GetPlayerTotalExperience() const { return m_player->m_totalExperience; }
+	const void AddPlayerExperience(unsigned short int experience) const { m_player->m_experience += experience; m_player->m_totalExperience += experience; }
 };
 

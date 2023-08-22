@@ -237,7 +237,7 @@ void Player::Update(const float& deltatime)
 	Collision();
 }
 
-void Player::Render()
+const void Player::Render()
 {
 	DrawRectangleV(m_position, m_playerSize, m_color);
 }
@@ -249,7 +249,7 @@ void Player::Reset()
 	m_isActive = false;
 }
 
-void Player::Collision()
+const void Player::Collision()
 {
 	Rectangle playerRect = { m_position.x, m_position.y, m_playerSize.x, m_playerSize.y };
 	bool isEnemyHitPlayer = CollisionManager::GetInstance()->ArePlayerEnemyColliding(playerRect);
@@ -276,7 +276,7 @@ void Player::Collision()
 	m_health -= ENEMY_DAMAGE;
 }
 
-void Player::VerifyHealth()
+const void Player::VerifyHealth()
 {
 	if (m_health <= 0)
 	{
@@ -307,7 +307,7 @@ void Player::VerifyHealth()
 	}
 }
 
-void Player::VerifyExperience()
+const void Player::VerifyExperience()
 {
 	// TODO Remi : create a higher number of experience to reach for every new level
 	// If a hundred experience is reached, the player levels up
@@ -320,7 +320,7 @@ void Player::VerifyExperience()
 	}
 }
 
-void Player::IncreaseWeaponRate()
+const void Player::IncreaseWeaponRate() const
 {
 	for (Weapon* weapon : m_weapons)
 	{
@@ -336,7 +336,7 @@ void Player::IncreaseWeaponRate()
 	}
 }
 
-void Player::IncreaseProjectileDamage()
+const void Player::IncreaseProjectileDamage() const
 {
 	for (Weapon* weapon : m_weapons)
 	{
@@ -352,7 +352,7 @@ void Player::IncreaseProjectileDamage()
 	}
 }
 
-void Player::IncreaseProjectileSize()
+const void Player::IncreaseProjectileSize() const
 {
 	for (Weapon* weapon : m_weapons)
 	{
@@ -365,28 +365,28 @@ void Player::IncreaseProjectileSize()
 	}
 }
 
-void Player::IncreaseHealth()
+const void Player::IncreaseHealth()
 {
 	// TODO Remi : make sure the health bonus stops at the 
 	// full second bar and remove the bonus from the level up menu
 	m_health += TEN_HEALTH_POINTS_BONUS;
 }
 
-void Player::AddNewHandGun()
+const void Player::AddNewHandGun()
 {
 	HandGun* handGun = new HandGun();
 	m_weapons.push_back(handGun);
 	handGun->OnStart();
 }
 
-void Player::AddNewExplosiveGun()
+const void Player::AddNewExplosiveGun()
 {
 	ExplosiveGun* explosiveGun = new ExplosiveGun();
 	m_weapons.push_back(explosiveGun);
 	explosiveGun->OnStart();
 }
 
-void Player::AddNewLaserGun()
+const void Player::AddNewLaserGun()
 {
 	LaserGun* laserGun = new LaserGun();
 	m_weapons.push_back(laserGun);

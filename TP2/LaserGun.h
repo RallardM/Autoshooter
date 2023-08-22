@@ -20,11 +20,11 @@ public: // Public methods
 
 private: // Private methods
 	// Inherited via Weapon
-	virtual void Fire() override;
+	virtual const void Fire() override;
 	virtual void Reset() override;
 	virtual void OnStart() override;
 	virtual void Update(const float& deltatime) override;
-	virtual void Render() override;
+	virtual const void Render() override;
 	virtual const bool IsActive() const override { return m_isActive; }
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::WEAPON; }

@@ -36,12 +36,12 @@ private: // Private methods
 	virtual void Update(const float& _deltatime) override;
 	void SetHasSecondBarToRegressBefore(const bool& value) { m_hasASecondBarToRegressBefore = value; } 
 	virtual const void FollowPosition(Vector2& newPosition) override;
-	virtual void Render() override;
+	virtual const void Render() override;
 
-	void RenderProgressBar();
-	void RenderRegressBar();
-	void UpdateProgressBar();
-	void UpdateRegressBar();
+	const void RenderProgressBar() const;
+	const void RenderRegressBar() const;
+	const void UpdateProgressBar();
+	const void UpdateRegressBar();
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::UI; }
 

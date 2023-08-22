@@ -54,7 +54,7 @@ private: // Private methods
 	// Inherited via GameObject
 	virtual void OnStart() override;
 	virtual void Update(const float& deltatime) override;
-	virtual void Render() override;
+	virtual const void Render() override;
 	virtual bool const IsActive() const override { return m_isActive; }
 	virtual void Reset() override;
 	virtual const Vector2& GetPosition() const override { return m_position; }

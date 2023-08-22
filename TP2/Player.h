@@ -47,18 +47,18 @@ private: // Private methods
 	// Inherited via GameObject
 	void OnStart() override;
 	void Update(const float& deltatime) override;
-	void Render() override;
+	const void Render() override;
 	const bool IsActive() const override { return m_isActive; }
 	void Reset() override;
 
-	void Collision();
-	void VerifyHealth();
-	void VerifyExperience();
-	void IncreaseWeaponRate();
-	void IncreaseProjectileDamage();
-	void IncreaseProjectileSize();
-	void IncreaseHealth();
-	void AddNewHandGun();
-	void AddNewExplosiveGun();
-	void AddNewLaserGun();
+	const void Collision();
+	const void VerifyHealth();
+	const void VerifyExperience();
+	const void IncreaseWeaponRate() const;
+	const void IncreaseProjectileDamage() const;
+	const void IncreaseProjectileSize() const;
+	const void IncreaseHealth();
+	const void AddNewHandGun();
+	const void AddNewExplosiveGun();
+	const void AddNewLaserGun();
 };

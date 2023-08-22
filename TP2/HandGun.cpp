@@ -20,7 +20,7 @@ HandGun::~HandGun()
 	std::cout << "HandGun destructor called. ID : " << m_id << std::endl;
 }
 
-void HandGun::Fire()
+const void HandGun::Fire()
 {
 	m_weaponInfos.m_projectileInfos.POSITION = m_position;
 	Projectile* projectile = new Projectile(m_weaponInfos.m_projectileInfos);
@@ -73,7 +73,7 @@ void HandGun::Update(const float& deltatime)
 	}
 }
 
-void HandGun::Render()
+const void HandGun::Render()
 {
 	// Add a small offset to the right at every new ExplosiveGun
 	Vector2 position = m_position;

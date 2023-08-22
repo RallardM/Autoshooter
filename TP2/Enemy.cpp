@@ -53,7 +53,7 @@ void Enemy::Update(const float& deltatime)
 	}
 }
 
-void Enemy::Render()
+const void Enemy::Render()
 {
 	DrawRectangleV(m_position, m_enemySize, m_color);
 }
@@ -69,7 +69,7 @@ void Enemy::Reset()
 	m_isActive = false;
 }
 
-void Enemy::Spawn()
+const void Enemy::Spawn()
 {
 	int randCorner = std::rand() % SCREEN_CORNER_COUNT;
 	Vector2 randPosition = NO_POSITION;
@@ -125,14 +125,14 @@ void Enemy::Spawn()
 	m_position.y = randPosition.y;
 }
 
-void Enemy::UpdatePosition(const float& deltatime)
+const void Enemy::UpdatePosition(const float& deltatime)
 {
 	// Update Enemy position
 	m_position.x += m_direction.x * ENEMY_SPEED * deltatime;
 	m_position.y += m_direction.y * ENEMY_SPEED * deltatime;
 }
 
-void Enemy::TrackPlayer()
+const void Enemy::TrackPlayer()
 {
 	// Get a reference to the player's position
 	Vector2 playerPosition = GameObjectPool::GetInstance()->GetPlayerPosition();
@@ -153,7 +153,7 @@ void Enemy::TrackPlayer()
 	}
 }
 
-void Enemy::Collision()
+const void Enemy::Collision()
 {
 	Rectangle enemyRect = { m_position.x, m_position.y, m_enemySize.x, m_enemySize.y };
 	bool isEnemyHitByProjctile = CollisionManager::GetInstance()->AreEnemyProjectileColliding(enemyRect);
@@ -179,7 +179,7 @@ void Enemy::Collision()
 	}
 }
 
-void Enemy::VerifyHealth()
+const void Enemy::VerifyHealth()
 {
 	if (m_health <= 0)
 	{
@@ -193,7 +193,7 @@ void Enemy::VerifyHealth()
 	}
 }
 
-void Enemy::GenerateXPOrb()
+const void Enemy::GenerateXPOrb() const
 {
 	ExperienceOrb* xpOrb = new ExperienceOrb(m_position);
 	xpOrb->OnStart();

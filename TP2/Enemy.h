@@ -37,7 +37,7 @@ private: // Private methods
 	// Inherited via GameObject
 	virtual void OnStart() override;
 	virtual void Update(const float& deltatime) override;
-	virtual void Render() override;
+	virtual const void Render() override;
 	virtual void Reset() override;
 	virtual const bool IsActive() const override { return m_isActive; }
 	virtual const Vector2& GetPosition() const override { return m_position; }
@@ -46,10 +46,10 @@ private: // Private methods
 	virtual const short int GetHealth() const override { return m_health; }
 	virtual const short int GetMaxHealth() const override { return MAX_HEALTH; }
 
-	void Spawn();
-	void UpdatePosition(const float& deltatime);
-	void TrackPlayer();
-	void Collision();
-	void VerifyHealth();
-	void GenerateXPOrb();
+	const void Spawn();
+	const void UpdatePosition(const float& deltatime);
+	const void TrackPlayer();
+	const void Collision();
+	const void VerifyHealth();
+	const void GenerateXPOrb() const;
 };

@@ -25,7 +25,7 @@ GameObjectPool::GameObjectPool()
 	std::cout << "GameObjectPool created" << std::endl;
 }
 
-void GameObjectPool::InitializeGameObjects()
+const void GameObjectPool::InitializeGameObjects()
 {
 	// Initialize random seed
 	srand(static_cast<unsigned int>(time(NULL))); // cast for the warning :  C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
@@ -44,24 +44,24 @@ void GameObjectPool::InitializeGameObjects()
 	SetTargetFPS(TARGET_FPS);
 }
 
-void GameObjectPool::RegisterGameObject(GameObject* gameObject)
+const void GameObjectPool::RegisterGameObject(GameObject* gameObject)
 {
     m_gameObjects.push_back(gameObject);
     //std::cout << "GameObject added to gameObjects list. GameObjects amount: " << m_gameObjects.size() << std::endl;
 }
 
-void GameObjectPool::UnregisterGameObject(GameObject* gameObject)
+const void GameObjectPool::UnregisterGameObject(GameObject* gameObject)
 {
     m_gameObjectsToRemove.push_back(gameObject);
     //cout << "GameObject marked for removal" << endl;
 }
 
-EGameObjectType GameObjectPool::GetGameObjectType(GameObject* gameObject)
+const EGameObjectType GameObjectPool::GetGameObjectType(const GameObject* gameObject) const
 {
     return gameObject->GetGameObjectType();
 }
 
-GameObject* GameObjectPool::GetClosestGameObject(const Vector2& position, const EGameObjectType& type)
+GameObject* GameObjectPool::GetClosestGameObject(const Vector2& position, const EGameObjectType& type) const
 {
 	GameObject* closest = nullptr;
 	float closestDistance = 0.f;
@@ -82,7 +82,7 @@ GameObject* GameObjectPool::GetClosestGameObject(const Vector2& position, const 
 	return closest;
 }
 
-void GameObjectPool::UpdateGameObjects(const float& deltatime)
+const void GameObjectPool::UpdateGameObjects(const float& deltatime) const
 {
 
 	for (auto const& i : m_gameObjects)
@@ -98,7 +98,7 @@ void GameObjectPool::UpdateGameObjects(const float& deltatime)
 	}
 }
 
-unsigned short int GameObjectPool::GetActiveObjectCountFromList(const EGameObjectType& type)
+const unsigned short int GameObjectPool::GetActiveObjectCountFromList(const EGameObjectType& type) const
 {
 	unsigned short int count = 0;
 	for (auto const& i : m_gameObjects)
@@ -114,7 +114,7 @@ unsigned short int GameObjectPool::GetActiveObjectCountFromList(const EGameObjec
 	return count;
 }
 
-void GameObjectPool::RenderGameObjects()
+const void GameObjectPool::RenderGameObjects() const
 {
 	for (auto const& i : m_gameObjects)
 	{
@@ -129,7 +129,7 @@ void GameObjectPool::RenderGameObjects()
 	}
 }
 
-void GameObjectPool::ResetAllObjects()
+const void GameObjectPool::ResetAllObjects() const
 {
 	for (auto const& i : m_gameObjects)
 	{
@@ -139,7 +139,7 @@ void GameObjectPool::ResetAllObjects()
 	}
 }
 
-void GameObjectPool::UnegisterAllObjects()
+const void GameObjectPool::UnegisterAllObjects()
 {
 	for (GameObject* gameObject : m_gameObjects)
 	{
@@ -154,7 +154,7 @@ void GameObjectPool::UnegisterAllObjects()
 	}
 }
 
-void GameObjectPool::RemoveAllGameObjects()
+const void GameObjectPool::RemoveAllGameObjects()
 {
 	for (int i = 0; i < m_gameObjectsToRemove.size(); i++)
 	{
@@ -182,7 +182,7 @@ void GameObjectPool::RemoveAllGameObjects()
 	m_gameObjects.resize(0);
 }
 
-void GameObjectPool::RemoveGameObjectsMarkedForRemoval()
+const void GameObjectPool::RemoveGameObjectsMarkedForRemoval()
 {
 	for (int i = 0; i < m_gameObjectsToRemove.size(); i++)
 	{
@@ -208,7 +208,7 @@ void GameObjectPool::RemoveGameObjectsMarkedForRemoval()
 	}
 }
 
-void GameObjectPool::UpdateEnemySpawner()
+const void GameObjectPool::UpdateEnemySpawner() const
 {
 	EGameObjectType enemyType = EGameObjectType::ENEMY;
 	unsigned short int enemiesCount = GameObjectPool::GetInstance()->GetActiveObjectCountFromList(enemyType);
@@ -221,11 +221,7 @@ void GameObjectPool::UpdateEnemySpawner()
 	}
 }
 
-void GameObjectPool::IntializeEnemyPool()
-{
-}
-
-void GameObjectPool::CleanUpGame()
+const void GameObjectPool::CleanUpGame()
 {
 	ResetAllObjects();
 	UnegisterAllObjects();

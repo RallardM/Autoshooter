@@ -30,18 +30,18 @@ void Weapon::OnStart()
 		FULL_ALPHA_VALUE };
 }
 
-void Weapon::IncreaseRate()
+const void Weapon::IncreaseRate()
 {
 	m_weaponInfos.m_attackRate *= HALF;
 }
 
-void Weapon::IncreaseProjectileDamage()
+const void Weapon::IncreaseProjectileDamage()
 {
 	m_weaponInfos.m_projectileInfos.DAMAGE *= INCREASE_PROJECTILE_FACTOR;
 	std::cout << "Projectile damage doubled : " << m_weaponInfos.m_projectileInfos.DAMAGE << std::endl;
 }
 
-void Weapon::IncreaseProjectileSize()
+const void Weapon::IncreaseProjectileSize()
 {
 	m_weaponInfos.m_projectileInfos.RADIUS *= INCREASE_PROJECTILE_FACTOR;
 }

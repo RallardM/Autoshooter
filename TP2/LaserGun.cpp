@@ -17,7 +17,7 @@ LaserGun::~LaserGun()
 	std::cout << "LaserGun destructor called. ID = " << m_id << std::endl;
 }
 
-void LaserGun::Fire()
+const void LaserGun::Fire()
 {
 	m_weaponInfos.m_projectileInfos.POSITION = m_position;
 	Projectile* projectile = new Projectile(m_weaponInfos.m_projectileInfos);
@@ -71,7 +71,7 @@ void LaserGun::Update(const float& deltatime)
 	}
 }
 
-void LaserGun::Render()
+const void LaserGun::Render()
 {
 	// Add a small offset to the right at every new ExplosiveGun
 	Vector2 position = m_position;

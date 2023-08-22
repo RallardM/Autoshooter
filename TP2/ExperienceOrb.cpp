@@ -37,7 +37,7 @@ void ExperienceOrb::Update(const float& _deltatime)
 	Collision();
 }
 
-void ExperienceOrb::Render()
+const void ExperienceOrb::Render()
 {
 	DrawCircleGradient((int)m_position.x, (int)m_position.y, m_radius, GREEN, LIGHTGRAY);
 }
@@ -49,7 +49,7 @@ void ExperienceOrb::Reset()
 	m_isActive = false;
 }
 
-void ExperienceOrb::Collision()
+const void ExperienceOrb::Collision()
 {
 	bool isPlayerCollidingOrb = CollisionManager::GetInstance()->AreOrbPlayerColliding(m_position, m_radius);
 

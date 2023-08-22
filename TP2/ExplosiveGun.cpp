@@ -20,7 +20,7 @@ ExplosiveGun::~ExplosiveGun()
 	std::cout << "ExplosiveGun destructor called. ID = " << m_id << std::endl;
 }
 
-void ExplosiveGun::Fire()
+const void ExplosiveGun::Fire()
 {
 	// Initialize projectile position and direction
 	Vector2 projectilePosition = NO_POSITION;
@@ -95,7 +95,7 @@ void ExplosiveGun::Update(const float& deltatime)
 	}
 }
 
-void ExplosiveGun::Render()
+const void ExplosiveGun::Render()
 {
 	// Add a small offset to the right at every new ExplosiveGun
 	Vector2 position = m_position;

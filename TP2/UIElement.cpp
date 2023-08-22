@@ -54,6 +54,29 @@ const void UIElement::FollowPosition(Vector2& newPosition)
 	m_position = { newPosition.x + m_offset.x, newPosition.y + m_offset.y };
 }
 
+const void UIElement::Render()
+{
+	switch (m_UIType)
+	{
+	case EUIElementType::PROGRESS_BAR:
+		RenderProgressBar();
+		break;
+
+	case EUIElementType::REGRESS_BAR:
+		RenderRegressBar();
+		break;
+
+	case EUIElementType::TEXT:
+		DrawText(std::to_string(m_intValue).c_str(), (int)m_position.x, (int)m_position.y, m_fontSize, m_color);
+		break;
+
+	case EUIElementType::COUNT:
+	default:
+		std::cout << "UIElement::Render() : wrong UIElement type" << std::endl;
+		break;
+	}
+}
+
 void UIElement::Reset()
 {
 
@@ -84,30 +107,7 @@ void UIElement::Update(const float& _deltatime)
 	}
 }
 
-void UIElement::Render()
-{
-	switch (m_UIType)
-	{
-	case EUIElementType::PROGRESS_BAR:
-		RenderProgressBar();
-		break;
-	
-	case EUIElementType::REGRESS_BAR:
-		RenderRegressBar();
-		break;
-
-	case EUIElementType::TEXT:
-		DrawText(std::to_string(m_intValue).c_str(), (int)m_position.x, (int)m_position.y, m_fontSize, m_color);
-		break;
-
-	case EUIElementType::COUNT:
-	default:
-		std::cout << "UIElement::Render() : wrong UIElement type" << std::endl;
-		break;
-	}
-}
-
-void UIElement::RenderProgressBar()
+const void UIElement::RenderProgressBar() const
 {
 	if (m_floatValue == 0.0f)
 	{
@@ -117,7 +117,7 @@ void UIElement::RenderProgressBar()
 	DrawRectangleV(m_position, m_size, m_color);
 }
 
-void UIElement::RenderRegressBar()
+const void UIElement::RenderRegressBar() const
 {
 	if (m_floatValue == 0.0f)
 	{
@@ -127,7 +127,7 @@ void UIElement::RenderRegressBar()
 	DrawRectangleV(m_position, m_size, m_color);
 }
 
-void UIElement::UpdateProgressBar()
+const void UIElement::UpdateProgressBar()
 {
 	m_floatValue = GameObjectPool::GetInstance()->GetPlayerExperience();
 	
@@ -138,7 +138,7 @@ void UIElement::UpdateProgressBar()
 																	  // to fit both the Enemy health bar width at 32.f and player's at 40.f																
 }
 
-void UIElement::UpdateRegressBar()
+const void UIElement::UpdateRegressBar()
 {
 	// Keep its size full it there is a second bar to regress
 	if (m_hasASecondBarToRegressBefore)

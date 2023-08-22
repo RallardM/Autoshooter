@@ -24,7 +24,7 @@ protected: // Protected methods
 	virtual void OnStart() = 0;
 
 	const SWeaponData GetWeaponInfos() const { return m_weaponInfos; }
-	void SetProjectileInfos(const SProjectileData& projectileInfos) { m_weaponInfos.m_projectileInfos = projectileInfos; }
+	const void SetProjectileInfos(const SProjectileData& projectileInfos) { m_weaponInfos.m_projectileInfos = projectileInfos; }
 
 public:  // Public member variables
 	unsigned short int m_weaponId = 0;
@@ -37,16 +37,16 @@ public: // Public methods
 	virtual ~Weapon() = 0;
 
 private: // Private methods
-	virtual void Fire() = 0;
+	virtual const void Fire() = 0;
 	virtual void Update(const float& deltatime) = 0;
-	const void FollowPosition(Vector2& newPosition) override;
-	virtual void Render() = 0;
+	virtual const void FollowPosition(Vector2& newPosition) override;
+	virtual const void Render() = 0;
 	virtual const bool IsActive() const = 0;
 	virtual void Reset() = 0;
 
-	void IncreaseRate();
-	void IncreaseProjectileDamage();
-	void IncreaseProjectileSize();
+	const void IncreaseRate();
+	const void IncreaseProjectileDamage();
+	const void IncreaseProjectileSize();
 	virtual const Vector2& GetPosition() const = 0;
 	virtual const EGameObjectType GetGameObjectType() const = 0;
 

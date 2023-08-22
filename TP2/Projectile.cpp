@@ -79,7 +79,7 @@ void Projectile::Update(const float& deltatime)
 	}
 }
 
-void Projectile::Render()
+const void Projectile::Render()
 {
 	switch (m_projectileData.WEAPON_TYPE)
 	{

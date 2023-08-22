@@ -31,7 +31,7 @@ MenuManager* MenuManager::GetInstance()
 	return _Instance;
 }
 
-void MenuManager::RenderPause()
+const void MenuManager::RenderPause() const
 {
 	switch (m_currentMenu)
 	{
@@ -54,7 +54,7 @@ void MenuManager::RenderPause()
 	}
 }
 
-void MenuManager::RenderMainMenu()
+const void MenuManager::RenderMainMenu() const
 {
 	float zoom = CameraManager::GetInstance()->GetCameraZoom();
 
@@ -93,7 +93,7 @@ void MenuManager::RenderMainMenu()
 	DrawText(pressEnterText.c_str(), (int)uiPositionX, (int)uiPositionY, menuFontSize, DARKBLUE);
 }
 
-void MenuManager::RenderLevelUp()
+const void MenuManager::RenderLevelUp() const
 {
 	float zoom = CameraManager::GetInstance()->GetCameraZoom();
 
@@ -196,10 +196,9 @@ void MenuManager::RenderLevelUp()
 	uiPositionX = menuBox.x + menuBox.width * HALF - textWidth * HALF;
 	uiPositionY += offsetDown;
 	DrawText(newLaserGunText.c_str(), (int)uiPositionX, (int)uiPositionY, choicesFontSize, DARKBLUE);
-
 }
 
-void MenuManager::RenderGameOver()
+const void MenuManager::RenderGameOver() const
 {
 	float zoom = CameraManager::GetInstance()->GetCameraZoom();
 

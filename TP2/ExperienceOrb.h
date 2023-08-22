@@ -22,13 +22,13 @@ private: // Private methods
 	// Inherited via GameObject
 	virtual void OnStart() override;
 	virtual void Update(const float& deltatime) override;
-	virtual void Render() override;
+	virtual const void Render() override;
 	void Reset() override;
 	virtual const bool IsActive() const override { return m_isActive; }
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::ORB; }
 	
-	void Collision();
+	const void Collision();
 
 	const float& GetRadius() const { return m_radius; }
 };
