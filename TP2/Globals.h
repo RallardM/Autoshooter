@@ -101,13 +101,23 @@ const int MAX_ENEMY_AMOUNT_PER_LEVELS = 10;
 const float CAM_ZOOM = 0.8f;
 const unsigned short int SCREEN_CORNER_COUNT = 4;
 
+// Default Menu values
+const float DEFAULT_MENU_WIDTH = 400.0f;
+const float DEFAULT_MENU_ROUNDNESS = 0.1f;
+const unsigned short int DEFAULT_MENU_SEGMENTS = 12;
+const unsigned short int DEFAULT_MENU_TITLE_FONTSIZE = 40;
+const unsigned short int DEFAULT_MENU_CHOICES_FONTSIZE = 30;
+
+// Main Menu
+const float MAIN_MENU_WIDTH = 600.0f;
+
 // Level up Menu
-const float MENU_WIDTH = 400.0f;
-const float MENU_HEIGHT = 700.0f;
-const float MENU_ROUNDNESS = 0.1f;
-const unsigned short int MENU_SEGMENTS = 12;
-const unsigned short int MENU_TITLE_FONTSIZE = 40;
-const unsigned short int MENU_CHOICES_FONTSIZE = 30;
+const float LEVELUP_MENU_HEIGHT = 700.0f;
+
+// GameOver Menu
+const float GAMEOVER_MENU_HEIGHT = 100.0f;
+
+const std::string PRESS_ENTER_TEXT = "Press Enter to Start!";
 const std::string LEVEL_UP_TEXT = "Level Up!";
 const std::string SHOOTING_RATE_TEXT = "1 Shooting Rate x 2";
 const std::string SHOOTING_DAMAGE_TEXT = "2 Shooting Damage x 2";
@@ -116,10 +126,7 @@ const std::string HEALTH_CAP_TEXT = "4 Health Bonus + 10";
 const std::string NEW_HAND_GUN_TEXT = "5 New HandGun";
 const std::string NEW_EXPLOSIVE_GUN_TEXT = "6 New Explosive Gun";
 const std::string NEW_LASER_GUN_TEXT = "7 New Laser Gun";
-
-// GameOver Menu
-const float GAMEOVER_MENU_WIDTH = 400.0f;
-const float GAMEOVER_MENU_HEIGHT = 100.0f;
+const std::string GAMEOVER_TEXT = "Game Over!";
 
 // Game
 const unsigned short int TARGET_FPS = 60;

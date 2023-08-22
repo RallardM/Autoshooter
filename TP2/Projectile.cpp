@@ -134,7 +134,7 @@ void Projectile::SetHandGunProjectileData()
 	SendInRandomDirections();
 }
 
-void Projectile::SetExplosiveGunProjectileValues()
+const void Projectile::SetExplosiveGunProjectileValues() 
 {
 	m_currentLifetime = m_projectileData.LIFETIME;
 
@@ -142,13 +142,13 @@ void Projectile::SetExplosiveGunProjectileValues()
 	m_ySpeed += m_projectileData.DIRECTION.y * m_projectileData.SPEED;
 }
 
-void Projectile::SetLaserGunProjectileValues()
+const void Projectile::SetLaserGunProjectileValues()
 {
 	m_currentLifetime = m_projectileData.LIFETIME;
 	SendInRandomDirections();
 }
 
-void Projectile::SendInRandomDirections()
+const void Projectile::SendInRandomDirections()
 {
 	// Calculate the magnitude of the speed vector : squareroot of (x*x + y*y)
 	Vector2 speedVector = { m_projectileData.SPEED, m_projectileData.SPEED };

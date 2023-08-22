@@ -160,7 +160,7 @@ void Enemy::Collision()
 
 	if (isEnemyHitByProjctile)
 	{
-		Projectile* projectile = CollisionManager::GetInstance()->GetCollidingProjectile(enemyRect);
+		const Projectile* projectile = CollisionManager::GetInstance()->GetCollidingProjectile(enemyRect);
 
 		if (projectile == nullptr) 
 		{ 

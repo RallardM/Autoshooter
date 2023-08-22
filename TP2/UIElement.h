@@ -32,11 +32,11 @@ public:
 private:
 	// Inherited via GameObject
 	virtual void OnStart() override;
-	void FollowPosition(const Vector2& newPosition);
 	virtual const bool IsActive() const override { return m_isActive; }
-	virtual void Reset() override; 
+	virtual void Reset() override;
+	virtual void Update(const float& _deltatime) override;
 	void SetHasSecondBarToRegressBefore(const bool& value) { m_hasASecondBarToRegressBefore = value; } 
-	virtual void Update(const float& deltatime) override;
+	virtual const void FollowPosition(Vector2& newPosition) override;
 	virtual void Render() override;
 
 	void RenderProgressBar();

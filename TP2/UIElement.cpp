@@ -49,7 +49,7 @@ void UIElement::OnStart()
 	m_isActive = true;
 }
 
-void UIElement::FollowPosition(const Vector2& newPosition)
+const void UIElement::FollowPosition(Vector2& newPosition)
 {
 	m_position = { newPosition.x + m_offset.x, newPosition.y + m_offset.y };
 }

@@ -27,3 +27,11 @@ enum class EUIElementType : unsigned short int
 	TEXT,
 	COUNT
 };
+
+enum class EUIMenuType : unsigned short int
+{
+	MAIN_MENU,
+	LEVELUP_MENU,
+	GAMEOVER_MENU,
+	COUNT
+};

@@ -64,7 +64,7 @@ private:
 	const float GetDamage() const { return m_projectileData.DAMAGE; }
 
 	void SetHandGunProjectileData();
-	void SetExplosiveGunProjectileValues();
-	void SetLaserGunProjectileValues();
-	void SendInRandomDirections();
+	const void SetExplosiveGunProjectileValues();
+	const void SetLaserGunProjectileValues();
+	const void SendInRandomDirections();
 };

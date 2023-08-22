@@ -17,6 +17,11 @@ GameObject::~GameObject()
 	std::cout << "GameObject destructor called. ID = " << m_gameObjectId << std::endl;
 }
 
+const void GameObject::FollowPosition(Vector2& newPosition)
+{
+	m_position = newPosition;
+}
+
 void GameObject::OnStart()
 {
 	GameObjectPool::GetInstance()->RegisterGameObject(this);

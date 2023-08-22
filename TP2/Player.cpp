@@ -28,14 +28,14 @@ void Player::HandleInput()
 	if (IsKeyPressed(KEY_F1))
 	{
 		Game::GetInstance()->PauseGame();
-		MenuManager::GetInstance()->SetLevelUpMenuOn();
+		MenuManager::GetInstance()->SetCurrentMenu(EUIMenuType::LEVELUP_MENU);
 	}
 
 	// Debug Game Over Menu
 	if (IsKeyPressed(KEY_F2))
 	{
 		Game::GetInstance()->PauseGame();
-		MenuManager::GetInstance()->SetIsPlayerDeadMenuOn();
+		MenuManager::GetInstance()->SetCurrentMenu(EUIMenuType::GAMEOVER_MENU);
 	}
 
 	// Debug + 5 Levels
@@ -51,6 +51,16 @@ void Player::HandleInput()
 		IncreaseHealth();
 		IncreaseHealth();
 	}
+	
+	// Main menu
+	if (Game::GetInstance()->IsPaused() && MenuManager::GetInstance()->GetCurrentMenu() == EUIMenuType::MAIN_MENU)
+	{
+		if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_KP_ENTER))
+		{
+			MenuManager::GetInstance()->SetCurrentMenu(EUIMenuType::LEVELUP_MENU);
+			Game::GetInstance()->PauseGame();
+		}
+	}
 
 	// Experience Menu Keys
 	if (Game::GetInstance()->IsPaused())
@@ -60,49 +70,42 @@ void Player::HandleInput()
 			// Increase shooting rate
 			IncreaseWeaponRate();
 			Game::GetInstance()->PauseGame();
-			MenuManager::GetInstance()->SetLevelUpMenuOn();
 		}
 		else if (IsKeyPressed(KEY_TWO))
 		{
 			// Increase enemy damages
 			IncreaseProjectileDamage();
 			Game::GetInstance()->PauseGame();
-			MenuManager::GetInstance()->SetLevelUpMenuOn();
 		}
 		else if (IsKeyPressed(KEY_THREE))
 		{
 			// Increase enemy size
 			IncreaseProjectileSize();
 			Game::GetInstance()->PauseGame();
-			MenuManager::GetInstance()->SetLevelUpMenuOn();
 		}
 		else if (IsKeyPressed(KEY_FOUR))
 		{
 			// Increase health capacity
 			IncreaseHealth();
 			Game::GetInstance()->PauseGame();
-			MenuManager::GetInstance()->SetLevelUpMenuOn();
 		}
 		else if (IsKeyPressed(KEY_FIVE))
 		{
 			// Add new HandGun
 			AddNewHandGun();
 			Game::GetInstance()->PauseGame();
-			MenuManager::GetInstance()->SetLevelUpMenuOn();
 		}
 		else if (IsKeyPressed(KEY_SIX))
 		{
 			// Add new Explosive Gun
 			AddNewExplosiveGun();
 			Game::GetInstance()->PauseGame();
-			MenuManager::GetInstance()->SetLevelUpMenuOn();
 		}
 		else if (IsKeyPressed(KEY_SEVEN))
 		{
 			// Add new Laser Gun
 			AddNewLaserGun();
 			Game::GetInstance()->PauseGame();
-			MenuManager::GetInstance()->SetLevelUpMenuOn();
 		}
 
 		return;
@@ -278,7 +281,7 @@ void Player::VerifyHealth()
 	if (m_health <= 0)
 	{
 		Game::GetInstance()->PauseGame();
-		MenuManager::GetInstance()->SetIsPlayerDeadMenuOn();
+		MenuManager::GetInstance()->SetCurrentMenu(EUIMenuType::GAMEOVER_MENU);
 	}
 
 	if (m_health > MAX_HEALTH && m_secondHealthBar == nullptr)
@@ -313,7 +316,7 @@ void Player::VerifyExperience()
 		m_experience = 0;
 		m_level++;
 		Game::GetInstance()->PauseGame();
-		MenuManager::GetInstance()->SetLevelUpMenuOn();
+		MenuManager::GetInstance()->SetCurrentMenu(EUIMenuType::LEVELUP_MENU);
 	}
 }
 

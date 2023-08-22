@@ -19,10 +19,10 @@ private:
 	CollisionManager(); // Private constructor for singleton pattern https://youtu.be/PPup1yeU45I
 
 	// Collision detection
-	bool AreEnemyProjectileColliding(const Rectangle& enemy);
-	Projectile* GetCollidingProjectile(const Rectangle& enemy);
-	bool AreOrbPlayerColliding(const Vector2& orbPosition, const float& orbradius);
-	bool ArePlayerEnemyColliding(const Rectangle& player);
-	Enemy* GetCollidingEnemy(const Rectangle& player);
+	const bool AreEnemyProjectileColliding(const Rectangle& enemy) const;
+	const Projectile* GetCollidingProjectile(const Rectangle& enemy) const;
+	const bool AreOrbPlayerColliding(const Vector2& orbPosition, const float& orbradius) const;
+	const bool ArePlayerEnemyColliding(const Rectangle& player) const;
+	Enemy* GetCollidingEnemy(const Rectangle& player) const;
 };
 

@@ -3,7 +3,6 @@
 
 extern const float FULL_CIRCLE; 
 
-// TODO end of production verify if all '/ 2' '/ 4' '/ 3' have been replaced by this
 extern const float FOURTH; // 1 / 4 or * 0.25
 extern const float EIGHTH; // 1 / 8 or * 0.125
 extern const float HALF; // 1 / 2 or * 0.5

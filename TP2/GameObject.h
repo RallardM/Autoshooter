@@ -22,6 +22,7 @@ private:
 	virtual void Render() = 0;
 	virtual const bool IsActive() const = 0;
 	virtual void Reset() = 0;
+	virtual const void FollowPosition(Vector2& newPosition);
 
 protected:
 

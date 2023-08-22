@@ -1,16 +1,14 @@
 #pragma once
+#include "Enumerations.h"
 
 class MenuManager
 {
 	friend class Player;
 	friend class Game;
 
-public:
-	bool m_isPlayerDeadMenuOn = false;
-	bool m_isLevelUpMenuOn = false;
-
 private:
 	static MenuManager* _Instance;
+	EUIMenuType m_currentMenu = EUIMenuType::MAIN_MENU;
 
 public:
 	~MenuManager();
@@ -18,14 +16,12 @@ public:
 
 private:
 	MenuManager(); // Private constructor for singleton pattern https://youtu.be/PPup1yeU45I
-	void SetIsPlayerDeadMenuOn() { m_isPlayerDeadMenuOn = !m_isPlayerDeadMenuOn; }
-	bool const IsPlayerDead() const { return m_isPlayerDeadMenuOn; }
-	void SetLevelUpMenuOn() { m_isLevelUpMenuOn = !m_isLevelUpMenuOn; }
-	bool const IsLevelUp() const { return m_isLevelUpMenuOn; }
+	const EUIMenuType GetCurrentMenu() const { return m_currentMenu; }
+	void SetCurrentMenu(EUIMenuType menu) { m_currentMenu = menu; }
 
 	void RenderPause();
+	void RenderMainMenu();
 	void RenderLevelUp();
 	void RenderGameOver();
 
 };
-
