@@ -14,18 +14,29 @@ class Weapon : public GameObject
 {
 	friend class Player;
 
-private:
+protected: // Protected member variables
+	SWeaponData m_weaponInfos;
+	float m_currentAttackTimer = 0.0f;
+	Color m_color = { 255, 255, 255, 255 };
+	Vector2 m_size = { 5.0f, 5.0f };
 
-	static unsigned short int s_weaponId;
+protected: // Protected methods
+	virtual void OnStart() = 0;
 
-public:
+	const SWeaponData GetWeaponInfos() const { return m_weaponInfos; }
+	void SetProjectileInfos(const SProjectileData& projectileInfos) { m_weaponInfos.m_projectileInfos = projectileInfos; }
+
+public:  // Public member variables
 	unsigned short int m_weaponId = 0;
 
-public:
+private: // Private member variables
+	static unsigned short int s_weaponId;
+
+public: // Public methods
 	Weapon();
 	virtual ~Weapon() = 0;
 
-private:
+private: // Private methods
 	virtual void Fire() = 0;
 	virtual void Update(const float& deltatime) = 0;
 	const void FollowPosition(Vector2& newPosition) override;
@@ -33,19 +44,10 @@ private:
 	virtual const bool IsActive() const = 0;
 	virtual void Reset() = 0;
 
-protected:
-	virtual void OnStart() = 0;
 	void IncreaseRate();
 	void IncreaseProjectileDamage();
 	void IncreaseProjectileSize();
 	virtual const Vector2& GetPosition() const = 0;
 	virtual const EGameObjectType GetGameObjectType() const = 0;
-	const SWeaponData GetWeaponInfos() const { return m_weaponInfos; }
-	void SetProjectileInfos(const SProjectileData& projectileInfos) { m_weaponInfos.m_projectileInfos = projectileInfos; }
 
-protected:
-	SWeaponData m_weaponInfos;
-	Color m_color = { 255, 255, 255, 255 };
-	float m_currentAttackTimer = 0.0f;
-	Vector2 m_size = { 5.0f, 5.0f };
 };

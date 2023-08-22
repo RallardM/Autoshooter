@@ -25,7 +25,7 @@ CameraManager::~CameraManager()
 	}
 }
 
-void CameraManager::InitializeCamera()
+const void CameraManager::InitializeCamera()
 {
     // Initialize camera
     m_camera = new Camera2D();
@@ -33,36 +33,36 @@ void CameraManager::InitializeCamera()
     m_camera->zoom = CAM_ZOOM;
 }
 
-void CameraManager::UpdateCameraPosition(Vector2 playerPosition)
+const void CameraManager::UpdateCameraPosition(const Vector2 playerPosition) const
 {
     m_camera->target = { playerPosition.x, playerPosition.y };
 }
 
-const float CameraManager::GetCameraLeftLimit()
+const float CameraManager::GetCameraLeftLimit() const
 {
     Vector2 screenLeftBorderPosition = { NO_POSITION.x, ((float)GetScreenHeight()) * HALF };
     return GetScreenToWorld2D(screenLeftBorderPosition, *m_camera).x;
 }
 
-const float CameraManager::GetCameraTopLimit()
+const float CameraManager::GetCameraTopLimit() const
 {
     Vector2 screenTopBorderPosition = { ((float)GetScreenWidth()) * HALF, NO_POSITION.y };
     return GetScreenToWorld2D(screenTopBorderPosition, *m_camera).y;
 }
 
-const float CameraManager::GetCameraRightLimit()
+const float CameraManager::GetCameraRightLimit() const
 {
     Vector2 screenRightBorderPosition = { (float)GetScreenWidth(), ((float)GetScreenHeight()) * HALF };
     return GetScreenToWorld2D(screenRightBorderPosition, *m_camera).x;
 }
 
-const float CameraManager::GetCameraBottomLimit()
+const float CameraManager::GetCameraBottomLimit() const
 {
     Vector2 screenBottomBorderPosition = { ((float)GetScreenWidth()) * HALF, (float)GetScreenHeight() };
     return GetScreenToWorld2D(screenBottomBorderPosition, *m_camera).y;
 }
 
-const float CameraManager::GetMovingCameraLeftLimit()
+const float CameraManager::GetMovingCameraLeftLimit() const
 {
     Vector2 screenLeftBorderPosition = { NO_POSITION.x, ((float)GetScreenHeight()) * HALF };
     Vector2 worldPosition = GetScreenToWorld2D(screenLeftBorderPosition, *m_camera);
@@ -75,7 +75,7 @@ const float CameraManager::GetMovingCameraLeftLimit()
     return worldPosition.x + camOffsetAndZoom.x;
 }
 
-const float CameraManager::GetMovingCameraTopLimit()
+const float CameraManager::GetMovingCameraTopLimit() const
 {
     Vector2 screenTopBorderPosition = { ((float)GetScreenWidth()) * HALF, NO_POSITION.y };
     Vector2 worldPosition = GetScreenToWorld2D(screenTopBorderPosition, *m_camera);
@@ -85,7 +85,7 @@ const float CameraManager::GetMovingCameraTopLimit()
     return worldPosition.y + camOffsetAndZoom.y;
 }
 
-const float CameraManager::GetMovingCameraRightLimit()
+const float CameraManager::GetMovingCameraRightLimit() const
 {
     Vector2 screenRightBorderPosition = { (float)GetScreenWidth(), ((float)GetScreenHeight()) * HALF };
     Vector2 worldPosition = GetScreenToWorld2D(screenRightBorderPosition, *m_camera);
@@ -95,7 +95,7 @@ const float CameraManager::GetMovingCameraRightLimit()
     return worldPosition.x + camOffsetAndZoom.x;
 }
 
-const float CameraManager::GetMovingCameraBottomLimit()
+const float CameraManager::GetMovingCameraBottomLimit() const
 {
     Vector2 screenBottomBorderPosition = { ((float)GetScreenWidth()) * HALF, (float)GetScreenHeight() };
     Vector2 worldPosition = GetScreenToWorld2D(screenBottomBorderPosition, *m_camera);

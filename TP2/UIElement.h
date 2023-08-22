@@ -7,7 +7,10 @@ class UIElement : public GameObject
 	friend class Player;
 	friend class Enemy;
 
-private:
+public:  // Public member variables
+	unsigned short int m_id = 0;
+
+private: // Private member variables
 	Entity* m_targetEntity = nullptr;
 	Color m_color = { 40, 40, 40, 255 };
 	Vector2 m_size = { 32.0f, 32.0f };
@@ -20,16 +23,12 @@ private:
 
 	static unsigned short int s_id;
 
-public:
-	unsigned short int m_id = 0;
-
-public:
+public: // Public methods
 	UIElement(Entity* targetEntity, EUIElementType uitype, Color color, Vector2 size, Vector2 offset, float value);
 	UIElement(Entity* targetEntity, EUIElementType uitype, Color color, int size, Vector2 offset, unsigned short int value);
 	~UIElement() override;
 
-
-private:
+private: // Private methods
 	// Inherited via GameObject
 	virtual void OnStart() override;
 	virtual const bool IsActive() const override { return m_isActive; }

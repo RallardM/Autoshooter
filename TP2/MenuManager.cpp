@@ -36,7 +36,7 @@ void MenuManager::RenderPause()
 	switch (m_currentMenu)
 	{
 	case EUIMenuType::MAIN_MENU:
-		RenderMainMenu();
+		RenderMainMenu(); // Is only implemented in the object_pool branch
 		break;
 
 	case EUIMenuType::LEVELUP_MENU:

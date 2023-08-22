@@ -13,11 +13,6 @@ using namespace std;
 
 Game* Game::_Instance = nullptr;
 
-Game::Game()
-{
-	std::cout << "Game constructor called" << std::endl;
-}
-
 Game::~Game()
 {
 	std::cout << "Game destructor called" << std::endl;
@@ -30,6 +25,11 @@ Game* Game::GetInstance()
 		_Instance = new Game();
 	}
 	return _Instance;
+}
+
+Game::Game()
+{
+	std::cout << "Game constructor called" << std::endl;
 }
 
 void Game::MainLoop()

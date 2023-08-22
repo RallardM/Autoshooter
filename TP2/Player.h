@@ -10,11 +10,9 @@ class Player : public Entity
 	friend class Game;
 	friend class CollisionManager;
 
-public:
-	Player();
-	~Player() override;
+public:  // Public member variables
 
-private:
+private: // Private member variables
 	UIElement* m_healthBar = nullptr;
 	UIElement* m_secondHealthBar = nullptr;
 	UIElement* m_experienceText = nullptr;
@@ -32,7 +30,11 @@ private:
 
 	std::list<Weapon*> m_weapons;
 
-private:
+public: // Public methods
+	Player();
+	~Player() override;
+
+private: // Private methods
 	const Vector2& GetPosition() const override { return m_position; }
 	const EGameObjectType GetGameObjectType() const override { return EGameObjectType::PLAYER; }
 	const unsigned short int GetLevel() const { return m_level; }
@@ -48,6 +50,7 @@ private:
 	void Render() override;
 	const bool IsActive() const override { return m_isActive; }
 	void Reset() override;
+
 	void Collision();
 	void VerifyHealth();
 	void VerifyExperience();

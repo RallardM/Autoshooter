@@ -31,7 +31,10 @@ class Projectile : public GameObject
 	friend class HandGun;
 	friend class LaserGun;
 
-private:
+public:  // Public member variables
+	unsigned short int m_id = 0;
+
+private: // Private member variables
 	// Keep the member variables as low as possible so the objects are very light
 	float& m_radius;
 	SProjectileData& m_projectileData;
@@ -43,14 +46,11 @@ private:
 
 	static unsigned short int s_id;
 
-public:
-	unsigned short int m_id = 0;
-
-public:
+public: // Public methods
 	Projectile(SProjectileData& projectileData);
 	~Projectile() override;
 
-private:
+private: // Private methods
 	// Inherited via GameObject
 	virtual void OnStart() override;
 	virtual void Update(const float& deltatime) override;

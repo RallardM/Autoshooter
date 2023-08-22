@@ -17,21 +17,23 @@ class GameObjectPool
 	friend class CameraManager;
 	friend class UIElement;
 
-public:
-	~GameObjectPool();
-	static GameObjectPool* GetInstance();
-	void InitializeGameObjects();
+public:  // Public member variables
 
-private:
+private: // Private member variables
 	static GameObjectPool* _Instance;
 	std::list<GameObject*> m_gameObjects;
 	std::vector<GameObject*> m_gameObjectsToRemove;
 	Camera2D* m_camera = nullptr;
 	Player* m_player = nullptr;
+
+public: // Public methods
+	~GameObjectPool();
+	static GameObjectPool* GetInstance();
+	void InitializeGameObjects();
 	
-private:
+private: // Private methods
 	GameObjectPool(); // Private constructor for singleton pattern https://youtu.be/PPup1yeU45I
-	std::list<GameObject*> GetGameObjects() { return m_gameObjects; }
+	
 	void RegisterGameObject(GameObject* gameObject);
 	void UnregisterGameObject(GameObject* gameObject);
 	EGameObjectType GetGameObjectType(GameObject* gameObject);
@@ -46,9 +48,9 @@ private:
 	void RemoveGameObjectsMarkedForRemoval();
 	void UpdateEnemySpawner();
 	void IntializeEnemyPool();
-
 	void CleanUpGame();
 
+	std::list<GameObject*> GetGameObjects() { return m_gameObjects; }
 	// Player getters // TODO Extract experience to its own class
 	Player* GetPlayer() { return m_player; }
 	Vector2 GetPlayerPosition() { return { m_player->m_position.x, m_player->m_position.y }; }

@@ -5,11 +5,6 @@
 
 CollisionManager* CollisionManager::_Instance = nullptr;
 
-CollisionManager::CollisionManager()
-{
-	std::cout << "CollisionManager constructor called." << std::endl;
-}
-
 CollisionManager::~CollisionManager()
 {
 	std::cout << "CollisionManager destructor called" << std::endl;
@@ -22,6 +17,11 @@ CollisionManager* CollisionManager::GetInstance()
         _Instance = new CollisionManager();
     }
     return _Instance;
+}
+
+CollisionManager::CollisionManager()
+{
+	std::cout << "CollisionManager constructor called." << std::endl;
 }
 
 const bool CollisionManager::AreEnemyProjectileColliding(const Rectangle& enemy) const

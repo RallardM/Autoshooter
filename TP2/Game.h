@@ -1,22 +1,16 @@
 #pragma once
 
-
-//#include "Player.h"
 #include "MenuManager.h"
 #include "CameraManager.h"
-
-//class GameObject;
-//class Player;
 
 class Game
 {
 	
 	friend class Player;
 
-public:
-	static Game* GetInstance();
+public:  // Public member variables
 
-private:
+private: // Private member variables
 	const float MAP_WIDTH = 1601.0f;
 	const float MAP_HEIGHT = 1601.0f;
 	const float CELL_SIZE = 16.0f;
@@ -29,11 +23,12 @@ private:
 	CameraManager* m_cameraManager = nullptr;
 	MenuManager* m_menuManager = nullptr;
 
-public:
+public: // Public methods
 	~Game();
 	void MainLoop();
+	static Game* GetInstance();
 
-private:
+private: // Private methods
 	Game(); // Private constructor for singleton pattern
 	void RenderBackground();
 

@@ -5,20 +5,20 @@ class HandGun : public Weapon
 {
 	friend class Player;
 
-private:
+public:  // Public member variables
+	unsigned short int m_id = 0;
+
+private: // Private member variables
 	static float s_uiOffsetRight;
 	float m_uiOffset = 0.0f;
 
 	static unsigned short int s_id;
 
-public:
-	unsigned short int m_id = 0;
-
-public:
+public: // Public methods
 	HandGun();
 	~HandGun() override;
 
-private:
+private: // Private methods
 	// Inherited via Weapon
 	virtual void Fire() override;
 	virtual void Reset() override;
@@ -29,5 +29,5 @@ private:
 	virtual const Vector2& GetPosition() const override { return m_position; }
 	virtual const EGameObjectType GetGameObjectType() const override { return EGameObjectType::WEAPON; }
 
-	virtual const EWeaponType GetWeaponType() const { return EWeaponType::HAND_GUN; } // TODO : Make pure virtual
+	virtual const EWeaponType GetWeaponType() const { return EWeaponType::HAND_GUN; }
 };

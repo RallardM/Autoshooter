@@ -11,7 +11,6 @@ const Vector2 DOWN = { 0.0f, 1.0f };
 const Vector2 LEFT = { -1.0f, 0.0f };
 const Vector2 RIGHT = { 1.0f, 0.0f };
 
-
 // Projectile data default values
 const unsigned short int NO_COUNTDOWN = 0;
 const float NO_ANGLE = 0.0f;

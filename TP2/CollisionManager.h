@@ -1,7 +1,7 @@
 #pragma once
+
 #include <raylib.h>
 #include "Projectile.h"
-
 
 class CollisionManager
 {
@@ -9,13 +9,16 @@ class CollisionManager
 	friend class Player;
 	friend class ExperienceOrb;
 
-public:
+public: // Public member variables
+
+private: // Private member variables
+	static CollisionManager* _Instance;
+
+public: // Public methods
 	~CollisionManager();
 	static CollisionManager* GetInstance();
 
-private:
-	static CollisionManager* _Instance;
-private:
+private: // Private methods
 	CollisionManager(); // Private constructor for singleton pattern https://youtu.be/PPup1yeU45I
 
 	// Collision detection
@@ -25,4 +28,3 @@ private:
 	const bool ArePlayerEnemyColliding(const Rectangle& player) const;
 	Enemy* GetCollidingEnemy(const Rectangle& player) const;
 };
-
